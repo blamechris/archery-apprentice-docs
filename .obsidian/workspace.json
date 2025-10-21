@@ -170,6 +170,13 @@
   },
   "active": "f29f812a94872c45",
   "lastOpenFiles": [
+    "projects/kmp-migration/Project Management/KMP Migration Progress.md",
+    "projects/kmp-migration/Architecture/Room KMP Architecture.md",
+    "projects/kmp-migration/Architecture/Repository Migration Strategy.md",
+    "projects/kmp-migration/Architecture/KMP Data Layer Architecture.md",
+    "projects/kmp-migration/Project Management",
+    "projects/kmp-migration/Architecture",
+    "projects/kmp-migration",
     "Next Session Focus.md",
     "Code-Graph/Key-Patterns.md",
     "Development/Sessions/2025-10-15-Multi-Participant-Ranking-Display.md",
@@ -198,13 +205,6 @@
     "Guides/Abbreviations.md",
     "Guides",
     "Project-Status/Implementation-Status-10-07-25.md",
-    "Project-Status/Project-Journal-10-07-25.md",
-    "Tech-Debt/RoundVM-Refactor-README.md",
-    "Tech-Debt/Tech-Debt.md",
-    "Tech-Debt",
-    "Architecture/Scoring-ViewModel-Architecture.md",
-    "Architecture/RoundViewModel-Refactoring-Plan.md",
-    "Tournament",
-    "Data-Models"
+    "Project-Status/Project-Journal-10-07-25.md"
   ]
 }
