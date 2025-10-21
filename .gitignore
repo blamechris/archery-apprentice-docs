@@ -6,6 +6,7 @@
 .quartz-cache/
 public/
 node_modules/
+content/
 
 # Build files
 package-lock.json
