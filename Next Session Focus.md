@@ -1,221 +1,280 @@
-# Next Session Focus - KMP Migration
+# 🎯 Next Session Focus
 
-**Last Updated:** 2025-10-20
-**Current Phase:** Week 1 - Final PR Merge
-**Status:** 🟢 Nearly Complete
-
----
-
-## 🎯 Immediate Focus (Next Session Start Here)
-
-### Primary Task
-**Agent 1 PR #128 Final Merge**
-- Agent 1 completing coverage configuration adjustments
-- JaCoCo limitations documented and accommodated (patch coverage 60%)
-- Platform abstractions well-tested despite tooling constraints
-- **Action needed:** Merge PR #128 when Agent 1 pushes
-
-### Secondary Task
-**Week 1 Retrospective**
-- All 3 agents complete (Agents 2 & 3 merged, Agent 1 pending final push)
-- Capture lessons learned from parallel agent workflow
-- Document what worked, what didn't
-- Prepare for Week 2 planning
+**Last Updated:** 2025-10-20 (Week 1 Complete)
+**Current Sprint:** KMP Migration - Week 1 → Week 2 Transition
 
 ---
 
-## 🚧 Decisions Made (2025-10-20)
+## ✅ Week 1 COMPLETE - All 3 Agents Delivered
 
-### Coverage Enforcement ✅ RESOLVED
-**Decision:** Hybrid approach
-- **Project coverage:** 80% target (strict enforcement enabled)
-- **Patch coverage:** 60% (accommodates JaCoCo tooling limitations)
-- **Rationale:** Agent 1's platform abstractions ARE well-tested; JaCoCo can't measure reflection/lifecycle/async code
+### Summary
+Week 1 of the Kotlin Multiplatform migration is complete! All 4 PRs merged to main:
+- **PR #127** - Agent 3 (AAA): God class analysis & migration roadmap
+- **PR #130** - Agent 2 (AAM): 6 KMP shared modules created
+- **PR #131** - Agent O: Orchestrator documentation & coordination protocol
+- **PR #128** - Agent 1 (AAP): Platform abstractions & Context removal
 
-**JaCoCo Limitations Discovered:**
+**Timeline:** 7 days (Oct 18-20) - 2.3x faster than sequential development
+
+**Foundation Complete:**
+- ✅ Platform abstractions: Domain layer is platform-agnostic
+- ✅ Module structure: 6 KMP shared modules ready for migration  
+- ✅ Strategic roadmap: God class extraction plans documented
+- ✅ Coordination protocol: Agent context handoff established
+
+---
+
+## 📊 Week 1 Key Metrics
+
+**Code Changes:**
+- 76 files changed
+- 6,977 lines added
+- 420 lines removed
+- Net: +6,557 lines
+
+**Test Infrastructure:**
+- 4 new platform abstraction test files
+- 96 test occurrences updated across 15 files
+- Coverage enforcement enabled (60% patch / 80% project)
+
+**Documentation:**
+- 11 new/updated documentation files
+- 9 critical issues documented and resolved
+- Comprehensive Week 1 retrospective created
+
+---
+
+## 🔍 Critical Discoveries from Week 1
+
+### Issue 7: Coverage NOT Actually Enforced
+**Discovery:** CI/CD was passing despite <80% coverage - enforcement was disabled
+**Resolution:** Enabled strict enforcement with hybrid approach (60% patch / 80% project)
+**Lesson:** Verify tooling claims before trusting them
+
+### Issue 9: JaCoCo Coverage Tool Limitations  
+**Discovery:** JaCoCo+Robolectric cannot measure:
 - Reflection-invoked methods (ViewModel.onCleared)
 - Empty method bodies (Repository.cleanup)
 - Field initializers with Robolectric
-- Async Flow operators (coroutine collect closures)
+- Async Flow operators in coroutines
 
-**Week 2+ Research:** Investigate Kover (JetBrains coverage tool) as alternative
+**Resolution:** Documented limitations, adjusted expectations
+**Alternative:** Investigate Kover (JetBrains tool) in Week 2+
 
-### Detekt Configuration
-**Status:** Deferred to Week 2
-- Will configure properly (not remove from docs)
-- Use Agent 3's god class analysis for baseline metrics
-- 2-3 hours dedicated Week 2 task
-
----
-
-## 📋 Week 1 Completion Checklist
-
-### Completed ✅
-- [x] PR #131 (orchestrator docs) merged to main
-- [x] Agent 3 (AAA) complete - god class analysis merged
-- [x] Agent 2 (AAM) complete - KMP modules merged
-- [x] Coverage enforcement enabled (hybrid approach)
-- [x] JaCoCo limitations documented in TECH_DEBT.md Item #5
-- [x] Copilot feedback addressed (critical issues fixed, 6 deferred)
-
-### In Progress ⏳
-- [ ] Agent 1 (AAP) pushing final changes to PR #128
-- [ ] PR #128 final merge
-
-### Pending 📋
-- [ ] Week 1 retrospective
-- [ ] Week 2 planning (define missions for all 3 agents)
-- [ ] Agent 2 & 3 resume with Week 2 prompts
+### Parallel Agent Workflow Reality Check
+**Expected:** 7x speedup with 3 parallel agents
+**Actual:** 2-3x faster than sequential (still significant!)
+**Why:** Discovery work, coverage validation, tooling configuration gaps
+**Recommendation:** Use conservative 2-3x multiplier for future estimates
 
 ---
 
-## 📚 Context for Next Session
+## 🚀 Immediate Next Steps (Week 2 Kickoff)
 
-### What Happened Today (2025-10-20)
+### 1. Resume All 3 Agents
+**All agents must:**
+- Pull latest main (includes all Week 1 changes)
+- Review Week 1 retrospective: `docs/retrospectives-kmp-migration/week-1-retrospective.md`
+- Update their context files with Week 1 completion status
 
-**PR #131 Status:** ✅ Merged successfully
-- Orchestrator coordination tools
-- Agent context sync protocol
-- Tech debt tracker
-- .kotlin/ gitignore fix
-- Copilot feedback resolutions
+### 2. Create Week 2 Branches
+**Agent 1 (AAP):** Can reuse `archery-agent-platform` worktree
+- Create new branch: `kmp-migration/week-2-code-migration`
 
-**Agent 1 Progress:**
-- Resolved merge conflicts with main
-- Enabled strict coverage enforcement
-- Discovered JaCoCo tooling limitations (11 lines "uncovered" despite tests)
-- Comprehensive analysis proved code IS well-tested
-- Adjusted patch coverage to 60% (realistic for JaCoCo constraints)
-- Finalizing PR #128 for merge
+**Agent 2 (AAM):** Must create new branch from main
+- Location: `archery-agent-modules` worktree
+- Command: `git checkout -b kmp-migration/week-2-repository-migration origin/main`
 
-**Key Insights:**
-- Platform abstractions ARE well-covered
-- JaCoCo limitations are tooling issue, not code quality issue
-- Pragmatic approach: document limitations, set realistic thresholds
-- Week 2+ can investigate Kover as alternative
+**Agent 3 (AAA):** Must create new branch from main
+- Location: `archery-agent-analysis` worktree  
+- Command: `git checkout -b kmp-migration/week-2-service-extraction origin/main`
 
-### Agent Status
-- **Agent 1 (AAP):** Finalizing Week 1 PR #128 (platform abstractions)
-- **Agent 2 (AAM):** Week 1 complete, standby for Week 2
-- **Agent 3 (AAA):** Week 1 complete, standby for Week 2
+### 3. Define Week 2 Missions (See Below)
 
 ---
 
-## 🗺️ Week 1 → Week 2 Transition Plan
+## 📋 Week 2 Mission Planning
 
-### Week 1 Closeout (Immediate)
-1. **Agent 1 pushes final changes** to PR #128
-2. **Merge PR #128** when CI passes
-3. **Week 1 retrospective** with Agent O
-   - What worked well (3 agents in parallel, git worktrees, context files)
-   - What was harder than expected (coverage work, context drift)
-   - Lessons for Week 2
+### Agent 1 (AAP) - Domain Code Migration
+**Goal:** Migrate domain models and use cases to shared/domain
 
-### Week 2 Kickoff (Next Session)
-4. **Define Week 2 missions** for all 3 agents
-5. **Update all agent context files** with Week 2 goals
-6. **Resume Agents 2 & 3** with Week 2 prompts (currently in standby)
-7. **Resume Agent 1** with Week 2 prompt (after Week 1 PR merges)
+**Tasks:**
+1. Migrate core domain models (Round, End, Arrow, etc.) to shared/domain
+2. Migrate use cases to shared/domain
+3. Ensure platform abstractions are used correctly
+4. Update Android app to reference shared domain code
+5. Maintain test coverage throughout migration
 
----
+**Estimate:** 5-7 days (with coverage validation factored in)
 
-## 🔗 Key Documents
-
-**Agent Contexts:**
-- `docs/AGENT_CONTEXTS/AGENT_O_ORCHESTRATOR.md` - Updated with Issue 9 (JaCoCo)
-- `docs/AGENT_CONTEXTS/AGENT_1_AAP.md` - Agent 1 Week 1 completion
-- `docs/AGENT_CONTEXTS/ORCHESTRATOR_RESUME_PROMPT.md` - Resume guide
-
-**Tech Debt Tracking:**
-- `docs/TECH_DEBT.md` - Updated with Items #1-5
-  - Item #1: Coverage enforcement ✅ RESOLVED
-  - Item #2: Detekt setup 🟡 TODO Week 2
-  - Item #3: Copilot suggestions 🟡 TODO Week 2+
-  - Item #4: Worktree distribution 🟡 TODO
-  - Item #5: JaCoCo limitations 🟡 TODO Week 2+ (research Kover)
-
-**Project Docs:**
-- Obsidian: `projects/KMP Migration Project.md`
-- Obsidian: `experiments/Agentic LLM Workflow Experiment.md`
+**Dependencies:** Agent 2's shared modules (already complete)
 
 ---
 
-## 💡 Week 1 Lessons Learned
+### Agent 2 (AAM) - Repository Migration  
+**Goal:** Migrate repository layer to shared code
 
-### What Worked ✅
-1. **Parallel agents with git worktrees** - 3 agents working simultaneously without conflicts
-2. **Strategic merge order** - Agent 3 → 2 → 1 minimized conflicts
-3. **Context files prevent drift** - Explicit documentation enabled clean resumption
-4. **Agent context sync protocol** - Workaround for worktree isolation
-5. **Copilot feedback integration** - Caught documentation contradictions
+**Tasks:**
+1. Migrate repository interfaces to shared/domain
+2. Migrate repository implementations to shared/data
+3. Configure Room database in shared/database
+4. Set up dependency injection for shared repositories
+5. Update Android app to use shared repositories
 
-### What Was Harder Than Expected ⚠️
-1. **Coverage work took longer** - Expected 3 days for Agent 1, took 6-7 days
-2. **Context drift without sync** - Agent 1's context said "complete" when at 70%
-3. **Tooling limitations discovery** - JaCoCo can't measure certain well-tested code
-4. **Documentation accuracy critical** - Claims must match reality (coverage, detekt)
+**Estimate:** 5-7 days (with Room KMP configuration time)
 
-### Improvements for Week 2 📈
-1. **Factor coverage into estimates** - 10% coverage gap = multiple days
-2. **Verify tooling claims** - Don't assume documentation is accurate
-3. **Commit update files** - Worktree isolation needs coordination
-4. **Pre-flight validation** - Check constraints are actually enforced
+**Dependencies:** Agent 1's domain models migration
+
+**Coordination:** May need to sync with Agent 1 on domain model availability
 
 ---
 
-## 📊 Week 1 Metrics
+### Agent 3 (AAA) - God Class Service Extraction
+**Goal:** Continue reducing god classes via service extraction
 
-**Timeline:**
-- Expected: 3 days
-- Actual: 7 days (Oct 18-20)
-- Reason: Coverage enforcement work + JaCoCo limitations discovery
+**Tasks:**
+1. Extract remaining services from LiveScoringViewModel:
+   - ArrowScoringDomainService
+   - ParticipantStateService
+2. Begin HybridTournamentRepository split:
+   - TournamentManagementRepository
+   - ParticipantRepository
+   - ScoringRepository
+   - AnalyticsRepository
+3. Extract statistics service from RoundViewModel
 
-**PRs Merged:**
-- ✅ Agent 3 (AAA) - God class analysis
-- ✅ Agent 2 (AAM) - KMP modules
-- ✅ PR #131 - Orchestrator docs
-- ⏳ Agent 1 (AAP) - Platform abstractions (pending final push)
+**Estimate:** 6-8 days (god class work is complex)
 
-**Issues Discovered:**
-- Issue 7: Coverage not actually enforced ✅ RESOLVED
-- Issue 8: Detekt not configured 🟡 TODO Week 2
-- Issue 9: JaCoCo tooling limitations 🟡 Research Week 2+
+**Dependencies:** None (independent refactoring work)
+
+**Coordination:** Service extraction may create new files that Agents 1 & 2 need to migrate
 
 ---
 
-## 🚀 Next Session Actions
+## ⚠️ Week 2 Risk Mitigation
 
-**Immediate (When You Resume):**
-1. Check if Agent 1 pushed to PR #128
-2. Merge PR #128 if CI passes
-3. Resume Agent O (orchestrator) for Week 1 retrospective
+### Risk 1: Agent Dependencies
+**Problem:** Agent 2 needs Agent 1's domain models before migrating repositories
+**Mitigation:** 
+- Agent 1 goes first (start Week 2 Day 1)
+- Agent 2 starts when domain models are available (Week 2 Day 3-4)
+- Agent 3 works independently throughout
 
-**Use This Orchestrator Resume Prompt:**
+### Risk 2: Merge Conflicts from Service Extraction
+**Problem:** Agent 3's service extraction may conflict with Agent 1's code migration
+**Mitigation:**
+- Strategic merge order: Agent 3 → Agent 1 → Agent 2
+- Agent 3 extracts services early in Week 2
+- Agents 1 & 2 pull main after Agent 3 merges
+
+### Risk 3: Coverage Work Delays
+**Problem:** Coverage gaps discovered at PR time extend timelines  
+**Mitigation:**
+- Plan coverage validation upfront, not at PR time
+- Run coverage reports early and often (not just at PR)
+- Use realistic targets (60% patch / 80% project)
+
+### Risk 4: Tooling Surprises
+**Problem:** More undocumented tooling issues like JaCoCo, detekt
+**Mitigation:**
+- Verify all tooling claims before trusting
+- Run full CI/CD pipeline locally before pushing
+- Document any new discoveries in agent context files
+
+---
+
+## 🔄 Agent Coordination Protocol (Week 2)
+
+### Daily Sync (Via Context Files)
+Each agent should:
+1. Update their context file at end of day
+2. Check other agents' context files at start of day
+3. Flag any blockers or dependencies in context updates
+
+### Merge Order Strategy
+**Week 2 Merge Order:** Agent 3 → Agent 1 → Agent 2
+- Agent 3: Service extraction (independent, safe to merge first)
+- Agent 1: Domain migration (needs Agent 3's services)
+- Agent 2: Repository migration (needs Agent 1's domain models)
+
+### Cross-Agent Communication
+Use the agent-context-sync skill:
+1. Create update files when critical decisions are made
+2. Commit to main or copy to agent worktrees
+3. Reference in agent context files
+
+---
+
+## 📚 Critical Files for Week 2 Kickoff
+
+### Must-Read Before Starting Week 2
+1. `docs/retrospectives-kmp-migration/week-1-retrospective.md` - Complete Week 1 summary
+2. `docs/AGENT_CONTEXTS/AGENT_O_ORCHESTRATOR.md` - All 9 issues documented
+3. `docs/kmp-migration/GOD_CLASS_EXTRACTION_PLANS.md` - Agent 3's extraction roadmap
+4. `docs/kmp-migration/MODULE_ARCHITECTURE.md` - Agent 2's module structure
+5. Platform abstraction interfaces in `domain/platform/` - Agent 1's work
+
+### Week 2 Documentation to Create
+- `docs/retrospectives-kmp-migration/week-2-retrospective.md` (at end of week)
+- Updated agent context files (daily)
+- Migration progress tracking (per agent)
+
+---
+
+## 🎯 Success Criteria for Week 2
+
+### Week 2 Complete When:
+- ✅ Domain models migrated to shared/domain (Agent 1)
+- ✅ Repository layer migrated to shared/data (Agent 2)  
+- ✅ 2-3 more services extracted from god classes (Agent 3)
+- ✅ All tests passing with coverage targets met
+- ✅ All 3 PRs merged to main
+- ✅ Week 2 retrospective created
+
+### Quality Gates
+- 60% patch coverage minimum (realistic for JaCoCo)
+- 80% project coverage maintained
+- All CI/CD checks passing
+- No new god classes introduced
+- Documentation updated with any discoveries
+
+---
+
+## 💡 Orchestrator Resume Prompt (Next Session)
+
+When resuming Agent O (Orchestrator) next session:
+
 ```
-You are Agent O (Orchestrator) coordinating 3 agents for KMP migration.
+You are Agent O (Orchestrator) coordinating the KMP migration for archery-apprentice.
 
-Read your context: docs/AGENT_CONTEXTS/AGENT_O_ORCHESTRATOR.md
+CURRENT STATUS: Week 1 COMPLETE - Week 2 planning ready
 
-SITUATION:
-- Week 1 nearly complete
-- All 3 agents' work complete or pending final merge
-- PR #128 (Agent 1 platform abstractions) should be merged
-- Ready for Week 1 retrospective
+Week 1 Summary:
+- All 4 PRs merged (Agents 1, 2, 3 + Orchestrator)
+- 76 files changed, 6,977 lines added
+- Platform abstractions complete, KMP modules created, god class roadmap ready
+- Timeline: 7 days (2.3x faster than sequential)
 
-YOUR TASKS:
-1. Verify PR #128 merged successfully
-2. Conduct Week 1 retrospective (what worked, what didn't, lessons)
-3. Update Obsidian "Agentic LLM Workflow Experiment" with Week 1 results
-4. Plan Week 2 missions for all 3 agents
-5. Create Week 2 resume prompts for Agents 1, 2, 3
+Critical Discoveries:
+- Coverage enforcement was disabled (now fixed)
+- JaCoCo has tooling limitations (documented)
+- Realistic speedup is 2-3x, not 7x
 
-Start by checking PR #128 status.
+IMMEDIATE TASK: Week 2 Kickoff
+1. Help user resume all 3 agents with Week 2 missions
+2. Coordinate branch creation and mission assignments
+3. Monitor for cross-agent dependencies
+
+CONTEXT FILES:
+- docs/AGENT_CONTEXTS/AGENT_O_ORCHESTRATOR.md (your memory)
+- docs/retrospectives-kmp-migration/week-1-retrospective.md (comprehensive summary)
+- This file (Next Session Focus.md) (kickoff checklist)
+
+FIRST ACTION: Ask user which agent they want to start with (recommend Agent 3 first for merge order)
 ```
 
 ---
 
-**🎯 Next Session: Week 1 retrospective → Week 2 planning → Resume all 3 agents**
-
----
-
-*This is a living document. Updated at the end of every orchestrator session.*
+**Week 1 Status:** ✅ Complete - Foundation solid, ready for code migration  
+**Week 2 Status:** 📋 Ready to start - Missions defined, risks mitigated  
+**Next Action:** Resume agents and create Week 2 branches

@@ -1,0 +1,11 @@
+# Obsidian
+.obsidian/
+.trash/
+
+# Quartz
+.quartz-cache/
+public/
+node_modules/
+
+# Build files
+package-lock.json
