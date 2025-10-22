@@ -28,6 +28,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Update deployment timestamp
+        run: |
+          TIMESTAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+          sed -i "s/\*\*📅 Last Updated:\*\* .*/\*\*📅 Last Updated:\*\* $TIMESTAMP/" content/index.md
+          echo "Updated timestamp to: $TIMESTAMP"
+
       - name: Build Quartz site
         run: npx quartz build
 
