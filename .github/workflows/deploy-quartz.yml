@@ -91,8 +91,12 @@ jobs:
         shell: powershell
         run: |
           $TIMESTAMP = Get-Date -Format "yyyy-MM-dd hh:mm tt PT"
-          (Get-Content content/index.md) -replace '\*\*📅 Last Updated:\*\* .*', "**📅 Last Updated:** $TIMESTAMP" | Set-Content content/index.md
-          Write-Host "✅ Updated timestamp to: $TIMESTAMP"
+          $content = Get-Content content/index.md -Raw -Encoding UTF8
+          $pattern = '\*\*📅 Last Updated:\*\* .*'
+          $replacement = "**📅 Last Updated:** $TIMESTAMP"
+          $content = $content -replace $pattern, $replacement
+          $content | Set-Content content/index.md -Encoding UTF8 -NoNewline
+          Write-Host "Updated timestamp to: $TIMESTAMP"
 
       - name: Update deployment timestamp (Linux/macOS)
         if: runner.os != 'Windows'
