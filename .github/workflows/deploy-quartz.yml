@@ -91,9 +91,11 @@ jobs:
         shell: powershell
         run: |
           $TIMESTAMP = Get-Date -Format "yyyy-MM-dd hh:mm tt PT"
+          # Use Unicode code point to avoid emoji encoding issues in YAML
+          $calendarEmoji = [char]0xD83D + [char]0xDCC5
           $content = Get-Content content/index.md -Raw -Encoding UTF8
-          $pattern = '\*\*📅 Last Updated:\*\* .*'
-          $replacement = "**📅 Last Updated:** $TIMESTAMP"
+          $pattern = '\*\*. Last Updated:\*\* .*'
+          $replacement = "**$calendarEmoji Last Updated:** $TIMESTAMP"
           $content = $content -replace $pattern, $replacement
           $content | Set-Content content/index.md -Encoding UTF8 -NoNewline
           Write-Host "Updated timestamp to: $TIMESTAMP"
