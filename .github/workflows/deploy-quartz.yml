@@ -166,9 +166,10 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          # Use Unicode code points to avoid emoji encoding issues
-          $bookEmoji = [char]0xD83D + [char]0xDCDA
-          $checkEmoji = [char]0x2705
+          # Use UTF-8 byte arrays to properly construct emojis
+          $utf8 = [System.Text.Encoding]::UTF8
+          $bookEmoji = $utf8.GetString([byte[]](0xF0, 0x9F, 0x93, 0x9A))
+          $checkEmoji = $utf8.GetString([byte[]](0xE2, 0x9C, 0x85))
 
           $COMMIT_MESSAGE = (git log -1 --pretty=format:'%s').Substring(0, [Math]::Min(100, (git log -1 --pretty=format:'%s').Length))
           $COMMIT_AUTHOR = git log -1 --pretty=format:'%an'
@@ -204,7 +205,7 @@ jobs:
           } | ConvertTo-Json -Depth 10
 
           try {
-            Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -Body $payload -ContentType "application/json"
+            Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -Body $payload -ContentType "application/json; charset=utf-8"
             Write-Host "$checkEmoji Discord notification sent successfully"
           } catch {
             Write-Host "Failed to send Discord notification (deployment still succeeded): $_"
@@ -247,9 +248,10 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          # Use Unicode code points to avoid emoji encoding issues
-          $crossEmoji = [char]0x274C
-          $checkEmoji = [char]0x2705
+          # Use UTF-8 byte arrays to properly construct emojis
+          $utf8 = [System.Text.Encoding]::UTF8
+          $crossEmoji = $utf8.GetString([byte[]](0xE2, 0x9D, 0x8C))
+          $checkEmoji = $utf8.GetString([byte[]](0xE2, 0x9C, 0x85))
 
           $COMMIT_SHA_SHORT = git rev-parse --short HEAD
           $TIMESTAMP = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
@@ -278,7 +280,7 @@ jobs:
           } | ConvertTo-Json -Depth 10
 
           try {
-            Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -Body $payload -ContentType "application/json"
+            Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -Body $payload -ContentType "application/json; charset=utf-8"
             Write-Host "$checkEmoji Discord failure notification sent successfully"
           } catch {
             Write-Host "Failed to send Discord failure notification: $_"
