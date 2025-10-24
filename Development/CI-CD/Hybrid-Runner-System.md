@@ -119,6 +119,27 @@ git commit -m "docs: Update README [skip-ci]"
 
 ## Self-Hosted Runner Setup
 
+### Dual Runner Architecture
+
+**Current Setup:** Two separate self-hosted runners on the same Windows machine
+
+| Runner | Location | GitHub Name | Repository | Purpose |
+|--------|----------|-------------|------------|---------|
+| Main | `C:\actions-runner\` | (default) | `blamechris/archery-apprentice` | Main app CI/CD |
+| Docs | `C:\actions-runner-docs\` | SOLACE | `blamechris/archery-apprentice-docs` | Documentation deployment |
+
+**Why Separate Runners?**
+- **Repository isolation** - Each runner registered to specific repository
+- **Job independence** - Main CI and docs deployment can run concurrently
+- **Quota tracking** - Separate accounting for each repository's usage
+- **Configuration isolation** - Different SDK requirements (main needs Android SDK, docs only needs Node.js)
+
+**Setup Details:**
+- Both runners run as Windows services
+- Both share same JDK/Node.js installations
+- Only main runner needs Android SDK at `C:\Android\Sdk`
+- Docs runner setup documented in [archery-apprentice-docs README](https://github.com/blamechris/archery-apprentice-docs#self-hosted-runner-setup)
+
 ### Desktop/Server Setup
 
 See: [[../../SELF_HOSTED_RUNNER_SETUP|Self-Hosted Runner Setup Guide]]
