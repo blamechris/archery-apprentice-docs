@@ -94,10 +94,11 @@ jobs:
           # Use Unicode code point to avoid emoji encoding issues in YAML
           $calendarEmoji = [char]0xD83D + [char]0xDCC5
           $content = Get-Content content/index.md -Raw -Encoding UTF8
-          $pattern = '\*\*. Last Updated:\*\* .*'
+          # Match any characters before "Last Updated:" to handle emoji
+          $pattern = '\*\*[^\*]+ Last Updated:\*\* [^\r\n]+'
           $replacement = "**$calendarEmoji Last Updated:** $TIMESTAMP"
-          $content = $content -replace $pattern, $replacement
-          $content | Set-Content content/index.md -Encoding UTF8 -NoNewline
+          $newContent = $content -replace $pattern, $replacement
+          $newContent | Set-Content content/index.md -Encoding UTF8 -NoNewline
           Write-Host "Updated timestamp to: $TIMESTAMP"
 
       - name: Update deployment timestamp (Linux/macOS)
