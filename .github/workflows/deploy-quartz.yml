@@ -4,14 +4,73 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      runner_mode:
+        description: 'Runner selection'
+        required: false
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - self-hosted
+          - github
+          - skip
 
 permissions:
   contents: write  # Required to push to gh-pages
 
 jobs:
+  # Decide which runner to use based on day-of-month and inputs
+  decide_runner:
+    runs-on: self-hosted
+    outputs:
+      runner_label: ${{ steps.decision.outputs.runner_label }}
+      should_skip: ${{ steps.decision.outputs.should_skip }}
+    steps:
+      - name: Determine runner
+        id: decision
+        shell: powershell
+        run: |
+          $INPUT_MODE = "${{ github.event.inputs.runner_mode || 'auto' }}"
+          $RUNNER = "ubuntu-latest"
+          $SKIP = "false"
+
+          # Check skip flag
+          if ($INPUT_MODE -eq "skip") {
+            "should_skip=true" >> $env:GITHUB_OUTPUT
+            "runner_label=ubuntu-latest" >> $env:GITHUB_OUTPUT
+            Write-Host "::notice::Workflow skipped"
+            exit 0
+          }
+
+          # Explicit overrides
+          if ($INPUT_MODE -eq "self-hosted") {
+            $RUNNER = "self-hosted"
+            Write-Host "::notice::Using self-hosted runner (explicit override)"
+          } elseif ($INPUT_MODE -eq "github") {
+            $RUNNER = "ubuntu-latest"
+            Write-Host "::notice::Using GitHub-hosted runner (explicit override)"
+          } elseif ($INPUT_MODE -eq "auto") {
+            # Auto mode: Use day-of-month heuristic
+            $DAY = (Get-Date).Day
+            if ($DAY -ge 22) {
+              Write-Host "::notice::Late in month (day $DAY), using self-hosted runner"
+              $RUNNER = "self-hosted"
+            } else {
+              Write-Host "::notice::Early in month (day $DAY), using GitHub-hosted runner"
+              $RUNNER = "ubuntu-latest"
+            }
+          }
+
+          "should_skip=false" >> $env:GITHUB_OUTPUT
+          "runner_label=$RUNNER" >> $env:GITHUB_OUTPUT
+          Write-Host "::notice::Selected runner: $RUNNER"
+
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ${{ needs.decide_runner.outputs.runner_label }}
+    needs: decide_runner
+    if: needs.decide_runner.outputs.should_skip != 'true'
 
     steps:
       - name: Checkout repository
@@ -27,7 +86,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Update deployment timestamp
+      - name: Update deployment timestamp (Windows)
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          $TIMESTAMP = Get-Date -Format "yyyy-MM-dd hh:mm tt PT"
+          (Get-Content content/index.md) -replace '\*\*📅 Last Updated:\*\* .*', "**📅 Last Updated:** $TIMESTAMP" | Set-Content content/index.md
+          Write-Host "✅ Updated timestamp to: $TIMESTAMP"
+
+      - name: Update deployment timestamp (Linux/macOS)
+        if: runner.os != 'Windows'
         run: |
           TIMESTAMP=$(TZ='America/Los_Angeles' date '+%Y-%m-%d %I:%M %p PT')
           sed -i "s/\*\*📅 Last Updated:\*\* .*/\*\*📅 Last Updated:\*\* $TIMESTAMP/" content/index.md
@@ -47,8 +115,8 @@ jobs:
           user_email: 'github-actions[bot]@users.noreply.github.com'
           commit_message: 'deploy: Quartz site deployment from ${{ github.sha }}'
 
-      - name: Notify Discord of successful deployment
-        if: success()
+      - name: Notify Discord of successful deployment (Linux/macOS)
+        if: success() && runner.os != 'Windows'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
@@ -84,8 +152,55 @@ jobs:
           }" \
           "$DISCORD_WEBHOOK_URL"
 
-      - name: Notify Discord of deployment failure
-        if: failure()
+      - name: Notify Discord of successful deployment (Windows)
+        if: success() && runner.os == 'Windows'
+        continue-on-error: true
+        shell: powershell
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          $COMMIT_MESSAGE = (git log -1 --pretty=format:'%s').Substring(0, [Math]::Min(100, (git log -1 --pretty=format:'%s').Length))
+          $COMMIT_AUTHOR = git log -1 --pretty=format:'%an'
+          $COMMIT_SHA_SHORT = git rev-parse --short HEAD
+          $TIMESTAMP = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+
+          $payload = @{
+            embeds = @(
+              @{
+                title = "📚 Documentation Deployed"
+                description = "Archery Apprentice documentation has been updated and deployed."
+                color = 3447003
+                fields = @(
+                  @{
+                    name = "Commit"
+                    value = "``$COMMIT_SHA_SHORT`` - $COMMIT_MESSAGE"
+                    inline = $false
+                  },
+                  @{
+                    name = "Author"
+                    value = $COMMIT_AUTHOR
+                    inline = $true
+                  },
+                  @{
+                    name = "Site"
+                    value = "[View Documentation](https://blamechris.github.io/archery-apprentice-docs/)"
+                    inline = $true
+                  }
+                )
+                timestamp = $TIMESTAMP
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+
+          try {
+            Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -Body $payload -ContentType "application/json"
+            Write-Host "✅ Discord notification sent successfully"
+          } catch {
+            Write-Host "⚠️  Failed to send Discord notification (deployment still succeeded): $_"
+          }
+
+      - name: Notify Discord of deployment failure (Linux/macOS)
+        if: failure() && runner.os != 'Windows'
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
@@ -113,3 +228,43 @@ jobs:
             }]
           }" \
           "$DISCORD_WEBHOOK_URL"
+
+      - name: Notify Discord of deployment failure (Windows)
+        if: failure() && runner.os == 'Windows'
+        continue-on-error: true
+        shell: powershell
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          $COMMIT_SHA_SHORT = git rev-parse --short HEAD
+          $TIMESTAMP = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+
+          $payload = @{
+            embeds = @(
+              @{
+                title = "❌ Documentation Deployment Failed"
+                description = "Failed to deploy documentation updates."
+                color = 15158332
+                fields = @(
+                  @{
+                    name = "Commit"
+                    value = "``$COMMIT_SHA_SHORT``"
+                    inline = $true
+                  },
+                  @{
+                    name = "Workflow"
+                    value = "[View Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+                    inline = $true
+                  }
+                )
+                timestamp = $TIMESTAMP
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+
+          try {
+            Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -Body $payload -ContentType "application/json"
+            Write-Host "✅ Discord failure notification sent successfully"
+          } catch {
+            Write-Host "⚠️  Failed to send Discord failure notification: $_"
+          }
