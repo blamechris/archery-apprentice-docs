@@ -84,6 +84,55 @@ Traditional sequential migration would take weeks of blocking work. By using 3 p
 
 ---
 
+## Week 3 Progress (2025-10-25)
+
+### Agent 1 (AAP) - Coverage Improvements ✅ COMPLETE
+**Status:** PR #139 created, 80% goal exceeded (81% achieved)
+
+**Accomplishments:**
+- Overall coverage: 77% → 81% (+4 points)
+- Repository layer: 59% → 70% (+11 points)
+- 50 strategic tests added
+- **Critical fix:** JaCoCo configuration bug (.exec file was 0 bytes)
+
+**Impact:**
+- All future coverage measurements now accurate
+- Repository layer significantly improved
+- Infrastructure improvement benefits entire project
+
+**Files:**
+- [PR #139](https://github.com/blamechris/archery-apprentice/pull/139)
+- [Agent 1 Context](https://github.com/blamechris/archery-apprentice/blob/main/docs/AGENT_CONTEXTS/AGENT_1_AAP.md)
+
+### Agent 2 (AAM) - Data Migration 🔄 IN PROGRESS
+**Status:** Days 1-5 complete (768 lines migrated), Days 6-7 in progress
+
+**Completed:**
+- TournamentRound, TournamentScore migrations
+- TournamentSettings (269 lines, most complex)
+- Security models (182 lines)
+- All tests passing (3,860+)
+
+**Remaining:**
+- Days 6-7: Restore OfflineTournamentRepository
+- Day 8: Final verification + PR
+
+### Agent 3 (AAA) - Service Extraction ✅ COMPLETE
+**Status:** PR created, <1,500 goal exceeded
+
+**Accomplishments:**
+- LiveScoringViewModel: 1,691 → 1,493 lines
+- Services: EndStateTransitionService + ProgressUpdateService
+- 33 tests added (100% passing)
+- Zero failures, zero regressions
+
+**Cumulative (Week 2+3):**
+- Total reduction: 522 lines (25.9%)
+- Services extracted: 11 total
+- Tests added: 116+
+
+---
+
 ## Critical Technical Decisions
 
 ### 1. Git Worktrees Over Docker
