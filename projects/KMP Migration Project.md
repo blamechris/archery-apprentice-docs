@@ -117,19 +117,35 @@ Traditional sequential migration would take weeks of blocking work. By using 3 p
 - Days 6-7: Restore OfflineTournamentRepository
 - Day 8: Final verification + PR
 
-### Agent 3 (AAA) - Service Extraction ✅ COMPLETE
-**Status:** PR created, <1,500 goal exceeded
+### Agent 3 (AAA) - Service Extraction ✅ COMPLETE - EXCEEDED GOAL
+**Status:** PR pushed to `kmp-migration/week-3-service-extraction-continued`, ready for merge
 
 **Accomplishments:**
-- LiveScoringViewModel: 1,691 → 1,493 lines
-- Services: EndStateTransitionService + ProgressUpdateService
-- 33 tests added (100% passing)
+- LiveScoringViewModel: 1,691 → 1,481 lines (210 line reduction, 12.4%)
+- **EXCEEDED <1,500 line goal by 19 lines!**
+- Services: EndStateTransitionService (230 lines) + ProgressUpdateService (85 lines)
+- 37 tests added (21 service + 13 service + 3 error case tests)
+- 1 critical bug fixed (negative index in updateArrowScore)
 - Zero failures, zero regressions
+- Coverage improvements: Removed 4 debug/error logs, simplified null checks
+
+**Technical Debt Discovered:**
+- **Issue #5:** EndStateTransitionService uses `androidx.compose.ui.geometry.Offset` (Android-only)
+  - Impact: Prevents full KMP compatibility for this service
+  - Solution: Create DomainCoordinate model in shared:domain (Week 4 priority)
+  - Tracking: [Tech Debt #5](https://github.com/blamechris/archery-apprentice/blob/main/docs/TECH_DEBT.md#5-endstatetransitionservice-compose-ui-dependency)
 
 **Cumulative (Week 2+3):**
-- Total reduction: 522 lines (25.9%)
-- Services extracted: 11 total
-- Tests added: 116+
+- Starting Point: 2,015 lines
+- Week 2 End: 1,677 lines (338 line reduction)
+- Week 3 End: 1,481 lines (210 line reduction)
+- **Total reduction: 534 lines (26.5%)**
+- **Services extracted: 6 services (Weeks 2-3)**
+- **Tests added: 120 tests (83 Week 2 + 37 Week 3)**
+
+**Documentation:**
+- [Week 3 Completion Summary](https://github.com/blamechris/archery-apprentice/blob/main/docs/kmp-migration/WEEK_3_COMPLETION_SUMMARY.md)
+- [Agent 3 Context](https://github.com/blamechris/archery-apprentice/blob/main/docs/AGENT_CONTEXTS/AGENT_3_AAA.md)
 
 ---
 

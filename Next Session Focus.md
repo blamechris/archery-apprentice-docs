@@ -14,16 +14,46 @@
 - **Repository Layer:** 59% → 70% (+11 points)
 - **PR #139:** https://github.com/blamechris/archery-apprentice/pull/139
 
-### Week 3 - Service Extraction (Agent 3) ✅ COMPLETE
-- **LiveScoringViewModel:** 1,691 → 1,493 lines (exceeded <1,500 goal!)
+### Week 3 - Service Extraction (Agent 3) ✅ COMPLETE - EXCEEDED GOAL
+- **LiveScoringViewModel:** 1,691 → 1,481 lines (EXCEEDED <1,500 goal by 19 lines!)
 - **Services Extracted:** 2 services (EndStateTransitionService, ProgressUpdateService)
-- **Tests Added:** 33 tests
-- **Zero Failures:** Maintained 100% test pass rate
+- **Tests Added:** 37 tests (21 service + 13 service + 3 error case tests)
+- **Bug Fixes:** 1 critical (negative index in updateArrowScore)
+- **Zero Failures:** Maintained 100% test pass rate throughout
+- **Coverage Improvements:** Removed 4 debug/error logs, simplified null checks
+- **Technical Debt Discovered:** Issue #5 (DomainCoordinate model needed)
+- **Branch:** `kmp-migration/week-3-service-extraction-continued` (pushed and ready for merge)
 
 ### Week 3 - Data Migration (Agent 2) 🔄 IN PROGRESS
 - **Days 1-5:** 768 lines migrated to shared:data (4 models complete)
 - **Days 6-7:** Restoring OfflineTournamentRepository (in progress)
 - **Tests:** All 3,860+ tests passing
+
+---
+
+## 🎯 Current Sprint Status (Week 3)
+
+**Week 3 Status:** 2/3 agents COMPLETE, 1 IN PROGRESS
+
+### Completed This Week
+- ✅ Agent 1 (AAP): Coverage improvements (77% → 81%), PR #139 ready for merge
+- ✅ Agent 3 (AAA): God class extraction (<1,500 line goal EXCEEDED by 19 lines)
+
+### In Progress
+- ⏳ Agent 2 (AAM): Days 6-7 repository restoration (2-3 days remaining)
+
+### Immediate Priorities
+1. **Agent 2**: Complete OfflineTournamentRepository restoration
+2. **Technical Debt #5**: Create DomainCoordinate model (prevents KMP blocking)
+   - Replace Compose UI Offset with domain model
+   - Unblocks full KMP compatibility for EndStateTransitionService
+3. **Week 3 PR Merges**: Agent 1 #139, Agent 3 Week 3 PR, Agent 2 Week 3 PR
+
+### Recent Achievements
+- LiveScoringViewModel reduced to 1,481 lines (26.5% reduction from Week 2 start)
+- 6 services extracted across Weeks 2-3 (120 new tests, 100% pass rate)
+- Coverage threshold met and exceeded (81%)
+- Zero test regressions maintained throughout
 
 ---
 

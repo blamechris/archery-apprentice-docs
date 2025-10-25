@@ -6,8 +6,9 @@ tags:
   - technical-debt
   - architecture
   - live-scoring
+  - week-3-complete
 created: 2025-10-04
-status: partially-implemented
+status: week-3-complete
 related:
   - "[[RoundViewModel-Audit]]"
   - "[[RoundViewModel-Refactoring-Plan]]"
@@ -20,18 +21,25 @@ related:
 
 # LiveScoringViewModel Critical Analysis
 **File:** `app/src/main/java/com/archeryapprentice/ui/roundScoring/LiveScoringViewModel.kt`
-**Current Size:** 2,808 lines
+**Original Size:** 2,808 lines (Oct 2025)
+**Current Size:** 1,481 lines (Oct 25, 2025)
+**Total Reduction:** 1,327 lines (47.3% reduction)
 **Baseline (CLAUDE.md):** 1,753 lines
-**Growth:** +1,055 lines (+60%)
 **Analysis Date:** October 4, 2025
-**Status:** 🚨 **CRITICAL - Maintainability Crisis**
+**Status:** ✅ **WEEK 3 COMPLETE - <1,500 LINE GOAL ACHIEVED**
 
-> **Update (Oct 7, 2025)**: Per [[Implementation-Status-10-07-25]], 3 of 5 services have been successfully extracted:
-> - ✅ TournamentSyncService (556 lines) - Oct 5
-> - ✅ ScoreConflictResolutionService (262 lines) - Oct 2025
-> - ✅ EndCompletionService (400 lines) - Oct 6
-> 
-> **Current Status**: 2,304 lines (down from 2,808), 62% refactoring complete, 2 services remaining
+> **Week 3 Completion (Oct 25, 2025)**:
+> - ✅ LiveScoringViewModel: 1,691 → 1,481 lines (210 line reduction, 12.4%)
+> - ✅ EXCEEDED <1,500 line goal by 19 lines
+> - ✅ Services extracted: EndStateTransitionService + ProgressUpdateService
+> - ✅ 37 new tests, 100% pass rate, zero regressions
+> - ✅ 1 critical bug fixed (negative index)
+>
+> **Cumulative Progress (Weeks 2-3)**:
+> - Starting Point: 2,015 lines
+> - Week 2 End: 1,677 lines (338 line reduction)
+> - Week 3 End: 1,481 lines (210 line reduction)
+> - **Total: 534 lines removed (26.5% reduction)**
 
 ---
 
@@ -588,48 +596,141 @@ LiveScoringViewModel proved the approach works - **execute incrementally, one se
 3. ✅ **All Tests Passing** - 1,879 tests, BUILD SUCCESSFUL
 4. ⏳ **2 Services Remaining** - RoundLifecycle (~200 lines), Statistics (~150 lines)
 
-### Next Week (Per [[Implementation-Status-10-07-25]]):
-1. **Extract TournamentRoundLifecycleService** (~200 lines)
-2. **Extract StatisticsAggregationService** (~150 lines)
-3. **Final Cleanup** - Remove UI coupling, consolidate StateFlows
-4. **Validation** - Achieve <1,500 lines target
+---
+
+## Week 3 Service Extraction (Oct 22-25, 2025)
+
+### Services Extracted (KMP Migration Focus)
+**1. EndStateTransitionService** (230 lines, 21 tests)
+- **Purpose:** Manages end state transitions when completing ends
+- **Extracted From:** LiveScoringViewModel lines 509-621 (normal completion) + lines 1057-1119 (final completion)
+- **KMP Status:** ⚠️ Partial (uses Compose UI Offset - see Technical Debt #5)
+- **Test Coverage:** 21 comprehensive tests (100% pass rate)
+- **Responsibilities:**
+  - Update participant progress and mark complete
+  - Calculate and update completed totals (score, arrow count, X count)
+  - Build EndScoreWithArrows with unique IDs for LazyColumn keys
+  - Clear participant state when appropriate
+  - Advance to next end or mark participant complete
+- **Key Feature:** Single service handles both normal and final end completion with `markComplete` flag
+
+**2. ProgressUpdateService** (85 lines, 13 tests)
+- **Purpose:** Handles real-time progress tracking and UI state updates
+- **Extracted From:** LiveScoringViewModel `updateProgressImmediate()` method (lines 722-770)
+- **KMP Status:** ✅ Fully compatible (zero Android dependencies)
+- **Test Coverage:** 13 comprehensive tests (100% pass rate)
+- **Responsibilities:**
+  - Calculate current end progress and overall progress
+  - Create live statistics
+  - Determine animation duration based on UpdateSource
+  - Build updated session with RealTimeProgress
+- **Delegation Pattern:** Delegates to ProgressCalculationService and StatisticsAggregationService
+
+### Metrics
+- **Line Reduction:** 1,691 → 1,481 lines (210 lines, 12.4% reduction)
+- **Goal Achievement:** 101.3% (EXCEEDED <1,500 target by 19 lines)
+- **Tests Added:** 37 tests (21 service + 13 service + 3 error case tests)
+- **Bug Fixes:** 1 critical (negative index in updateArrowScore)
+- **Quality:** Zero regressions, 100% test pass rate
+- **Additional Improvements:** Removed 4 debug/error logs, simplified null checks
+
+### Cumulative Progress (Weeks 2-3)
+- **Starting Point (Week 2):** 2,015 lines
+- **Week 2 End:** 1,677 lines (338 line reduction)
+- **Week 3 Start:** 1,691 lines (git branch baseline)
+- **Week 3 End:** 1,481 lines (210 line reduction)
+- **Total Reduction:** 534 lines (26.5% from Week 2 start)
+- **Services Extracted:** 6 services (Weeks 2-3)
+- **Tests Added:** 120 tests (83 Week 2 + 37 Week 3)
+
+### Technical Debt Discovered
+**Issue #5:** EndStateTransitionService uses `androidx.compose.ui.geometry.Offset` (Android-only)
+- **Impact:** Prevents full KMP compatibility for this service
+- **Root Cause:** Inherited from ScoringSessionState coordinate model
+- **Solution:** Create `DomainCoordinate` model in shared:domain (Week 4 priority)
+- **Documentation:** Updated service to acknowledge dependency with TODO
+- **Tracking:** [Technical Debt Item #5](https://github.com/blamechris/archery-apprentice/blob/main/docs/TECH_DEBT.md#5-endstatetransitionservice-compose-ui-dependency)
+
+### Coverage Improvements & Bug Fixes
+**LiveScoringViewModel.kt** (1,493 → 1,481 lines, 12 additional lines removed)
+- ✅ Removed 4 debug/error logs from defensive null checks
+- ✅ Fixed negative index bug in `updateArrowScore` (L357)
+  - Changed: `if (arrowIndex < arrows.size)`
+  - To: `if (arrowIndex >= 0 && arrowIndex < arrows.size)`
+  - Prevents IndexOutOfBoundsException on negative indices
+- ✅ Added LiveScoringViewModelErrorCasesTest.kt (75 lines, 3 tests)
+  - Test invalid score validation
+  - Test bounds checking (out of bounds and negative index)
+  - All tests passing
+
+**EndStateTransitionService.kt** (226 → 230 lines)
+- ✅ Updated documentation to acknowledge Compose UI Offset dependency
+- ✅ Added TODO for KMP-compatible coordinate model
+- ✅ Simplified coordinate extraction (removed reflection, restored direct access)
+- ✅ Added test for L127 coverage (participantEndsWithArrows initialization)
+
+### Lessons Learned
+1. **Coverage-Driven Improvements:** Reviewing partial coverage revealed real bugs (negative index) and unnecessary complexity (debug logs)
+2. **Honest Documentation:** Better to acknowledge platform dependencies with TODO than claim "zero dependencies" incorrectly
+3. **Simplicity Over Cleverness:** Direct property access (`coordinate?.x`) is clearer than reflection-based extraction
+4. **Going for Goals:** When 34 lines away from <1,500 target, extracting ProgressUpdateService (41 line reduction) achieved the goal with room to spare
+
+### Documentation
+- [Week 3 Completion Summary](https://github.com/blamechris/archery-apprentice/blob/main/docs/kmp-migration/WEEK_3_COMPLETION_SUMMARY.md)
+- [Agent 3 Context](https://github.com/blamechris/archery-apprentice/blob/main/docs/AGENT_CONTEXTS/AGENT_3_AAA.md)
 
 ### Decision Point:
-- ✅ **Approach validated:** 3 successful extractions prove the pattern works
-- ✅ **Continue extraction:** Clear path to completion
-- ✅ **Pattern proven:** Copy-delegate-validate + delegation for shared logic
+- ✅ **<1,500 Line Goal ACHIEVED:** 1,481 lines (19 lines under target)
+- ✅ **Week 3 COMPLETE:** 2 services extracted, 37 tests added, 1 bug fixed
+- ⚠️ **Tech Debt #5 Identified:** DomainCoordinate model needed for full KMP compatibility
+- ✅ **Pattern Proven:** Copy-delegate-validate works consistently (5/5 successful extractions)
 
 ---
 
 ## Conclusion
 
-LiveScoringViewModel's 60% growth represents a **maintainability crisis** requiring immediate intervention. The explosive growth from tournament feature additions (Phases 2.2-4.1) created a 12-domain god class spanning 2,808 lines.
+LiveScoringViewModel's refactoring journey from 2,808 → 1,481 lines (47.3% reduction) demonstrates the **effectiveness of incremental service extraction** for god class refactoring.
 
-**Key Finding:** ~1,600 lines (57%) should be extracted to specialized services.
+**Week 3 Achievement:**
+- ✅ **<1,500 Line Goal EXCEEDED:** 1,481 lines (19 lines under target)
+- ✅ **Services Extracted:** 2 services (EndStateTransitionService + ProgressUpdateService)
+- ✅ **Test Coverage:** 37 new tests, 100% pass rate, zero regressions
+- ✅ **Bug Fixes:** 1 critical bug (negative index in updateArrowScore)
+- ✅ **Quality:** Zero test failures throughout entire extraction
+
+**Cumulative Progress (Weeks 2-3):**
+- ✅ Starting Point: 2,015 lines
+- ✅ Week 2: 4 services extracted (338 line reduction)
+- ✅ Week 3: 2 services extracted (210 line reduction)
+- ✅ **Total: 6 services, 534 lines removed (26.5% reduction)**
+- ✅ **120 new tests** added across all services
 
 **Critical Difference from RoundViewModel:**
 - RoundViewModel: **Planned but never executed**
-- LiveScoringViewModel: ✅ **60% complete - PROVEN APPROACH**
+- LiveScoringViewModel: ✅ **WEEK 3 GOAL ACHIEVED - PROVEN PATTERN**
 
-**Progress Summary (Oct 7, 2025):**
-- ✅ 3 of 5 services extracted (1,218 lines)
-- ✅ Code deduplication (109 lines removed)
-- ✅ ViewModel reduced to 2,304 lines (18% reduction)
-- ✅ All 1,879 tests passing
-- ⏳ 2 services remaining (~350 lines)
+**Technical Debt Identified:**
+- ⚠️ **Issue #5:** EndStateTransitionService uses Compose UI Offset (Android-only)
+- 📋 **Solution:** Create DomainCoordinate model in shared:domain (Week 4 priority)
+- 🔗 **Tracking:** [Technical Debt #5](https://github.com/blamechris/archery-apprentice/blob/main/docs/TECH_DEBT.md#5-endstatetransitionservice-compose-ui-dependency)
 
-**Timeline:** 1-2 weeks to complete final 2 extractions and achieve <1,500 lines target.
+**Pattern Proven:** Copy-Delegate-Validate works consistently (6/6 successful extractions)
 
-**Risk Level:** LOW - Pattern proven with 3 successful extractions
+**Risk Level:** LOW - All extractions successful with zero regressions
 
-**Business Impact:** HIGH - Prevents technical debt from blocking future tournament features and multi-device enhancements.
+**Business Impact:** HIGH - Enables continued KMP migration and prevents technical debt from blocking future features.
+
+**Next Steps:**
+1. Resolve Technical Debt #5 (DomainCoordinate model)
+2. Continue KMP migration with remaining services
+3. Target: <1,400 lines (another 81 line reduction)
 
 ---
 
 *Analysis Date: October 4, 2025*
-*Last Updated: October 7, 2025 (Progress tracking)*
-*Analyst: Claude Code Checkpoint Investigation*
-*Status: 60% COMPLETE - EXECUTION IN PROGRESS*
+*Week 3 Completion: October 25, 2025*
+*Analyst: Claude Code (Agent 3 - AAA)*
+*Status: ✅ WEEK 3 COMPLETE - <1,500 LINE GOAL ACHIEVED*
 
 ---
 
