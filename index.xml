@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+      <title>Archery Apprentice Documentation</title>
+      <link>https://blamechris.github.io/archery-apprentice-docs</link>
+      <description>Last 10 notes on Archery Apprentice Documentation</description>
+      <generator>Quartz -- quartz.jzhao.xyz</generator>
+      <item>
+    <title>Week 2 Final Status - KMP Migration</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/projects/Week-2-Final-Status---KMP-Migration</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/projects/Week-2-Final-Status---KMP-Migration</guid>
+    <description><![CDATA[ Week 2 Final Status - KMP Migration Date: 2025-10-23 (Updated from Oct 21 initial completion) Status: ✅ COMPLETE - All tests passing, PR #134 ready to merge PRs: 2 merged, 1 ready for merge Key Achievement: KSP compilation + Full build passing with all tests green Executive Summary Week 2 delivered ... ]]></description>
+    <pubDate>Thu, 23 Oct 2025 07:40:22 GMT</pubDate>
+  </item><item>
+    <title>Data-Sync-Flow</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/Flows/Data-Sync-Flow</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/Flows/Data-Sync-Flow</guid>
+    <description><![CDATA[ Data Sync Flow tags: flow data-sync firebase offline-first conflict-resolution real-time created: 2025-10-08 related: “Tournament-Flow” “Scoring-Flow” “MVVM-Architecture” “Hybrid-Tournament-Architecture” Overview The Data Sync Flow describes how tournament data synchronizes between local storage and... ]]></description>
+    <pubDate>Wed, 22 Oct 2025 09:23:26 GMT</pubDate>
+  </item><item>
+    <title>Equipment-Management-End-to-End-Flow</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/Flows/Equipment-Management-End-to-End-Flow</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/Flows/Equipment-Management-End-to-End-Flow</guid>
+    <description><![CDATA[ Equipment Management: End-to-End Flow Tags: equipment flow bow-setup statistics end-to-end architecture diagrams Status: ✅ ACTIVE | Complete documentation of equipment management system Last Updated: October 13, 2025 Related Documentation: Equipment-ViewModels - ViewModel architecture Equipment-Stat... ]]></description>
+    <pubDate>Wed, 22 Oct 2025 09:23:26 GMT</pubDate>
+  </item><item>
+    <title>Round-Lifecycle-Flow</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/Flows/Round-Lifecycle-Flow</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/Flows/Round-Lifecycle-Flow</guid>
+    <description><![CDATA[ Round Lifecycle Flow tags: flow round-lifecycle round-status session-management statistics created: 2025-10-08 related: “Scoring-Flow” “Multi-Participant-Flow” “Equipment-Management-Flow” “Tournament-Flow” “MVVM-Architecture” Overview The Round Lifecycle Flow describes the complete journey of a roun... ]]></description>
+    <pubDate>Wed, 22 Oct 2025 09:23:26 GMT</pubDate>
+  </item><item>
+    <title>tournament-settings-persistence-bug</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/bugs/tournament-settings-persistence-bug</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/bugs/tournament-settings-persistence-bug</guid>
+    <description><![CDATA[ Tournament Settings Persistence Bug Fix Date Discovered: 2025-10-14 Date Fixed: 2025-10-15 Severity: HIGH (Production Blocker) Status: ✅ FIXED Problem Tournament settings (specifically useSettingsDisplayNames) not persisting from tournament creation to the actual created tournament in Firebase. ]]></description>
+    <pubDate>Wed, 22 Oct 2025 09:23:26 GMT</pubDate>
+  </item><item>
+    <title>Agentic LLM Workflow Experiment</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/experiments/Agentic-LLM-Workflow-Experiment</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/experiments/Agentic-LLM-Workflow-Experiment</guid>
+    <description><![CDATA[ Agentic LLM Workflow Experiment - Multi-Agent KMP Migration Status: Active (Week 1 in progress) Started: 2025-10-18 Model: Claude (Anthropic) via Claude Code CLI Hypothesis: Parallel LLM agents can accelerate complex migrations while maintaining quality Tags: ai llm agentic-workflow claude experimen... ]]></description>
+    <pubDate>Wed, 22 Oct 2025 09:23:26 GMT</pubDate>
+  </item><item>
+    <title>Build Quality Patterns and Test Best Practices</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/Build-Quality-Patterns-and-Test-Best-Practices</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/Build-Quality-Patterns-and-Test-Best-Practices</guid>
+    <description><![CDATA[ Build Quality Patterns and Test Best Practices Date Created: 2025-10-17 Session: Build Warning &amp; Test Failure Resolution Status: production-ready best-practices Overview This note documents patterns and best practices discovered during the Oct 17, 2025 session where we resolved build warnings an... ]]></description>
+    <pubDate>Wed, 22 Oct 2025 09:11:36 GMT</pubDate>
+  </item><item>
+    <title>Documentation-Cross-Reference</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/Documentation-Cross-Reference</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/Documentation-Cross-Reference</guid>
+    <description><![CDATA[ Documentation Cross-Reference Index Purpose: This index maps documentation between the Git repository (docs/) and the Obsidian vault to maintain consistency and prevent duplication. ]]></description>
+    <pubDate>Wed, 22 Oct 2025 09:11:36 GMT</pubDate>
+  </item><item>
+    <title>Next Session Focus</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/Next-Session-Focus</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/Next-Session-Focus</guid>
+    <description><![CDATA[ 🎯 Next Session Focus Last Updated: 2025-10-20 (Week 1 Complete) Current Sprint: KMP Migration - Week 1 → Week 2 Transition ✅ Week 1 COMPLETE - All 3 Agents Delivered Summary Week 1 of the Kotlin Multiplatform migration is complete! All 4 PRs merged to main: PR #127 - Agent 3 (AAA): God class analys... ]]></description>
+    <pubDate>Wed, 22 Oct 2025 09:11:36 GMT</pubDate>
+  </item><item>
+    <title>Performance-Optimization</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/Performance-Optimization</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/Performance-Optimization</guid>
+    <description><![CDATA[  ]]></description>
+    <pubDate>Wed, 22 Oct 2025 09:11:36 GMT</pubDate>
+  </item>
+    </channel>
+  </rss>
