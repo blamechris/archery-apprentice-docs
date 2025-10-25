@@ -360,7 +360,129 @@ class ScoringPermissionService @Inject constructor() {
 
 ---
 
-### 5. Other Domain Services
+### 5. EndStateTransitionService (Week 3)
+
+**Purpose:** Build participant completion state transitions when completing ends
+
+**Extraction Metrics:**
+- **Lines Extracted:** 230 lines from LiveScoringViewModel (normal completion + final completion logic)
+- **Reduction:** Week 3 contribution to 12.4% reduction
+- **Priority:** 🚨 HIGH - Critical end completion state management
+- **Week:** Week 3 (Oct 2025)
+
+**File:** `EndStateTransitionService.kt`
+
+**Core Responsibilities:**
+- Update participant progress and mark complete (delegates to ProgressTrackingService)
+- Calculate and update completed totals (score, arrow count, X count)
+- Build `EndScoreWithArrows` with unique IDs for LazyColumn keys
+- Clear participant state (arrows, X-rings, coordinates) when appropriate
+- Advance to next end or mark participant complete
+
+**Code Reference:**
+```kotlin
+@Singleton
+class EndStateTransitionService @Inject constructor(
+    private val progressTrackingService: ProgressTrackingService
+) {
+    data class EndTransitionResult(
+        val updatedSession: ScoringSessionState,
+        val completedEndWithArrows: EndScoreWithArrows,
+        val currentEndScore: Int
+    )
+
+    fun buildEndTransitionState(
+        session: ScoringSessionState,
+        round: Round,
+        participantId: String,
+        nextEndNumber: Int?,
+        markComplete: Boolean = false,
+        tempEndId: Int
+    ): EndTransitionResult { /* ... */ }
+}
+```
+
+**Key Features:**
+- Single service handles both normal and final end completion with `markComplete` flag
+- Returns complete state transition in one method call
+- Builds `EndScoreWithArrows` with proper ID management
+
+**KMP Status:** ⚠️ Partial compatibility
+- Currently uses `androidx.compose.ui.geometry.Offset` for coordinates
+- TODO: Replace with DomainCoordinate model (Technical Debt #5)
+
+---
+
+### 6. ProgressUpdateService (Week 3)
+
+**Purpose:** Build real-time progress and live statistics updates
+
+**Extraction Metrics:**
+- **Lines Extracted:** 85 lines from LiveScoringViewModel `updateProgressImmediate()` method
+- **Reduction:** Week 3 contribution to 12.4% reduction
+- **Priority:** MEDIUM - Progress tracking and UI state updates
+- **Week:** Week 3 (Oct 2025)
+
+**File:** `ProgressUpdateService.kt`
+
+**Core Responsibilities:**
+- Calculate current end progress and overall progress (delegates to ProgressCalculationService)
+- Create live statistics (delegates to StatisticsAggregationService)
+- Determine animation duration based on UpdateSource
+- Build updated session with RealTimeProgress and timestamps
+
+**Code Reference:**
+```kotlin
+@Singleton
+class ProgressUpdateService @Inject constructor(
+    private val progressCalculationService: ProgressCalculationService,
+    private val statisticsAggregationService: StatisticsAggregationService
+) {
+    fun buildProgressUpdate(
+        session: ScoringSessionState,
+        round: Round,
+        participantId: String,
+        updateSource: UpdateSource
+    ): ScoringSessionState {
+        val currentEndProgress = progressCalculationService.calculateCurrentEndProgress(
+            session.currentEndArrows.size,
+            round.arrowsPerEnd
+        )
+
+        val overallProgress = progressCalculationService.calculateOverallProgress(
+            session.currentEndNumber,
+            session.currentArrowNumber,
+            round.numEnds,
+            round.arrowsPerEnd
+        )
+
+        val liveStatistics = statisticsAggregationService.createLiveStatistics(
+            session, round, participantId
+        )
+
+        return session.copy(
+            realTimeProgress = RealTimeProgress(
+                currentEndProgress = currentEndProgress,
+                overallProgress = overallProgress,
+                animationDurationMs = determineAnimationDuration(updateSource)
+            ),
+            liveStatistics = liveStatistics,
+            lastUpdated = System.currentTimeMillis()
+        )
+    }
+}
+```
+
+**Delegation Pattern:**
+- Delegates progress calculation to `ProgressCalculationService`
+- Delegates statistics creation to `StatisticsAggregationService`
+- Orchestrates multiple services to build complete progress update
+
+**KMP Status:** ✅ Fully compatible (zero Android dependencies)
+
+---
+
+### 7. Other Domain Services
 
 **ProgressCalculationService** - `ProgressCalculationService.kt:9`
 - Delegates to `ProgressCalculator` for pure computation
@@ -401,23 +523,37 @@ Responsibilities:
 ✗ Event coordination
 ```
 
-**After Extraction (Current):**
+**After Extraction (Week 3 Complete - Oct 25, 2025):**
 ```
-LiveScoringViewModel.kt: 2,279 lines (-1,000 lines, 31% reduction)
+LiveScoringViewModel.kt: 1,481 lines (-1,327 lines, 47.3% reduction from original 2,808)
 
 Retained Responsibilities:
 ✓ Session state orchestration (ScoringSessionState)
 ✓ Arrow scoring coordination
 ✓ Participant switching
-✓ Progress updates
 ✓ UI event emission
 ✓ Service delegation
 
-Extracted to Services:
+Extracted to Services (Weeks 2-3):
+→ Week 2:
+  - ArrowScoringDomainService: ~150 lines (arrow validation, scoring logic)
+  - ParticipantStateService: ~100 lines (participant state management)
+  - SessionStateBuilderService: ~80 lines (session state construction)
+  - ParticipantStateQueryService: ~40 lines (participant state queries)
+→ Week 3:
+  - EndStateTransitionService: 230 lines (end completion state transitions)
+  - ProgressUpdateService: 85 lines (real-time progress and statistics)
+
+Previously Extracted:
 → EndCompletionService: ~400 lines (end validation, recording)
 → TournamentSyncService: ~600 lines (Firebase sync, retry logic)
-→ ScoreConflictResolutionService: (conflict detection/resolution)
+→ ScoreConflictResolutionService: ~262 lines (conflict detection/resolution)
 → ScoringPermissionService: (permission checks)
+
+**Week 3 Achievement:**
+- Starting: 1,691 lines → Ending: 1,481 lines (210 line reduction)
+- EXCEEDED <1,500 line goal by 19 lines
+- 37 new tests, 100% pass rate, zero regressions
 ```
 
 **ViewModel Constructor Comparison:**
