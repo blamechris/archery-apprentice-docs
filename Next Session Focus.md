@@ -24,34 +24,43 @@
 - **Technical Debt Discovered:** Issue #5 (DomainCoordinate model needed)
 - **Branch:** `kmp-migration/week-3-service-extraction-continued` (pushed and ready for merge)
 
-### Week 3 - Data Migration (Agent 2) 🔄 IN PROGRESS
-- **Days 1-5:** 768 lines migrated to shared:data (4 models complete)
-- **Days 6-7:** Restoring OfflineTournamentRepository (in progress)
-- **Tests:** All 3,860+ tests passing
+### Week 3 - Data Migration (Agent 2) ✅ COMPLETE
+- **768 Lines Migrated:** All data models to shared:data (100% KMP compatible)
+- **Repository Restored:** OfflineTournamentRepository fully restored from pre-stub version
+- **Test Failures Fixed:** All 30 failures resolved (27 + 3 HybridTournamentRepositoryTest)
+- **Tests:** All 3,860+ tests passing (100% pass rate maintained)
+- **PR #140:** https://github.com/blamechris/archery-apprentice/pull/140
+- **Days 1-8:** Data migration (768 lines) + repository restoration + copilot fix + documentation
 
 ---
 
 ## 🎯 Current Sprint Status (Week 3)
 
-**Week 3 Status:** 2/3 agents COMPLETE, 1 IN PROGRESS
+**Week 3 Status:** ALL 3 agents COMPLETE ✅
 
 ### Completed This Week
-- ✅ Agent 1 (AAP): Coverage improvements (77% → 81%), PR #139 ready for merge
+- ✅ Agent 1 (AAP): Coverage improvements (77% → 81%), PR #139 MERGED
+- ✅ Agent 2 (AAM): Data migration complete (768 lines to shared:data), PR #140 created
 - ✅ Agent 3 (AAA): God class extraction (<1,500 line goal EXCEEDED by 19 lines)
 
 ### In Progress
-- ⏳ Agent 2 (AAM): Days 6-7 repository restoration (2-3 days remaining)
+- ⏳ Agent 2 PR #140: Coverage improvements (43% → 60%+ target)
 
 ### Immediate Priorities
-1. **Agent 2**: Complete OfflineTournamentRepository restoration
-2. **Technical Debt #5**: Create DomainCoordinate model (prevents KMP blocking)
+1. **Agent 2 PR #140**: Improve coverage from 43% to 60%+ (target 80%)
+   - 228 uncovered lines in OfflineTournamentRepository.kt (211 missing + 17 partial)
+   - 4 missing lines in TournamentDetailsViewModel.kt
+   - Systematic test addition in batches
+2. **Technical Debt #5**: Create DomainCoordinate model (Week 4 priority)
    - Replace Compose UI Offset with domain model
    - Unblocks full KMP compatibility for EndStateTransitionService
-3. **Week 3 PR Merges**: Agent 1 #139, Agent 3 Week 3 PR, Agent 2 Week 3 PR
+3. **PR Merge Sequence**: Agent 1 ✅ → Agent 2 ⏳ → Agent 3 ⏸️
 
 ### Recent Achievements
+- Data layer migration: 768 lines to shared:data (100% KMP compatible)
+- OfflineTournamentRepository fully restored (offline-first architecture preserved)
 - LiveScoringViewModel reduced to 1,481 lines (26.5% reduction from Week 2 start)
-- 6 services extracted across Weeks 2-3 (120 new tests, 100% pass rate)
+- 6 services extracted across Weeks 2-3 (120+ new tests, 100% pass rate)
 - Coverage threshold met and exceeded (81%)
 - Zero test regressions maintained throughout
 
