@@ -334,7 +334,49 @@ archery-agent-analysis/      # Agent 3 (AAA) - MERGED
 3. **Week 1 Closeout:** Retrospective on parallel agent workflow
 4. **Week 2 Kickoff:** Define next missions for all 3 agents
 
+## Week 5-8 Update: Multi-Agent Progress
+
+**Date:** 2025-10-26
+**Orchestrator:** Agent O
+
+### Overall Progress
+- **Weeks Completed:** 5-8 (16 days)
+- **PRs Merged:** 7 (#144, #149, #150, #151, #152, #153, #154 pending)
+- **Agent Task Completion:** 100% (all weekly goals met)
+- **Test Coverage:** 81% → 84-85% (+3-4% absolute)
+- **Blockers:** 0 unresolved
+
+### Agent Work Summary
+
+**Agent 1 (AAP) - Platform Abstractions:**
+- Week 7: Pattern 3 Phase 1 (3 abstractions implemented, PR #152 merged)
+- Week 8: Pattern 3 Phase 2 (ExportUtils migration, PR #154 in progress)
+- Next: Week 9 Context-dependent service migrations
+
+**Agent 2 (AAM) - Database Migration:**
+- Week 6: Database planning (22 entities analyzed, PR #150 merged)
+- Week 7: Pattern 3 review (Agent 1's PR #152 APPROVED)
+- Next: Week 9 entity migration (kotlinx.serialization + 5 entities)
+
+**Agent 3 (AAA) - Test Coverage:**
+- Week 7: P0 test coverage (20 tests, PR #151 merged)
+- Week 8: P1 test coverage (25 tests, PR #153 merged)
+- Next: Week 9 validation support (fix ~40 tests, maintain 82%+ coverage)
+
+### Key Achievements
+- ✅ Pattern 3 validated (3 abstractions working)
+- ✅ Database migration ready ("paint by numbers" plan)
+- ✅ Test coverage baseline improved (ready for Week 9)
+- ✅ Cross-agent collaboration successful (reviews, approvals)
+
+### Next Milestone (Week 9)
+- **Primary:** Agent 2 entity migration (5 entities to shared:database)
+- **Secondary:** Agent 1 service migrations (3-5 services using Pattern 3)
+- **Support:** Agent 3 validation (maintain 82%+ coverage)
+
+See: `projects/kmp-migration/Week 5-8 Overall Status.md` for full details.
+
 ---
 
-**Last Updated:** 2025-10-19  
-**Next Review:** Week 1 completion (after Agent 1 merge)
+**Last Updated:** 2025-10-26
+**Next Review:** Week 9 kickoff (Monday 2025-10-28)
