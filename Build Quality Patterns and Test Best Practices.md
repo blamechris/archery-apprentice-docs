@@ -197,3 +197,34 @@ assertTrue(summaries.isNotEmpty() || summaries.isEmpty()) // Verifies call succe
 ## Tags
 
 #kotlin #testing #build-quality #best-practices #code-review #lessons-learned #production-ready
+
+## Week 7-8 Update: P0 + P1 Coverage Improvements
+
+**Date:** 2025-10-26
+**Agent:** Agent 3 (AAA)
+
+### Coverage Progression
+- Week 6 baseline: 81%
+- After Week 7 (P0): 82-83%
+- After Week 8 (P1): 84-85%
+- **Net gain: +3-4% absolute coverage**
+
+### Tests Added
+- EquipmentListViewModel: 24 tests (full lifecycle + state management)
+- NameResolver: 19 tests (100% utility method coverage)
+- SettingsViewModel: 4 tests (theme + repair operations)
+- TournamentScoreCacheDaoTest: 18 tests (95% DAO coverage)
+- **Total: 65 new tests, all passing**
+
+### Impact on KMP Migration
+- Higher baseline coverage before entity migration (Week 9)
+- Better validation infrastructure for database changes
+- Reduced regression risk during KMP refactoring
+
+### Next Steps (Week 9)
+- Support Agent 2's entity migration validation
+- Fix ~40 tests with data model changes
+- Maintain 82%+ coverage during migration
+- Add tests for new KMP-compatible entities
+
+See: `projects/kmp-migration/Week 7-8 Test Coverage.md` for details.
