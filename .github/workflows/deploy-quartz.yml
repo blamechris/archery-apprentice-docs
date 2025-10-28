@@ -20,6 +20,11 @@ on:
 permissions:
   contents: write  # Required to push to gh-pages
 
+# Prevent concurrent deployments
+concurrency:
+  group: deploy-quartz-${{ github.ref }}
+  cancel-in-progress: false  # Queue deployments instead of cancelling
+
 jobs:
   # Decide which runner to use based on day-of-month and inputs
   decide_runner:
