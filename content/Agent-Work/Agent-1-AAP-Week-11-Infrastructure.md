@@ -743,9 +743,11 @@ Using the same infrastructure pattern for high-risk DAOs:
 ### Obsidian Vault Links
 
 - [[KMP Migration Project]] - Overall migration tracking
-- [[expect-actual Pattern]] - Architectural pattern documentation
-- [[Room KMP Setup]] - Database configuration guide
-- [[Week 11 DAO Migration]] - Week 11-12 execution plan
+- [[Room KMP Architecture]] - Database configuration guide (includes expect/actual pattern)
+- See code repo: `docs/kmp-migration/PATTERN_4_DAO_MIGRATION_WORKFLOW.md` - DAO migration workflow
+- See code repo: `docs/kmp-migration/WEEK_11_12_DAO_MIGRATION_PLAN.md` - Week 11-12 execution plan
+
+**Note**: Some docs referenced here are in code repo but not yet synced to vault. See Vault Audit 2025-10-28 for sync recommendations.
 
 ### Agent Context
 
