@@ -15,12 +15,12 @@ tags:
 
 ## Overview
 
-Week 11 Days 1-2 focused on creating the **KMP-compatible Room database infrastructure** that enables DAO migration to work on both Android and iOS. This foundational work unblocks Agent 2's migration of 19 DAOs from Android-only to multiplatform.
+Week 11 Days 1-2 focused on creating the **KMP-compatible Room database infrastructure** that enables DAO migration to work on both Android and iOS. Agent 2 successfully migrated **11 equipment DAOs** and **13 entities** to the KMP database.
 
 ### Key Accomplishments
 - ✅ **ArcheryKmpDatabase** - Room KMP database class template
 - ✅ **DatabaseBuilder pattern** - expect/actual for platform-specific instantiation
-- ✅ **KmpConverters** - Type converters using kotlinx.serialization
+- ✅ **KmpConverters** - Simple string-based type converters (3 converter types, 66 lines)
 - ✅ **Build successful** - 189 tasks, zero errors
 - ✅ **Handoff documentation** - Complete guide for Agent 2
 
@@ -36,8 +36,8 @@ Room (Android's SQLite library) historically only worked on Android. Room KMP 2.
 
 **Key Requirements:**
 - Must work on both Android and iOS
-- Must support all 19 DAOs being migrated (Week 11-12)
-- Must use kotlinx.serialization (not Android-specific Gson)
+- Must support 11 equipment DAOs (migrated in Week 11)
+- Must use KMP-compatible type converters (not Android-specific Gson)
 - Must integrate with existing app architecture
 
 ### The Solution
@@ -47,26 +47,44 @@ Created `ArcheryKmpDatabase.kt` in `shared:database` module as a template:
 ```kotlin
 @Database(
     entities = [
-        // Real entities already migrated to shared:domain (Week 2)
-        Settings::class
-
-        // Additional entities will be added here as Agent 2 migrates them
-        // Week 11 Day 3-4 (Agent 2):
-        // - Equipment entities: Riser, Limbs, Sight, etc.
-        // - Tournament entities: TournamentEntity, TournamentParticipantEntity
-        // - Statistics entities: ArrowEquipmentSnapshot, EquipmentStatsCache
+        // Individual equipment entities (11 entities)
+        Riser::class,
+        Stabilizer::class,
+        Plunger::class,
+        Rest::class,
+        Limbs::class,
+        Sight::class,
+        SightMark::class,
+        BowString::class,
+        Weight::class,
+        // Complex equipment entities
+        Arrow::class,
+        Accessory::class,
+        // Bow setup entities
+        BowSetup::class,
+        BowSetupEquipment::class
     ],
-    version = 36,  // Incremented from v35 for KMP migration
-    exportSchema = false // TODO: Enable schema export for production
+    version = 1,  // Initial KMP database version (independent of app database)
+    exportSchema = false
 )
-// TODO (Agent 2): Re-enable TypeConverters after entity migration
-// @TypeConverters(KmpConverters::class, MapConverter::class)
+@ConstructedBy(ArcheryKmpDatabaseConstructor::class)
+@TypeConverters(KmpConverters::class)
 abstract class ArcheryKmpDatabase : RoomDatabase() {
 
-    // Equipment DAOs (Week 11 Day 5-6)
-    // abstract fun riserDao(): RiserDao
-    // abstract fun limbsDao(): LimbsDao
-    // ... (commented out, ready for Agent 2)
+    // Individual equipment DAOs (11 DAOs implemented)
+    abstract fun riserDao(): RiserDao
+    abstract fun stabilizerDao(): StabilizerDao
+    abstract fun plungerDao(): PlungerDao
+    abstract fun restDao(): RestDao
+    abstract fun limbsDao(): LimbsDao
+    abstract fun sightDao(): SightDao
+    abstract fun bowStringDao(): BowStringDao
+    abstract fun weightDao(): WeightDao
+    // Complex equipment DAOs
+    abstract fun arrowDao(): ArrowDao
+    abstract fun accessoryDao(): AccessoryDao
+    // Bow setup DAO
+    abstract fun bowSetupDao(): BowSetupDao
 
     companion object {
         const val DATABASE_NAME = "archery_database"
@@ -98,18 +116,22 @@ Room KMP doesn't provide a cross-platform builder - you must implement expect/ac
 
 ### The Solution
 
-**Common (expect declaration):**
+**Common (interface + expect function):**
 ```kotlin
 // shared/database/src/commonMain/kotlin/DatabaseBuilder.kt
-expect object DatabaseBuilder {
-    fun buildDatabase(): ArcheryKmpDatabase
+interface DatabaseBuilder {
+    fun build(): ArcheryKmpDatabase
 }
+
+expect fun getDatabaseBuilder(): DatabaseBuilder
 ```
 
 **Android (actual implementation):**
 ```kotlin
 // shared/database/src/androidMain/kotlin/DatabaseBuilder.android.kt
-actual object DatabaseBuilder {
+actual fun getDatabaseBuilder(): DatabaseBuilder = AndroidDatabaseBuilder
+
+object AndroidDatabaseBuilder : DatabaseBuilder {
     @Volatile
     private var INSTANCE: ArcheryKmpDatabase? = null
 
@@ -120,7 +142,7 @@ actual object DatabaseBuilder {
         applicationContext = context.applicationContext
     }
 
-    actual fun buildDatabase(): ArcheryKmpDatabase {
+    override fun build(): ArcheryKmpDatabase {
         // Return test instance if set
         ArcheryKmpDatabase.TEST_INSTANCE?.let { return it }
 
@@ -200,39 +222,38 @@ class ArcheryApplication : Application() {
 
 ---
 
-## 3. KmpConverters - kotlinx.serialization Type Converters
+## 3. KmpConverters - Simple String-Based Type Converters
 
 ### The Challenge
 
-Room needs to convert complex types (enums, lists, objects) to/from SQLite primitives. The existing Android converters used Gson (Android-specific library).
+Room needs to convert complex types to/from SQLite primitives. Equipment entities primarily use primitive types (String, Float, Int, Long), so only minimal converters are needed.
 
 **Requirements:**
-- Must use kotlinx.serialization (KMP-compatible)
-- Must support all domain enums (Distance, TargetSize, ScoringSystem, MeasurementSystem, etc.)
-- Must support `List<Int>`, `List<String>` (colors)
-- Must support `SessionParticipant` serialization
-- Must support `Map<String, String>`
+- Must be KMP-compatible (no Android dependencies)
+- Must support `EquipmentType` enum
+- Must support `List<Int>` (for storing ID lists)
+- Must support `List<String>` (for storing colors, tags)
 
 ### The Solution
 
-Created `KmpConverters.kt` using kotlinx.serialization:
+Created `KmpConverters.kt` with simple string-based converters (66 lines, 3 converter types):
 
 ```kotlin
-// Shared Json instance for kotlinx.serialization
-private val json = Json {
-    ignoreUnknownKeys = true // Backward compatibility
-    encodeDefaults = true    // Include default values
-}
+package com.archeryapprentice.database.converters
+
+import androidx.room.TypeConverter
+import com.archeryapprentice.database.entities.equipment.EquipmentType
 
 class KmpConverters {
-    // Enum converters (example: Distance)
+
+    // EquipmentType enum converter
     @TypeConverter
-    fun fromDistance(distance: Distance): String = distance.name
+    fun fromEquipmentType(equipmentType: EquipmentType): String = equipmentType.name
 
     @TypeConverter
-    fun toDistance(value: String): Distance = enumValueOf(value)
+    fun toEquipmentType(value: String): EquipmentType = enumValueOf(value)
 
-    // List<Int> converter
+    // List<Int> converter (comma-separated)
     @TypeConverter
     fun fromIntList(value: List<Int>): String {
         return value.joinToString(separator = ",")
@@ -244,59 +265,32 @@ class KmpConverters {
         return value.split(",").map { it.trim().toInt() }
     }
 
-    // SessionParticipant list converter
+    // List<String> converter (comma-separated)
     @TypeConverter
-    fun fromSessionParticipantList(participants: List<SessionParticipant>?): String? {
-        if (participants.isNullOrEmpty()) return null
-        return try {
-            json.encodeToString(participants)
-        } catch (e: Exception) {
-            null
-        }
+    fun fromStringList(colors: List<String>): String {
+        return colors.joinToString(separator = ",")
     }
 
     @TypeConverter
-    fun toSessionParticipantList(jsonString: String?): List<SessionParticipant>? {
-        if (jsonString.isNullOrEmpty()) return null
-        return try {
-            json.decodeFromString<List<SessionParticipant>>(jsonString)
-        } catch (e: Exception) {
-            emptyList() // Backward compatibility
-        }
-    }
-}
-
-class MapConverter {
-    @TypeConverter
-    fun fromMap(map: Map<String, String>?): String {
-        return json.encodeToString(map ?: emptyMap())
-    }
-
-    @TypeConverter
-    fun toMap(jsonStr: String?): Map<String, String> {
-        return json.decodeFromString(jsonStr?.takeIf { it.isNotEmpty() } ?: "{}")
+    fun toStringList(value: String): List<String> {
+        if (value.isEmpty()) return emptyList()
+        return value.split(",").map { it.trim() }
     }
 }
 ```
 
-**Migration from Gson:**
+**Why Simple Converters?**
 
-| Old (Android-only) | New (KMP-compatible) |
-|---|---|
-| `import com.google.gson.Gson` | `import kotlinx.serialization.json.Json` |
-| `gson.toJson(value)` | `json.encodeToString(value)` |
-| `gson.fromJson(value, Type)` | `json.decodeFromString<T>(value)` |
-| Uses `android.util.Log` | Silent error handling |
-| `java.util.Date` conversions | `Long` timestamp conversions |
+Equipment entities use `@Embedded` for complex types and primitives for most fields, so heavy serialization (JSON, kotlinx.serialization) isn't needed. Simple comma-separated strings work perfectly for lists.
 
 **Benefits:**
 - ✅ Works on both Android and iOS
 - ✅ No Android dependencies
-- ✅ Type-safe serialization
-- ✅ Consistent with Week 9-10 entity serialization (Agent 2's work)
-- ✅ Backward compatibility maintained
+- ✅ No kotlinx.serialization dependency (simpler)
+- ✅ Minimal code (66 lines total)
+- ✅ Fast and efficient (no JSON parsing overhead)
 
-**Current Status**: Complete and ready to use. Temporarily disabled in ArcheryKmpDatabase due to KSP issues. Agent 2 will re-enable after entity migration.
+**Current Status**: Complete and enabled in ArcheryKmpDatabase with `@TypeConverters(KmpConverters::class)`
 
 ---
 
@@ -336,17 +330,17 @@ dependencies {
 
 ---
 
-### Issue 2: TypeConverters Temporarily Disabled
+### Issue 2: TypeConverters Enabled
 
-**Problem**: KmpConverters cause KSP errors in current configuration
+**Status**: ✅ RESOLVED
 
-**Workaround**: Commented out `@TypeConverters` annotation in ArcheryKmpDatabase
+**Previous Issue**: TypeConverters initially caused KSP errors
 
-**Resolution Steps for Agent 2:**
-1. Complete entity migration to shared:database
-2. Uncomment TypeConverters annotation
-3. Test build
-4. If errors persist, investigate specific type references
+**Resolution by Agent 2:**
+1. ✅ Completed entity migration to shared:database
+2. ✅ Re-enabled `@TypeConverters(KmpConverters::class)` annotation
+3. ✅ Build succeeds with TypeConverters enabled
+4. ✅ All 11 DAOs compile successfully
 
 **Status**: Non-blocking for Week 11 (entities don't use complex types yet)
 
@@ -367,6 +361,53 @@ e: Unresolved reference 'Volatile' in commonMain
 - Thread safety handled in platform-specific DatabaseBuilder (Android has `@Volatile` on INSTANCE)
 
 **Impact**: Minimal - TEST_INSTANCE is only used in tests, Android DatabaseBuilder still uses `@Volatile` correctly
+
+---
+
+### Issue 4: @ConstructedBy Required + Duplicate Files Gotcha
+
+**Status**: ✅ RESOLVED
+
+**Problem 1**: @ConstructedBy annotation is REQUIRED for Room KMP
+
+When targeting non-Android platforms, Room KMP requires the `@ConstructedBy` annotation:
+
+```kotlin
+@Database(entities = [...], version = 1)
+@ConstructedBy(ArcheryKmpDatabaseConstructor::class)  // REQUIRED for Room KMP!
+abstract class ArcheryKmpDatabase : RoomDatabase()
+```
+
+**Why Required?**
+- Room auto-generates `expect object ArcheryKmpDatabaseConstructor` implementations
+- Enables platform-specific database instantiation
+- Compiler enforces this for non-Android platforms
+
+**Problem 2**: Duplicate infrastructure files caused build errors
+
+**Root Cause:**
+- Old infrastructure files (`com/archeryapprentice/shared/database/`) coexisted with Agent 2's new structure (`com/archeryapprentice/database/`)
+- Room KSP processed BOTH packages, causing conflicting errors
+
+**Symptoms:**
+```
+e: [ksp] The @Database class must be annotated with @ConstructedBy...
+e: [ksp] actual object ArcheryKmpDatabaseConstructor has no corresponding expected declaration
+e: Redeclaration: class ArcheryKmpDatabase_Impl
+```
+
+**Resolution:**
+1. ✅ Removed old infrastructure files (`shared/database/src/.../shared/`)
+2. ✅ Kept Agent 2's new structure (`shared/database/src/.../database/`)
+3. ✅ @ConstructedBy annotation left in place (it's correct!)
+4. ✅ Build succeeds: `BUILD SUCCESSFUL in 23s`
+
+**Key Lesson**:
+- ✅ @ConstructedBy is NOT a bug - it's REQUIRED
+- ✅ Keep package structure clean (no duplicate database files)
+- ✅ kspCommonMainMetadata disabled to avoid redeclaration errors
+
+**Documented in**: PR #189 (duplicate files fix)
 
 ---
 
