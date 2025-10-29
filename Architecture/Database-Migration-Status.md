@@ -1,456 +1,426 @@
 # Database Migration Status
 
-**Last Updated:** 2025-10-26
-**Current Phase:** Week 6-7 COMPLETE - Planning & Pattern 3 Review ✅
-**Next Phase:** Week 8 (Service Migrations) → Week 9-10 (Entity Migrations)
+**Last Updated:** 2025-10-28
+**Current Phase:** Week 11 COMPLETE - Equipment DAO Migration to KMP ✅
+**Next Phase:** Week 12 (BowSetup DAO refinement + remaining DAOs)
 
 ---
 
 ## Executive Summary
 
-### Overall Progress: 58% Ahead of Schedule
+### Overall Progress: Week 11 Complete - Major Milestone Achieved! 🎉
 
-**Completed Phases:**
-- ✅ Week 2: Database abstraction research (completed Oct 18)
-- ✅ Week 4: Firebase analysis (completed Oct 21)
-- ✅ Week 5: Serialization & database planning (completed Oct 24)
-- ✅ Week 6: Entity migration execution plan (completed Oct 25)
-- ✅ Week 7: Pattern 3 PR review (completed Oct 26)
+**Migration Timeline:**
+- ✅ **Week 8:** Service migrations (Pattern 3)
+- ✅ **Week 9:** kotlinx.serialization migration (Agent 2 lead)
+- ✅ **Week 10:** Entity migrations (17 entities → shared:domain/database)
+- ✅ **Week 11:** Equipment DAO migration to KMP (11 DAOs + 13 entities)
+- 📋 **Week 12:** Remaining DAOs + refinement
 
-**Active Phase:**
-- 🚧 Week 8: Service migrations (Agent 1 lead)
+**Week 11 Achievements:**
+- ✅ 11 Equipment DAOs migrated to `shared:database` (Room KMP)
+- ✅ 13 Entities in KMP database (Riser, Stabilizer, Plunger, Rest, Limbs, Sight, SightMark, BowString, Weight, Arrow, Accessory, BowSetup, BowSetupEquipment)
+- ✅ ArcheryKmpDatabase v1 operational (Android)
+- ✅ DatabaseBuilder expect/actual pattern implemented
+- ✅ KmpConverters (simple string-based converters, 66 lines)
+- ✅ Build successful with Room KMP 2.8.1
 
-**Upcoming Phases:**
-- 📋 Week 9-10: Entity migrations (Agent 2 lead Days 1-3, then joint effort)
-
----
-
-## Current Status Dashboard
-
-### Entities: 22 Total
-
-| Status | Count | Details |
-|--------|-------|---------|
-| ✅ Migrated | 5 | In shared:domain |
-| 🎯 Ready to Migrate | 16 | KMP-ready (just need @Serializable) |
-| ⚠️ Needs Conversion | 1 | ArrowEquipmentSnapshot (java.util.Date → Long) |
-
-**Total Migration Effort:** ~6 hours for 17 entities
-
-### Serialization: kotlinx.serialization
-
-| Component | Status | Details |
-|-----------|--------|---------|
-| Plan | ✅ Complete | SERIALIZATION_MIGRATION_PLAN.md (890 lines) |
-| Execution | 📋 Scheduled | Week 9 Days 1-3 (Agent 2 lead) |
-| Estimated Effort | - | 3 days |
-
-### Database: Room KMP
-
-| Component | Status | Details |
-|-----------|--------|---------|
-| Platform Research | ✅ Complete | iOS SQLite driver selected |
-| Entity Analysis | ✅ Complete | 22 entities inventoried |
-| Execution Plan | ✅ Complete | DATABASE_MIGRATION_PLAN.md Section 7 |
-| Migration | 📋 Scheduled | Week 9-10 Days 4-10 |
-
-### Abstractions: Pattern 3 (Context Abstraction)
-
-| Component | Status | Details |
-|-----------|--------|---------|
-| Design | ✅ Complete | PR #152 (Agent 1) |
-| Review | ✅ Approved | 6-point review (EXCELLENT rating) |
-| Implementation | ✅ Merged | 12 files, 57 tests |
-| In Use | 🚧 Pending | Week 8 service migrations |
+**Infrastructure Status:**
+- 🟢 **shared:database** module fully operational
+- 🟢 **11 DAOs** working in KMP (equipment focus)
+- 🟡 **iOS support** stubbed (implementation Week 15+)
+- 🟢 **Android** fully migrated and tested
 
 ---
 
-## Week 6-7 Achievements
+## Week 11 Detailed Status
 
-### Week 6: Entity Migration Execution Plan (PR #150)
+### Equipment DAO Migration (11 DAOs) ✅
 
-**Deliverable:** DATABASE_MIGRATION_PLAN.md Section 7 (+789 lines, now 2,109 total)
+**Location:** `shared/database/src/commonMain/kotlin/com/archeryapprentice/database/dao/`
 
-**Key Components:**
-1. **Entity Inventory**
-   - Complete list of 22 entities
-   - 5 already migrated
-   - 17 to migrate in Week 9-10
+#### Individual Equipment DAOs (8 DAOs)
+1. ✅ **RiserDao** - Riser equipment CRUD
+2. ✅ **StabilizerDao** - Stabilizer equipment CRUD
+3. ✅ **PlungerDao** - Plunger equipment CRUD
+4. ✅ **RestDao** - Rest equipment CRUD
+5. ✅ **LimbsDao** - Limbs equipment CRUD
+6. ✅ **SightDao** - Sight equipment CRUD
+7. ✅ **BowStringDao** - BowString equipment CRUD
+8. ✅ **WeightDao** - Weight equipment CRUD
 
-2. **Migration Tracker Table**
-   - Android dependency analysis
-   - Complexity assessment
-   - Effort estimation
+#### Complex Equipment DAOs (2 DAOs)
+9. ✅ **ArrowDao** - Arrow equipment with embedded types
+10. ✅ **AccessoryDao** - Accessory equipment CRUD
 
-3. **Week 9-10 Daily Breakdown**
-   - Day 1-3: kotlinx.serialization (Agent 2 lead)
-   - Day 4-5: Simple entities (7 entities)
-   - Day 6-8: Medium entities (6 entities)
-   - Day 9-10: Complex entities (4 entities)
+#### Bow Setup DAO (1 DAO)
+11. ✅ **BowSetupDao** - Bow setup configuration management
 
-4. **Migration Patterns (4 documented)**
-   - Pattern 1: Simple entity (add @Serializable)
-   - Pattern 2: Date→Long conversion
-   - Pattern 3: Enum handling
-   - Pattern 4: Foreign key relationships
+**Migration Pattern Used:** Pattern 4 (DAO Migration)
+- Move DAO to shared:database commonMain
+- Update package declarations
+- Update entity imports
+- Test compilation
+- Commit
 
-5. **Testing Strategy**
-   - Incremental testing
-   - Daily smoke tests
-   - Comprehensive validation suite
-
-**Key Finding:** Only 1 entity (ArrowEquipmentSnapshot) needs Android dependency conversion!
-
-### Week 7: Pattern 3 PR Review (PR #152)
-
-**Deliverable:** Comprehensive 6-point review of Agent 1's Context Abstraction implementation
-
-**Review Results:**
-- ✅ Interface Design: EXCELLENT
-- ✅ Android Implementation: EXCELLENT
-- ✅ Test Fakes: EXCELLENT
-- ✅ Test Coverage: EXCELLENT (57 tests)
-- ✅ Build & Integration: EXCELLENT
-- ✅ Documentation: EXCELLENT
-
-**Outcome:** APPROVED for merge - Pattern 3 validated for Week 8 service migrations
+**Effort:** ~6 hours total (Agent 2 lead)
 
 ---
 
-## Entity Migration Details
+### Entity Migration (13 Entities) ✅
 
-### Already Migrated (5 entities)
-Location: `shared:domain/src/commonMain/kotlin/com/archeryapprentice/domain/models/`
+**Location:** `shared/database/src/commonMain/kotlin/com/archeryapprentice/database/entities/`
 
-1. `Archer.kt`
-2. `ArcherEquipmentSnapshot.kt`
-3. `Equipment.kt`
-4. `Tournament.kt`
-5. `TournamentParticipant.kt`
+#### Equipment Entities (11 entities)
+1. ✅ **Riser** - Bow riser
+2. ✅ **Stabilizer** - Stabilizer equipment
+3. ✅ **Plunger** - Plunger equipment
+4. ✅ **Rest** - Arrow rest
+5. ✅ **Limbs** - Bow limbs
+6. ✅ **Sight** - Sight equipment
+7. ✅ **SightMark** - Individual sight marks (embedded in Sight)
+8. ✅ **BowString** - Bow string
+9. ✅ **Weight** - Stabilizer weights
+10. ✅ **Arrow** - Arrow equipment (complex with ArrowNock, ArrowPoint embedded)
+11. ✅ **Accessory** - Miscellaneous accessories
 
-### To Migrate (17 entities)
+#### Bow Setup Entities (2 entities)
+12. ✅ **BowSetup** - Bow configuration
+13. ✅ **BowSetupEquipment** - Equipment assignments to bow setup
 
-#### Simple Entities (7) - ~2 hours total
-*Just add @Serializable annotation*
-
-1. `ActiveRoundCacheEntity` (4 fields)
-2. `BowEntity` (5 fields)
-3. `EquipmentCategoryEntity` (3 fields)
-4. `GroupEntity` (7 fields)
-5. `Riser` (4 fields)
-6. `Sight` (4 fields)
-7. `TournamentSettingsEntity` (11 fields)
-
-#### Medium Entities (6) - ~3 hours total
-*@Serializable + moderate complexity (enums, embedded objects)*
-
-1. `ArrowTypeEntity` (6 fields)
-2. `BowTypeEntity` (7 fields)
-3. `DistanceEntity` (5 fields, enum)
-4. `EndEntity` (10 fields)
-5. `GroupRoundEntity` (9 fields)
-6. `RoundEntity` (12 fields)
-
-#### Complex Entities (4) - ~1 hour total
-*@Serializable + complex relationships or conversions*
-
-1. `ArrowEquipmentSnapshot` (8 fields, **java.util.Date conversion**)
-2. `ParticipantEntity` (15+ fields, foreign keys)
-3. `ScoringSessionEntity` (8 fields, relationships)
-4. `TournamentEntity` (35+ fields, complex relationships)
-
-### Android Dependency Analysis
-
-**Only 1 entity needs conversion:**
-
-**ArrowEquipmentSnapshot.kt**
-- **File:** `app/src/main/java/com/archeryapprentice/data/models/ArrowEquipmentSnapshot.kt`
-- **Issue:** Uses `java.util.Date` at line 57
-- **Migration:**
-  ```kotlin
-  // Before
-  import java.util.Date
-  val capturedAt: Date = Date()
-
-  // After
-  val capturedAt: Long = System.currentTimeMillis()
-  ```
-- **Effort:** ~15 minutes (update model + tests)
-
-**All other entities:** KMP-ready (use Long, String, Int, Boolean, enums)
+**All entities:**
+- ✅ Annotated with `@Serializable` (kotlinx.serialization)
+- ✅ Room annotations preserved (`@Entity`, `@PrimaryKey`, `@Embedded`)
+- ✅ KMP-compatible (no Android dependencies)
 
 ---
 
-## Migration Patterns
+### Infrastructure Components ✅
 
-### Pattern 1: Simple Entity
-**Complexity:** Low
-**Effort:** ~15 minutes
-**Example:** Riser, Sight, BowEntity
+#### 1. ArcheryKmpDatabase
+**File:** `shared/database/src/commonMain/kotlin/com/archeryapprentice/database/ArcheryKmpDatabase.kt`
 
 ```kotlin
-// Before
-@Entity(tableName = "riser")
-data class Riser(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val name: String,
-    val manufacturer: String?,
-    val model: String?
+@Database(
+    entities = [
+        Riser::class, Stabilizer::class, Plunger::class, Rest::class,
+        Limbs::class, Sight::class, SightMark::class, BowString::class,
+        Weight::class, Arrow::class, Accessory::class,
+        BowSetup::class, BowSetupEquipment::class
+    ],
+    version = 1,
+    exportSchema = false
 )
-
-// After
-@Entity(tableName = "riser")
-@Serializable
-data class Riser(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val name: String,
-    val manufacturer: String?,
-    val model: String?
-)
-```
-
-### Pattern 2: Date → Long Conversion
-**Complexity:** Medium
-**Effort:** ~15 minutes
-**Example:** ArrowEquipmentSnapshot
-
-```kotlin
-// Before
-@Entity(tableName = "arrow_equipment_snapshot")
-data class ArrowEquipmentSnapshot(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val capturedAt: Date = Date()  // Android-only
-)
-
-// After
-@Entity(tableName = "arrow_equipment_snapshot")
-@Serializable
-data class ArrowEquipmentSnapshot(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val capturedAt: Long = System.currentTimeMillis()  // KMP-compatible
-)
-```
-
-### Pattern 3: Enum Handling
-**Complexity:** Medium
-**Effort:** ~30 minutes
-**Example:** DistanceEntity
-
-```kotlin
-// Before
-@Entity(tableName = "distance")
-data class DistanceEntity(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val unit: DistanceUnit  // Enum
-)
-
-enum class DistanceUnit {
-    METERS, YARDS
-}
-
-// After
-@Entity(tableName = "distance")
-@Serializable
-data class DistanceEntity(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val unit: DistanceUnit  // Enum (kotlinx.serialization handles automatically)
-)
-
-@Serializable
-enum class DistanceUnit {
-    METERS, YARDS
+@ConstructedBy(ArcheryKmpDatabaseConstructor::class)
+@TypeConverters(KmpConverters::class)
+abstract class ArcheryKmpDatabase : RoomDatabase() {
+    // 11 DAO accessors
+    abstract fun riserDao(): RiserDao
+    abstract fun stabilizerDao(): StabilizerDao
+    // ... (all 11 DAOs)
 }
 ```
 
-### Pattern 4: Foreign Key Relationships
-**Complexity:** Medium
-**Effort:** ~30 minutes
-**Example:** ParticipantEntity
+**Key Features:**
+- Version 1 (new independent KMP database)
+- @ConstructedBy required for Room KMP non-Android platforms
+- TypeConverters enabled
+- 11 DAO accessors functional
 
+#### 2. DatabaseBuilder (expect/actual)
+**Pattern:** `interface + expect fun` (not `expect object`)
+
+**Common:**
 ```kotlin
-// Before
-@Entity(
-    tableName = "participant",
-    foreignKeys = [
-        ForeignKey(
-            entity = TournamentEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["tournamentId"]
-        )
-    ]
-)
-data class ParticipantEntity(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val tournamentId: String
-)
+interface DatabaseBuilder {
+    fun build(): ArcheryKmpDatabase
+}
 
-// After
-@Entity(
-    tableName = "participant",
-    foreignKeys = [
-        ForeignKey(
-            entity = TournamentEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["tournamentId"]
-        )
-    ]
-)
-@Serializable
-data class ParticipantEntity(
-    @PrimaryKey val id: String = UUID.randomUUID().toString(),
-    val tournamentId: String  // Foreign keys work the same in Room KMP
-)
+expect fun getDatabaseBuilder(): DatabaseBuilder
+```
+
+**Android:**
+```kotlin
+actual fun getDatabaseBuilder(): DatabaseBuilder = AndroidDatabaseBuilder
+
+object AndroidDatabaseBuilder : DatabaseBuilder {
+    fun initialize(context: Context) { ... }
+    override fun build(): ArcheryKmpDatabase { ... }
+}
+```
+
+**iOS:** Stub (NotImplementedError until Week 15+)
+
+#### 3. KmpConverters
+**File:** `shared/database/src/commonMain/kotlin/com/archeryapprentice/database/converters/KmpConverters.kt`
+
+**Simple string-based converters (66 lines, 3 types):**
+- `EquipmentType` enum ↔ String
+- `List<Int>` ↔ comma-separated String
+- `List<String>` ↔ comma-separated String
+
+**Why simple?** Equipment entities use primitives + @Embedded types, so no heavy JSON serialization needed.
+
+---
+
+## Migration History (Week 2-11)
+
+### Week 2: Shared Domain Module ✅
+- Created `shared:domain` module
+- Migrated 5 core entities: Archer, ArcherEquipmentSnapshot, Equipment, Tournament, TournamentParticipant
+- Established KMP foundation
+
+### Week 4: Firebase Analysis ✅
+- Analyzed Firebase authentication patterns
+- Documented sync architecture
+- PR #145 merged
+
+### Week 5: Serialization & Database Planning ✅
+- Created serialization migration plan (890 lines)
+- Planned database migration strategy
+- PR #146 merged
+
+### Week 6-7: Entity Migration Planning ✅
+- DATABASE_MIGRATION_PLAN.md Section 7 (+789 lines)
+- Inventoried 22 entities
+- Pattern 3 (Context Abstraction) validated
+- PR #150, #152 merged
+
+### Week 8: Service Migrations ✅
+- Pattern 3 implementation complete
+- 4 platform abstractions: PreferenceStorage, ResourceProvider, FileSystemProvider, LoggingProvider
+- Services migrated to use abstractions
+- God class reduction: 6,798 → 4,891 lines (28%)
+
+### Week 9: kotlinx.serialization Migration ✅
+- Agent 2 lead (Days 1-3)
+- All entities annotated with @Serializable
+- Replaced Gson with kotlinx.serialization
+- ArrowEquipmentSnapshot Date→Long conversion
+
+### Week 10: Entity Migrations ✅
+- 17 entities migrated to shared:domain/database
+- Simple entities (7): ~2 hours
+- Medium entities (6): ~3 hours
+- Complex entities (4): ~1 hour
+- Comprehensive testing passed
+
+### Week 11: Equipment DAO Migration ✅
+- Days 1-2: Infrastructure (Agent 1 - ArcheryKmpDatabase, DatabaseBuilder, KmpConverters)
+- Days 3-7: DAO migration (Agent 2 - 11 DAOs)
+- Build fixes: Duplicate files cleanup, kspCommonMainMetadata disabled
+- Result: 11 DAOs + 13 entities in KMP database
+
+---
+
+## Remaining Work (Week 12+)
+
+### Week 12: Additional DAOs
+**Target:** 4-8 additional DAOs (medium complexity)
+- TournamentIdMappingDao
+- OfflineScoreQueueDao
+- EquipmentStatsDao
+- Statistics/cache DAOs
+
+**Effort:** ~4-6 hours
+
+### Week 13-14: High-Risk DAOs (Deferred)
+**Complex tournament/scoring DAOs:**
+- TournamentDao (high complexity, 15+ methods)
+- ScoringSessionDao (active development area)
+- HybridRoundDao (complex queries)
+
+**Strategy:** Defer until tournament refactoring complete
+
+### Week 15+: iOS Implementation
+- Implement iOS DatabaseBuilder
+- iOS database location (NSHomeDirectory)
+- iOS testing on simulator
+- Cross-platform validation
+
+---
+
+## Architecture Improvements
+
+### God Class Reduction Progress
+
+| Component | Before | After Week 11 | Reduction |
+|-----------|--------|---------------|-----------|
+| LiveScoringViewModel | 2,808 lines | 1,497 lines | 47% ✅ |
+| RoundViewModel | 2,177 lines | 1,581 lines | 27% 🟡 |
+| HybridTournamentRepository | N/A | 1,813 lines | New 🟡 |
+| **Total God Class Lines** | **6,798 lines** | **4,891 lines** | **28% ✅** |
+
+**Services Extracted:** 19 services (~4,400 lines)
+
+### Platform Abstractions (Pattern 3)
+
+**Complete (Week 8):**
+1. ✅ PreferenceStorage (SharedPreferences abstraction)
+2. ✅ ResourceProvider (Android Resources abstraction)
+3. ✅ FileSystemProvider (File I/O abstraction)
+4. ✅ LoggingProvider (android.util.Log abstraction)
+
+**Location:** `shared:common` module
+
+### Module Structure Evolution
+
+**Before KMP (Pre-Week 8):**
+- `app/` - Monolithic Android app (all code)
+
+**After KMP (Week 11):**
+```
+archery-agent-platform/
+├── app/                          # Android app (Compose UI)
+├── shared/
+│   ├── common/                   # Platform abstractions (Pattern 3)
+│   ├── domain/                   # Domain models, core entities
+│   ├── database/                 # Room KMP database (Week 11) ✅
+│   │   ├── commonMain/
+│   │   │   ├── dao/              # 11 DAOs migrated
+│   │   │   ├── entities/         # 13 entities
+│   │   │   └── converters/       # KmpConverters
+│   │   ├── androidMain/          # AndroidDatabaseBuilder
+│   │   └── iosMain/              # iOS stub
+│   ├── data/                     # Repositories, data sources
+│   ├── presentation/             # Shared presentation logic
+│   └── di/                       # Dependency injection
 ```
 
 ---
 
 ## Testing Strategy
 
-### Incremental Testing
-**After each entity migration:**
-1. Run DAO tests for that entity
-2. Verify serialization/deserialization
-3. Check database migrations still work
+### Week 11 Testing
+**DAO Tests:**
+- ✅ All 11 DAO tests passing
+- ✅ CRUD operations verified
+- ✅ Complex queries tested
 
-**Commands:**
+**Repository Tests:**
+- ✅ Equipment repository tests updated
+- ✅ Hybrid repository tests passing
+
+**Build Verification:**
 ```bash
-# Test specific entity DAO
-./gradlew :app:testDebugUnitTest --tests="*RiserDao*"
-
-# Test all DAOs
-./gradlew :app:testDebugUnitTest --tests="*Dao*"
+./gradlew :shared:database:build
+# Result: BUILD SUCCESSFUL
 ```
 
-### Daily Smoke Tests
-**End of each day:**
-1. Run all repository tests
-2. Run all ViewModel tests that use migrated entities
-3. Check database performance tests
+### Comprehensive Testing (Week 10-11)
+- ✅ Full test suite: 2051+ tests passing
+- ✅ E2E tests: TournamentLifecycleE2ETest
+- ✅ Database performance tests
+- ✅ Migration tests
 
-**Commands:**
-```bash
-# Repository layer
-./gradlew :app:testDebugUnitTest --tests="*Repository*"
+---
 
-# ViewModel layer
-./gradlew :app:testDebugUnitTest --tests="*ViewModel*"
+## Known Issues & Resolutions
 
-# Performance
-./gradlew :app:testDebugUnitTest --tests="*DatabasePerformanceTest*"
-```
+### Issue 1: kspCommonMainMetadata ✅ RESOLVED
+**Problem:** Room KMP 2.8.1 generates duplicate implementations
 
-### Comprehensive Validation
-**End of Week 10:**
-1. Full test suite (all 2051+ tests)
-2. Database migration tests (version 1 → latest)
-3. E2E tests (TournamentLifecycleE2ETest)
-4. Build verification
+**Resolution:** Disabled kspCommonMainMetadata in build.gradle.kts
+- Android KSP works correctly
+- iOS KSP deferred to Week 15+
 
-**Commands:**
-```bash
-# All tests
-./gradlew testDebugUnitTest
+### Issue 2: @ConstructedBy Required ✅ DOCUMENTED
+**Status:** REQUIRED for Room KMP non-Android platforms
 
-# E2E tests (instrumented)
-./gradlew :app:connectedAndroidTest "-Pandroid.testInstrumentationRunnerArguments.class=com.archeryapprentice.e2e.TournamentLifecycleE2ETest"
+Room auto-generates `expect object ArcheryKmpDatabaseConstructor` - annotation must be present.
 
-# Build
-./gradlew build
-```
+### Issue 3: Duplicate Infrastructure Files ✅ RESOLVED
+**Problem:** Old infrastructure (`com/archeryapprentice/shared/database/`) conflicted with new structure
+
+**Resolution:** Removed old files, kept new structure (`com/archeryapprentice/database/`)
 
 ---
 
 ## Risk Assessment
 
 ### Low Risk ✅
-- **16/17 entities KMP-ready:** Just need @Serializable annotation
-- **Pattern 3 validated:** Context abstractions proven in PR #152
-- **Incremental approach:** Test each entity after migration
+- Equipment DAOs: Simple CRUD, well-tested
+- Pattern 4 migration: Proven workflow
+- KMP infrastructure: Stable and operational
 
 ### Medium Risk ⚠️
-- **Database migration paths:** Need to ensure existing users can upgrade
-  - Mitigation: Comprehensive migration tests
-  - Mitigation: Test migrations from v1 to latest version
+- **iOS database implementation:** Not yet started (Week 15+)
+  - Mitigation: Stub in place, clear implementation path
 
-- **iOS database location:** SQLite driver selected, but not yet implemented
-  - Mitigation: Week 9 implementation with Agent 1
-  - Mitigation: Early testing on iOS simulator
+- **Remaining DAOs:** Medium-high complexity
+  - Mitigation: Incremental approach, thorough testing
 
 ### Controlled Risk 🔧
-- **ArrowEquipmentSnapshot conversion:** Date → Long requires data migration
-  - Mitigation: Database migration script provided in plan
-  - Mitigation: Test with sample data first
-
----
-
-## Week 9-10 Timeline
-
-### Week 9 (Agent 2 Lead Days 1-3)
-
-**Days 1-3: kotlinx.serialization Migration**
-- Add @Serializable to all entities
-- Update entity tests
-- Verify compilation
-- Agent 2 lead, Agent 1 support
-
-**Days 4-5: Simple Entities**
-- Migrate 7 simple entities
-- Estimated: 2 hours
-- Joint effort (Agent 1 + Agent 2)
-
-### Week 10
-
-**Days 6-8: Medium Entities**
-- Migrate 6 medium entities
-- Estimated: 3 hours
-- Joint effort (Agent 1 + Agent 2)
-
-**Days 9-10: Complex Entities + Validation**
-- Migrate 4 complex entities (including ArrowEquipmentSnapshot)
-- Estimated: 1 hour migration
-- Comprehensive testing: 2-3 hours
-- Joint effort (Agent 1 + Agent 2)
-
-**Total Estimated Effort:** ~6 hours migration + 2-3 hours testing = 8-9 hours
+- **kspCommonMainMetadata disabled:** Temporary workaround
+  - Mitigation: Monitor Room KMP updates, re-enable when fixed
 
 ---
 
 ## Documentation Reference
 
 ### Main Repository Files
-- `docs/kmp-migration/DATABASE_MIGRATION_PLAN.md` (2,109 lines)
-  - Section 7: Phase 1 Entity Migration Execution Plan
-- `docs/kmp-migration/SERIALIZATION_MIGRATION_PLAN.md` (890 lines)
-- `docs/AGENT_CONTEXTS/AGENT_2_AAM.md`
+- `docs/kmp-migration/DATABASE_MIGRATION_PLAN.md` (2,109+ lines)
+- `docs/kmp-migration/WEEK_11_INFRASTRUCTURE_HANDOFF.md` (1,968 lines)
+- `docs/kmp-migration/PATTERN_4_DAO_MIGRATION_WORKFLOW.md`
+- `docs/AGENT_CONTEXTS/AGENT_1_AAP.md` (Platform architecture)
+- `docs/AGENT_CONTEXTS/AGENT_2_AAM.md` (Modules & data layer)
 
 ### Obsidian Vault Files
-- `projects/kmp-migration/Week 6-7 Database Planning.md`
+- `content/Agent-Work/Agent-1-AAP-Week-11-Infrastructure.md` (Week 11 vault entry)
 - `Architecture/Database-Migration-Status.md` (this file)
+- `Architecture/expect-actual-Pattern.md` (DatabaseBuilder case study)
+- `Architecture/Pre-KMP-Architecture-State.md` (Week 10 snapshot)
 
 ### Related PRs
-- PR #145: Week 4 Firebase analysis (merged)
-- PR #146: Week 5 serialization & database plans (merged)
-- PR #150: Week 6 entity migration plan (merged)
-- PR #152: Week 7 Pattern 3 review (merged)
+- PR #187: Week 11 Equipment DAO Migration (Agent 2)
+- PR #188: kotlinx-datetime dependency fix (Agent 1)
+- PR #189: Duplicate files + kspCommonMainMetadata fix (Agent 1)
 
 ---
 
 ## Next Actions
 
-### Immediate (Week 8)
-- 🚧 Agent 1 implements service migrations using Pattern 3
-- 🚧 Agent 2 provides review support as needed
+### Immediate (Week 12)
+- 📋 Migrate 4-8 additional DAOs (medium complexity)
+- 📋 BowSetup DAO refinement (if needed)
+- 📋 Repository updates for new DAOs
 
-### Week 9 (Starting ~Oct 28)
-- 📋 Agent 2 leads kotlinx.serialization migration (Days 1-3)
-- 📋 Joint entity migration begins (Days 4-5)
+### Week 13-14
+- 📋 High-risk DAO evaluation
+- 📋 Tournament refactoring planning
+- 📋 Statistics DAO migration
 
-### Week 10 (Starting ~Nov 4)
-- 📋 Complete remaining entity migrations
-- 📋 Comprehensive testing and validation
-- 📋 Database migration verification
+### Week 15+
+- 📋 iOS DatabaseBuilder implementation
+- 📋 iOS testing and validation
+- 📋 Cross-platform E2E tests
 
 ---
 
-*Last Updated: 2025-10-26*
-*Status: Week 6-7 COMPLETE ✅ | Week 8 IN PROGRESS 🚧*
+## Migration Lessons Learned
+
+### What Worked Well ✅
+1. **Incremental approach:** Week-by-week migration reduced risk
+2. **Pattern 4 workflow:** Clear, repeatable DAO migration process
+3. **Infrastructure first:** DatabaseBuilder/KmpConverters built before DAOs
+4. **Agent specialization:** Agent 1 (architecture) + Agent 2 (data layer) effective
+5. **Thorough testing:** Caught issues early
+
+### Challenges Overcome 💪
+1. **Room KMP limitations:** kspCommonMainMetadata disabled, Android-only for now
+2. **@ConstructedBy confusion:** Documented as REQUIRED pattern
+3. **Duplicate files:** Package structure cleanup needed
+4. **Build configuration:** KSP task dependencies resolved
+
+### Recommendations for Week 12+ 📝
+1. Continue Pattern 4 for remaining DAOs
+2. Test each DAO migration individually
+3. Monitor Room KMP updates for kspCommonMainMetadata fix
+4. Plan iOS implementation early (Week 15)
+5. Consider DAO complexity before migration (defer high-risk)
+
+---
+
+*Last Updated: 2025-10-28*
+*Status: Week 11 COMPLETE ✅ | Week 12 READY 📋*
+*Migration Progress: 11 DAOs + 13 Entities in KMP Database*

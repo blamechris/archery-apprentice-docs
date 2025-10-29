@@ -5,20 +5,25 @@ tags:
   - system-design
   - mvvm
   - patterns
+  - kmp
+  - kotlin-multiplatform
 created: 2025-10-08
 source: docs/architecture/ARCHITECTURE.md
-version: 1.0
-last-updated: 2025-01
+version: 2.0
+last-updated: 2025-10-28
 ---
 
 # Archery Apprentice - System Architecture
 
-> **Note:** This is a condensed reference version. Full documentation available at `docs/architecture/ARCHITECTURE.md` (1,009 lines)
+> **Note:** This is a condensed reference version. Full documentation available at `docs/architecture/ARCHITECTURE.md`
+
+> **KMP Migration:** As of Week 11 (Oct 2025), the app is transitioning to Kotlin Multiplatform. See [[Architecture/KMP-Migration-Architecture]] for detailed migration architecture.
 
 ## Table of Contents
 - [System Overview](#system-overview)
 - [Technology Stack](#technology-stack)
 - [Architecture Patterns](#architecture-patterns)
+- [KMP Module Structure](#kmp-module-structure-week-11)
 - [Module Structure](#module-structure)
 - [Data Layer](#data-layer)
 - [Domain Layer](#domain-layer)
@@ -26,6 +31,7 @@ last-updated: 2025-01
 - [Performance](#performance-considerations)
 - [Testing Strategy](#testing-strategy)
 - [Technical Debt](#known-issues--technical-debt)
+- [Migration Status](#migration-status)
 
 ---
 
@@ -160,6 +166,109 @@ class RepositoryFactory(context: Context) {
     }
 }
 ```
+
+---
+
+## KMP Module Structure (Week 11)
+
+As of **Week 11 (Oct 2025)**, the application is transitioning to Kotlin Multiplatform to support iOS alongside Android. The migration introduces 6 new shared modules that enable cross-platform code reuse while maintaining platform-specific optimizations.
+
+### Shared Modules Overview
+
+```mermaid
+graph TB
+    subgraph "Shared Modules (KMP)"
+        COMMON[shared:common<br/>Platform Abstractions]
+        DOMAIN[shared:domain<br/>Domain Models]
+        DATABASE[shared:database<br/>Room KMP]
+        DATA[shared:data<br/>Repositories]
+        PRESENTATION[shared:presentation<br/>UI Logic]
+        DI[shared:di<br/>Dependency Injection]
+    end
+
+    subgraph "Platform Apps"
+        ANDROID[app - Android]
+        IOS[iosApp - iOS]
+    end
+
+    ANDROID --> COMMON
+    ANDROID --> DOMAIN
+    ANDROID --> DATABASE
+    ANDROID --> DATA
+    ANDROID --> PRESENTATION
+    ANDROID --> DI
+
+    IOS --> COMMON
+    IOS --> DOMAIN
+    IOS --> DATABASE
+    IOS --> DATA
+    IOS --> PRESENTATION
+    IOS --> DI
+
+    DATA --> DATABASE
+    DATA --> DOMAIN
+    DATABASE --> DOMAIN
+    DATABASE --> COMMON
+    PRESENTATION --> DATA
+```
+
+### Module Responsibilities
+
+| Module | Status | Purpose | Key Components |
+|--------|--------|---------|----------------|
+| **shared:common** | ✅ Complete | Platform abstractions (Pattern 3) | PreferenceStorage, ResourceProvider, FileSystemProvider, LoggingProvider |
+| **shared:domain** | ✅ Complete | Domain models and entities | Core business entities (5 migrated Week 2) |
+| **shared:database** | ✅ Complete | Room KMP database layer | ArcheryKmpDatabase, 11 DAOs, 13 entities, KmpConverters |
+| **shared:data** | 🟡 Partial | Repository implementations | Currently using Android repositories, KMP migration in progress |
+| **shared:presentation** | 🟡 Partial | Shared UI logic | Planned for future KMP migration |
+| **shared:di** | 🟡 Partial | Dependency injection | Planned for KMP DI framework |
+
+### Week 11 Milestone: Equipment DAO Migration
+
+The **shared:database** module achieved a major milestone in Week 11:
+
+- ✅ **11 DAOs migrated** to Room KMP (RiserDao, StabilizerDao, PlungerDao, RestDao, LimbsDao, SightDao, BowStringDao, WeightDao, ArrowDao, AccessoryDao, BowSetupDao)
+- ✅ **13 entities** in KMP database (Riser, Stabilizer, Plunger, Rest, Limbs, Sight, SightMark, BowString, Weight, Arrow, Accessory, BowSetup, BowSetupEquipment)
+- ✅ **ArcheryKmpDatabase v1** operational with Room KMP 2.8.1
+- ✅ **DatabaseBuilder** expect/actual pattern implemented
+- ✅ **KmpConverters** for type conversion (simple string-based converters)
+
+**Module Structure:**
+```
+shared/database/
+├── commonMain/
+│   ├── dao/                              # 11 DAOs
+│   │   ├── RiserDao.kt
+│   │   ├── StabilizerDao.kt
+│   │   ├── PlungerDao.kt
+│   │   └── ... (8 more DAOs)
+│   ├── entities/                         # 13 entities
+│   │   ├── Riser.kt
+│   │   ├── Stabilizer.kt
+│   │   └── ... (11 more entities)
+│   ├── converters/
+│   │   └── KmpConverters.kt             # Type converters
+│   └── ArcheryKmpDatabase.kt            # Database definition
+├── androidMain/
+│   └── DatabaseBuilder.android.kt       # Android implementation
+└── iosMain/
+    └── DatabaseBuilder.ios.kt           # iOS stub (Week 15+)
+```
+
+### Migration Patterns
+
+The KMP migration uses 5 established patterns:
+
+1. **Pattern 1**: Entity Migration (17 entities migrated Week 10)
+2. **Pattern 2**: Service Migration (19 services extracted Week 8)
+3. **Pattern 3**: Context Abstraction (4 platform abstractions completed Week 8)
+4. **Pattern 4**: DAO Migration (11 DAOs migrated Week 11)
+5. **Pattern 5**: Repository Migration (planned for Week 12+)
+
+**See Also:**
+- [[Architecture/KMP-Migration-Architecture|Comprehensive KMP Migration Guide]] - Full migration architecture details
+- [[Architecture/Database-Migration-Status|Database Migration Status]] - Week-by-week progress tracking
+- [[Architecture/expect-actual-Pattern|expect/actual Pattern Guide]] - DatabaseBuilder case study
 
 ---
 
@@ -623,14 +732,99 @@ See [[Architecture/LiveScoringVM-Analysis]] for detailed extraction plan.
 
 ---
 
-*Last Updated: January 2025*
-*Document Version: 1.0*
+## Migration Status
+
+### KMP Migration Progress (Week 2-11)
+
+The application is undergoing a **major architectural transformation** from Android-only to Kotlin Multiplatform to support iOS. As of Week 11, significant progress has been made:
+
+#### Timeline Overview
+
+| Week | Phase | Status | Achievements |
+|------|-------|--------|--------------|
+| **Week 2** | Shared Domain Foundation | ✅ Complete | Created shared:domain module, migrated 5 core entities |
+| **Week 4** | Firebase Analysis | ✅ Complete | Analyzed Firebase patterns, documented sync architecture |
+| **Week 5** | Planning | ✅ Complete | Created serialization migration plan (890 lines) |
+| **Week 6-7** | Entity Planning | ✅ Complete | Inventoried 22 entities, validated Pattern 3 |
+| **Week 8** | Service Migrations | ✅ Complete | Pattern 3 implemented, 4 platform abstractions, 19 services extracted |
+| **Week 9** | kotlinx.serialization | ✅ Complete | All entities @Serializable, replaced Gson |
+| **Week 10** | Entity Migrations | ✅ Complete | 17 entities migrated to shared:domain/database |
+| **Week 11** | Equipment DAOs | ✅ Complete | 11 DAOs + 13 entities in Room KMP, ArcheryKmpDatabase v1 |
+| **Week 12** | Additional DAOs | 📋 Planned | 4-8 medium-complexity DAOs |
+| **Week 13-14** | High-Risk DAOs | 📋 Deferred | Tournament/scoring DAOs |
+| **Week 15+** | iOS Implementation | 📋 Planned | iOS DatabaseBuilder, cross-platform testing |
+
+#### Current Status: Week 11 Complete
+
+**Major Milestone Achieved:** Equipment DAO migration to Room KMP completed successfully!
+
+**Infrastructure Operational:**
+- 🟢 **shared:database** module fully operational with Room KMP 2.8.1
+- 🟢 **11 DAOs** migrated (equipment focus)
+- 🟢 **13 entities** in KMP database
+- 🟢 **ArcheryKmpDatabase v1** operational on Android
+- 🟡 **iOS support** stubbed (implementation Week 15+)
+
+**God Class Reduction Progress:**
+
+| Component | Before | After Week 11 | Reduction |
+|-----------|--------|---------------|-----------|
+| LiveScoringViewModel | 2,808 lines | 1,497 lines | 47% ✅ |
+| RoundViewModel | 2,177 lines | 1,581 lines | 27% 🟡 |
+| HybridTournamentRepository | N/A | 1,813 lines | New 🟡 |
+| **Total God Class Lines** | **6,798 lines** | **4,891 lines** | **28% ✅** |
+
+**Services Extracted:** 19 services (~4,400 lines) moved to shared modules
+
+#### Next Steps
+
+**Week 12 (Immediate):**
+- Migrate 4-8 additional DAOs (medium complexity)
+- Repository updates for new DAOs
+- Continue god class reduction
+
+**Week 15+ (iOS Support):**
+- Implement iOS DatabaseBuilder
+- iOS database location configuration
+- Cross-platform E2E testing
+
+### Related Migration Documentation
+
+Comprehensive migration documentation available:
+
+- **[[Architecture/KMP-Migration-Architecture|KMP Migration Architecture]]** (1,100+ lines) - Complete migration reference with:
+  - Executive summary and timeline
+  - Architecture transformation (before/after)
+  - 6 Shared module documentation
+  - 5 Migration patterns
+  - Week-by-week progress
+  - Testing strategy
+  - Known issues & solutions
+  - Future roadmap
+
+- **[[Architecture/Database-Migration-Status|Database Migration Status]]** (427 lines) - Week-by-week tracking:
+  - Week 2-11 detailed achievements
+  - Infrastructure components
+  - Migration history
+  - Remaining work
+  - Lessons learned
+  - Risk assessment
+
+- **[[Architecture/expect-actual-Pattern|expect/actual Pattern Guide]]** - DatabaseBuilder case study
+- **[[Architecture/Pre-KMP-Architecture-State|Pre-KMP Architecture State]]** - Week 10 snapshot
+
+---
+
+*Last Updated: 2025-10-28*
+*Document Version: 2.0 (KMP Migration Updates)*
 
 ## Related Documentation
 
 - [[Architecture/MVVM-Patterns|MVVM Patterns]]
 - [[Architecture/Technical-Debt|Technical Debt Master Document]]
 - [[Architecture/LiveScoringVM-Analysis|LiveScoringVM Critical Analysis]]
+- [[Architecture/KMP-Migration-Architecture|KMP Migration Architecture]] ⭐
+- [[Architecture/Database-Migration-Status|Database Migration Status]] ⭐
 - [[Testing/Test-Coverage-Guide|Test Coverage Guide]]
 - [[Features/Equipment-Statistics|Equipment Statistics]]
 - [[Project-Overview/README|Project Overview]]
