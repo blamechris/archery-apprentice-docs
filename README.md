@@ -1,12 +1,47 @@
 # Archery Apprentice Documentation
 
-This repository contains the Obsidian vault for Archery Apprentice project documentation, deployed as a static site using [Quartz](https://quartz.jzhao.xyz/).
+Professional documentation for the Archery Apprentice Android archery scoring application.
 
 **Live Site:** https://blamechris.github.io/archery-apprentice-docs/
 
 ---
 
-## Quick Start
+## 📚 Documentation
+
+### For Users
+
+Complete guides for using Archery Apprentice:
+
+- **[User Guide](docs/user-guide/)** - App usage, features, and tutorials
+  - Getting started
+  - Feature guides (scoring, equipment, analytics, sync)
+  - How-to guides for common tasks
+  - Troubleshooting
+
+### For Developers
+
+Technical documentation for contributors:
+
+- **[Developer Guide](docs/developer-guide/)** - Architecture, setup, and contributing
+  - Development setup
+  - Architecture overview (MVVM, Repository pattern, Room)
+  - API reference (Repositories, ViewModels, DAOs)
+  - Testing guides
+  - CI/CD documentation
+
+### Internal
+
+Project management and coordination:
+
+- **[Internal Documentation](docs/internal/)** - Agent coordination & KMP migration
+  - KMP migration tracking (Weeks 1-12+)
+  - Agent reports and coordination
+  - Retrospectives and lessons learned
+  - Experiments and analysis
+
+---
+
+## 🚀 Quick Start
 
 ### Local Development
 
