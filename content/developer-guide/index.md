@@ -10,9 +10,9 @@ Welcome to the Archery Apprentice Developer Guide! This section contains technic
 
 New to the codebase? Start here:
 
-- **[Development Setup](setup.md)** - Set up your development environment (Coming soon)
-- **[Project Structure](architecture/overview.md)** - Understand the codebase organization (Coming soon)
-- **[Contributing](contributing.md)** - How to contribute to the project (Coming soon)
+- **[[getting-started|Getting Started Guide]]** - Complete setup and onboarding guide ✨ NEW
+- **[[architecture/system-architecture|System Architecture]]** - Understand the codebase organization
+- **[[contributing/index|Contributing]]** - How to contribute to the project
 
 ---
 
@@ -62,22 +62,21 @@ Step-by-step guides for common development tasks:
 
 ## API Reference
 
-Technical reference for key components:
+Technical reference for key components: ✨ NEW SECTION
 
-### Repositories
-- **[Equipment Repository](api-reference/repositories/equipment.md)** (Coming soon)
-- **[Scoring Repository](api-reference/repositories/scoring.md)** (Coming soon)
-- **[Tournament Repository](api-reference/repositories/tournament.md)** (Coming soon)
+**[[technical-reference/api/index|📚 Complete API Reference →]]**
 
-### ViewModels
-- **[ViewModel API Reference](api-reference/viewmodels/)** (Coming soon)
+Quick links:
+- **[[technical-reference/api/viewmodels/index|ViewModels]]** - UI state management (21 ViewModels)
+- **[[technical-reference/api/repositories/index|Repositories]]** - Data access layer (17 Repositories)
+- **[[technical-reference/api/services/index|Services]]** - Business logic services (19 Services)
+- **[[technical-reference/api/daos/index|DAOs]]** - Database access objects (15 DAOs)
 
-### Data Models
-- **[Entity Schemas](api-reference/entities/)** (Coming soon)
-- **[DTOs](api-reference/dtos/)** (Coming soon)
-
-### Services
-- **[Service Layer API](api-reference/services/)** (Coming soon)
+**Top documented components:**
+- [[technical-reference/api/viewmodels/live-scoring-view-model|LiveScoringViewModel]]
+- [[technical-reference/api/viewmodels/round-view-model|RoundViewModel]]
+- [[technical-reference/api/services/end-completion-service|EndCompletionService]]
+- [[technical-reference/api/services/tournament-sync-service|TournamentSyncService]]
 
 ---
 
