@@ -1,0 +1,449 @@
+================================================================================
+Documentation Migration Validation Report
+================================================================================
+Generated: 2025-10-29 20:28:20
+
+Summary:
+  Total files validated: 51
+  ✅ Valid files: 0
+  ❌ Files with errors: 51
+  Total errors: 197
+  Total warnings: 55
+
+Frontmatter Statistics:
+  New-style frontmatter: 21/51 (41.2%)
+  Old-style frontmatter: 33/51 (64.7%)
+  No frontmatter: 18/51
+
+Breadcrumb Statistics:
+  Has breadcrumb: 12/51
+  Valid breadcrumb: 9/51
+
+================================================================================
+Files with Issues:
+================================================================================
+
+❌ Development\Contributing-Guide.md
+   Errors: 7, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [BREADCRUMB] No breadcrumb navigation found (should start with '[Home](/) >')
+
+❌ Development\Contributing.md
+   Errors: 10, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ❌ [BREADCRUMB] No breadcrumb navigation found (should start with '[Home](/) >')
+
+❌ Development\Hybrid Runner Implementation Guide.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\Improvement-Tickets.md
+   Errors: 10, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ❌ [BREADCRUMB] No breadcrumb navigation found (should start with '[Home](/) >')
+
+❌ Meta\Infrastructure-Setup-Complete.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Meta\Phase-2-Content-Audit.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Meta\Phase-2-Summary.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Meta\Phase-2A-Migration-Report.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Technical-Reference\Flows\System-Flows\Data-Sync-Flow.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+
+❌ Technical-Reference\Flows\System-Flows\Equipment-Management-End-to-End-Flow.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+
+❌ Technical-Reference\Flows\System-Flows\Round-Lifecycle-Flow.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+
+❌ Technical-Reference\Flows\System-Flows\Scoring-Flow.md
+   Errors: 7, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Technical-Reference\Flows\System-Flows\Service-Architecture.md
+   Errors: 10, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Technical-Reference\Flows\System-Flows\Service-Migration-Flow.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+
+❌ Meta\Templates\ADR-Template.md
+   Errors: 3, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [BREADCRUMB] No breadcrumb navigation found (should start with '[Home](/) >')
+
+❌ Meta\Templates\API-Reference-Template.md
+   Errors: 1, Warnings: 3
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [BREADCRUMB] (line 2) Breadcrumb may be malformed - last segment: '[Component Name]'
+   ⚠️ [BREADCRUMB] (line 2) Breadcrumb may not match file path - expected 'Meta' in breadcrumb
+
+❌ Meta\Templates\Developer-Guide-Template.md
+   Errors: 1, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ⚠️ [BREADCRUMB] (line 2) Breadcrumb may be malformed - last segment: '[Guide Title]'
+   ⚠️ [BREADCRUMB] (line 2) Breadcrumb may not match file path - expected 'Meta' in breadcrumb
+
+❌ Meta\Templates\Feature-Doc-Template.md
+   Errors: 1, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ⚠️ [BREADCRUMB] (line 2) Breadcrumb may be malformed - last segment: '[Feature Name]'
+   ⚠️ [BREADCRUMB] (line 2) Breadcrumb may not match file path - expected 'Meta' in breadcrumb
+
+❌ Development\CI-CD\Branch-Protection.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\CI-CD\Hybrid-Runner-System.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\CI-CD\Maintenance-Tasks.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\CI-CD\Troubleshooting-Guide.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\CI-CD\Workflows-Overview.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\Sessions\2025-10-08-Session.md
+   Errors: 6, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [BREADCRUMB] No breadcrumb navigation found (should start with '[Home](/) >')
+
+❌ Development\Sessions\2025-10-09-test-coverage-lifecycle-fixes.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\Sessions\2025-10-10-tournamentroundlifecycle-extraction.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\Sessions\2025-10-11-daily-journal.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\Sessions\2025-10-13-Test-Quality-Improvements.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\Sessions\2025-10-15-Multi-Participant-Ranking-Display.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\Sessions\2025-10-16-Settings-Test-Coverage-Enhancement.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\Sessions\Tournament Settings and Display Names Fix.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+❌ Development\Testing\Adapter-Migration-Guide.md
+   Errors: 9, Warnings: 3
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ⚠️ [FRONTMATTER] Unusual status value: 'reference' (valid: active, draft, archived, deprecated)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Testing\Cache-Testing-Guide.md
+   Errors: 10, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Testing\Coverage-Guide.md
+   Errors: 8, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Testing\Test-Coverage-Guide.md
+   Errors: 7, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Testing\Test-Coverage-State-Week-10.md
+   Errors: 8, Warnings: 3
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ⚠️ [FRONTMATTER] Unusual status value: 'current' (valid: active, draft, archived, deprecated)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Testing\Test-Coverage-Strategy.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+
+❌ Development\Testing\Test-Failure-Analysis.md
+   Errors: 9, Warnings: 3
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ⚠️ [FRONTMATTER] Unusual status value: 'resolved' (valid: active, draft, archived, deprecated)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Testing\Test-Quality-Standards.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+
+❌ Development\Testing\Tournament-Test-Guide.md
+   Errors: 10, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Testing\Tournament-Testing-Checklist.md
+   Errors: 10, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Guides\Best-Practices\Firebase Auth State Loss Across Coroutines.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+
+❌ Development\Guides\Best-Practices\Migration Testing - Unit Tests vs Instrumented Tests.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+
+❌ Development\Guides\Best-Practices\Multi-Participant Ranking and Tie-Breaking.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+
+❌ Development\Guides\Working-With\Firebase-Firebase-Integration-Plan.md
+   Errors: 6, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Guides\Working-With\Firebase-Firebase-Overview.md
+   Errors: 10, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ❌ [FRONTMATTER] Missing required field: 'status'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Guides\Working-With\Firebase-Firebase-Security-Rules.md
+   Errors: 9, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'title'
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [FRONTMATTER] Found old Obsidian field: 'related' (should be removed or converted)
+   ❌ [FRONTMATTER] Found Obsidian-style wikilinks [[...]] (should use 'related_docs' array)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Guides\Working-With\Firebase-Firebase-Setup.md
+   Errors: 6, Warnings: 4
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ⚠️ [FRONTMATTER] Unusual status value: 'current' (valid: active, draft, archived, deprecated)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+   ⚠️ [STRUCTURE] Multiple H1 headings found (3) - should have exactly 1
+
+❌ Development\Guides\Working-With\Firebase-Tournament-Discovery.md
+   Errors: 6, Warnings: 2
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\Guides\Working-With\Firebase-Tournament-UI-Plan.md
+   Errors: 6, Warnings: 3
+   ❌ [FRONTMATTER] Found old Obsidian-style frontmatter (needs migration)
+   ❌ [FRONTMATTER] Missing required field: 'description'
+   ❌ [FRONTMATTER] Missing required field: 'category'
+   ❌ [FRONTMATTER] Missing required field: 'audience'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'difficulty'
+   ⚠️ [FRONTMATTER] Missing recommended field: 'last_updated'
+   ❌ [FRONTMATTER] Found old Obsidian field: 'created' (should be removed or converted)
+   ⚠️ [FRONTMATTER] Unusual status value: 'planning' (valid: active, draft, archived, deprecated)
+   ❌ [BREADCRUMB] (line 2) Breadcrumb ends with '> ---' (should end with page title)
+
+❌ Development\CI-CD\Patterns\PowerShell-Emoji-Encoding.md
+   Errors: 1, Warnings: 0
+   ❌ [FRONTMATTER] No frontmatter found (should start with '---')
+
+================================================================================
+Recommendations:
+================================================================================
+
+1. Fix Old-Style Frontmatter (33 files)
+   - Remove 'created', 'related', and root-level 'tags' fields
+   - Add required fields: title, description, category, audience, status
+   - Convert [[wikilinks]] to 'related_docs' array
+
+2. Fix Malformed Breadcrumbs
+   - Breadcrumbs should end with page title, not '---'
+   - Format: [Home](/) > [Section](/Section/) > Page Title
+
+3. Address Warnings
+   - Add missing recommended fields (difficulty, last_updated, tags)
+   - Verify breadcrumb paths match file locations
+   - Ensure single H1 heading per document
+
+================================================================================

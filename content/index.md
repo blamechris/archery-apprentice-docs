@@ -1,36 +1,51 @@
----
-title: Archery Apprentice Documentation
----
-
 # Archery Apprentice Documentation
 
-> Comprehensive knowledge base for the Archery Apprentice Android application
-
-**📅 Last Updated:** 2025-10-22 01:04 UTC
-**🔄 Auto-deployed via GitHub Actions**
-
-## Documentation Sections
-
-### Development
-- [[Development Patterns/|Development Patterns]]
-- [[Architecture/|Architecture]]
-- [[Testing/|Testing]]
-- [[Workflow/|Workflow]]
-
-### Features & Planning
-- [[Features/|Features]]
-- [[Next Session Focus]]
-- [[Project-Status/|Project Status]]
-
-### Technical References
-- [[technical-notes/|Technical Notes]]
-- [[Data-Models/|Data Models]]
-- [[Guides/|Guides]]
-
-### Recent Updates
-- [[V2.0 Release Completion - Session 2025-10-18]]
-- [[settings-architecture]]
+Welcome to the comprehensive documentation for **Archery Apprentice** - a modern Android archery scoring application.
 
 ---
 
-*Built with Quartz • [GitHub Repository](https://github.com/blamechris/archery-apprentice-docs)*
+## 📱 For Users
+
+Learn how to use Archery Apprentice:
+
+→ **[User Guide](user-guide/)** - Complete guides for using the app
+- [Getting Started](user-guide/getting-started/)
+- [Features](user-guide/features/)
+- [How-To Guides](user-guide/how-to/)
+- [Troubleshooting](user-guide/troubleshooting/)
+
+---
+
+## 👨‍💻 For Developers
+
+Technical documentation for contributors:
+
+→ **[Developer Guide](developer-guide/)** - Architecture, setup, and contributing
+- [Getting Started](developer-guide/getting-started/)
+- [Architecture](developer-guide/architecture/)
+- [Development Guides](developer-guide/guides/)
+- [Technical Reference](developer-guide/technical-reference/)
+- [Testing](developer-guide/testing/)
+
+---
+
+## 🔧 Internal
+
+Project management and coordination:
+
+→ **[Internal Documentation](internal/)** - Agent coordination & KMP migration
+- [KMP Migration](internal/kmp-migration/)
+- [Agent Reports](internal/agents/)
+- [Project Management](internal/project-management/)
+
+---
+
+## 🚀 Quick Links
+
+- **[Live Documentation Site](https://blamechris.github.io/archery-apprentice-docs/)**
+- **[GitHub Repository](https://github.com/blamechris/archery-apprentice)**
+- **[Report Issues](https://github.com/blamechris/archery-apprentice/issues)**
+
+---
+
+**Last Updated:** 2025-10-31
