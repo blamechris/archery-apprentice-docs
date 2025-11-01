@@ -17,7 +17,7 @@ const config: QuartzConfig = {
     },
     locale: "en-US",
     baseUrl: "blamechris.github.io/archery-apprentice-docs",
-    ignorePatterns: ["private", "templates", ".obsidian", "quartz", "node_modules", "package*.json", "tsconfig.json", "*.config.ts", "*.layout.ts"],
+    ignorePatterns: ["private", "templates", ".obsidian", "quartz", "node_modules", "archive", "package*.json", "tsconfig.json", "*.config.ts", "*.layout.ts"],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",
