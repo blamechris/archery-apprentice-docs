@@ -12,7 +12,7 @@ Professional documentation for the Archery Apprentice Android archery scoring ap
 
 Complete guides for using Archery Apprentice:
 
-- **[User Guide](docs/user-guide/)** - App usage, features, and tutorials
+- **[User Guide](content/user-guide/)** - App usage, features, and tutorials
   - Getting started
   - Feature guides (scoring, equipment, analytics, sync)
   - How-to guides for common tasks
@@ -22,7 +22,7 @@ Complete guides for using Archery Apprentice:
 
 Technical documentation for contributors:
 
-- **[Developer Guide](docs/developer-guide/)** - Architecture, setup, and contributing
+- **[Developer Guide](content/developer-guide/)** - Architecture, setup, and contributing
   - Development setup
   - Architecture overview (MVVM, Repository pattern, Room)
   - API reference (Repositories, ViewModels, DAOs)
@@ -33,7 +33,7 @@ Technical documentation for contributors:
 
 Project management and coordination:
 
-- **[Internal Documentation](docs/internal/)** - Agent coordination & KMP migration
+- **[Internal Documentation](content/internal/)** - Agent coordination & KMP migration
   - KMP migration tracking (Weeks 1-12+)
   - Agent reports and coordination
   - Retrospectives and lessons learned

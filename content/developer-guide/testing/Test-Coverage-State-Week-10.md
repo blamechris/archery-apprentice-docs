@@ -3,7 +3,10 @@ tags: [testing, coverage, kmp-migration, week-10, metrics]
 date: 2025-10-27
 status: current
 agent: Agent-3-AAA
-related: [[KMP Migration Tracking]], [[Database Migration Plan]], [[Testing Strategy]]
+related:
+  - KMP Migration Tracking
+  - Database Migration Plan
+  - Testing Strategy
 ---
 
 [Home](/) > [Development](/Development/) > [Testing](/Development/Testing/) > ---
