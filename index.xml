@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+      <title>Archery Apprentice Documentation</title>
+      <link>https://blamechris.github.io/archery-apprentice-docs</link>
+      <description>Last 10 notes on Archery Apprentice Documentation</description>
+      <generator>Quartz -- quartz.jzhao.xyz</generator>
+      <item>
+    <title>ADR-[NUMBER]: [Decision Title]</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/meta/templates/adr-template</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/meta/templates/adr-template</guid>
+    <description><![CDATA[ Brief description (max 160 chars) ]]></description>
+    <pubDate>Sat, 01 Nov 2025 21:09:47 GMT</pubDate>
+  </item><item>
+    <title>agentic-llm-workflow-experiment</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/archive/experiments/agentic-llm-workflow-experiment</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/archive/experiments/agentic-llm-workflow-experiment</guid>
+    <description><![CDATA[ Agentic LLM Workflow Experiment - Multi-Agent KMP Migration Status: Active (Week 1 in progress) Started: 2025-10-18 Model: Claude (Anthropic) via Claude Code CLI Hypothesis: Parallel LLM agents can accelerate complex migrations while maintaining quality Tags: ai llm agentic-workflow claude experimen... ]]></description>
+    <pubDate>Sat, 01 Nov 2025 21:08:31 GMT</pubDate>
+  </item><item>
+    <title>Data Sync Flow</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/data-sync-flow</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/data-sync-flow</guid>
+    <description><![CDATA[ data synchronization flow documentation ]]></description>
+    <pubDate>Sat, 01 Nov 2025 20:49:23 GMT</pubDate>
+  </item><item>
+    <title>Equipment Management End to End Flow</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/equipment-management-end-to-end-flow</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/equipment-management-end-to-end-flow</guid>
+    <description><![CDATA[ equipment management complete flow ]]></description>
+    <pubDate>Sat, 01 Nov 2025 20:49:23 GMT</pubDate>
+  </item><item>
+    <title>Round Lifecycle Flow</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/round-lifecycle-flow</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/round-lifecycle-flow</guid>
+    <description><![CDATA[ round lifecycle state transitions ]]></description>
+    <pubDate>Sat, 01 Nov 2025 20:49:23 GMT</pubDate>
+  </item><item>
+    <title>Service Migration Flow</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/service-migration-flow</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/service-migration-flow</guid>
+    <description><![CDATA[ service extraction migration flow ]]></description>
+    <pubDate>Sat, 01 Nov 2025 20:49:23 GMT</pubDate>
+  </item><item>
+    <title>database-migration-status</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/database-migration-status</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/database-migration-status</guid>
+    <description><![CDATA[ Database Migration Status Last Updated: 2025-10-28 Current Phase: Week 11 COMPLETE - Equipment DAO Migration to KMP ✅ Next Phase: Week 12 (BowSetup DAO refinement + remaining DAOs) Executive Summary Overall Progress: Week 11 Complete - Major Milestone Achieved! 🎉 Migration Timeline: ✅ Week 8: Servi... ]]></description>
+    <pubDate>Sat, 01 Nov 2025 20:27:45 GMT</pubDate>
+  </item><item>
+    <title>kmp-migration-architecture</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/kmp-migration-architecture</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/kmp-migration-architecture</guid>
+    <description><![CDATA[ Kotlin Multiplatform Migration Architecture Created: 2025-10-28 Status: Week 11 Complete - Equipment DAOs Migrated ✅ Purpose: Comprehensive KMP migration architecture reference Table of Contents Executive Summary Migration Overview Module Architecture Migration Patterns Week-by-Week Progress Platfor... ]]></description>
+    <pubDate>Sat, 01 Nov 2025 20:27:45 GMT</pubDate>
+  </item><item>
+    <title>platform-abstractions-status</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/platform-abstractions-status</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/platform-abstractions-status</guid>
+    <description><![CDATA[ Platform Abstractions Status Overview Platform abstractions enable KMP migration by replacing Android-specific dependencies with cross-platform interfaces. ]]></description>
+    <pubDate>Sat, 01 Nov 2025 20:27:45 GMT</pubDate>
+  </item><item>
+    <title>room-database-entity-mapping</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/room-database-entity-mapping</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/room-database-entity-mapping</guid>
+    <description><![CDATA[ Room Database Entity Mapping Patterns Last Updated: 2025-10-15 Status: Best Practice Established Overview Room database requires separate entity classes (@Entity) from domain models for database persistence. ]]></description>
+    <pubDate>Sat, 01 Nov 2025 20:27:45 GMT</pubDate>
+  </item>
+    </channel>
+  </rss>
