@@ -111,7 +111,7 @@ First-time user experience introducing core features and guiding initial setup.
 ### 2. Equipment Setup Flow
 
 **Status:** ✅ Fully Documented (1,949 lines)
-**Documentation:** [Equipment Management End-to-End Flow](../../../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/)
+**Documentation:** [Equipment Management End-to-End Flow](../../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/)
 
 **Overview:**
 
@@ -171,14 +171,14 @@ Bow Setup v1 (Original) → Add Sight → Bow Setup v2 → Change Arrows → Bow
    Round 1 (uses v1)            Round 2 (uses v2)            Round 3 (uses v3)
 ```
 
-**See Full Documentation:** [Equipment Management End-to-End Flow](../../../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/)
+**See Full Documentation:** [Equipment Management End-to-End Flow](../../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/)
 
 ---
 
 ### 3. Settings Configuration Flow
 
 **Status:** ✅ Fully Documented (493 lines)
-**Documentation:** [Settings Architecture](../../../../developer-guide/technical-reference/flows/settings-architecture/)
+**Documentation:** [Settings Architecture](../../../developer-guide/technical-reference/flows/settings-architecture/)
 
 **Overview:**
 
@@ -230,7 +230,7 @@ UI Recomposition → All Consumers Updated (Live)
 - Reset onboarding (return to first-time experience)
 - Manage account (if authenticated)
 
-**See Full Documentation:** [Settings Architecture](../../../../developer-guide/technical-reference/flows/settings-architecture/)
+**See Full Documentation:** [Settings Architecture](../../../developer-guide/technical-reference/flows/settings-architecture/)
 
 ---
 
@@ -242,8 +242,8 @@ Primary user activities for archery practice and record-keeping.
 
 **Status:** ✅ Fully Documented (1,733 lines combined)
 **Documentation:**
-- [Round Lifecycle Flow](../../../../developer-guide/technical-reference/flows/round-lifecycle-flow/) (1,168 lines)
-- [Scoring Flow](../../../../developer-guide/technical-reference/flows/scoring-flow/) (565 lines)
+- [Round Lifecycle Flow](../../../developer-guide/technical-reference/flows/round-lifecycle-flow/) (1,168 lines)
+- [Scoring Flow](../../../developer-guide/technical-reference/flows/scoring-flow/) (565 lines)
 
 **Overview:**
 
@@ -365,15 +365,15 @@ PLANNED → IN_PROGRESS ⇄ PAUSED → COMPLETED/CANCELLED
 - Retry mechanism handles network failures gracefully
 
 **See Full Documentation:**
-- [Round Lifecycle Flow](../../../../developer-guide/technical-reference/flows/round-lifecycle-flow/) - Round creation → completion
-- [Scoring Flow](../../../../developer-guide/technical-reference/flows/scoring-flow/) - Arrow input → end completion
+- [Round Lifecycle Flow](../../../developer-guide/technical-reference/flows/round-lifecycle-flow/) - Round creation → completion
+- [Scoring Flow](../../../developer-guide/technical-reference/flows/scoring-flow/) - Arrow input → end completion
 
 ---
 
 ### 5. Historical Rounds Viewing Flow
 
 **Status:** ✅ Documented (part of Round Lifecycle Flow)
-**Documentation:** [Round Lifecycle Flow - Historical Viewing](../../../../developer-guide/technical-reference/flows/round-lifecycle-flow/#historical-viewing)
+**Documentation:** [Round Lifecycle Flow - Historical Viewing](../../../developer-guide/technical-reference/flows/round-lifecycle-flow/#historical-viewing)
 
 **Overview:**
 
@@ -429,7 +429,7 @@ View and analyze past rounds with smart caching and filtering.
 - Export round data for external analysis
 - Delete old rounds (confirmation required)
 
-**See Full Documentation:** [Round Lifecycle Flow - Historical Viewing](../../../../developer-guide/technical-reference/flows/round-lifecycle-flow/#historical-viewing)
+**See Full Documentation:** [Round Lifecycle Flow - Historical Viewing](../../../developer-guide/technical-reference/flows/round-lifecycle-flow/#historical-viewing)
 
 ---
 
@@ -439,140 +439,831 @@ Advanced user features for tournaments, analytics, and data management.
 
 ### 6. Tournament Participation Flow
 
-**Status:** ⚠️ Not Documented (High Priority)
-**Planned Documentation:** To be created
+**Status:** ✅ Fully Documented
+**Documentation:** Comprehensive multi-user tournament workflow from discovery to completion
 
 **Overview:**
 
-Discover, join, and participate in multi-user tournaments with real-time leaderboards.
+Complete workflow for discovering, joining, scoring in, and viewing results of multi-user tournaments with offline-first architecture, real-time Firebase synchronization, and intelligent conflict resolution.
 
-**Flow Steps (High-Level):**
+**Flow Steps:**
 
-1. **Tournament Discovery**
-   - Navigate to Tournaments tab
-   - Browse available tournaments (public, invite-only)
-   - View tournament details (format, distance, dates, participants)
+#### 6.1 Tournament Discovery
 
-2. **Join Tournament**
-   - Firebase authentication required (anonymous or account-based)
-   - Request to join tournament
-   - Wait for tournament owner approval (if required)
+1. **Navigate to Tournaments Tab**
+   - Bottom navigation → Tournaments
+   - Or: Dashboard → "Browse Tournaments" card
 
-3. **Create Tournament Round**
-   - Create round associated with tournament
-   - Select tournament from dropdown during round creation
-   - Equipment and round parameters must match tournament requirements
+2. **Browse Available Tournaments**
+   - View list of public tournaments
+   - Filter by status (OPEN, IN_PROGRESS, COMPLETED)
+   - Filter by format (WA_720, INDOOR_18M, FITA_OUTDOOR, etc.)
+   - Search by location or date range
 
-4. **Score in Tournament**
-   - Follow normal scoring flow (see Round Creation and Scoring Flow)
-   - Scores automatically synced to Firebase after each end
-   - Real-time sync with exponential backoff retry
+3. **View Tournament Details**
+   - Tap tournament card to view details
+   - View format, distance, target size, dates
+   - See participant count and capacity
+   - Check registration deadline
+   - View tournament creator and description
 
-5. **View Tournament Leaderboard**
-   - Navigate to tournament detail screen
-   - View real-time leaderboard with all participants
-   - Ranking recalculated dynamically as scores updated
-   - Tie-breaking rules applied (highest score, most Xs, etc.)
+**UI Screens:**
+- TournamentDiscoveryScreen.kt - Browse and search
+- TournamentDetailsScreen.kt - Full tournament information
 
-6. **Tournament Completion**
-   - Tournament owner marks tournament as COMPLETED
-   - Final rankings calculated and frozen
-   - Participants notified of final results
+**Data Sources:**
+- Local cache: Immediate display from Room database
+- Background sync: Firebase updates flow in real-time
+- Network indicator: Shows sync status
 
-**Key Components (Identified but Not Documented):**
+#### 6.2 Joining a Tournament
 
-- TournamentViewModel.kt - Tournament orchestration
-- TournamentDiscoveryScreen.kt - Browse and join UI
-- TournamentLeaderboardScreen.kt - Real-time leaderboard
-- FirebaseTournamentRepository.kt - Firebase data layer
-- TournamentParticipant.kt - Participant model
+**Authentication Flow:**
 
-**User Can:**
+User identity resolved in priority order:
+1. Firebase authenticated user → `firebaseUser.id`
+2. Settings username → `settings.userName` (mapped to "local_user")
+3. Anonymous user → Generated anonymous ID (if allowed by tournament)
 
-- Browse public tournaments
-- Join tournaments (with owner approval if required)
-- Create tournament-associated rounds
-- View real-time leaderboards
-- Compete with other archers
-- View final rankings
+**Join Process:**
 
-**Why Not Documented:**
+1. **Pre-Join Validation**
+   ```
+   Check: User not already participant
+   Check: Tournament has available space
+   Check: Tournament status is OPEN
+   Check: Registration deadline not passed
+   ```
 
-This flow requires comprehensive Firebase integration documentation, real-time sync patterns, and multi-user permission logic. It is identified as **High Priority** for future documentation.
+2. **Tap "Join Tournament" Button**
+   - Button disabled if validation fails
+   - Shows "View Details" if already joined
+   - Shows capacity message if full
 
-**See:** [System Flows - Integration Flows](../Integration-Flows/) for related Firebase sync documentation.
+3. **Local Join (Immediate)**
+   - Creates TournamentParticipant record in Room database
+   - Updates local participant count
+   - UI updates immediately (offline-first)
+
+4. **Firebase Sync (Synchronous)**
+   - Writes participant to Firestore `tournaments/{id}/participants/{participantId}`
+   - Uses ID mapping table to translate local UUID → Firebase document ID
+   - Synchronous execution ensures reliable cross-device sync
+   - Failure shows error, allows retry
+
+**Join Status States:**
+
+```kotlin
+LocalOnly → Joining → Synced
+                 ↓
+              Error (retryable)
+```
+
+**Error Handling:**
+- Already joined: Show "View Details" instead
+- Tournament full: Disable join, show capacity
+- Not authenticated: Allow if `allowAnonymousParticipants == true`
+- Firebase sync failure: Retry option, score saved locally
+
+**Key Components:**
+- TournamentDetailsViewModel.kt - Join orchestration
+- HybridTournamentRepository.kt - Offline-first data layer
+- UserIdentityResolver.kt - Authentication resolution
+
+#### 6.3 Creating Tournament Round
+
+1. **Navigate to "Start Scoring"**
+   - From tournament details screen
+   - Or: Create Round → Select tournament from dropdown
+
+2. **Participant Conversion**
+   - Tournament participants → Session participants
+   - Local user → `SessionParticipant.LocalUser`
+   - Other participants → `SessionParticipant.GuestArcher` (for multi-participant)
+   - Auto-creates equipment for guests (duplicates with naming)
+
+3. **Round Creation with Tournament Linkage**
+   ```kotlin
+   Round(
+     roundName = "${tournament.name} - Round ${nextRoundNumber}",
+     numEnds = tournament.roundFormat.numEnds,
+     numArrows = tournament.roundFormat.numArrows,
+     tournamentId = tournament.id, // Links to tournament
+     tournamentRoundNumber = nextRoundNumber,
+     syncStatus = SyncStatus.SYNCING,
+     participants = sessionParticipants,
+     bowSetupId = validBowSetupId // Required
+   )
+   ```
+
+4. **Parameter Validation**
+   - Distance must match tournament format
+   - Target size must match tournament format
+   - Scoring system must match tournament format
+   - All participants must have equipment
+
+**Key Components:**
+- TournamentDetailsViewModel.kt - Round creation trigger
+- TournamentManagementService.kt - Tournament-specific round setup
+- RoundViewModel.kt - Standard round creation flow
+
+#### 6.4 Scoring in Tournament
+
+**Scoring Process:**
+
+1. **Standard Scoring Flow**
+   - User enters arrows normally (see Round Creation and Scoring Flow)
+   - Local database updated immediately
+   - UI continues without blocking
+
+2. **End Completion Triggers Sync**
+   ```
+   User completes end →
+   EndCompletionService validates →
+   Save to local Round table (immediate) →
+   Background: Submit to Firebase (async with retry)
+   ```
+
+3. **Background Firebase Sync**
+   ```kotlin
+   TournamentSyncService.submitTournamentScoreWithRetry(
+     tournamentId,
+     participantId,
+     roundNumber,
+     endNumber,
+     arrowScores,
+     maxRetries = 3
+   )
+   ```
+
+**Retry Logic (Exponential Backoff):**
+```
+Attempt 1: Immediate
+Attempt 2: Wait 100ms → retry
+Attempt 3: Wait 200ms → retry
+Attempt 4: Wait 400ms → final attempt
+Failure: Mark for background sync, show error
+```
+
+**Sync Status Indicators:**
+
+```kotlin
+Idle → Syncing → Success (shows participant count)
+           ↓
+        Error (retryable, shows retry count)
+```
+
+**Offline Behavior:**
+- All scores save locally immediately (offline-first)
+- Queued for sync when network available
+- Sync queue persists across app restarts
+- Network monitoring triggers automatic sync on reconnection
+
+**Key Components:**
+- ActiveScoringScreen.kt - Arrow entry UI
+- LiveScoringViewModel.kt - Scoring state management
+- EndCompletionService.kt - Tournament score submission trigger
+- TournamentSyncService.kt - Firebase sync with retry logic
+
+#### 6.5 Viewing Tournament Leaderboard
+
+**Setup Process:**
+
+Navigate to tournament details → Leaderboard tab
+
+**Real-Time Listeners:**
+
+Three concurrent Firebase listeners provide live updates:
+
+1. **Leaderboard Listener** - Overall standings
+2. **Participants Listener** - Participant list updates
+3. **Detailed Scores Listener** - End-by-end score updates
+
+**Leaderboard Features:**
+
+- **Real-Time Updates**: Firebase listeners push updates as participants score
+- **Ranking Calculation**:
+  - Primary: Total score (descending)
+  - Tie-breaker #1: X-count (descending)
+  - Tie-breaker #2: Timestamp (earliest)
+- **Division Filtering**: View standings by division/category
+- **Round-by-Round**: Track score progression across tournament
+- **Participant Highlighting**: Current user highlighted in standings
+
+**Conflict Detection & Resolution:**
+
+**Trigger:** Incoming Firebase score differs from local score
+
+**Detection:**
+```
+Compare remote total vs local total →
+Check version numbers →
+Check timestamp recency →
+Determine resolution strategy
+```
+
+**Resolution Strategies:**
+
+- `LOCAL_WINS`: Local has authority (default for offline-first)
+- `REMOTE_WINS`: Remote version is newer
+- `HIGHEST_WINS`: Use highest score
+- `LATEST_WINS`: Use most recent timestamp
+- `MANUAL`: Show conflict UI for user decision (if recent update <5min)
+
+**Conflict UI:**
+- Notification for affected end
+- Shows both local and remote scores
+- Displays recommended resolution
+- Allows user override
+- Option to dismiss (keep local)
+
+**Key Components:**
+- TournamentLeaderboardScreen.kt - Real-time standings UI
+- TournamentLeaderboardViewModel.kt - Leaderboard state management
+- TournamentSyncService.kt - Firebase listeners setup
+- ScoreConflictResolutionService.kt - Conflict detection and resolution
+
+#### 6.6 Tournament Completion
+
+**Completion Process:**
+
+*Permission: Tournament creator only*
+
+1. **Navigate to Tournament Management**
+   - Tournament details → "Manage Tournament" (creator only)
+   - Or: Settings menu → "Complete Tournament"
+
+2. **Complete Tournament**
+   ```kotlin
+   tournamentService.completeTournament(tournamentId)
+   ```
+   - Sets status to `COMPLETED`
+   - Freezes leaderboard rankings
+   - Disables further scoring
+   - Triggers final results calculation
+
+3. **Final Rankings Calculation**
+   - Aggregate all participant scores across all rounds
+   - Apply tie-breaking rules (X-count, timestamp)
+   - Generate final standings by division
+   - Store immutable results
+
+4. **Participant Notifications** (if implemented)
+   - Top 3 finishers notified
+   - Achievement badges awarded
+   - Results available for viewing
+
+5. **Historical Viewing**
+   - Tournament marked as completed
+   - Results viewable by all participants
+   - Leaderboard frozen in final state
+   - Export options available
+
+**Tournament Status State Machine:**
+
+```
+OPEN → IN_PROGRESS → COMPLETED
+  ↓
+CANCELLED (from any state)
+```
+
+**Key Components:**
+- TournamentManagementViewModel.kt - Management controls
+- TournamentManagementService.kt - Lifecycle orchestration
+- FirebaseTournamentRepository.kt - Firebase state updates
+
+---
+
+**Tournament Participation Summary:**
+
+| Phase | User Action | System Response | Offline Behavior |
+|-------|-------------|-----------------|------------------|
+| Discovery | Browse tournaments | Load from cache + Firebase sync | Show cached, sync when online |
+| Join | Tap "Join Tournament" | Local DB update + Firebase sync | Queued for sync |
+| Create Round | Start scoring | Validate format, create round | Local only until sync |
+| Scoring | Enter arrows | Save local + async Firebase sync | Queue for sync |
+| Leaderboard | View standings | Real-time Firebase listeners | Show local, sync when online |
+| Completion | Creator completes | Freeze rankings, notify participants | N/A (creator action) |
+
+**Key Features:**
+
+- **Offline-First**: All operations complete locally immediately
+- **Real-Time Sync**: Firebase listeners provide live leaderboard updates
+- **Conflict Resolution**: Automatic detection and resolution with user override
+- **Exponential Backoff**: Intelligent retry for transient network failures
+- **Multi-Device Sync**: Consistent state across all devices
+- **Anonymous Participation**: Optional anonymous user support
+
+**Performance Optimizations:**
+
+- Smart caching with TTL (5min for IN_PROGRESS, indefinite for COMPLETED)
+- Batch operations for participant scores (1-2 queries vs 10+)
+- Debounced sync triggers (avoid rapid-fire syncs)
+- Network monitoring (single callback, automatic sync on reconnect)
+
+**Key Components Reference:**
+
+**ViewModels:**
+- TournamentDiscoveryViewModel.kt - Browse tournaments
+- TournamentDetailsViewModel.kt - View/manage tournament
+- TournamentLeaderboardViewModel.kt - View standings
+- TournamentManagementViewModel.kt - Host controls
+
+**UI Screens:**
+- TournamentDiscoveryScreen.kt - Browse/search
+- TournamentDetailsScreen.kt - Tournament info, join/leave
+- TournamentLeaderboardScreen.kt - Real-time standings
+- ActiveScoringScreen.kt - Score arrows in tournament round
+
+**Data Layer:**
+- HybridTournamentRepository.kt (1,506 lines) - Offline-first with Firebase sync
+- FirebaseTournamentRepository.kt (1,707 lines) - Firebase Firestore operations
+- OfflineTournamentRepository.kt (908 lines) - Local Room database
+- TournamentDao.kt - Tournament metadata queries
+- TournamentScoreDao.kt - Score and leaderboard queries
+
+**Services:**
+- TournamentManagementService.kt (~850 lines) - Complete lifecycle management
+- TournamentSyncService.kt - Real-time Firebase listeners and sync
+- ScoreConflictResolutionService.kt - Conflict detection/resolution
+- EndCompletionService.kt - Score submission trigger
+
+**Models:**
+- Tournament - Main entity (name, dates, format, status, capacity)
+- TournamentParticipant - Participant registration
+- TournamentScore - Score data (end scores, total, X-count)
+- TournamentStatus - Enum: OPEN, IN_PROGRESS, COMPLETED, CANCELLED
+
+**Firebase Collections:**
+```
+tournaments/{tournamentId}
+├── participants/{participantId} → TournamentParticipant
+├── scores/{scoreId} → TournamentScore (end-level detail)
+└── settings → TournamentSettings (rules, format, privacy)
+```
+
+**See Also:**
+- [Data Sync Flow](../../../developer-guide/technical-reference/flows/data-sync-flow/) - Complete sync architecture
+- [Integration Flows](../Integration-Flows/) - Firebase integration patterns
+- [Tournament System Documentation](../../../developer-guide/technical-reference/tournament/tournament-system-documentation/) - Complete technical documentation (1,165 lines)
 
 ---
 
 ### 7. Analytics Viewing Flow
 
-**Status:** ⚠️ Not Documented (High Priority)
-**Planned Documentation:** To be created
+**Status:** ✅ Fully Documented
+**Documentation:** Comprehensive performance analysis workflow from basic statistics to advanced grouping metrics
 
 **Overview:**
 
-View and analyze performance trends, equipment comparisons, and shot grouping patterns.
+Complete workflow for viewing and analyzing performance data through round analytics, equipment comparisons, distance-specific statistics, fatigue detection, and advanced shot grouping analysis. The analytics system provides actionable insights to improve archery performance.
 
-**Flow Steps (High-Level):**
+**Flow Steps:**
 
-1. **Navigate to Analytics**
-   - Bottom navigation → Analytics tab
-   - Or: Round detail → "View Analytics" button
+#### 7.1 Accessing Analytics
 
-2. **Round Analytics Dashboard**
-   - View performance summary for selected round
-   - End-by-end performance chart
-   - Shot distribution visualization (target diagram)
-   - Score trends across ends (fatigue detection)
+**Entry Points:**
 
-3. **Equipment Performance Comparison**
-   - Navigate to Equipment Analytics Hub
-   - Compare multiple bow setups side-by-side
-   - Filter by distance, date range, scoring system
-   - View aggregated statistics (average score, consistency)
+1. **Bottom Navigation → Analytics Tab**
+   - Main analytics dashboard
+   - Overview of all analytics types
 
-4. **Distance-Specific Statistics**
-   - Filter analytics by distance (e.g., 70m, 50yd)
-   - View performance trends over time for specific distance
-   - Compare different equipment at same distance
+2. **Round Detail → "View Analytics" Button**
+   - Round-specific analytics
+   - Immediate access to performance data
 
-5. **Fatigue Detection**
-   - View score trends across ends within a round
-   - Identify performance degradation patterns
-   - Visualize fatigue impact on accuracy
+3. **Equipment Page → "Analytics Hub" Button**
+   - Equipment performance comparison
+   - Cross-equipment analysis
 
-6. **Shot Grouping Analysis**
-   - View shot distribution on target diagram
-   - Analyze grouping tightness (dispersion metrics)
-   - Identify aiming biases (left/right, high/low)
+#### 7.2 Round Analytics Dashboard
 
-7. **Export Analytics Data**
-   - Export to CSV (aggregated statistics)
-   - Include equipment, distance, date range filters
-   - Share via Android intents
+**Navigation:**
+- From Analytics tab → Select round → View round analytics
+- Or: Round detail screen → "View Analytics" button
 
-**Key Components (Identified but Not Documented):**
+**Performance Summary Display:**
 
-- RoundAnalyticsViewModel.kt - Analytics orchestration
-- EquipmentAnalyticsHubScreen.kt - Equipment comparison UI
+```
+Total Score: 580/600
+Average per End: 48.3
+Average per Arrow: 8.1
+X-Count: 24 (13.3%)
+10-Count: 58 (32.2%)
+Accuracy: 96.7%
+```
+
+**End-by-End Performance Chart:**
+
+- **Visual:** Line chart with connected points for each end score
+- **Features:**
+  - Average reference line (horizontal)
+  - Best/worst end highlighting
+  - Hover tooltips showing end details
+  - Trend line overlay (linear regression)
+  - Performance trend indicator: IMPROVING, DECLINING, STABLE
+
+**Shot Distribution Visualization:**
+
+- **Bar Chart:** Arrow value frequency (M, 1, 2, ..., 9, 10, X)
+- **Ring Distribution:** Percentage in each ring zone
+- **X-Ring %:** Highlighted metric for precision
+
+**Score Trends Across Ends:**
+
+```
+Early Ends (1-4):   Average: 50.2
+Middle Ends (5-8):  Average: 48.1
+Late Ends (9-12):   Average: 46.5
+Trend: DECLINING (-7.4%)
+```
+
+**Comparison with Other Rounds:**
+
+- **Personal Best:** 590 (2025-10-15)
+- **Average Comparison:** +5.3% above user average
+- **Equipment Performance:** +2.1% above equipment average
+
+**Key Components:**
+- RoundAnalyticsViewModel.kt (605 lines) - Analytics state management
+- RoundAnalyticsScreen.kt - Dashboard UI
+- StatisticsCalculationService.kt - Statistical algorithms
+
+#### 7.3 Equipment Performance Comparison
+
+**Navigation:**
+- Equipment page → "Analytics Hub" button
+- Analytics tab → "Equipment Comparison"
+
+**Equipment Analytics Hub UI:**
+
+Analysis type selection:
+1. **Performance by Setup** - Individual bow setup analytics
+2. **Performance by Distance** - Distance-specific comparisons
+3. **Equipment Comparison** - Side-by-side analysis (up to 4 setups)
+4. **Usage Statistics** - Frequency and recency
+
+**Side-by-Side Bow Setup Comparison:**
+
+**Setup Process:**
+1. Multi-select up to 4 bow setups
+2. Apply filters:
+   - Distance: 70m, 50m, 18m, or custom
+   - Date range: Last 7/30/90 days, or custom
+   - Scoring system: 10-zone, 5-zone, etc.
+3. Tap "Compare" button
+4. View parallel column display
+
+**Comparison Metrics:**
+
+| Metric | Competition Bow | Practice Bow | Backup Bow |
+|--------|----------------|--------------|------------|
+| Average Score | 580 (Best) | 565 | 545 |
+| Accuracy % | 96.7% | 94.2% | 90.8% |
+| X-Count Avg | 24 | 19 | 14 |
+| Rounds Shot | 45 | 78 | 12 |
+| Best Score | 598 | 582 | 568 |
+| Consistency | 0.92 | 0.85 | 0.78 |
+| Last Used | Yesterday | 2 days ago | 2 weeks ago |
+
+**Visual Indicators:**
+- Green highlight for best performer
+- Performance trend arrows (↑↓→)
+- Warning icons for equipment needing attention
+
+**Equipment Ranking/Leaderboard:**
+- Setups ranked by average score
+- Sorting options: score, usage, consistency
+- Equipment usage frequency
+
+**Key Components:**
+- EquipmentAnalyticsHubScreen.kt - Analytics hub UI
 - EquipmentComparisonScreen.kt - Side-by-side comparison
-- StatisticsCalculationService.kt - Aggregation logic
-- EquipmentPerformanceStats.kt - Analytics models
+- EquipmentPerformanceService.kt - Performance calculation
 
-**User Can:**
+#### 7.4 Distance-Specific Statistics
 
-- View detailed round analytics
-- Compare equipment performance
-- Identify performance trends over time
-- Detect fatigue patterns
-- Analyze shot grouping and aiming biases
-- Export analytics data for external analysis
+**Filter Analytics by Distance:**
 
-**Why Not Documented:**
+1. **Select Specific Distance**
+   - Dropdown: 70m, 50m, 30m, 18m, custom
+   - View all rounds shot at selected distance
+   - Auto-updates charts and statistics
 
-This flow requires comprehensive statistics calculation documentation, visualization patterns, and data aggregation logic. It is identified as **High Priority** for future documentation as it represents a key value proposition for users.
+2. **Performance Trends at Specific Distance**
+   - Chronological line chart
+   - Score progression over time
+   - Improvement tracking with trend line
 
-**See:** [Data Models - Analytics](../../Data-Models/Analytics/) for related analytics entity documentation.
+3. **Equipment Comparison at Same Distance**
+   - Filter multiple setups by distance
+   - Side-by-side comparison for apples-to-apples analysis
+   - Identify best-performing setup for specific range
+
+4. **Distance-Specific Personal Bests**
+
+```
+70m: 598 (2025-10-15) with Competition Bow
+50m: 612 (2025-09-20) with Competition Bow
+30m: 658 (2025-08-10) with Practice Bow
+18m: 682 (2025-07-05) with Practice Bow
+```
+
+**Key Features:**
+- Distance-based filtering throughout analytics
+- Historical trends at specific distances
+- Equipment effectiveness by distance
+- Personal best tracking
+
+#### 7.5 Fatigue Detection Analysis
+
+**Algorithm:**
+
+```
+Shot Segmentation:
+- Recent shots: Last 20% of arrows (minimum 5)
+- Earlier shots: First 80% of arrows
+
+Performance Drop:
+- avgRecent = mean(recent shot scores)
+- avgEarlier = mean(earlier shot scores)
+- performanceDrop = avgEarlier - avgRecent
+
+Fatigue Score (0.0-1.0):
+- scoreFactor = (performanceDrop / 2.0).clamp(0.0, 1.0)
+- groupingFactor = (groupingDeterioration / 0.2).clamp(0.0, 1.0)
+- fatigueScore = (scoreFactor + groupingFactor) / 2.0
+```
+
+**Score Trends Visualization:**
+
+```
+End-by-End Comparison:
+┌────────────────────────────────────┐
+│ Early Ends (1-4):  ████████ 50.2   │
+│ Middle Ends (5-8): ███████  48.1   │
+│ Late Ends (9-12):  ██████   46.5   │
+└────────────────────────────────────┘
+Performance Drop: -7.4% (Moderate Fatigue)
+```
+
+**Fatigue Score Interpretation:**
+
+- **0.0-0.2:** No fatigue detected - Consistent performance
+- **0.2-0.4:** Mild fatigue - Minor performance drop
+- **0.4-0.6:** Moderate fatigue - Consider rest or technique check
+- **0.6-0.8:** Significant fatigue - Rest recommended
+- **0.8-1.0:** High fatigue - End session, avoid injury risk
+
+**End-by-End Consistency Metrics:**
+
+```
+Standard Deviation: 2.3 points
+Range (Best - Worst): 12 points (56 - 44)
+Coefficient of Variation: 4.8%
+```
+
+**Recommendations Based on Patterns:**
+- Fatigue > 0.6: "Consider shorter sessions or more breaks"
+- Consistency < 0.7: "Focus on form consistency"
+- Performance drop > 10%: "Check equipment or fatigue"
+
+**Key Components:**
+- FatigueAnalysisService.kt - Fatigue calculation
+- Equipment Statistics data model - Fatigue metrics
+- Chart components - Visual trend display
+
+#### 7.6 Shot Grouping Analysis
+
+**Requirements:**
+- Target Face Scoring method (with coordinates)
+- ArrowScore.targetX and targetY populated
+- Minimum 5+ arrows with coordinates
+
+**Grouping Metrics:**
+
+**1. Eccentricity (Covariance Matrix Method)**
+
+```
+Algorithm:
+1. Calculate covariance matrix (varX, varY, covXY)
+2. Compute eigenvalues
+3. eccentricity = eigenvalue1 / eigenvalue2 (capped at 10.0)
+
+Interpretation:
+- 1.0-1.2: Circular grouping (ideal form)
+- 1.2-2.0: Slightly elliptical (good)
+- 2.0-3.0: Moderately elliptical (needs work)
+- 3.0+:    Highly directional (systematic issue)
+```
+
+**2. Radial Standard Deviation**
+
+```
+Algorithm:
+distances = sqrt((x - centerX)² + (y - centerY)²) for each shot
+groupTightness = sqrt(variance of distances)
+
+Purpose: Measures shot group tightness
+Lower = Better (tighter group)
+```
+
+**3. Aiming Bias Calculation**
+
+```
+horizontalBias = centerX (positive = right, negative = left)
+verticalBias = centerY (positive = up, negative = down)
+biasDirection = atan2(verticalBias, horizontalBias) * 180/π
+
+Display: Clock position (e.g., "2 o'clock", "9 o'clock")
+```
+
+**4. Radial Consistency Index**
+
+```
+radialDistances = sqrt(x² + y²) from target center
+radialConsistency = 1 / (stdDev / mean) (capped at 10.0)
+
+Higher = Better (more consistent)
+```
+
+**Shot Distribution on Target Diagram:**
+
+```
+Visual Components:
+- Concentric ring overlay (10, 9, 8, ..., M)
+- Arrow coordinates plotted as dots
+- Group center marker (crosshair)
+- Dispersion ellipse overlay
+- Bias direction indicator (arrow)
+```
+
+**Grouping Tightness Display:**
+
+```
+Group Statistics:
+Center: (X: +0.8cm, Y: -1.2cm)
+Radial SD: 3.2cm
+Eccentricity: 1.4 (Slightly elliptical)
+Radial Consistency: 7.8 (Good)
+```
+
+**Aiming Bias Detection:**
+
+```
+Bias Analysis:
+Direction: 4 o'clock (Right-Low)
+Magnitude: 1.5cm
+Recommendation: Adjust sight 2 clicks left, 1 click up
+```
+
+**Comparison with Ideal Grouping:**
+
+- Overlay of ideal circular pattern (same radius)
+- Deviation percentage from ideal
+- Equipment tuning indicators
+- Form analysis insights
+
+**Key Components:**
+- ShotGroupingAnalysisService.kt - Grouping calculations
+- TargetDiagramComponent.kt - Visual plot
+- BiasCalculationService.kt - Aiming bias detection
+
+#### 7.7 Export Analytics Data
+
+**Export Process:**
+
+1. **Navigate to Export**
+   - Analytics screen → Menu → "Export Data"
+   - Or: Round detail → "Export Analytics"
+
+2. **Select Export Format**
+   - CSV (Comma-Separated Values) - For spreadsheets
+   - JSON (JavaScript Object Notation) - For programmatic access
+
+3. **Choose Data Type**
+   - Rounds export (all rounds data)
+   - Equipment performance (aggregated stats)
+   - Analytics data (calculated metrics: fatigue, grouping, trends)
+   - Full backup (complete data model)
+
+4. **Apply Filters**
+   - Equipment: Select specific bow setups
+   - Distance: Filter by distance (70m, 50yd, etc.)
+   - Date range: Last 7/30/90 days, custom range
+   - Scoring system: 10-zone, 5-zone, etc.
+
+5. **Generate and Share**
+   - Tap "Generate Export"
+   - Choose sharing method:
+     - Email attachment
+     - Cloud storage (Google Drive, Dropbox)
+     - Download to device
+     - Share with external apps
+
+**CSV Export Schema:**
+
+```csv
+Date,Round Name,Distance,Target Size,Total Score,Avg per End,Avg per Arrow,Num Ends,Equipment,X-Count,10-Count,Accuracy %,Consistency,Fatigue Score
+2025-11-04,Indoor 18m,18m,40cm,680,56.7,9.4,12,Competition Bow,48,112,94.4%,0.91,0.15
+2025-11-03,Outdoor 70m,70m,122cm,598,49.8,8.3,12,Competition Bow,32,87,83.1%,0.88,0.32
+```
+
+**JSON Export Structure:**
+
+```json
+{
+  "export_metadata": {
+    "exported_at": "2025-11-04T14:30:00Z",
+    "version": "2.0",
+    "filters": {
+      "equipment": ["Competition Bow"],
+      "distance": "70m",
+      "date_range": "2025-10-01 to 2025-11-04"
+    }
+  },
+  "rounds": [{...}],
+  "equipment_stats": {
+    "average_score": 580,
+    "consistency": 0.92,
+    "rounds_count": 45
+  },
+  "analytics": {
+    "fatigue_analysis": {
+      "avg_fatigue_score": 0.28,
+      "rounds_with_fatigue": 12
+    },
+    "grouping_metrics": {
+      "avg_eccentricity": 1.6,
+      "avg_radial_sd": 3.8
+    }
+  }
+}
+```
+
+**Key Components:**
+- ExportService.kt - Export generation
+- CSVFormatter.kt - CSV schema formatting
+- ShareHelper.kt - Android intent sharing
+
+---
+
+**Analytics Viewing Summary:**
+
+| Analytics Type | Entry Point | Key Metrics | Visualization |
+|----------------|-------------|-------------|---------------|
+| Round Analytics | Round detail | Score, avg, X-count, trend | Line chart, bar chart |
+| Equipment Comparison | Analytics hub | Avg score, consistency, usage | Side-by-side columns |
+| Distance Statistics | Filter by distance | PBs, trends, improvement | Line chart, history |
+| Fatigue Detection | Round analytics | Score drop, fatigue score | Split chart, trend |
+| Shot Grouping | Round analytics (with coords) | Eccentricity, bias, radial SD | Target diagram, plot |
+| Export | Any analytics screen | All calculated metrics | CSV/JSON files |
+
+**Key Features:**
+
+- **Comprehensive Statistics**: Total score, averages, consistency, trends
+- **Advanced Metrics**: Fatigue detection, shot grouping, aiming bias
+- **Visual Analytics**: Charts, target diagrams, trend lines
+- **Equipment Insights**: Performance comparison, effectiveness by distance
+- **Data Export**: CSV/JSON with filtering and sharing
+
+**Performance Optimizations:**
+
+- Cached statistics (5 minutes TTL for frequently changing data)
+- Pre-calculated metrics stored in database
+- Lazy loading for historical data
+- Efficient aggregation queries with database indexes
+
+**Key Components Reference:**
+
+**ViewModels:**
+- RoundAnalyticsViewModel.kt (605 lines) - Analytics state management
+- EquipmentAnalyticsViewModel.kt - Equipment analytics orchestration
+- EquipmentComparisonViewModel.kt - Side-by-side comparison state
+
+**UI Screens:**
+- RoundAnalyticsScreen.kt - Complete analytics dashboard
+- EquipmentAnalyticsHubScreen.kt - Equipment analytics central hub
+- EquipmentComparisonScreen.kt - Side-by-side comparison UI
+- Target diagram components - Shot grouping visualization
+
+**Services:**
+- StatisticsCalculationService.kt - Statistical algorithms and calculations
+- EquipmentPerformanceService.kt - Equipment effectiveness analysis
+- FatigueAnalysisService.kt - Fatigue detection algorithms
+- ShotGroupingAnalysisService.kt - Grouping metrics calculations
+- ExportService.kt - CSV/JSON export generation
+
+**Data Models:**
+- EquipmentPerformanceStats - Equipment analytics metrics
+- RoundStatistics - Round analytics data
+- ShotGroupingMetrics - Grouping and bias metrics
+- FatigueAnalysisData - Fatigue detection results
+
+**See Also:**
+- [Data Models - Analytics](../../Data-Models/Analytics/) - Complete analytics entity documentation
+- [Performance Guidelines](../../Performance/) - Caching and optimization strategies
+- [Code Examples](../../Code-Examples/) - Statistics calculation examples
 
 ---
 
@@ -650,4 +1341,4 @@ To add or improve user flow documentation:
 ---
 
 **Last Updated:** 2025-11-04
-**Documentation Coverage:** 4 flows fully documented (3,675 total lines), 3 flows planned
+**Documentation Coverage:** 5 flows fully documented (4,045 total lines), 2 flows planned
