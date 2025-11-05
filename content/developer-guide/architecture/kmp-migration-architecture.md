@@ -25,14 +25,43 @@
 ### Migration Goal
 Transform Archery Apprentice from Android-only to **Kotlin Multiplatform (KMP)**, enabling iOS support while maintaining Android functionality.
 
-### Current Status (Week 11)
+### Current Status (2025-11-04)
+
+#### Completed Milestones ✅
+
+| Milestone | Status | Week | Description |
+|-----------|--------|------|-------------|
+| Entity Migration | ✅ COMPLETE | Week 11-12 | 45 entities to shared:database |
+| Database Cutover | ✅ COMPLETE | Week 13-14 | Room migration to KMP SQLDelight |
+| Firebase Abstraction | ✅ COMPLETE | Week 15-16 | RemoteDataSource layer, iOS-ready |
+
+#### In Progress 🔄
+
+| Milestone | Status | Week | Description |
+|-----------|--------|------|-------------|
+| iOS Investigation | PLANNED | Week 17 | 1-day spike (GitLive vs Native SDK) |
+| ViewModel Migration | PLANNED | Week 17-18 | Simple ViewModels → Presenters |
+| Service Migration | PLANNED | Week 19-20 | Services to shared:domain |
+
+#### Firebase Abstraction Details
+
+- **Interface:** RemoteTournamentDataSource (27 methods, commonMain)
+- **Android Implementation:** FirebaseTournamentDataSource (androidMain)
+- **Coverage:** 51% (30/59 repository methods)
+- **Remaining:** 29 methods (validation, statistics, security - future work)
+- **iOS Path:** CLEAR (interface accessible from Swift)
+
+[Link to detailed entry: [[week-15-16-firebase-abstraction]]]
+
+---
+
+#### Legacy Status (Week 11)
 - ✅ **6 Shared Modules** operational
 - ✅ **11 Equipment DAOs** migrated to Room KMP
 - ✅ **13 Entities** in KMP database
 - ✅ **4 Platform Abstractions** (Pattern 3)
 - ✅ **19 Services** extracted from god classes
 - 🟢 **Android** fully migrated and tested
-- 🟡 **iOS** infrastructure ready (implementation Week 15+)
 
 ### Key Metrics
 | Metric | Value | Status |
@@ -916,73 +945,99 @@ abstract class ArcheryKmpDatabase : RoomDatabase()
 
 ---
 
+## Migration Timeline
+
+**2025-10 (Weeks 11-12):** Entity Migration ✅
+- 45 entities to shared:database
+
+**2025-10 (Weeks 13-14):** Database Cutover ✅
+- Room → KMP SQLDelight
+- 100% test pass rate maintained
+
+**2025-11 (Weeks 15-16):** Firebase Abstraction ✅
+- RemoteDataSource layer
+- 51% repository coverage
+- iOS path clear
+
+**2025-11 (Week 17+):** iOS Investigation + ViewModel Migration 🔄
+- Option A: iOS spike (1 day)
+- Option B: ViewModel migrations (1-2 weeks)
+- Option C: Parallel (iOS spike + ViewModel start)
+
+**2025-12 (Weeks 19-20):** Service Migration (PLANNED)
+- Services to shared:domain
+- Business logic shared
+
+**2026-Q1:** Full KMP Migration Complete (TARGET)
+- 80-90% code sharing
+- iOS app production-ready
+
+---
+
 ## Future Roadmap
 
-### Week 12-14: DAO Completion
+### Week 17: iOS Investigation Spike (PLANNED)
+**Duration:** 1 day
+**Purpose:** Choose iOS Firebase SDK strategy
+
+**Options to Evaluate:**
+1. **GitLive SDK** (KMP-native)
+   - Pros: Fully KMP-compatible, shared code
+   - Cons: Community-maintained, feature gaps possible
+
+2. **Native Firebase iOS SDK** (Platform-specific)
+   - Pros: Official support, feature-complete
+   - Cons: Requires iOS-specific implementation of RemoteTournamentDataSource
+
+**Decision Criteria:**
+- Feature parity with Android
+- Long-term maintenance burden
+- Community support and stability
+
+---
+
+### Week 17-18: Simple ViewModel Migration (PLANNED)
 **Goals:**
-- Migrate remaining medium-complexity DAOs
-- Evaluate high-risk DAOs (defer if needed)
-- BowSetup DAO refinement
+- Migrate 3-5 simple ViewModels to Presenters
+- Establish ViewModel → Presenter pattern
+- Shared presentation logic
+
+**Target ViewModels:**
+- EquipmentViewModel (simplest)
+- SettingsViewModel
+- ProfileViewModel
 
 **Success Criteria:**
-- 15-20 DAOs in KMP database
-- All equipment DAOs operational
-- Repository layer fully migrated
+- Presenters in shared:presentation
+- Android ViewModels call Presenters
+- 80%+ presentation logic shared
+- Zero regressions
 
 ---
 
-### Week 15-20: iOS Implementation
+### Week 19-20: Service Migration (PLANNED)
 **Goals:**
-- Implement iOS DatabaseBuilder
-- iOS database persistence
-- Cross-platform testing
+- Migrate services to shared:domain
+- Remove Android dependencies from business logic
 
-**Tasks:**
-1. iOS DatabaseBuilder implementation
-   ```kotlin
-   // iosMain
-   actual fun getDatabaseBuilder(): DatabaseBuilder = IosDatabaseBuilder
-
-   object IosDatabaseBuilder : DatabaseBuilder {
-       override fun build(): ArcheryKmpDatabase {
-           val dbPath = NSHomeDirectory() + "/archery_database.db"
-           return Room.databaseBuilder<ArcheryKmpDatabase>(name = dbPath)
-               .setDriver(BundledSQLiteDriver())
-               .build()
-       }
-   }
-   ```
-
-2. iOS app UI (SwiftUI)
-3. Cross-platform E2E tests
-4. Performance testing
+**Target Services:**
+- StatisticsCalculationService
+- ValidationService
+- AccuracyCalculationService
 
 ---
 
-### Week 21-30: iOS Feature Parity
+### 2026-Q1: iOS Feature Parity (TARGET)
 **Goals:**
-- Full iOS feature implementation
-- UI/UX refinement
-- Production readiness
+- Full iOS app implementation
+- SwiftUI integration with KMP
+- Production-ready iOS app
 
 **Milestones:**
-- Equipment management on iOS
-- Tournament creation/scoring on iOS
-- Statistics and analytics on iOS
+- iOS DatabaseBuilder
+- iOS UI layer (SwiftUI)
+- Cross-platform E2E tests
 - iOS App Store submission
-
----
-
-### Week 31+: Maintenance & Enhancement
-**Goals:**
-- Bug fixes
-- Performance optimization
-- New features
-
-**Focus Areas:**
-- Cross-platform testing automation
-- CI/CD for iOS
-- User feedback integration
 
 ---
 
