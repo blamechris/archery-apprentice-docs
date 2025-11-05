@@ -796,7 +796,7 @@ class AccuracyCalculationServiceTest {
     private val service = AccuracyCalculationService(calculator)
 
     @Test
-    fun `calculateMuAccuracy delegatesToCalculator`() {
+    fun `calculateMuAccuracy delegates to calculator`() {
         // Given - Calculator returns specific value
         every { calculator.calculateMuAccuracy(50, 80) } returns 62.5f
 
@@ -809,7 +809,7 @@ class AccuracyCalculationServiceTest {
     }
 
     @Test
-    fun `calculateAccuracy delegatesToCalculator`() {
+    fun `calculateAccuracy delegates to calculator`() {
         // Given - Calculator returns specific value
         every { calculator.calculateAccuracy(120, 150) } returns 80
 

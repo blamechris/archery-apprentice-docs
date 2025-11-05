@@ -683,7 +683,8 @@ interface TournamentRepository {
 class HybridTournamentRepository(
     private val offlineRepo: OfflineTournamentRepository,
     private val firebaseRepo: FirebaseTournamentRepository,
-    private val networkMonitor: NetworkMonitor
+    private val networkMonitor: NetworkMonitor,
+    private val syncScope: CoroutineScope  // Injected scope for background sync
 ) : TournamentRepository {
 
     override fun getPublicTournaments(): Flow<List<Tournament>> = flow {
@@ -738,7 +739,7 @@ class HybridTournamentRepository(
 
             // 2. Sync to Firebase in background
             if (networkMonitor.isConnected) {
-                viewModelScope.launch {
+                syncScope.launch {
                     retryWithExponentialBackoff {
                         firebaseRepo.syncArrowScore(tournamentId, participantId, score)
                     }
@@ -775,6 +776,36 @@ class HybridTournamentRepository(
     }
 }
 ```
+
+**Important: Repository Scope Injection**
+
+Repositories should **never** use `viewModelScope` directly. This violates MVVM architectural layering:
+
+- ❌ **Wrong:** `viewModelScope.launch { /* background work */ }` in repository
+- ✅ **Correct:** Inject a `CoroutineScope` into the repository constructor
+
+**Why?**
+- Repositories belong to the **data layer**, ViewModels belong to the **presentation layer**
+- Data layer should not depend on presentation layer (maintains clean architecture)
+- Injected scope allows proper lifecycle management and testing
+
+**Implementation:**
+```kotlin
+// In repository constructor (shown above):
+class HybridTournamentRepository(
+    /* ... other dependencies ... */
+    private val syncScope: CoroutineScope  // ✅ Injected scope
+)
+
+// In Hilt module:
+@Provides
+@Singleton
+fun provideSyncScope(): CoroutineScope {
+    return CoroutineScope(Dispatchers.IO + SupervisorJob())
+}
+```
+
+---
 
 **3. Tournament Sync Service**
 
