@@ -972,8 +972,8 @@ match /tournaments/{tournamentId} {
 - [Troubleshooting](../../troubleshooting/) - Common issues and solutions
 
 **Developer Documentation:**
-- [Data Lifecycle Services](/developer-guide/technical-reference/api/services/data-lifecycle-services-reference/) - Technical API details
-- [Integration Flows](/Technical-Reference/Flows/Integration-Flows/) - Firebase sync architecture
+- [Data Lifecycle Services](../../../developer-guide/technical-reference/api/services/data-lifecycle-services-reference/) - Technical API details
+- [Integration Flows](../../../Technical-Reference/Flows/Integration-Flows/) - Firebase sync architecture
 
 ---
 

@@ -111,7 +111,7 @@ First-time user experience introducing core features and guiding initial setup.
 ### 2. Equipment Setup Flow
 
 **Status:** ✅ Fully Documented (1,949 lines)
-**Documentation:** [Equipment Management End-to-End Flow](../../../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/)
+**Documentation:** [Equipment Management End-to-End Flow](../../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/)
 
 **Overview:**
 
@@ -171,14 +171,14 @@ Bow Setup v1 (Original) → Add Sight → Bow Setup v2 → Change Arrows → Bow
    Round 1 (uses v1)            Round 2 (uses v2)            Round 3 (uses v3)
 ```
 
-**See Full Documentation:** [Equipment Management End-to-End Flow](../../../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/)
+**See Full Documentation:** [Equipment Management End-to-End Flow](../../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/)
 
 ---
 
 ### 3. Settings Configuration Flow
 
 **Status:** ✅ Fully Documented (493 lines)
-**Documentation:** [Settings Architecture](../../../../developer-guide/technical-reference/flows/settings-architecture/)
+**Documentation:** [Settings Architecture](../../../developer-guide/technical-reference/flows/settings-architecture/)
 
 **Overview:**
 
@@ -230,7 +230,7 @@ UI Recomposition → All Consumers Updated (Live)
 - Reset onboarding (return to first-time experience)
 - Manage account (if authenticated)
 
-**See Full Documentation:** [Settings Architecture](../../../../developer-guide/technical-reference/flows/settings-architecture/)
+**See Full Documentation:** [Settings Architecture](../../../developer-guide/technical-reference/flows/settings-architecture/)
 
 ---
 
@@ -242,8 +242,8 @@ Primary user activities for archery practice and record-keeping.
 
 **Status:** ✅ Fully Documented (1,733 lines combined)
 **Documentation:**
-- [Round Lifecycle Flow](../../../../developer-guide/technical-reference/flows/round-lifecycle-flow/) (1,168 lines)
-- [Scoring Flow](../../../../developer-guide/technical-reference/flows/scoring-flow/) (565 lines)
+- [Round Lifecycle Flow](../../../developer-guide/technical-reference/flows/round-lifecycle-flow/) (1,168 lines)
+- [Scoring Flow](../../../developer-guide/technical-reference/flows/scoring-flow/) (565 lines)
 
 **Overview:**
 
@@ -365,15 +365,15 @@ PLANNED → IN_PROGRESS ⇄ PAUSED → COMPLETED/CANCELLED
 - Retry mechanism handles network failures gracefully
 
 **See Full Documentation:**
-- [Round Lifecycle Flow](../../../../developer-guide/technical-reference/flows/round-lifecycle-flow/) - Round creation → completion
-- [Scoring Flow](../../../../developer-guide/technical-reference/flows/scoring-flow/) - Arrow input → end completion
+- [Round Lifecycle Flow](../../../developer-guide/technical-reference/flows/round-lifecycle-flow/) - Round creation → completion
+- [Scoring Flow](../../../developer-guide/technical-reference/flows/scoring-flow/) - Arrow input → end completion
 
 ---
 
 ### 5. Historical Rounds Viewing Flow
 
 **Status:** ✅ Documented (part of Round Lifecycle Flow)
-**Documentation:** [Round Lifecycle Flow - Historical Viewing](../../../../developer-guide/technical-reference/flows/round-lifecycle-flow/#historical-viewing)
+**Documentation:** [Round Lifecycle Flow - Historical Viewing](../../../developer-guide/technical-reference/flows/round-lifecycle-flow/#historical-viewing)
 
 **Overview:**
 
@@ -429,7 +429,7 @@ View and analyze past rounds with smart caching and filtering.
 - Export round data for external analysis
 - Delete old rounds (confirmation required)
 
-**See Full Documentation:** [Round Lifecycle Flow - Historical Viewing](../../../../developer-guide/technical-reference/flows/round-lifecycle-flow/#historical-viewing)
+**See Full Documentation:** [Round Lifecycle Flow - Historical Viewing](../../../developer-guide/technical-reference/flows/round-lifecycle-flow/#historical-viewing)
 
 ---
 
@@ -803,9 +803,9 @@ tournaments/{tournamentId}
 ```
 
 **See Also:**
-- [Data Sync Flow](../../../../developer-guide/technical-reference/flows/data-sync-flow/) - Complete sync architecture
+- [Data Sync Flow](../../../developer-guide/technical-reference/flows/data-sync-flow/) - Complete sync architecture
 - [Integration Flows](../Integration-Flows/) - Firebase integration patterns
-- [Tournament System Documentation](../../../../developer-guide/technical-reference/tournament/tournament-system-documentation/) - Complete technical documentation (1,165 lines)
+- [Tournament System Documentation](../../../developer-guide/technical-reference/tournament/tournament-system-documentation/) - Complete technical documentation (1,165 lines)
 
 ---
 
