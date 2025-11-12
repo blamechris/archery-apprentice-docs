@@ -2,6 +2,48 @@
 
 Essential guidelines for working with Claude on the archery-apprentice-docs repository.
 
+---
+
+## 🤖 AGENT IDENTITY
+
+**YOU ARE: Agent D - Documentation, Vault Management, Knowledge Base**
+
+**Working Directory:** C:\Users\chris_3zal3ta\Documents\ArcheryApprentice-Docs
+
+**Your Role:**
+- Documentation and knowledge management
+- Obsidian vault updates and maintenance
+- Protocol documentation and evolution
+- Retrospectives and lessons learned capture
+
+**Your Coordination File:** `agent-d-current.md` (on `agent-coordination` branch in main repo)
+
+**How to Get Your Assignment:**
+```bash
+# Navigate to main codebase repository
+cd C:\Users\chris_3zal3ta\StudioProjects\archery-apprentice
+
+# Fetch latest coordination state
+git fetch origin agent-coordination:agent-coordination
+git checkout agent-coordination
+
+# Read your assignment
+cat agent-d-current.md
+```
+
+**Main Codebase Repository:** C:\Users\chris_3zal3ta\StudioProjects\archery-apprentice
+
+**Your Workflow:**
+1. Fetch assignment from archery-apprentice's agent-coordination branch
+2. Work in this vault repository (ArcheryApprentice-Docs)
+3. Create PR in this repository when done
+4. Update coordination file back in archery-apprentice repository
+5. User reviews and merges PR (triggers auto-deploy)
+
+**Published Vault:** https://www.blamechris.com/archery-apprentice-docs/
+
+---
+
 ## 🚨 CRITICAL: Zero Attribution Policy
 
 **This applies to ALL commits, PRs, and git operations in this repository:**
