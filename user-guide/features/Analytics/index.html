@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Analytics Features</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Analytics Features"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Analytics Features"/><meta name="twitter:description" content="Performance statistics, insights, and data analysis"/><meta property="og:description" content="Performance statistics, insights, and data analysis"/><meta property="og:image:alt" content="Performance statistics, insights, and data analysis"/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/features/Analytics/index"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/features/Analytics/index"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="Performance statistics, insights, and data analysis"/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/features/Analytics/index-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/features/Analytics/index-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/features/Analytics/index-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="user-guide/features/Analytics/index"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-252"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-252" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-3"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../user-guide/">user guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../user-guide/features/">features</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Analytics Features</a></div></nav><h1 class="article-title">Analytics Features</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-05T02:41:19.000Z">Nov 05, 2025</time><span>9 min read</span></p></div></div><div class="popover-hint"><article class><p><a href="../../../" class="internal alias" data-slug="index">Home</a> > <a href="../../.././../" class="internal alias" data-slug="index">User Guide</a> > <a href="../../.././" class="internal alias" data-slug="index">Features</a> > Analytics</p>
+<hr/>
+<h1 id="analytics-features">Analytics Features<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#analytics-features" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p>Archery Apprentice provides comprehensive analytics to help you understand your performance, identify trends, and optimize your equipment choices. The analytics system tracks everything from basic scoring statistics to advanced shot grouping analysis.</p>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Analytics features are organized into several categories:</p>
+<ul>
+<li><strong>Round Statistics</strong> - Immediate feedback after each round</li>
+<li><strong>Equipment Performance</strong> - Track how each bow setup performs</li>
+<li><strong>Shot Grouping Analysis</strong> - Understand arrow placement consistency (when using target face scoring)</li>
+<li><strong>Fatigue Analysis</strong> - Identify performance drops during longer sessions</li>
+<li><strong>Consistency Metrics</strong> - Measure end-to-end score variation</li>
+<li><strong>Equipment Comparison</strong> - Compare statistics across different setups</li>
+</ul>
+<hr/>
+<h2 id="round-statistics">Round Statistics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#round-statistics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>After completing any round, you get instant statistics:</p>
+<h3 id="basic-metrics">Basic Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#basic-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Aggregate Statistics</strong></p>
+<ul>
+<li><strong>Total Score</strong> - Sum of all arrow scores</li>
+<li><strong>Average per Arrow</strong> - Total score divided by number of arrows</li>
+<li><strong>Average per End</strong> - Total score divided by number of ends</li>
+<li><strong>Accuracy Percentage</strong> - Your score as a percentage of the maximum possible</li>
+</ul>
+<p><strong>Ring Distribution</strong></p>
+<ul>
+<li><strong>X-ring Count</strong> - Inner 10 hits (critical for tie-breaking)</li>
+<li><strong>10-ring Count</strong> - All 10s (including X-ring)</li>
+<li><strong>9-ring Count</strong> - Number of 9s shot</li>
+<li><strong>8-ring and below</strong> - Distribution across remaining rings</li>
+</ul>
+<blockquote>
+<p><strong>Tie-Breaking Note:</strong> In competitive archery, ties are broken by X-ring count, then 10-ring count. The app tracks these automatically.</p>
+</blockquote>
+<h3 id="end-by-end-breakdown">End-by-End Breakdown<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#end-by-end-breakdown" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>View detailed statistics for each end:</p>
+<ul>
+<li><strong>End Number</strong> and <strong>Score</strong></li>
+<li><strong>Running Total</strong> after that end</li>
+<li><strong>Average for that end</strong></li>
+<li><strong>Best and worst ends</strong> highlighted</li>
+</ul>
+<p>This helps you identify:</p>
+<ul>
+<li><strong>Fatigue patterns</strong> - Are your later ends consistently lower?</li>
+<li><strong>Warm-up effects</strong> - Do you shoot better after the first end?</li>
+<li><strong>Consistency issues</strong> - Large score swings between ends</li>
+</ul>
+<hr/>
+<h2 id="equipment-performance-analytics">Equipment Performance Analytics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-performance-analytics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Access comprehensive equipment statistics through the <strong>Equipment Analytics Hub</strong> on the Equipment Page.</p>
+<h3 id="performance-by-bow-setup">Performance by Bow Setup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#performance-by-bow-setup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>For each bow setup, view:</p>
+<ul>
+<li><strong>Total Rounds Scored</strong> with this setup</li>
+<li><strong>Average Score</strong> across all rounds</li>
+<li><strong>Best Round</strong> score</li>
+<li><strong>Accuracy Percentage</strong> average</li>
+<li><strong>Ring Distribution</strong> (X-count, 10-count, etc.)</li>
+</ul>
+<h3 id="performance-by-distance">Performance by Distance<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#performance-by-distance" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>See how each setup performs at different ranges:</p>
+<ul>
+<li><strong>50 meters</strong> - Indoor/outdoor mid-range</li>
+<li><strong>70 meters</strong> - Olympic outdoor distance</li>
+<li><strong>18 meters</strong> - Indoor standard</li>
+<li><strong>Custom distances</strong> - Any distance you’ve shot</li>
+</ul>
+<p><strong>Example Use Case:</strong>
+Compare your “Indoor Setup” at 18m vs your “Outdoor Setup” at 18m to understand which configuration works better indoors.</p>
+<h3 id="equipment-comparison-screen">Equipment Comparison Screen<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-comparison-screen" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Compare multiple bow setups side-by-side:</p>
+<ul>
+<li>Select 2-4 setups to compare</li>
+<li>View statistics in parallel columns</li>
+<li>Identify which setup performs best at specific distances</li>
+<li>Make data-driven equipment decisions</li>
+</ul>
+<p><strong>What You Can Compare:</strong></p>
+<ul>
+<li>Average scores</li>
+<li>Accuracy percentages</li>
+<li>Ring distributions</li>
+<li>Number of rounds shot</li>
+<li>Best performances</li>
+</ul>
+<hr/>
+<h2 id="advanced-shot-grouping-analysis">Advanced Shot Grouping Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#advanced-shot-grouping-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>When you use <strong>Target Face Scoring</strong> (tapping on the target to mark arrow positions), the app captures arrow coordinates and calculates sophisticated grouping metrics.</p>
+<h3 id="shot-grouping-metrics">Shot Grouping Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#shot-grouping-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Eccentricity</strong></p>
+<ul>
+<li>Measures how “stretched” your shot group is</li>
+<li>Value between 0 (perfectly circular) and 1 (highly elliptical)</li>
+<li>Lower is better - indicates consistent, circular grouping</li>
+<li><strong>Example:</strong> 0.2 = nice circular group, 0.8 = arrows spread in a line</li>
+</ul>
+<p><strong>Radial Standard Deviation</strong></p>
+<ul>
+<li>Measures spread of arrows from the center of your group</li>
+<li>Expressed in target units (e.g., millimeters or inches)</li>
+<li>Lower is better - tighter grouping</li>
+<li><strong>Example:</strong> 15mm radial SD = arrows typically land within 15mm of group center</li>
+</ul>
+<p><strong>Bias Direction</strong></p>
+<ul>
+<li>Shows if your group has a directional tendency</li>
+<li>Expressed as compass direction (e.g., “2 o’clock”, “10 o’clock”)</li>
+<li>Helps identify aiming or form issues</li>
+<li><strong>Example:</strong> Bias at “2 o’clock” suggests arrows consistently high-right</li>
+</ul>
+<p><strong>Radial Consistency Index</strong></p>
+<ul>
+<li>Measures how evenly arrows are spread around the group center</li>
+<li>Value between 0 (all arrows in one spot) and 1 (perfectly even distribution)</li>
+<li>Context-dependent - not always “higher is better”</li>
+</ul>
+<h3 id="using-grouping-analysis">Using Grouping Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#using-grouping-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Identify Aiming Issues:</strong></p>
+<ul>
+<li>Consistent bias in one direction → Check your aim point or sight settings</li>
+<li>High eccentricity horizontally → Check bow hand tension or grip</li>
+<li>High eccentricity vertically → Check draw length or anchor consistency</li>
+</ul>
+<p><strong>Track Improvement:</strong></p>
+<ul>
+<li>Decreasing radial SD over time = improving consistency</li>
+<li>Decreasing eccentricity = more circular, predictable groups</li>
+<li>Bias moving toward center = better sight adjustment</li>
+</ul>
+<p><strong>Compare Equipment:</strong></p>
+<ul>
+<li>Does a different stabilizer reduce your radial SD?</li>
+<li>Does a new sight decrease your bias?</li>
+<li>Which arrow set gives the lowest eccentricity?</li>
+</ul>
+<blockquote>
+<p><strong>Important:</strong> Grouping analysis requires target face scoring with coordinates. Manual score entry doesn’t capture this data.</p>
+</blockquote>
+<hr/>
+<h2 id="fatigue-analysis">Fatigue Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#fatigue-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Fatigue analysis compares your performance in <strong>early ends</strong> vs <strong>later ends</strong> to identify if you’re losing energy or focus during longer rounds.</p>
+<h3 id="how-it-works">How It Works<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#how-it-works" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>The app divides your round into segments:</p>
+<ul>
+<li><strong>Early Ends</strong> - First 1/3 of the round (e.g., Ends 1-2 in a 6-end round)</li>
+<li><strong>Later Ends</strong> - Last 1/3 of the round (e.g., Ends 5-6 in a 6-end round)</li>
+</ul>
+<p>Then calculates:</p>
+<ul>
+<li><strong>Average score for early ends</strong></li>
+<li><strong>Average score for later ends</strong></li>
+<li><strong>Performance drop percentage</strong></li>
+</ul>
+<h3 id="interpreting-fatigue-metrics">Interpreting Fatigue Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#interpreting-fatigue-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Performance Drop: 0-5%</strong></p>
+<ul>
+<li>✅ Excellent endurance - consistent throughout</li>
+<li>Your conditioning and focus are strong</li>
+</ul>
+<p><strong>Performance Drop: 5-10%</strong></p>
+<ul>
+<li>⚠️ Moderate fatigue - common for longer rounds</li>
+<li>Consider conditioning work or shorter practice sessions</li>
+</ul>
+<p><strong>Performance Drop: >10%</strong></p>
+<ul>
+<li>❌ Significant fatigue - impacting your scores</li>
+<li>Evaluate:
+<ul>
+<li>Bow weight (poundage too high?)</li>
+<li>Shooting form (excessive tension?)</li>
+<li>Physical conditioning</li>
+<li>Mental focus techniques</li>
+</ul>
+</li>
+</ul>
+<h3 id="using-fatigue-data">Using Fatigue Data<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#using-fatigue-data" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Training Decisions:</strong></p>
+<ul>
+<li>High fatigue drop → Focus on endurance training</li>
+<li>Low fatigue drop → You can handle longer rounds</li>
+</ul>
+<p><strong>Equipment Decisions:</strong></p>
+<ul>
+<li>High fatigue with heavy bow → Consider lower poundage limbs</li>
+<li>High fatigue with stabilizer weight → Try lighter weights</li>
+</ul>
+<p><strong>Competition Strategy:</strong></p>
+<ul>
+<li>Know your fatigue patterns when planning tournament rounds</li>
+<li>Adjust pacing and rest between ends</li>
+</ul>
+<hr/>
+<h2 id="consistency-analysis">Consistency Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#consistency-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Consistency metrics measure how much your scores <strong>vary from end to end</strong>.</p>
+<h3 id="end-to-end-variation">End-to-End Variation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#end-to-end-variation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Standard Deviation</strong></p>
+<ul>
+<li>Measures score spread across ends</li>
+<li>Lower is better - more predictable shooting</li>
+<li><strong>Example:</strong> SD of 3 points = most ends within 3 points of your average</li>
+</ul>
+<p><strong>Coefficient of Variation</strong></p>
+<ul>
+<li>Standard deviation as a percentage of average</li>
+<li>Normalizes variation across different scoring levels</li>
+<li>Helps compare consistency at different skill levels</li>
+</ul>
+<p><strong>Range (Best - Worst End)</strong></p>
+<ul>
+<li>Difference between your highest and lowest end</li>
+<li>Shows maximum variability</li>
+<li><strong>Example:</strong> Range of 12 points = your worst end was 12 points below your best</li>
+</ul>
+<h3 id="why-consistency-matters">Why Consistency Matters<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#why-consistency-matters" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>In Competition:</strong></p>
+<ul>
+<li>Consistent shooting is more valuable than occasional high scores</li>
+<li>Reduces risk of “blow-up” ends that ruin your round</li>
+<li>Builds mental confidence</li>
+</ul>
+<p><strong>For Improvement:</strong></p>
+<ul>
+<li>High variation suggests form inconsistencies</li>
+<li>Low variation means you’ve mastered your technique</li>
+<li>Tracking consistency over time shows skill development</li>
+</ul>
+<h3 id="improving-consistency">Improving Consistency<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#improving-consistency" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>If your end-to-end variation is high:</strong></p>
+<ul>
+<li>Focus on shot routine consistency</li>
+<li>Check equipment consistency (bow tuning, arrow spine)</li>
+<li>Work on mental game (staying in the moment)</li>
+<li>Practice at shorter distances first to build consistency</li>
+</ul>
+<p><strong>If your consistency is good but average is low:</strong></p>
+<ul>
+<li>Your form is solid, work on aiming</li>
+<li>Consider sight adjustments</li>
+<li>Focus on strength and conditioning for higher draw weight</li>
+</ul>
+<hr/>
+<h2 id="equipment-analytics-hub">Equipment Analytics Hub<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-analytics-hub" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>The Equipment Analytics Hub is your central location for all equipment-related statistics.</p>
+<h3 id="how-to-access">How to Access<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#how-to-access" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>Navigate to <strong>Equipment Page</strong></li>
+<li>Tap <strong>Analytics Hub</strong> button</li>
+<li>Select the analysis type:
+<ul>
+<li>Performance by Setup</li>
+<li>Performance by Distance</li>
+<li>Equipment Comparison</li>
+<li>Usage Statistics</li>
+</ul>
+</li>
+</ol>
+<h3 id="features">Features<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#features" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Performance by Setup</strong></p>
+<ul>
+<li>See all your bow setups ranked by performance</li>
+<li>Filter by distance</li>
+<li>Sort by average score, accuracy, or round count</li>
+</ul>
+<p><strong>Performance by Distance</strong></p>
+<ul>
+<li>View how each setup performs at specific distances</li>
+<li>Identify your strongest and weakest distances</li>
+<li>Make informed decisions about distance practice priorities</li>
+</ul>
+<p><strong>Equipment Comparison</strong></p>
+<ul>
+<li>Multi-select up to 4 setups</li>
+<li>Side-by-side statistics</li>
+<li>Visual indicators for best/worst performers</li>
+</ul>
+<p><strong>Usage Statistics</strong></p>
+<ul>
+<li>Most frequently used setups</li>
+<li>Total rounds per setup</li>
+<li>Last used date for each setup</li>
+<li>Identify underutilized equipment</li>
+</ul>
+<hr/>
+<h2 id="performance-trends-coming-soon">Performance Trends (Coming Soon)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#performance-trends-coming-soon" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Future analytics features will include:</p>
+<ul>
+<li><strong>Historical trend graphs</strong> - Visualize improvement over weeks/months</li>
+<li><strong>Goal tracking</strong> - Set performance targets and monitor progress</li>
+<li><strong>Seasonal analysis</strong> - Compare performance across different time periods</li>
+<li><strong>Competition vs Practice</strong> - Separate analytics for tournament rounds</li>
+<li><strong>Data export</strong> - Export statistics to CSV for external analysis</li>
+</ul>
+<hr/>
+<h2 id="analytics-best-practices">Analytics Best Practices<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#analytics-best-practices" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="get-accurate-data">Get Accurate Data<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#get-accurate-data" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Use Target Face Scoring When Possible</strong></p>
+<ul>
+<li>Enables grouping analysis</li>
+<li>Provides richer data for pattern detection</li>
+<li>Captures information manual entry can’t</li>
+</ul>
+<p><strong>Consistently Tag Equipment</strong></p>
+<ul>
+<li>Always select your bow setup when creating rounds</li>
+<li>Update setups when you change equipment</li>
+<li>This keeps performance data accurate</li>
+</ul>
+<p><strong>Complete Rounds Properly</strong></p>
+<ul>
+<li>Don’t abandon rounds midway (skews statistics)</li>
+<li>Use “Pause” if you need to stop and resume later</li>
+<li>Only “Cancel” if the round is truly invalid</li>
+</ul>
+<h3 id="interpret-data-wisely">Interpret Data Wisely<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#interpret-data-wisely" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Look for Patterns, Not Outliers</strong></p>
+<ul>
+<li>One bad round doesn’t indicate a problem</li>
+<li>Track trends over 5-10 rounds minimum</li>
+<li>Consider external factors (weather, fatigue, time of day)</li>
+</ul>
+<p><strong>Context Matters</strong></p>
+<ul>
+<li>Indoor vs outdoor performance differs</li>
+<li>Different distances have different scoring</li>
+<li>Practice rounds vs competition rounds</li>
+</ul>
+<p><strong>Compare Apples to Apples</strong></p>
+<ul>
+<li>Only compare rounds at the same distance</li>
+<li>Use the same scoring system for comparison</li>
+<li>Consider target size differences</li>
+</ul>
+<h3 id="use-data-to-improve">Use Data to Improve<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#use-data-to-improve" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Identify Weaknesses</strong></p>
+<ul>
+<li>Low accuracy → Work on form or aiming</li>
+<li>High fatigue drop → Build endurance</li>
+<li>High end-to-end variation → Focus on consistency</li>
+<li>Directional bias → Adjust sight or form</li>
+</ul>
+<p><strong>Test Equipment Changes</strong></p>
+<ul>
+<li>Score baseline rounds with current setup</li>
+<li>Make one equipment change</li>
+<li>Score comparison rounds</li>
+<li>Analyze if the change improved performance</li>
+</ul>
+<p><strong>Set Measurable Goals</strong></p>
+<ul>
+<li>“Reduce radial SD from 20mm to 15mm in 30 days”</li>
+<li>“Increase average score from 285 to 295 at 50m”</li>
+<li>“Reduce fatigue drop from 8% to 5%“</li>
+</ul>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Learn More:</strong></p>
+<ul>
+<li><a href="../../.././scoring/" class="internal alias" data-slug="scoring/index">Scoring Features</a> - How scoring data is captured</li>
+<li><a href="../../.././equipment/" class="internal alias" data-slug="equipment/index">Equipment Features</a> - Equipment tracking and management</li>
+<li><a href="../../.././../quick-start/" class="internal alias" data-slug="quick-start/index">Quick Start Guide</a> - Getting started with the app</li>
+</ul>
+<p><strong>Advanced Topics:</strong></p>
+<ul>
+<li><a href="../../../developer-guide/technical-reference/data-models/analytics/" class="internal alias" data-slug="developer-guide/technical-reference/data-models/analytics/index">Shot Grouping Details</a> - Technical details on grouping calculations</li>
+<li><a href="../../../developer-guide/technical-reference/data-models/analytics/" class="internal alias" data-slug="developer-guide/technical-reference/data-models/analytics/index">Statistics Formulas</a> - How metrics are computed</li>
+</ul>
+<hr/>
+<h2 id="summary">Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Archery Apprentice analytics help you:</p>
+<ul>
+<li>✅ <strong>Understand performance</strong> with comprehensive round statistics</li>
+<li>✅ <strong>Track equipment</strong> performance across different setups and distances</li>
+<li>✅ <strong>Analyze shot grouping</strong> when using target face scoring</li>
+<li>✅ <strong>Identify fatigue</strong> patterns in longer rounds</li>
+<li>✅ <strong>Measure consistency</strong> with end-to-end variation metrics</li>
+<li>✅ <strong>Compare equipment</strong> to make informed decisions</li>
+<li>✅ <strong>Improve systematically</strong> with data-driven insights</li>
+</ul>
+<p><strong>Start using analytics today to take your archery to the next level!</strong></p></article><div class="page-listing"><p>0 items under this folder.</p><div><ul class="section-ul"></ul></div></div></div><hr/><div class="page-footer"></div></div><div class="right sidebar"></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

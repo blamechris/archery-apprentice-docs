@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>repository-migration-strategy</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="repository-migration-strategy"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="repository-migration-strategy"/><meta name="twitter:description" content="Repository Migration Strategy Created: 2025-10-21 | Agent: Agent 2 (AAM) Tags: kmp repository-pattern migration-strategy architecture Overview The Repository Migration Strategy defines the conceptual approach for migrating repository layer code from Android-only (app/) to Kotlin Multiplatform shared..."/><meta property="og:description" content="Repository Migration Strategy Created: 2025-10-21 | Agent: Agent 2 (AAM) Tags: kmp repository-pattern migration-strategy architecture Overview The Repository Migration Strategy defines the conceptual approach for migrating repository layer code from Android-only (app/) to Kotlin Multiplatform shared..."/><meta property="og:image:alt" content="Repository Migration Strategy Created: 2025-10-21 | Agent: Agent 2 (AAM) Tags: kmp repository-pattern migration-strategy architecture Overview The Repository Migration Strategy defines the conceptual approach for migrating repository layer code from Android-only (app/) to Kotlin Multiplatform shared..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/architecture/repository-migration-strategy"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/architecture/repository-migration-strategy"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="Repository Migration Strategy Created: 2025-10-21 | Agent: Agent 2 (AAM) Tags: kmp repository-pattern migration-strategy architecture Overview The Repository Migration Strategy defines the conceptual approach for migrating repository layer code from Android-only (app/) to Kotlin Multiplatform shared..."/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/architecture/repository-migration-strategy-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/architecture/repository-migration-strategy-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/architecture/repository-migration-strategy-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/kmp-migration/architecture/repository-migration-strategy"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-363"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-363" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/kmp-migration/">kmp migration</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/kmp-migration/architecture/">architecture</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>repository migration strategy</a></div></nav><h1 class="article-title">repository-migration-strategy</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-04T05:49:57.000Z">Nov 04, 2025</time><span>12 min read</span></p><ul class="tags"><li><a href="../../../tags/kmp" class="internal tag-link">kmp</a></li><li><a href="../../../tags/repository-pattern" class="internal tag-link">repository-pattern</a></li><li><a href="../../../tags/migration-strategy" class="internal tag-link">migration-strategy</a></li><li><a href="../../../tags/architecture" class="internal tag-link">architecture</a></li></ul></div></div><article class="popover-hint"><h1 id="repository-migration-strategy">Repository Migration Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#repository-migration-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Created:</strong> 2025-10-21 | <strong>Agent:</strong> Agent 2 (AAM)
+<strong>Tags:</strong> <a href="../../.././../../tags/kmp" class="tag-link internal alias" data-slug="tags/kmp">kmp</a> <a href="../../.././../../tags/repository-pattern" class="tag-link internal alias" data-slug="tags/repository-pattern">repository-pattern</a> <a href="../../.././../../tags/migration-strategy" class="tag-link internal alias" data-slug="tags/migration-strategy">migration-strategy</a> <a href="../../.././../../tags/architecture" class="tag-link internal alias" data-slug="tags/architecture">architecture</a></p>
+<hr/>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>The Repository Migration Strategy defines the conceptual approach for migrating repository layer code from Android-only (<code>app/</code>) to Kotlin Multiplatform shared modules (<code>shared/domain</code>, <code>shared/data</code>). This migration enables cross-platform code sharing while maintaining the existing offline-first, hybrid sync architecture.</p>
+<hr/>
+<h2 id="strategic-goals">Strategic Goals<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#strategic-goals" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="1-enable-cross-platform-code-sharing">1. <strong>Enable Cross-Platform Code Sharing</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-enable-cross-platform-code-sharing" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Repository interfaces and implementations become platform-agnostic</li>
+<li>Business logic (validation, sync strategies) shared across Android, iOS, web</li>
+<li>Platform-specific code (Firebase SDKs, Context) isolated via abstractions</li>
+</ul>
+<h3 id="2-maintain-offline-first-architecture">2. <strong>Maintain Offline-First Architecture</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-maintain-offline-first-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Local Room database remains source of truth</li>
+<li>Hybrid repositories continue to combine local + remote seamlessly</li>
+<li>No user-facing changes (app still works fully offline)</li>
+</ul>
+<h3 id="3-preserve-existing-patterns">3. <strong>Preserve Existing Patterns</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-preserve-existing-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Manual DI (SharedModuleFactory) matches current RepositoryFactory</li>
+<li>Repository pattern unchanged (interface-based, testable)</li>
+<li>Hybrid sync strategy continues (no architectural shift)</li>
+</ul>
+<h3 id="4-minimize-risk">4. <strong>Minimize Risk</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-minimize-risk" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Incremental migration (one repository at a time)</li>
+<li>Comprehensive test coverage maintained (60% patch / 80% project)</li>
+<li>All existing tests must pass after each migration phase</li>
+</ul>
+<hr/>
+<h2 id="current-state-analysis">Current State Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-state-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="repository-inventory-14-repositories">Repository Inventory (14 Repositories)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#repository-inventory-14-repositories" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. TournamentRepository (Interface)</strong></p>
+<ul>
+<li><strong>Location:</strong> <code>app/src/main/java/.../domain/repository/TournamentRepository.kt</code></li>
+<li><strong>Type:</strong> Interface (52 methods across 8 concerns)</li>
+<li><strong>Status:</strong> ⚠️ Agent 3 is splitting into 4 specialized repositories</li>
+<li><strong>Migration:</strong> Wait for Agent 3’s split, then migrate clean architecture</li>
+</ul>
+<p><strong>2. RoundRepository (Class)</strong></p>
+<ul>
+<li><strong>Location:</strong> <code>app/src/main/java/.../domain/repository/RoundRepository.kt</code></li>
+<li><strong>Type:</strong> Class (needs interface extraction)</li>
+<li><strong>Dependencies:</strong> RoundDao, BowSetupRepository</li>
+<li><strong>Migration:</strong> Extract interface → Move to shared</li>
+</ul>
+<p><strong>3. Equipment Repositories (11 Classes)</strong></p>
+<ul>
+<li>BowSetupRepository</li>
+<li>AccessoryRepository, ArrowRepository, BowStringRepository</li>
+<li>LimbsRepository, PlungerRepository, RestRepository</li>
+<li>RiserRepository, SightRepository, StabilizerRepository, WeightRepository</li>
+<li><strong>Type:</strong> All classes (need interface extraction)</li>
+<li><strong>Pattern:</strong> Take DAO dependencies, expose Flow/suspend methods</li>
+<li><strong>Migration:</strong> Batch migration (similar patterns)</li>
+</ul>
+<p><strong>4. Support Classes</strong></p>
+<ul>
+<li>RepositoryFactory (manual DI factory)</li>
+<li>RepositoryProvider (singleton provider)</li>
+<li>UpgradeRepairManager (database migration utility)</li>
+<li><strong>Migration:</strong> Evolve into SharedModuleFactory</li>
+</ul>
+<hr/>
+<h2 id="dependency-management-strategy">Dependency Management Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#dependency-management-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="critical-dependencies">Critical Dependencies<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-dependencies" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 1 (Domain Models) - BLOCKING</strong></p>
+<pre><code>Why:
+- Repository interfaces reference domain models heavily
+- Can't move interfaces without models in shared/domain first
+
+Example:
+interface RoundRepository {
+    suspend fun getRoundById(id: Int): Round?  // Needs Round in shared/domain
+    fun getAllRounds(): Flow&lt;List&lt;Round>>
+}
+
+Status: ⏸️ Waiting for Agent 1 to complete
+Estimated: 2-3 days
+</code></pre>
+<p><strong>Agent 3 (Repository Split) - BLOCKING</strong></p>
+<pre><code>Why:
+- Agent 3 is splitting HybridTournamentRepository into 4 specialized repos NOW
+- Migrating monolithic version would create merge conflicts
+
+Agent 3's Split:
+1. TournamentDiscoveryRepository (~280 lines)
+2. TournamentCrudRepository (~320 lines)
+3. TournamentParticipantRepository (~400 lines)
+4. TournamentScoringRepository (~350 lines)
+
+Status: ⏸️ Waiting for Agent 3's PR to merge
+Estimated: 2-3 days
+</code></pre>
+<h3 id="migration-order-after-dependencies-resolve">Migration Order (After Dependencies Resolve)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#migration-order-after-dependencies-resolve" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Phase 1: Interfaces First</strong></p>
+<ol>
+<li>TournamentRepository (4 interfaces from Agent 3’s split)</li>
+<li>Extract RoundRepository interface</li>
+<li>Extract Equipment repository interfaces (batch)</li>
+</ol>
+<p><strong>Phase 2: Implementations Second</strong></p>
+<ol>
+<li>Move tournament repository implementations</li>
+<li>Move RoundRepositoryImpl</li>
+<li>Move equipment repository implementations (batch)</li>
+</ol>
+<p><strong>Phase 3: Database Last</strong></p>
+<ol>
+<li>Move DAOs (already interfaces)</li>
+<li>Configure Room KMP</li>
+<li>Test migrations</li>
+</ol>
+<p><strong>Rationale for Order:</strong></p>
+<ul>
+<li>Interfaces are pure Kotlin (no platform dependencies)</li>
+<li>Implementations may need platform abstractions</li>
+<li>Database requires expect/actual setup (most complex)</li>
+</ul>
+<hr/>
+<h2 id="repository-split-integration-agent-3s-work">Repository Split Integration (Agent 3’s Work)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#repository-split-integration-agent-3s-work" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="current-monolithic-hybridtournamentrepository">Current: Monolithic HybridTournamentRepository<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-monolithic-hybridtournamentrepository" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong></p>
+<ul>
+<li>1,809 lines, 52 methods</li>
+<li>8+ distinct concerns (Discovery, CRUD, Participants, Scoring, Rounds, Settings, Moderation, Sync)</li>
+<li>Violates Single Responsibility Principle</li>
+<li>Hard to test, hard to maintain</li>
+</ul>
+<h3 id="future-4-specialized-repositories--coordinator">Future: 4 Specialized Repositories + Coordinator<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#future-4-specialized-repositories--coordinator" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. TournamentDiscoveryRepository</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentDiscoveryRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getPublicTournaments</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getMyTournaments</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(userId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> searchTournaments</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(query: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournamentsByStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(status: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournamentsInDateRange</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(start: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, end: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> observeTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?></span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Concern:</strong> Finding and browsing tournaments
+<strong>Lines:</strong> ~280
+<strong>Pattern:</strong> Read-only hybrid (combines local + remote)</p>
+<p><strong>2. TournamentCrudRepository</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentCrudRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournament: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> updateTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournament: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> deleteTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> cancelTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, reason: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> startTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> endTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> syncLocalTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(localId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Concern:</strong> Create, update, delete, lifecycle transitions
+<strong>Lines:</strong> ~320
+<strong>Pattern:</strong> Offline-first with background sync</p>
+<p><strong>3. TournamentParticipantRepository</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentParticipantRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> joinTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        participant: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentParticipant</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        authenticatedUserId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">? </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> null</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> retryTournamentJoinSync</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        participant: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentParticipant</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> joinTournamentWithCode</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        joinCode: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        participant: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentParticipant</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> leaveTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        participantId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournamentParticipants</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentParticipant</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getParticipant</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, participantId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentParticipant</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> updateParticipantStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        participantId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        status: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ParticipantStatus</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Concern:</strong> Participant management and join flow
+<strong>Lines:</strong> ~400
+<strong>Pattern:</strong> Offline-first join with explicit auth state passing</p>
+<p><strong>4. TournamentScoringRepository</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentScoringRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> submitScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        participantId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        roundNumber: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        arrowScores: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        isXFlags: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Boolean</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        endNumber: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        deviceId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournamentLeaderboard</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">LeaderboardEntry</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> observeTournamentScores</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        roundNumber: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getParticipantRoundArrows</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        participantId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        roundNumber: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">EndScoreWithArrows</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> invalidateTournamentCache</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Concern:</strong> Score submission, leaderboards, real-time scoring
+<strong>Lines:</strong> ~350
+<strong>Pattern:</strong> Hybrid with smart caching (TournamentScoreCacheService integration)</p>
+<p><strong>5. HybridTournamentRepository (Coordinator)</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> HybridTournamentRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> discoveryRepo: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentDiscoveryRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> crudRepo: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentCrudRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> participantRepo: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentParticipantRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> scoringRepo: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentScoringRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> networkMonitor: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">NetworkMonitor</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Façade methods that delegate to specialized repositories</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getPublicTournaments</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> discoveryRepo.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getPublicTournaments</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(t: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> crudRepo.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">createTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(t)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> joinTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id, p) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> participantRepo.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">joinTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id, p)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> submitScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">..</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> scoringRepo.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">submitScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">..</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Coordinator responsibilities:</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // - Network monitoring</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // - ID mapping (local ↔ Firebase)</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // - Sync orchestration</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // - Utility methods</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>New Role:</strong> Façade coordinating 4 specialized repositories
+<strong>Lines:</strong> ~600-700 (61% reduction)</p>
+<h3 id="migration-integration-strategy">Migration Integration Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#migration-integration-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When Agent 3 Completes:</strong></p>
+<ol>
+<li>Pull latest main (get 4 specialized repository interfaces)</li>
+<li>Migrate 4 interfaces to <code>shared/domain/repository/tournament/</code></li>
+<li>Migrate 4 implementations to <code>shared/data/repository/tournament/</code></li>
+<li>Update HybridTournamentRepository to use shared repos</li>
+<li>Test all tournament flows (create, join, score, sync)</li>
+</ol>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>Clean architecture from the start (no need to re-migrate)</li>
+<li>Single Responsibility Principle enforced</li>
+<li>Easier to test (smaller, focused repositories)</li>
+<li>Avoids merge conflicts</li>
+</ul>
+<hr/>
+<h2 id="interface-extraction-patterns">Interface Extraction Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#interface-extraction-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="pattern-1-extract-interface-from-class-repository">Pattern 1: Extract Interface from Class Repository<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-1-extract-interface-from-class-repository" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Current (Class-based):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// app/src/main/java/.../repository/RoundRepository.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundDao: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundDao</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> bowSetupRepository: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">BowSetupRepository</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> insertRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">insertRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getAllRounds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>> </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getAllRounds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getRoundById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(roundId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">? </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getRoundById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(roundId)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> updateRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">updateRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> deleteRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        bowSetupRepository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cleanupGuestSetupsForRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round.id)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">deleteRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Target (Interface + Implementation):</strong></p>
+<p><strong>Interface:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// shared/domain/src/commonMain/kotlin/repository/RoundRepository.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> insertRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getAllRounds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getRoundById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(roundId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> updateRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> deleteRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Implementation:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// shared/data/src/commonMain/kotlin/repository/RoundRepositoryImpl.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundRepositoryImpl</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundDao: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundDao</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> bowSetupRepository: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">BowSetupRepository</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> insertRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">insertRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getAllRounds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getAllRounds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getRoundById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(roundId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">? {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getRoundById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(roundId)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> updateRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">updateRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> deleteRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">        // Business logic: cleanup related data</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        bowSetupRepository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cleanupGuestSetupsForRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round.id)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">deleteRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Create interface in <code>shared/domain</code> with all public method signatures</li>
+<li>Create implementation in <code>shared/data</code> extending the interface</li>
+<li>Move implementation code from current class</li>
+<li>Update RepositoryFactory to provide interface (not class)</li>
+<li>Update all call sites to use interface type</li>
+</ol>
+<h3 id="pattern-2-equipment-repository-batch-migration">Pattern 2: Equipment Repository Batch Migration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-2-equipment-repository-batch-migration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Observation:</strong> 11 equipment repositories follow identical pattern</p>
+<p><strong>Template:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Interface (shared/domain)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">interface [EquipmentType]</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Repository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> insert</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(item: [EquipmentType]): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> update</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(item: [EquipmentType])</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> delete</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(item: [EquipmentType])</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): [EquipmentType]?</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getAll</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;[</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">EquipmentType</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getAllActive</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;[</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">EquipmentType</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]>></span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Implementation (shared/data)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">class [EquipmentType]</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RepositoryImpl</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> dao: [EquipmentType]Dao</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) : [EquipmentType]</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Repository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> insert</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(item: [EquipmentType]): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">insert</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(item)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> update</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(item: [EquipmentType]) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">update</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(item)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> delete</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(item: [EquipmentType]) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">delete</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(item)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getAll</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getAll</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getAllActive</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getAllActive</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Batch Migration Strategy:</strong></p>
+<ol>
+<li>Create all 11 interfaces in <code>shared/domain/repository/equipment/</code></li>
+<li>Create all 11 implementations in <code>shared/data/repository/equipment/</code></li>
+<li>Update SharedModuleFactory to provide all 11 repositories</li>
+<li>Test with existing equipment tests</li>
+<li>Update app RepositoryFactory to delegate to SharedModuleFactory</li>
+</ol>
+<p><strong>Time Savings:</strong> Batch approach saves ~2-3 days vs individual migration</p>
+<hr/>
+<h2 id="platform-abstraction-patterns">Platform Abstraction Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#platform-abstraction-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="identify-platform-specific-code">Identify Platform-Specific Code<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#identify-platform-specific-code" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Common Platform Dependencies:</strong></p>
+<ol>
+<li><strong>Android Context</strong> - Already removed by Agent 1 ✅</li>
+<li><strong>Firebase SDKs</strong> - Need abstraction for iOS</li>
+<li><strong>Logging</strong> - Need platform-agnostic logging</li>
+<li><strong>Network connectivity</strong> - Already abstracted by Agent 1 ✅</li>
+</ol>
+<h3 id="pattern-remotetournamentdatasource-abstraction">Pattern: RemoteTournamentDataSource Abstraction<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-remotetournamentdatasource-abstraction" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> Firebase SDK is platform-specific (different for Android vs iOS)</p>
+<p><strong>Solution:</strong> Abstract remote data source interface</p>
+<p><strong>Interface (Shared):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// shared/data/src/commonMain/kotlin/datasources/RemoteTournamentDataSource.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RemoteTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> observeTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournament: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> updateTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournament: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> deleteTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournamentParticipants</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentParticipant</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> submitScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">..</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Android Implementation:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// shared/data/src/androidMain/kotlin/datasources/FirebaseTournamentDataSource.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> FirebaseTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RemoteTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> firestore </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Firebase.firestore</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> try</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> doc </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> firestore.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">collection</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;tournaments&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">document</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">get</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">await</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(doc.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        } </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">catch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (e: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Exception</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">failure</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(e)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> observeTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> callbackFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> listener </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> firestore.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">collection</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;tournaments&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">document</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">addSnapshotListener</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { snapshot, error </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">                    if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (error </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">!=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> null</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">                        close</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(error)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                    } </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">else</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">                        trySend</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(snapshot?.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                }</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">            awaitClose</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { listener.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">remove</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // ... other methods</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>iOS Implementation (Future):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// shared/data/src/iosMain/kotlin/datasources/FirebaseTournamentDataSource.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> FirebaseTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RemoteTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Use iOS Firebase SDK (Cocoapods dependency)</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Similar logic, different platform SDK</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Repository Uses Abstraction:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentCrudRepositoryImpl</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> localDao: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentDao</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> remoteDataSource: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RemoteTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ✅ Interface</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> networkMonitor: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">NetworkMonitor</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentCrudRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Repository doesn't care which platform implementation is used</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournament: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentId</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> localId </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> localDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">insertTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournament.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toEntity</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (networkMonitor.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">isOnline</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            remoteDataSource.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">createTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournament) </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ✅ Platform-agnostic call</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">onSuccess</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { firebaseId </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                    idMappingDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">insert</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(localId, firebaseId)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(localId)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>DI Integration:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// shared/di/src/androidMain/kotlin/AndroidSharedModuleFactory.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> AndroidSharedModuleFactory</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SharedModuleFactory</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> provideTournamentCrudRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentCrudRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentCrudRepositoryImpl</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            localDao </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> database.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">tournamentDao</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(),</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            remoteDataSource </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> FirebaseTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(), </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ✅ Android implementation</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            networkMonitor </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> PlatformProvider.networkMonitor</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        )</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// shared/di/src/iosMain/kotlin/IosSharedModuleFactory.kt (future)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> IosSharedModuleFactory</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SharedModuleFactory</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> provideTournamentCrudRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentCrudRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentCrudRepositoryImpl</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            localDao </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> database.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">tournamentDao</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(),</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            remoteDataSource </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> FirebaseTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(), </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ✅ iOS implementation</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            networkMonitor </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> PlatformProvider.networkMonitor</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        )</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<hr/>
+<h2 id="risk-mitigation-patterns">Risk Mitigation Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#risk-mitigation-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="risk-1-breaking-existing-tests">Risk 1: Breaking Existing Tests<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#risk-1-breaking-existing-tests" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Mitigation Strategy:</strong></p>
+<ul>
+<li>Run full test suite after each repository migration</li>
+<li>Update test imports incrementally</li>
+<li>Keep app tests passing (3,400+ tests)</li>
+<li>Add shared module tests in commonTest</li>
+</ul>
+<p><strong>Test Migration Pattern:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Before (Android test)</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// app/src/test/java/.../repository/RoundRepositoryTest.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundRepositoryTest</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> mockDao: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundDao</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> mockk</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(mockDao, </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">mockk</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    @Test</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getRoundById_returnsRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> runTest</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> expected </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, roundName </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Test&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">        coEvery</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { mockDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getRoundById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) } returns expected</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> result </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getRoundById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">        assertEquals</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(expected, result)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// After (Shared common test)</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// shared/data/src/commonTest/kotlin/repository/RoundRepositoryImplTest.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundRepositoryImplTest</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> mockDao: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundDao</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> mockk</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundRepositoryImpl</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(mockDao, </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">mockk</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    @Test</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getRoundById_returnsRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> runTest</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> expected </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, roundName </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Test&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">        coEvery</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { mockDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getRoundById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) } returns expected</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> result </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getRoundById</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">        assertEquals</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(expected, result)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Keep Android tests for platform-specific code:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// app/src/test/java/.../repository/FirebaseTournamentDataSourceTest.kt</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">@RunWith</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(AndroidJUnit4::</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">class</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> FirebaseTournamentDataSourceTest</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Test Android Firebase SDK integration</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h3 id="risk-2-merge-conflicts-with-agent-3">Risk 2: Merge Conflicts with Agent 3<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#risk-2-merge-conflicts-with-agent-3" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Mitigation Strategy:</strong></p>
+<ul>
+<li><strong>WAIT for Agent 3 to complete repository split</strong></li>
+<li>Pull main AFTER Agent 3’s PR merges</li>
+<li>Migrate clean, split architecture (not monolithic)</li>
+<li>No concurrent work on same files</li>
+</ul>
+<p><strong>Coordination Protocol:</strong></p>
+<ol>
+<li>Agent 2 waits in “productive waiting” mode</li>
+<li>Agent 3 completes repository split</li>
+<li>Agent 3’s PR merges to main</li>
+<li>Agent 2 pulls main (gets split repos)</li>
+<li>Agent 2 begins repository migration (no conflicts)</li>
+</ol>
+<h3 id="risk-3-repository-interface-changes">Risk 3: Repository Interface Changes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#risk-3-repository-interface-changes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Mitigation Strategy:</strong></p>
+<ul>
+<li>Interface extraction must preserve ALL method signatures</li>
+<li>Use IDE refactoring tools (extract interface)</li>
+<li>Verify all call sites compile after extraction</li>
+<li>Run tests to catch behavioral changes</li>
+</ul>
+<p><strong>Verification Checklist:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> All method signatures preserved</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All return types match</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All parameter types match</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All suspend functions marked correctly</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All Flow return types correct</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All documentation preserved</li>
+</ul>
+<hr/>
+<h2 id="migration-phases-detailed">Migration Phases (Detailed)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#migration-phases-detailed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="phase-1-repository-interfaces-2-3-days">Phase 1: Repository Interfaces (2-3 days)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-1-repository-interfaces-2-3-days" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>✅ Agent 1 completes domain model migration</li>
+<li>✅ Agent 3 completes repository split</li>
+</ul>
+<p><strong>Tasks:</strong></p>
+<ol>
+<li>
+<p><strong>Migrate Tournament Interfaces (from Agent 3’s split)</strong></p>
+<ul>
+<li>TournamentDiscoveryRepository.kt → <code>shared/domain/repository/tournament/</code></li>
+<li>TournamentCrudRepository.kt → <code>shared/domain/repository/tournament/</code></li>
+<li>TournamentParticipantRepository.kt → <code>shared/domain/repository/tournament/</code></li>
+<li>TournamentScoringRepository.kt → <code>shared/domain/repository/tournament/</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Extract RoundRepository Interface</strong></p>
+<ul>
+<li>Create <code>shared/domain/repository/RoundRepository.kt</code></li>
+<li>Extract all public method signatures</li>
+<li>Update imports to use shared/domain models</li>
+</ul>
+</li>
+<li>
+<p><strong>Extract Equipment Repository Interfaces (Batch)</strong></p>
+<ul>
+<li>Create 11 interfaces in <code>shared/domain/repository/equipment/</code></li>
+<li>Use template pattern (all follow same structure)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Validation:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> All interfaces compile in shared/domain</li>
+<li class="task-list-item"><input type="checkbox" disabled/> No Android-specific imports</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All model references point to shared/domain</li>
+</ul>
+<h3 id="phase-2-repository-implementations-2-3-days">Phase 2: Repository Implementations (2-3 days)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-2-repository-implementations-2-3-days" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Tasks:</strong></p>
+<ol>
+<li>
+<p><strong>Migrate Tournament Implementations</strong></p>
+<ul>
+<li>Move 4 implementations to <code>shared/data/repository/tournament/</code></li>
+<li>Abstract Firebase with RemoteTournamentDataSource</li>
+<li>Keep hybrid sync logic</li>
+</ul>
+</li>
+<li>
+<p><strong>Create RoundRepositoryImpl</strong></p>
+<ul>
+<li>Move implementation to <code>shared/data/repository/RoundRepositoryImpl.kt</code></li>
+<li>Update package imports</li>
+<li>Remove any Android-specific code (logging)</li>
+</ul>
+</li>
+<li>
+<p><strong>Create Equipment Repository Implementations (Batch)</strong></p>
+<ul>
+<li>Create 11 implementations in <code>shared/data/repository/equipment/</code></li>
+<li>Use template pattern</li>
+</ul>
+</li>
+</ol>
+<p><strong>Validation:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> All implementations compile in shared/data</li>
+<li class="task-list-item"><input type="checkbox" disabled/> No Android SDK dependencies (except platform abstractions)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All tests pass</li>
+</ul>
+<h3 id="phase-3-dependency-injection-1-2-days">Phase 3: Dependency Injection (1-2 days)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-3-dependency-injection-1-2-days" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Tasks:</strong></p>
+<ol>
+<li>
+<p><strong>Extend SharedModuleFactory</strong></p>
+<ul>
+<li>Add methods for all repository interfaces</li>
+<li>Provide singleton instances</li>
+</ul>
+</li>
+<li>
+<p><strong>Implement AndroidSharedModuleFactory</strong></p>
+<ul>
+<li>Provide repository implementations</li>
+<li>Inject DAOs from database</li>
+<li>Inject platform abstractions</li>
+</ul>
+</li>
+<li>
+<p><strong>Update App RepositoryFactory</strong></p>
+<ul>
+<li>Delegate to AndroidSharedModuleFactory</li>
+<li>Keep backward compatibility</li>
+<li>Update tests</li>
+</ul>
+</li>
+</ol>
+<p><strong>Validation:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> All repositories accessible via SharedModuleFactory</li>
+<li class="task-list-item"><input type="checkbox" disabled/> No circular dependencies</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Singletons work correctly</li>
+</ul>
+<h3 id="phase-4-testing--validation-2-3-days">Phase 4: Testing &amp; Validation (2-3 days)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-4-testing--validation-2-3-days" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Tasks:</strong></p>
+<ol>
+<li>
+<p><strong>Migrate Repository Tests to Common</strong></p>
+<ul>
+<li>Move unit tests to <code>shared/data/src/commonTest/</code></li>
+<li>Update imports</li>
+<li>Run tests on JVM target</li>
+</ul>
+</li>
+<li>
+<p><strong>Run Full Test Suite</strong></p>
+<ul>
+<li>All app unit tests (3,400+ tests)</li>
+<li>All E2E tests (5 suites)</li>
+<li>All shared module tests</li>
+</ul>
+</li>
+<li>
+<p><strong>Integration Testing</strong></p>
+<ul>
+<li>Test repository DI</li>
+<li>Test database access</li>
+<li>Test hybrid sync flows</li>
+</ul>
+</li>
+</ol>
+<p><strong>Validation:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> All existing tests pass</li>
+<li class="task-list-item"><input type="checkbox" disabled/> New shared tests pass</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Coverage maintained (60% patch / 80% project)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> E2E tests pass</li>
+</ul>
+<hr/>
+<h2 id="success-metrics">Success Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="code-migration">Code Migration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#code-migration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> All repository interfaces in <code>shared/domain</code> (~1,000 lines)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All repository implementations in <code>shared/data</code> (~2,200 lines)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> SharedModuleFactory fully implemented</li>
+<li class="task-list-item"><input type="checkbox" disabled/> App RepositoryFactory delegates to SharedModuleFactory</li>
+</ul>
+<h3 id="build--compilation">Build &amp; Compilation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#build--compilation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> <code>./gradlew :shared:domain:build</code> - SUCCESS</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>./gradlew :shared:data:build</code> - SUCCESS</li>
+<li class="task-list-item"><input type="checkbox" disabled/> <code>./gradlew :app:build</code> - SUCCESS</li>
+<li class="task-list-item"><input type="checkbox" disabled/> No Android SDK in shared/domain or shared/data</li>
+</ul>
+<h3 id="testing">Testing<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#testing" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> All existing tests pass (3,400+ tests)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> New shared tests added</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Coverage maintained (60% patch / 80% project)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> E2E tests pass</li>
+</ul>
+<h3 id="quality-gates">Quality Gates<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quality-gates" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Manual DI pattern maintained</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All detekt checks pass</li>
+<li class="task-list-item"><input type="checkbox" disabled/> No merge conflicts with Agent 1 or Agent 3</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Clean architecture (SRP enforced)</li>
+</ul>
+<hr/>
+<h2 id="timeline-estimate">Timeline Estimate<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#timeline-estimate" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Total: 12-17 days (active work)</strong></p>
+<ul>
+<li><strong>Waiting for Dependencies:</strong> 3-5 days (Agent 1 &amp; Agent 3)</li>
+<li><strong>Phase 1 (Interfaces):</strong> 2-3 days</li>
+<li><strong>Phase 2 (Implementations):</strong> 2-3 days</li>
+<li><strong>Phase 3 (DI):</strong> 1-2 days</li>
+<li><strong>Phase 4 (Testing):</strong> 2-3 days</li>
+<li><strong>Phase 5 (Database):</strong> 3-4 days (covered in <a href="../../../Room-KMP-Architecture" class="internal alias" data-slug="Room-KMP-Architecture">Room KMP Architecture</a>)</li>
+<li><strong>Phase 6 (Final Validation):</strong> 2-3 days</li>
+</ul>
+<p><strong>Critical Path:</strong> Agent 1 → Agent 3 → Agent 2</p>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Code Repository:</strong></p>
+<ul>
+<li><a href="../../.././../../docs/AGENT_CONTEXTS/AGENT_2_WEEK_2_MIGRATION_PLAN" class="internal alias" data-slug="docs/AGENT_CONTEXTS/AGENT_2_WEEK_2_MIGRATION_PLAN">Week 2 Migration Plan</a> (Implementation details)</li>
+<li><a href="../../.././../../docs/kmp-migration/ROOM_KMP_MIGRATION_GUIDE" class="internal alias" data-slug="docs/kmp-migration/ROOM_KMP_MIGRATION_GUIDE">Room KMP Migration Guide</a></li>
+<li><a href="../../.././../../docs/GOD_CLASS_EXTRACTION_PLANS" class="internal alias" data-slug="docs/GOD_CLASS_EXTRACTION_PLANS">God Class Extraction Plans</a></li>
+</ul>
+<p><strong>Obsidian Vault:</strong></p>
+<ul>
+<li><a href="../../../KMP-Data-Layer-Architecture" class="internal alias" data-slug="KMP-Data-Layer-Architecture">KMP Data Layer Architecture</a> (Architecture overview)</li>
+<li><a href="../../../Room-KMP-Architecture" class="internal alias" data-slug="Room-KMP-Architecture">Room KMP Architecture</a> (Database migration)</li>
+<li><a href="../../../KMP-Migration-Progress" class="internal alias" data-slug="KMP-Migration-Progress">KMP Migration Progress</a> (Project status)</li>
+</ul>
+<hr/>
+<p><strong>Last Updated:</strong> 2025-10-21
+<strong>Status:</strong> Strategy complete, waiting for dependencies (Agent 1 &amp; Agent 3)
+<strong>Next Steps:</strong> Pull main after Agent 1 &amp; Agent 3 merge, begin Phase 1</p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-134" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#repository-migration-strategy" data-for="repository-migration-strategy">Repository Migration Strategy</a></li><li class="depth-1"><a href="#overview" data-for="overview">Overview</a></li><li class="depth-1"><a href="#strategic-goals" data-for="strategic-goals">Strategic Goals</a></li><li class="depth-2"><a href="#1-enable-cross-platform-code-sharing" data-for="1-enable-cross-platform-code-sharing">1. Enable Cross-Platform Code Sharing</a></li><li class="depth-2"><a href="#2-maintain-offline-first-architecture" data-for="2-maintain-offline-first-architecture">2. Maintain Offline-First Architecture</a></li><li class="depth-2"><a href="#3-preserve-existing-patterns" data-for="3-preserve-existing-patterns">3. Preserve Existing Patterns</a></li><li class="depth-2"><a href="#4-minimize-risk" data-for="4-minimize-risk">4. Minimize Risk</a></li><li class="depth-1"><a href="#current-state-analysis" data-for="current-state-analysis">Current State Analysis</a></li><li class="depth-2"><a href="#repository-inventory-14-repositories" data-for="repository-inventory-14-repositories">Repository Inventory (14 Repositories)</a></li><li class="depth-1"><a href="#dependency-management-strategy" data-for="dependency-management-strategy">Dependency Management Strategy</a></li><li class="depth-2"><a href="#critical-dependencies" data-for="critical-dependencies">Critical Dependencies</a></li><li class="depth-2"><a href="#migration-order-after-dependencies-resolve" data-for="migration-order-after-dependencies-resolve">Migration Order (After Dependencies Resolve)</a></li><li class="depth-1"><a href="#repository-split-integration-agent-3s-work" data-for="repository-split-integration-agent-3s-work">Repository Split Integration (Agent 3’s Work)</a></li><li class="depth-2"><a href="#current-monolithic-hybridtournamentrepository" data-for="current-monolithic-hybridtournamentrepository">Current: Monolithic HybridTournamentRepository</a></li><li class="depth-2"><a href="#future-4-specialized-repositories--coordinator" data-for="future-4-specialized-repositories--coordinator">Future: 4 Specialized Repositories + Coordinator</a></li><li class="depth-2"><a href="#migration-integration-strategy" data-for="migration-integration-strategy">Migration Integration Strategy</a></li><li class="depth-1"><a href="#interface-extraction-patterns" data-for="interface-extraction-patterns">Interface Extraction Patterns</a></li><li class="depth-2"><a href="#pattern-1-extract-interface-from-class-repository" data-for="pattern-1-extract-interface-from-class-repository">Pattern 1: Extract Interface from Class Repository</a></li><li class="depth-2"><a href="#pattern-2-equipment-repository-batch-migration" data-for="pattern-2-equipment-repository-batch-migration">Pattern 2: Equipment Repository Batch Migration</a></li><li class="depth-1"><a href="#platform-abstraction-patterns" data-for="platform-abstraction-patterns">Platform Abstraction Patterns</a></li><li class="depth-2"><a href="#identify-platform-specific-code" data-for="identify-platform-specific-code">Identify Platform-Specific Code</a></li><li class="depth-2"><a href="#pattern-remotetournamentdatasource-abstraction" data-for="pattern-remotetournamentdatasource-abstraction">Pattern: RemoteTournamentDataSource Abstraction</a></li><li class="depth-1"><a href="#risk-mitigation-patterns" data-for="risk-mitigation-patterns">Risk Mitigation Patterns</a></li><li class="depth-2"><a href="#risk-1-breaking-existing-tests" data-for="risk-1-breaking-existing-tests">Risk 1: Breaking Existing Tests</a></li><li class="depth-2"><a href="#risk-2-merge-conflicts-with-agent-3" data-for="risk-2-merge-conflicts-with-agent-3">Risk 2: Merge Conflicts with Agent 3</a></li><li class="depth-2"><a href="#risk-3-repository-interface-changes" data-for="risk-3-repository-interface-changes">Risk 3: Repository Interface Changes</a></li><li class="depth-1"><a href="#migration-phases-detailed" data-for="migration-phases-detailed">Migration Phases (Detailed)</a></li><li class="depth-2"><a href="#phase-1-repository-interfaces-2-3-days" data-for="phase-1-repository-interfaces-2-3-days">Phase 1: Repository Interfaces (2-3 days)</a></li><li class="depth-2"><a href="#phase-2-repository-implementations-2-3-days" data-for="phase-2-repository-implementations-2-3-days">Phase 2: Repository Implementations (2-3 days)</a></li><li class="depth-2"><a href="#phase-3-dependency-injection-1-2-days" data-for="phase-3-dependency-injection-1-2-days">Phase 3: Dependency Injection (1-2 days)</a></li><li class="depth-2"><a href="#phase-4-testing--validation-2-3-days" data-for="phase-4-testing--validation-2-3-days">Phase 4: Testing &amp; Validation (2-3 days)</a></li><li class="depth-1"><a href="#success-metrics" data-for="success-metrics">Success Metrics</a></li><li class="depth-2"><a href="#code-migration" data-for="code-migration">Code Migration</a></li><li class="depth-2"><a href="#build--compilation" data-for="build--compilation">Build &amp; Compilation</a></li><li class="depth-2"><a href="#testing" data-for="testing">Testing</a></li><li class="depth-2"><a href="#quality-gates" data-for="quality-gates">Quality Gates</a></li><li class="depth-1"><a href="#timeline-estimate" data-for="timeline-estimate">Timeline Estimate</a></li><li class="depth-1"><a href="#related-documentation" data-for="related-documentation">Related Documentation</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

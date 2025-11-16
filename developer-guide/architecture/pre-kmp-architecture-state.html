@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Pre-KMP Architecture State (Week 10 Snapshot)</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Pre-KMP Architecture State (Week 10 Snapshot)"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Pre-KMP Architecture State (Week 10 Snapshot)"/><meta name="twitter:description" content="Pre-KMP Architecture State (Week 10) Snapshot Date: October 27, 2025 Context: Week 10 of KMP migration - After entity migrations, before DAO migrations Purpose: Capture architecture insights at critical migration milestone Executive Summary Migration Progress: 28% god class reduction achieved (6,798..."/><meta property="og:description" content="Pre-KMP Architecture State (Week 10) Snapshot Date: October 27, 2025 Context: Week 10 of KMP migration - After entity migrations, before DAO migrations Purpose: Capture architecture insights at critical migration milestone Executive Summary Migration Progress: 28% god class reduction achieved (6,798..."/><meta property="og:image:alt" content="Pre-KMP Architecture State (Week 10) Snapshot Date: October 27, 2025 Context: Week 10 of KMP migration - After entity migrations, before DAO migrations Purpose: Capture architecture insights at critical migration milestone Executive Summary Migration Progress: 28% god class reduction achieved (6,798..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/pre-kmp-architecture-state"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/pre-kmp-architecture-state"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="Pre-KMP Architecture State (Week 10) Snapshot Date: October 27, 2025 Context: Week 10 of KMP migration - After entity migrations, before DAO migrations Purpose: Capture architecture insights at critical migration milestone Executive Summary Migration Progress: 28% god class reduction achieved (6,798..."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/pre-kmp-architecture-state-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/pre-kmp-architecture-state-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/pre-kmp-architecture-state-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="developer-guide/architecture/pre-kmp-architecture-state"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-21"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-21" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../developer-guide/">developer guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../developer-guide/architecture/">architecture</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Pre KMP Architecture State (Week 10 Snapshot)</a></div></nav><h1 class="article-title">Pre-KMP Architecture State (Week 10 Snapshot)</h1><p show-comma="true" class="content-meta"><time datetime="2025-10-27T00:00:00.000Z">Oct 27, 2025</time><span>9 min read</span></p><ul class="tags"><li><a href="../../tags/architecture" class="internal tag-link">architecture</a></li><li><a href="../../tags/kmp-migration" class="internal tag-link">kmp-migration</a></li><li><a href="../../tags/snapshot" class="internal tag-link">snapshot</a></li><li><a href="../../tags/week-10" class="internal tag-link">week-10</a></li><li><a href="../../tags/god-classes" class="internal tag-link">god-classes</a></li><li><a href="../../tags/services" class="internal tag-link">services</a></li><li><a href="../../tags/platform-abstractions" class="internal tag-link">platform-abstractions</a></li></ul></div></div><article class="popover-hint"><h1 id="pre-kmp-architecture-state-week-10">Pre-KMP Architecture State (Week 10)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pre-kmp-architecture-state-week-10" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Snapshot Date:</strong> October 27, 2025
+<strong>Context:</strong> Week 10 of KMP migration - After entity migrations, before DAO migrations
+<strong>Purpose:</strong> Capture architecture insights at critical migration milestone</p>
+<hr/>
+<h2 id="executive-summary">Executive Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#executive-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Migration Progress:</strong> 28% god class reduction achieved (6,798 → 4,891 lines)</p>
+<p><strong>Key Metrics:</strong></p>
+<ul>
+<li><strong>Services Extracted:</strong> 19 services (~4,400 lines from god classes)</li>
+<li><strong>Platform Abstractions:</strong> 4 complete (PreferenceStorage, ResourceProvider, FileSystemProvider, LoggingProvider)</li>
+<li><strong>God Classes Remaining:</strong> 3 (LiveScoringViewModel 1,497 lines, RoundViewModel 1,581 lines, HybridTournamentRepository 1,813 lines)</li>
+<li><strong>KMP Modules:</strong> 6 shared modules active</li>
+</ul>
+<p><strong>Critical Finding:</strong> Services are harder to migrate than DAOs</p>
+<ul>
+<li>DAOs: Zero Android dependencies (ready for Week 11-12)</li>
+<li>Services: Multiple blockers (DI framework, data layer, FirebaseAuth)</li>
+</ul>
+<hr/>
+<h2 id="god-class-evolution">God Class Evolution<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#god-class-evolution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="livescoringviewmodel-47-reduction-">LiveScoringViewModel: 47% Reduction ✅<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#livescoringviewmodel-47-reduction-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Before:</strong> 2,808 lines (monolithic tournament + scoring logic)
+<strong>After:</strong> 1,497 lines
+<strong>Extracted:</strong> 1,311 lines (8 services)</p>
+<p><strong>Key Services Extracted:</strong></p>
+<ol>
+<li>TournamentSyncService (515 lines) - Firebase sync orchestration</li>
+<li>EndCompletionService (366 lines) - End finalization logic</li>
+<li>ScoreConflictResolutionService (267 lines) - Conflict detection</li>
+<li>StatisticsAggregationService (254 lines) - Stats calculation</li>
+<li>TournamentRoundLifecycleService (222 lines) - Round state management</li>
+</ol>
+<p><strong>Remaining Extraction Potential:</strong> ~500 lines</p>
+<ul>
+<li>Arrow scoring logic (~200 lines)</li>
+<li>Session state queries (~150 lines)</li>
+<li>Session initialization (~100 lines)</li>
+</ul>
+<p><strong>Status:</strong> 🟢 Good progress, on track to &lt;1,000 line target</p>
+<p>See: <a href="../../Architecture/LiveScoringVM-Analysis" class="internal" data-slug="Architecture/LiveScoringVM-Analysis">LiveScoringVM-Analysis</a> for detailed extraction roadmap</p>
+<hr/>
+<h3 id="roundviewmodel-27-reduction-">RoundViewModel: 27% Reduction 🟡<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#roundviewmodel-27-reduction-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Before:</strong> 2,177 lines
+<strong>After:</strong> 1,581 lines
+<strong>Extracted:</strong> 596 lines (mostly via refactoring, not service extraction)</p>
+<p><strong>Why Less Progress?</strong></p>
+<ul>
+<li>Focus prioritized LiveScoringViewModel (tournament is higher risk)</li>
+<li>Some reduction from code cleanup, not extraction</li>
+<li>Service extraction not yet started systematically</li>
+</ul>
+<p><strong>Remaining Extraction Potential:</strong> ~600 lines</p>
+<ul>
+<li>Round display delegation (~300 lines to existing RoundDisplayService)</li>
+<li>Round statistics service (~200 lines)</li>
+<li>Round state management (~150 lines)</li>
+</ul>
+<p><strong>Status:</strong> 🟡 Partial progress, needs systematic extraction</p>
+<hr/>
+<h3 id="hybridtournamentrepository-0-reduction-">HybridTournamentRepository: 0% Reduction 🔴<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#hybridtournamentrepository-0-reduction-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Current:</strong> 1,813 lines (no extraction started)</p>
+<p><strong>Why Blocked?</strong></p>
+<ul>
+<li>Data layer not yet in shared modules (prerequisite)</li>
+<li>Orchestrates between offline and Firebase repositories</li>
+<li>Complex sync logic with bidirectional data flow</li>
+</ul>
+<p><strong>Planned Split (Week 13+):</strong></p>
+<ol>
+<li>TournamentRepository (~450 lines) - CRUD operations</li>
+<li>TournamentParticipantRepository (~450 lines) - Participant management</li>
+<li>TournamentScoringRepository (~450 lines) - Score submission</li>
+<li>TournamentAnalyticsRepository (~450 lines) - Leaderboard calculation</li>
+</ol>
+<p><strong>Status:</strong> 🔴 Not started, deferred to Week 13+ (after DAO migration)</p>
+<p>See: <a href="../../Architecture/Technical-Debt#repository-god-classes" class="internal alias" data-slug="Architecture/Technical-Debt">Repository-God-Classes</a> for refactoring plan</p>
+<hr/>
+<h2 id="service-extraction-insights">Service Extraction Insights<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#service-extraction-insights" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="what-worked-weeks-1-9">What Worked (Weeks 1-9)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-worked-weeks-1-9" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Proven Pattern:</strong> Copy → Delegate → Validate</p>
+<ol>
+<li>Copy methods to new service</li>
+<li>Update ViewModel to delegate calls</li>
+<li>Validate all tests pass (zero regressions)</li>
+<li>Success rate: 100% (8/8 services)</li>
+</ol>
+<p><strong>Service Categories:</strong></p>
+<ul>
+<li><strong>Tournament Services (5):</strong> TournamentSyncService, EndCompletionService, ScoreConflictResolutionService, TournamentRoundLifecycleService, StatisticsAggregationService</li>
+<li><strong>Calculation Services (4):</strong> AccuracyCalculationService, ProgressCalculationService, RankingCalculationService, StatisticsCalculationService</li>
+<li><strong>State Services (3):</strong> EndStateTransitionService, ProgressUpdateService, ParticipantStateService</li>
+<li><strong>Business Logic (7):</strong> RoundDisplayService, ParticipantValidationService, AnonymousParticipantCleanupService, ArrowScoringDomainService, ScoringPermissionService, ParticipantStateQueryService, SessionStateBuilderService</li>
+</ul>
+<p><strong>Total Impact:</strong> ~4,400 lines extracted from god classes</p>
+<hr/>
+<h3 id="whats-blocking-week-10-discovery">What’s Blocking (Week 10 Discovery)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#whats-blocking-week-10-discovery" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Service Migration to shared:domain Blocked By:</strong></p>
+<p><strong>1. DI Framework Dependency (🔴 Critical)</strong></p>
+<ul>
+<li>All services use <code>@Inject</code> and <code>@Singleton</code> (Hilt/Dagger)</li>
+<li>Hilt is Android-only (not KMP-compatible)</li>
+<li>Solution: Manual DI (SharedModuleFactory pattern) or Koin</li>
+<li>Timeline: Week 13+ (after DAO migration)</li>
+</ul>
+<p><strong>2. Data Layer Dependencies (🟡 Medium)</strong></p>
+<ul>
+<li>Services depend on data models still in app module</li>
+<li>Entity migration in progress (Agent 2, Week 10)</li>
+<li>DAO migration planned (Week 11-12)</li>
+<li>Solution: Wait for data layer to move to shared modules</li>
+<li>Timeline: Week 13+ (after DAO migration)</li>
+</ul>
+<p><strong>3. FirebaseAuth Dependencies (🟡 Medium)</strong></p>
+<ul>
+<li>3 services use <code>FirebaseAuth.getInstance().currentUser</code></li>
+<li>FirebaseAuth is Android-specific</li>
+<li>Solution: Create FirebaseAuthProvider abstraction OR pass user ID explicitly</li>
+<li>Timeline: Can implement now (2-3 hours) OR defer to Week 13+</li>
+</ul>
+<p><strong>4. Service Interdependencies (🟡 Medium)</strong></p>
+<ul>
+<li>Services depend on other services (complex graph)</li>
+<li>EndCompletionService → TournamentSyncService</li>
+<li>TournamentRoundLifecycleService → TournamentSyncService</li>
+<li>Solution: Migrate in dependency order (bottom-up)</li>
+</ul>
+<p><strong>Recommendation:</strong> Defer full service migration to Week 13+ (after DAO migration resolves blockers)</p>
+<p>See: <a href="../../Architecture/Platform-Abstractions-Status#service-migration-status" class="internal alias" data-slug="Architecture/Platform-Abstractions-Status">Service-Migration-Status</a> for current progress</p>
+<hr/>
+<h2 id="platform-abstractions-pattern-3-success">Platform Abstractions (Pattern 3 Success)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#platform-abstractions-pattern-3-success" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="completed-abstractions-4-total">Completed Abstractions (4 total)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#completed-abstractions-4-total" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. PreferenceStorage</strong> ✅</p>
+<ul>
+<li><strong>Replaces:</strong> SharedPreferences (Android)</li>
+<li><strong>API:</strong> get/put for String, Int, Long, Boolean, Float</li>
+<li><strong>Usage:</strong> 3 services (UpgradeRepairManager, TournamentModeProvider, Settings)</li>
+<li><strong>Test Coverage:</strong> 100% (21 tests)</li>
+</ul>
+<p><strong>2. ResourceProvider</strong> ✅</p>
+<ul>
+<li><strong>Replaces:</strong> context.getString() (Android)</li>
+<li><strong>API:</strong> getString(), getStringArray(), format args</li>
+<li><strong>Usage:</strong> 1-2 services (low adoption - opportunity)</li>
+<li><strong>Test Coverage:</strong> 100% (11 tests)</li>
+</ul>
+<p><strong>3. FileSystemProvider</strong> ✅</p>
+<ul>
+<li><strong>Replaces:</strong> context.filesDir/cacheDir (Android)</li>
+<li><strong>API:</strong> read/write text/binary, directory management</li>
+<li><strong>Usage:</strong> 2 services (ExportUtils, OfflineScoreQueueManager)</li>
+<li><strong>Test Coverage:</strong> 100% (21 tests)</li>
+<li><strong>Success:</strong> ExportUtils migrated to shared:domain using FileSystemProvider ✅</li>
+</ul>
+<p><strong>4. LoggingProvider</strong> ✅</p>
+<ul>
+<li><strong>Replaces:</strong> android.util.Log (Android)</li>
+<li><strong>API:</strong> d(), w(), e() with tag + message</li>
+<li><strong>Usage:</strong> 0 services (created but not yet adopted)</li>
+<li><strong>Blocker:</strong> 7 services ready to use, but DI framework blocks migration</li>
+<li><strong>Test Coverage:</strong> 100% (18 tests)</li>
+</ul>
+<p><strong>Pattern 3 Validation:</strong> ✅ SUCCESSFUL</p>
+<ul>
+<li>Clean abstractions (minimal API surface)</li>
+<li>Easy to test (fakes are simple)</li>
+<li>KMP-compatible (zero Android dependencies in shared:domain)</li>
+<li>Proven workflow (7 steps)</li>
+</ul>
+<p>See: <a href="../../Architecture/Platform-Abstractions-Status" class="internal" data-slug="Architecture/Platform-Abstractions-Status">Platform-Abstractions-Status</a> for implementation details</p>
+<hr/>
+<h2 id="data-layer-migration-status">Data Layer Migration Status<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#data-layer-migration-status" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="completed-weeks-1-9">Completed (Weeks 1-9)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#completed-weeks-1-9" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Domain Models (Week 2):</strong></p>
+<ul>
+<li>✅ Round, EndScore, ArrowScore (scoring models)</li>
+<li>✅ Settings, BowSetup (user preferences)</li>
+<li>✅ Distance, TargetSize, ScoringSystem (configuration)</li>
+<li>✅ DomainColor (KMP-compatible color)</li>
+</ul>
+<p><strong>Data Models (Week 9):</strong></p>
+<ul>
+<li>✅ TournamentRound, TournamentScore, TournamentSettings (768 lines)</li>
+<li>✅ Security models (AccountLinking, AuthMethod, LinkedAccount)</li>
+<li>✅ kotlinx.serialization: 25+ models</li>
+<li>✅ Room TypeConverters for serialization</li>
+</ul>
+<p><strong>Database Entities (Week 9):</strong></p>
+<ul>
+<li>✅ ArrowEquipmentSnapshot, EquipmentStatsCache</li>
+<li>✅ kotlinx.serialization annotations added</li>
+</ul>
+<hr/>
+<h3 id="in-progress-week-10">In Progress (Week 10)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#in-progress-week-10" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 2 (AAM) - Primary Focus:</strong></p>
+<ul>
+<li>🟢 Equipment entity migration (12 entities to shared:database)</li>
+<li>🟢 Entity foreign key relationships</li>
+<li>🟢 Import path updates across codebase</li>
+</ul>
+<p><strong>Expected Completion:</strong> End of Week 10</p>
+<hr/>
+<h3 id="planned-week-11-12">Planned (Week 11-12)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#planned-week-11-12" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>DAO Migration (Agent 1 Primary):</strong></p>
+<ul>
+<li>⏳ 19 DAOs to shared:database module</li>
+<li>⏳ Critical finding: ZERO Android dependencies in DAOs ✅</li>
+<li>⏳ Pattern 4 (DAO migration workflow) designed</li>
+<li>⏳ Critical path: RoundDao (872 lines, 37% of all DAO code)</li>
+<li>⏳ Estimated: 18-26 hours over 2 weeks</li>
+</ul>
+<p><strong>Why DAOs Before Services?</strong></p>
+<ul>
+<li>DAOs are KMP-ready (only androidx.room.* dependency)</li>
+<li>Services have multiple blockers (DI, data layer, FirebaseAuth)</li>
+<li>DAO migration unblocks repository migration (Week 13+)</li>
+</ul>
+<p>See: <a href="../../Architecture/Database-Migration-Status" class="internal" data-slug="Architecture/Database-Migration-Status">Database-Migration-Status</a> for entity migration tracking</p>
+<hr/>
+<h2 id="dependency-graph-insights">Dependency Graph Insights<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#dependency-graph-insights" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="current-architecture-week-10">Current Architecture (Week 10)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-architecture-week-10" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>ViewModels (app module)
+├── LiveScoringViewModel (1,497 lines)
+│   ├── Services: 8 extracted services
+│   ├── Repositories: RoundRepository, HybridTournamentRepository
+│   └── Platform: FirebaseAuth, TournamentModeProvider, NetworkMonitor
+│
+├── RoundViewModel (1,581 lines)
+│   ├── Services: 3 calculation services
+│   ├── Repositories: RoundRepository, EquipmentRepository, BowSetupRepository
+│   └── Platform: PreferenceStorage, ResourceProvider
+│
+└── Other ViewModels (smaller, healthy size)
+
+Services Layer
+├── app/services (19 services, ~4,400 lines)
+│   └── Blockers: DI framework, data layer, FirebaseAuth
+│
+└── shared:domain/services (1 service)
+    └── ProgressTrackingService (KMP-compatible)
+
+Repository Layer
+├── HybridTournamentRepository (1,813 lines) 🔴 God Class
+├── OfflineTournamentRepository (uses 19 DAOs)
+├── FirebaseTournamentRepository (Firebase SDK)
+├── RoundRepository (uses RoundDao)
+└── Other Repositories (smaller)
+
+Data Layer
+├── Entities (migrating to shared:database)
+├── DAOs (19 DAOs, ALL IN APP MODULE) 🔴
+│   └── Week 11-12: Migration to shared:database
+└── Database (ArcheryDatabase in app module)
+</code></pre>
+<hr/>
+<h2 id="migration-timeline--strategy">Migration Timeline &amp; Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#migration-timeline--strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="completed-weeks-1-9-1">Completed (Weeks 1-9)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#completed-weeks-1-9-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week 1:</strong> Room KMP 2.8.1 + Kotlin 2.2.0 configuration ✅
+<strong>Week 2:</strong> Core domain models migrated ✅
+<strong>Week 3-5:</strong> Service extraction begins (8 services) ✅
+<strong>Week 7-9:</strong> Pattern 3 (platform abstractions) complete ✅
+<strong>Week 9:</strong> Data model migration + kotlinx.serialization ✅</p>
+<hr/>
+<h3 id="current-week-10">Current (Week 10)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-week-10" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 2 (Primary):</strong> Equipment entity migration (12 entities)
+<strong>Agent 1 (Secondary):</strong> DAO migration planning + architecture snapshot
+<strong>Status:</strong> Entity migration in progress, DAO planning complete</p>
+<hr/>
+<h3 id="planned-week-11">Planned (Week 11+)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#planned-week-11" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week 11-12: DAO Migration (Agent 1 Primary)</strong></p>
+<ul>
+<li>19 DAOs to shared:database</li>
+<li>Pattern 4 workflow (7 steps)</li>
+<li>Critical path: RoundDao (872 lines, 2 days)</li>
+<li>Estimated: 18-26 hours over 2 weeks</li>
+</ul>
+<p><strong>Week 13+: Repository Migration</strong></p>
+<ul>
+<li>Split HybridTournamentRepository (1,813 → 4 repositories)</li>
+<li>Move repositories to shared:data</li>
+<li>Pattern 5 (repository migration workflow) - TBD</li>
+<li>Estimated: 3-4 weeks</li>
+</ul>
+<p><strong>Week 13+: Service Migration Revisited</strong></p>
+<ul>
+<li>Resolve DI framework blocker (manual DI)</li>
+<li>Migrate 7 services using android.util.Log</li>
+<li>Create FirebaseAuthProvider abstraction (if needed)</li>
+<li>Estimated: 2-3 weeks</li>
+</ul>
+<p><strong>Week 15-24: God Class Completion</strong></p>
+<ul>
+<li>Complete LiveScoringViewModel extraction (&lt;1,000 lines)</li>
+<li>Complete RoundViewModel extraction (&lt;1,000 lines)</li>
+<li>Estimated: 9-10 weeks</li>
+</ul>
+<hr/>
+<h2 id="key-insights--lessons">Key Insights &amp; Lessons<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-insights--lessons" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="insight-1-services-more-complex-than-daos">Insight 1: Services More Complex Than DAOs<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#insight-1-services-more-complex-than-daos" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Discovery:</strong> Week 10 analysis revealed unexpected complexity difference</p>
+<p><strong>DAOs:</strong></p>
+<ul>
+<li>Zero Android dependencies (only androidx.room.*)</li>
+<li>Simple file moves + import updates</li>
+<li>Ready for migration immediately</li>
+</ul>
+<p><strong>Services:</strong></p>
+<ul>
+<li>Multiple blockers (DI, data layer, FirebaseAuth)</li>
+<li>Complex dependency graphs</li>
+<li>Deferred to Week 13+</li>
+</ul>
+<p><strong>Lesson:</strong> Prioritize unblocked work (DAOs) over complex work (services)</p>
+<hr/>
+<h3 id="insight-2-pattern-3-validation-success">Insight 2: Pattern 3 Validation Success<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#insight-2-pattern-3-validation-success" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Success Metrics:</strong></p>
+<ul>
+<li>4 abstractions created (100% implemented)</li>
+<li>4 test fakes (100% testable)</li>
+<li>71 tests total (100% coverage)</li>
+<li>1 service migrated to shared:domain (ExportUtils)</li>
+</ul>
+<p><strong>What Made Pattern 3 Work:</strong></p>
+<ul>
+<li>Minimal API surface (5-10 methods per abstraction)</li>
+<li>Clear separation (platform-specific vs platform-agnostic)</li>
+<li>Test fakes are simple (in-memory implementations)</li>
+<li>7-step workflow is repeatable</li>
+</ul>
+<p><strong>Application:</strong> Pattern 4 (DAO migration) based on Pattern 3 success</p>
+<hr/>
+<h3 id="insight-3-service-extraction-velocity">Insight 3: Service Extraction Velocity<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#insight-3-service-extraction-velocity" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Extraction Velocity:</strong></p>
+<ul>
+<li>Weeks 1-9: ~1,900 lines extracted (~211 lines/week)</li>
+<li>Target: ~1,900 more lines to extract</li>
+<li>Projected: 9-10 more weeks to complete</li>
+</ul>
+<p><strong>Acceleration Opportunities:</strong></p>
+<ul>
+<li>Batch similar extractions (5 calculation services → 1 week)</li>
+<li>Reuse proven patterns (copy-delegate-validate)</li>
+<li>Parallel extraction (multiple services simultaneously)</li>
+</ul>
+<p><strong>Blocker Impact:</strong></p>
+<ul>
+<li>Service migration delay frees capacity for other work</li>
+<li>DAO migration (Week 11-12) can proceed without waiting</li>
+</ul>
+<hr/>
+<h3 id="insight-4-di-framework-is-major-blocker">Insight 4: DI Framework is Major Blocker<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#insight-4-di-framework-is-major-blocker" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong></p>
+<ul>
+<li>All injectable services use Hilt/Dagger (<code>javax.inject.*</code>)</li>
+<li>Hilt is Android-specific (not KMP-compatible)</li>
+<li>shared:domain cannot use Android DI frameworks</li>
+</ul>
+<p><strong>Solutions Evaluated:</strong></p>
+<ol>
+<li><strong>Manual DI</strong> (SharedModuleFactory pattern) - Simple, no framework</li>
+<li><strong>Koin for KMP</strong> - KMP-compatible, but different API</li>
+<li><strong>Defer migration</strong> - Keep services in app module until Week 13+</li>
+</ol>
+<p><strong>Decision:</strong> Option 3 (defer) chosen for Week 10-12</p>
+<ul>
+<li>Focus on unblocked work (DAOs)</li>
+<li>Revisit DI strategy in Week 13 (after data layer in shared modules)</li>
+</ul>
+<hr/>
+<h2 id="recommendations">Recommendations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#recommendations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="high-priority-next-2-3-weeks">High Priority (Next 2-3 Weeks)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#high-priority-next-2-3-weeks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. Complete DAO Migration (Week 11-12)</strong></p>
+<ul>
+<li>Execute Pattern 4 workflow (7 steps)</li>
+<li>Migrate all 19 DAOs to shared:database</li>
+<li>Focus on RoundDao (critical path)</li>
+<li>Estimated: 18-26 hours</li>
+</ul>
+<p><strong>2. Monitor Service Extraction Progress</strong></p>
+<ul>
+<li>Continue LiveScoringViewModel extraction (2 services remaining)</li>
+<li>Arrow scoring logic (~200 lines)</li>
+<li>Session state queries (~150 lines)</li>
+<li>Estimated: 1-2 weeks</li>
+</ul>
+<p><strong>3. Plan Repository Split (Week 13 Prep)</strong></p>
+<ul>
+<li>Design 4 focused repositories (TournamentRepository split)</li>
+<li>Define repository boundaries</li>
+<li>Identify shared abstractions needed</li>
+</ul>
+<hr/>
+<h3 id="medium-priority-week-13">Medium Priority (Week 13+)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#medium-priority-week-13" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>4. Define DI Strategy for Shared Modules</strong></p>
+<ul>
+<li>Evaluate manual DI vs Koin</li>
+<li>Design SharedModuleFactory pattern (if manual DI)</li>
+<li>Document service instantiation approach</li>
+</ul>
+<p><strong>5. Create FirebaseAuthProvider Abstraction</strong></p>
+<ul>
+<li>Abstract <code>FirebaseAuth.getInstance().currentUser</code></li>
+<li>OR refactor to explicit user ID passing (simpler)</li>
+<li>Unblocks 3 services for migration</li>
+</ul>
+<p><strong>6. Begin Repository Migration</strong></p>
+<ul>
+<li>Split HybridTournamentRepository (1,813 → 4 repositories)</li>
+<li>Move repositories to shared:data</li>
+<li>Update dependency injection</li>
+</ul>
+<hr/>
+<h3 id="low-priority-week-14">Low Priority (Week 14+)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#low-priority-week-14" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>7. Complete God Class Refactoring</strong></p>
+<ul>
+<li>LiveScoringViewModel: Extract remaining ~500 lines</li>
+<li>RoundViewModel: Systematic extraction (~600 lines)</li>
+<li>Target: Both &lt;1,000 lines</li>
+</ul>
+<p><strong>8. Performance Optimization</strong></p>
+<ul>
+<li>Add database indexes (tournament queries)</li>
+<li>Implement LRU caching (statistics)</li>
+<li>Already completed: N+1 query fix ✅</li>
+</ul>
+<hr/>
+<h2 id="cross-references">Cross-References<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cross-references" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Related Architecture:</strong></p>
+<ul>
+<li><a href="../../Architecture/Platform-Abstractions-Status" class="internal alias" data-slug="Architecture/Platform-Abstractions-Status">Platform Abstractions Status</a> - Pattern 3 implementation details</li>
+<li><a href="../../Architecture/Shared-Domain-Status" class="internal alias" data-slug="Architecture/Shared-Domain-Status">shared:domain Module Status</a> - KMP module structure</li>
+<li><a href="../../Architecture/LiveScoringVM-Analysis" class="internal alias" data-slug="Architecture/LiveScoringVM-Analysis">LiveScoringVM Analysis</a> - God class extraction roadmap</li>
+<li><a href="../../Architecture/Technical-Debt" class="internal alias" data-slug="Architecture/Technical-Debt">Technical Debt</a> - Priority matrix and refactoring plan</li>
+<li><a href="../../Architecture/MVVM-Patterns" class="internal alias" data-slug="Architecture/MVVM-Patterns">MVVM Patterns</a> - ViewModel best practices</li>
+<li><a href="../../Architecture/System-Architecture" class="internal alias" data-slug="Architecture/System-Architecture">System Architecture</a> - High-level architecture overview</li>
+</ul>
+<p><strong>Migration Planning:</strong></p>
+<ul>
+<li><a href="../../Project-Status/Implementation-Status-10-09-25" class="internal alias" data-slug="Project-Status/Implementation-Status-10-09-25">Implementation Status</a> - Weekly progress tracking</li>
+<li><a href="../../Architecture/Refactoring-Roadmap" class="internal alias" data-slug="Architecture/Refactoring-Roadmap">Refactoring Roadmap</a> - Long-term architecture vision</li>
+<li><a href="../../Architecture/Database-Migration-Status" class="internal alias" data-slug="Architecture/Database-Migration-Status">Database Migration Status</a> - Entity and DAO migration tracking</li>
+</ul>
+<p><strong>Technical Details:</strong></p>
+<ul>
+<li>Source: <code>docs/architecture/PRE_KMP_ARCHITECTURE_SNAPSHOT.md</code> (1,160 lines technical documentation)</li>
+<li>Week 10 Planning: <code>docs/kmp-migration/WEEK_11_12_DAO_MIGRATION_PLAN.md</code></li>
+<li>Service Blockers: <code>docs/kmp-migration/SERVICE_MIGRATION_BLOCKERS.md</code></li>
+<li>DAO Complexity: <code>docs/kmp-migration/DAO_MIGRATION_COMPLEXITY_MATRIX.md</code></li>
+<li>Pattern 4 Workflow: <code>docs/kmp-migration/PATTERN_4_DAO_MIGRATION_WORKFLOW.md</code></li>
+</ul>
+<hr/>
+<p><strong>Last Updated:</strong> October 27, 2025
+<strong>Status:</strong> Week 10 snapshot - Baseline for future progress tracking
+<strong>Next Update:</strong> After Week 12 DAO migration completes</p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-7" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#pre-kmp-architecture-state-week-10" data-for="pre-kmp-architecture-state-week-10">Pre-KMP Architecture State (Week 10)</a></li><li class="depth-1"><a href="#executive-summary" data-for="executive-summary">Executive Summary</a></li><li class="depth-1"><a href="#god-class-evolution" data-for="god-class-evolution">God Class Evolution</a></li><li class="depth-2"><a href="#livescoringviewmodel-47-reduction-" data-for="livescoringviewmodel-47-reduction-">LiveScoringViewModel: 47% Reduction ✅</a></li><li class="depth-2"><a href="#roundviewmodel-27-reduction-" data-for="roundviewmodel-27-reduction-">RoundViewModel: 27% Reduction 🟡</a></li><li class="depth-2"><a href="#hybridtournamentrepository-0-reduction-" data-for="hybridtournamentrepository-0-reduction-">HybridTournamentRepository: 0% Reduction 🔴</a></li><li class="depth-1"><a href="#service-extraction-insights" data-for="service-extraction-insights">Service Extraction Insights</a></li><li class="depth-2"><a href="#what-worked-weeks-1-9" data-for="what-worked-weeks-1-9">What Worked (Weeks 1-9)</a></li><li class="depth-2"><a href="#whats-blocking-week-10-discovery" data-for="whats-blocking-week-10-discovery">What’s Blocking (Week 10 Discovery)</a></li><li class="depth-1"><a href="#platform-abstractions-pattern-3-success" data-for="platform-abstractions-pattern-3-success">Platform Abstractions (Pattern 3 Success)</a></li><li class="depth-2"><a href="#completed-abstractions-4-total" data-for="completed-abstractions-4-total">Completed Abstractions (4 total)</a></li><li class="depth-1"><a href="#data-layer-migration-status" data-for="data-layer-migration-status">Data Layer Migration Status</a></li><li class="depth-2"><a href="#completed-weeks-1-9" data-for="completed-weeks-1-9">Completed (Weeks 1-9)</a></li><li class="depth-2"><a href="#in-progress-week-10" data-for="in-progress-week-10">In Progress (Week 10)</a></li><li class="depth-2"><a href="#planned-week-11-12" data-for="planned-week-11-12">Planned (Week 11-12)</a></li><li class="depth-1"><a href="#dependency-graph-insights" data-for="dependency-graph-insights">Dependency Graph Insights</a></li><li class="depth-2"><a href="#current-architecture-week-10" data-for="current-architecture-week-10">Current Architecture (Week 10)</a></li><li class="depth-1"><a href="#migration-timeline--strategy" data-for="migration-timeline--strategy">Migration Timeline &amp; Strategy</a></li><li class="depth-2"><a href="#completed-weeks-1-9-1" data-for="completed-weeks-1-9-1">Completed (Weeks 1-9)</a></li><li class="depth-2"><a href="#current-week-10" data-for="current-week-10">Current (Week 10)</a></li><li class="depth-2"><a href="#planned-week-11" data-for="planned-week-11">Planned (Week 11+)</a></li><li class="depth-1"><a href="#key-insights--lessons" data-for="key-insights--lessons">Key Insights &amp; Lessons</a></li><li class="depth-2"><a href="#insight-1-services-more-complex-than-daos" data-for="insight-1-services-more-complex-than-daos">Insight 1: Services More Complex Than DAOs</a></li><li class="depth-2"><a href="#insight-2-pattern-3-validation-success" data-for="insight-2-pattern-3-validation-success">Insight 2: Pattern 3 Validation Success</a></li><li class="depth-2"><a href="#insight-3-service-extraction-velocity" data-for="insight-3-service-extraction-velocity">Insight 3: Service Extraction Velocity</a></li><li class="depth-2"><a href="#insight-4-di-framework-is-major-blocker" data-for="insight-4-di-framework-is-major-blocker">Insight 4: DI Framework is Major Blocker</a></li><li class="depth-1"><a href="#recommendations" data-for="recommendations">Recommendations</a></li><li class="depth-2"><a href="#high-priority-next-2-3-weeks" data-for="high-priority-next-2-3-weeks">High Priority (Next 2-3 Weeks)</a></li><li class="depth-2"><a href="#medium-priority-week-13" data-for="medium-priority-week-13">Medium Priority (Week 13+)</a></li><li class="depth-2"><a href="#low-priority-week-14" data-for="low-priority-week-14">Low Priority (Week 14+)</a></li><li class="depth-1"><a href="#cross-references" data-for="cross-references">Cross-References</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

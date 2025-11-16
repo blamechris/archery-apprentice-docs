@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Services API Reference</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Services API Reference"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Services API Reference"/><meta name="twitter:description" content="Services API Reference Complete reference for all Business Logic Services in Archery Apprentice."/><meta property="og:description" content="Services API Reference Complete reference for all Business Logic Services in Archery Apprentice."/><meta property="og:image:alt" content="Services API Reference Complete reference for all Business Logic Services in Archery Apprentice."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/api/services/index"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/api/services/index"/><link rel="icon" href="../../../../static/icon.png"/><meta name="description" content="Services API Reference Complete reference for all Business Logic Services in Archery Apprentice."/><meta name="generator" content="Quartz"/><link href="../../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/api/services/index-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/api/services/index-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/api/services/index-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="developer-guide/technical-reference/api/services/index"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-145"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-145" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-3"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../../developer-guide/">developer guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../../developer-guide/technical-reference/">technical reference</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../../developer-guide/technical-reference/api/">API Reference</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Services API Reference</a></div></nav><h1 class="article-title">Services API Reference</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-01T00:00:00.000Z">Nov 01, 2025</time><span>6 min read</span></p></div></div><div class="popover-hint"><article class><h1 id="services-api-reference">Services API Reference<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#services-api-reference" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p>Complete reference for all Business Logic Services in Archery Apprentice.</p>
+<hr/>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Services encapsulate complex business logic and coordinate multiple repositories. They:</p>
+<ul>
+<li>Implement domain-specific business rules</li>
+<li>Coordinate multiple data sources</li>
+<li>Perform calculations and transformations</li>
+<li>Keep ViewModels thin</li>
+<li>Enable reusability across ViewModels</li>
+</ul>
+<p><strong>Total Services:</strong> 19 extracted services</p>
+<hr/>
+<h2 id="service-pattern">Service Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#service-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="basic-service">Basic Service<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#basic-service" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MyService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Repository</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> performOperation</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Output</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getOrElse</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">failure</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(it) }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">        // Business logic</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> result </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> processData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">data</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(result)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h3 id="service-with-multiple-repositories">Service with Multiple Repositories<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#service-with-multiple-repositories" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> ComplexService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repo1: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Repository1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repo2: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Repository2</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> coordinateOperation</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Output</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">        // Coordinate multiple data sources</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> data1 </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repo1.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">().</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getOrElse</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">failure</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(it) }</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> data2 </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repo2.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">().</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getOrElse</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">failure</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(it) }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">        // Complex business logic</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> output </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> combineAndProcess</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(data1, data2)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(output)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<hr/>
+<h2 id="core-scoring-services">Core Scoring Services<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#core-scoring-services" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="endcompletionservice">EndCompletionService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#endcompletionservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> End scoring completion and validation</p>
+<p><strong>Status:</strong> ✅ Documented
+<strong>File:</strong> <code>domain/services/EndCompletionService.kt</code> (400+ lines)
+<strong>Documentation:</strong> <a href="../../../../end-completion-service" class="internal alias" data-slug="end-completion-service">Full API Reference →</a></p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li>Arrow score validation</li>
+<li>End total calculation</li>
+<li>Database persistence</li>
+<li>Tournament score submission</li>
+<li>Conflict detection</li>
+<li>Statistics updates</li>
+</ul>
+<p><strong>Used in:</strong></p>
+<ul>
+<li><a href="../../../.././../../flows/scoring-flow" class="internal alias" data-slug="flows/scoring-flow">Scoring Flow</a></li>
+<li>LiveScoringViewModel</li>
+</ul>
+<p><strong>Code Example:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">service.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">completeEnd</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    roundId </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundId,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    endNumber </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> endNumber,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    arrowScores </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> arrows,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    participantId </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> participantId</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+<hr/>
+<h3 id="roundlifecycleservice">RoundLifecycleService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#roundlifecycleservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Round state transitions and validation</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>domain/services/RoundLifecycleService.kt</code></p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li>Round status management</li>
+<li>State transition validation</li>
+<li>Completion conditions</li>
+<li>Status event propagation</li>
+</ul>
+<p><strong>Used in:</strong> <a href="../../../.././../../flows/round-lifecycle-flow" class="internal alias" data-slug="flows/round-lifecycle-flow">Round Lifecycle</a></p>
+<hr/>
+<h2 id="tournament-services">Tournament Services<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournament-services" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="tournamentsyncservice">TournamentSyncService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournamentsyncservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Real-time tournament data synchronization</p>
+<p><strong>Status:</strong> ✅ Documented
+<strong>File:</strong> <code>domain/services/TournamentSyncService.kt</code> (556 lines)
+<strong>Documentation:</strong> <a href="../../../../tournament-sync-service" class="internal alias" data-slug="tournament-sync-service">Full API Reference →</a></p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li>Firebase real-time listeners</li>
+<li>Live leaderboard sync</li>
+<li>Participant progress tracking</li>
+<li>Score submission with retry</li>
+<li>Network status monitoring</li>
+</ul>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>3 concurrent Firebase listeners</li>
+<li>Exponential backoff retry (100ms, 200ms, 400ms)</li>
+<li>Error classification</li>
+<li>StateFlow-based sync status</li>
+</ul>
+<p><strong>Used in:</strong> <a href="../../../.././../../flows/data-sync-flow" class="internal alias" data-slug="flows/data-sync-flow">Data Sync Flow</a></p>
+<hr/>
+<h3 id="scoreconflictresolutionservice">ScoreConflictResolutionService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scoreconflictresolutionservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Detect and resolve scoring conflicts in tournaments</p>
+<p><strong>Status:</strong> ✅ Documented
+<strong>File:</strong> <code>domain/services/ScoreConflictResolutionService.kt</code> (262 lines)
+<strong>Documentation:</strong> <a href="../../../../score-conflict-resolution-service" class="internal alias" data-slug="score-conflict-resolution-service">Full API Reference →</a></p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li>Conflict detection (local vs remote)</li>
+<li>Resolution strategy determination</li>
+<li>Version-based conflict resolution</li>
+<li>Timestamp-based tie-breaking</li>
+<li>Manual resolution support</li>
+</ul>
+<p><strong>Conflict Strategies:</strong></p>
+<ul>
+<li><code>LOCAL_WINS</code> - Keep local score (default)</li>
+<li><code>REMOTE_WINS</code> - Accept remote score</li>
+<li><code>HIGHEST_WINS</code> - Use highest score</li>
+<li><code>LATEST_WINS</code> - Most recent update</li>
+<li><code>MANUAL</code> - Require user intervention</li>
+</ul>
+<hr/>
+<h3 id="tournamentscorecacheservice">TournamentScoreCacheService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournamentscorecacheservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Smart caching for tournament data</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>data/services/TournamentScoreCacheService.kt</code></p>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Status-aware TTL (completed = indefinite, in-progress = 5min)</li>
+<li>50-90% reduction in Firebase reads</li>
+<li>5-10x faster load times</li>
+<li>Automatic cache maintenance</li>
+</ul>
+<p><strong>Cache Strategy:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Tournament Status</th><th>TTL</th><th>Rationale</th></tr></thead><tbody><tr><td>COMPLETED</td><td>Indefinite</td><td>Immutable data</td></tr><tr><td>IN_PROGRESS</td><td>5 minutes</td><td>Balance freshness vs reads</td></tr><tr><td>PLANNED</td><td>10 minutes</td><td>Rarely changes</td></tr></tbody></table></div>
+<hr/>
+<h2 id="analytics-services">Analytics Services<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#analytics-services" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="statisticscalculationservice">StatisticsCalculationService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#statisticscalculationservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Performance statistics and analytics</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>domain/services/StatisticsCalculationService.kt</code>
+<strong>Documentation:</strong> <a href="../../../../developer-guide/technical-reference/api/services/statistics-calculation-service" class="internal alias" data-slug="developer-guide/technical-reference/api/services/statistics-calculation-service">Full API Reference →</a></p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li>Score aggregation</li>
+<li>Average calculations</li>
+<li>Performance trends</li>
+<li>Equipment correlation</li>
+<li>Session analytics</li>
+</ul>
+<p><strong>Used in:</strong> Round analytics screens</p>
+<hr/>
+<h3 id="progresscalculationservice">ProgressCalculationService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#progresscalculationservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Round and end progress tracking</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>domain/services/ProgressCalculationService.kt</code></p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li>Ends completed tracking</li>
+<li>Arrows shot counting</li>
+<li>Completion percentage</li>
+<li>Remaining ends calculation</li>
+</ul>
+<hr/>
+<h2 id="display-services">Display Services<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#display-services" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="rounddisplayservice">RoundDisplayService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#rounddisplayservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Round data formatting and presentation</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>domain/services/RoundDisplayService.kt</code></p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li>Round total calculation</li>
+<li>Per-participant totals</li>
+<li><strong>Multi-participant ranking</strong></li>
+<li>X-count tie-breaking</li>
+<li>Display formatting</li>
+</ul>
+<p><strong>Ranking Algorithm:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Primary: Score (descending)</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Secondary: X count (descending)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">sortedWith</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    compareByDescending</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ParticipantRankData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> { it.score }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">thenByDescending</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.xCount }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+<p><strong>See:</strong> <a href="../../../.././../../../internal/technical-notes/multi-participant-ranking-and-tie-breaking" class="internal alias" data-slug="internal/technical-notes/multi-participant-ranking-and-tie-breaking">Ranking Algorithm</a></p>
+<hr/>
+<h2 id="equipment-services">Equipment Services<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-services" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="equipmentperformanceservice">EquipmentPerformanceService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipmentperformanceservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Equipment effectiveness analytics</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>domain/services/EquipmentPerformanceService.kt</code></p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li>Equipment-score correlation</li>
+<li>Performance by setup</li>
+<li>Equipment comparison</li>
+<li>Recommendation engine</li>
+</ul>
+<hr/>
+<h3 id="equipmentvalidationservice">EquipmentValidationService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipmentvalidationservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Equipment configuration validation</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>domain/services/EquipmentValidationService.kt</code></p>
+<hr/>
+<h2 id="migration-services">Migration Services<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#migration-services" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="databasemigrationservice">DatabaseMigrationService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#databasemigrationservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Room database schema migrations</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>data/services/DatabaseMigrationService.kt</code></p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li>Schema version management</li>
+<li>Migration execution</li>
+<li>Data preservation</li>
+<li>Rollback support</li>
+</ul>
+<hr/>
+<h2 id="utility-services">Utility Services<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#utility-services" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="datetimeservice">DateTimeService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#datetimeservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Timestamp and date utilities</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>domain/services/DateTimeService.kt</code></p>
+<hr/>
+<h3 id="validationservice">ValidationService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#validationservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> General data validation</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>domain/services/ValidationService.kt</code></p>
+<hr/>
+<h3 id="loggingservice">LoggingService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#loggingservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Centralized logging</p>
+<p><strong>Status:</strong> 📝 Needs documentation
+<strong>File:</strong> <code>domain/services/LoggingService.kt</code></p>
+<hr/>
+<h2 id="service-extraction-history">Service Extraction History<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#service-extraction-history" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="original-architecture">Original Architecture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#original-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> ViewModels contained all business logic (god classes)</p>
+<p><strong>Example: LiveScoringViewModel</strong></p>
+<ul>
+<li>Original: 2,808 lines with 12 distinct domains</li>
+<li>66 methods handling everything from UI to database</li>
+</ul>
+<h3 id="service-extraction-pattern">Service Extraction Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#service-extraction-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Extraction Process:</strong></p>
+<ol>
+<li>Identify cohesive business logic domain</li>
+<li>Create service interface</li>
+<li>Move logic to service</li>
+<li>Inject service into ViewModel</li>
+<li>ViewModel delegates to service</li>
+</ol>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>✅ Testability improved</li>
+<li>✅ Code reuse enabled</li>
+<li>✅ ViewModels thinned</li>
+<li>✅ Single responsibility restored</li>
+</ul>
+<p><strong>See:</strong> <a href="../../../.././../../../architecture/service-architecture" class="internal alias" data-slug="architecture/service-architecture">Service Architecture</a></p>
+<hr/>
+<h2 id="recommended-extractions">Recommended Extractions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#recommended-extractions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>From LiveScoringViewModel analysis:</p>
+<p><strong>Priority Extractions (1,600 lines, 57% reduction):</strong></p>
+<ol>
+<li>
+<p><strong>TournamentSyncService</strong> (~600 lines) ✅ EXTRACTED</p>
+<ul>
+<li>Firebase listeners</li>
+<li>Score submission</li>
+<li>Conflict handling</li>
+</ul>
+</li>
+<li>
+<p><strong>ConflictResolutionService</strong> (~400 lines) ✅ EXTRACTED</p>
+<ul>
+<li>Conflict detection</li>
+<li>Resolution strategies</li>
+</ul>
+</li>
+<li>
+<p><strong>EndCompletionService</strong> (~400 lines) ✅ EXTRACTED</p>
+<ul>
+<li>Score validation</li>
+<li>End finalization</li>
+<li>Stats calculation</li>
+</ul>
+</li>
+<li>
+<p><strong>RoundLifecycleService</strong> (~200 lines) 📝 NEEDED</p>
+<ul>
+<li>Round status management</li>
+<li>State transitions</li>
+<li>Completion logic</li>
+</ul>
+</li>
+<li>
+<p><strong>ParticipantManagementService</strong> (~200 lines) 📝 NEEDED</p>
+<ul>
+<li>Participant CRUD</li>
+<li>Selection management</li>
+<li>Multi-participant logic</li>
+</ul>
+</li>
+</ol>
+<p><strong>See:</strong> <a href="../../../.././../../../architecture/live-scoring-vm-analysis" class="internal alias" data-slug="architecture/live-scoring-vm-analysis">LiveScoringVM Analysis</a></p>
+<hr/>
+<h2 id="testing-services">Testing Services<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#testing-services" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="unit-test-pattern">Unit Test Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#unit-test-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">@Test</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> `service performs calculation correctly`</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> runTest</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> mockRepo </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> mockk</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Repository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>()</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    coEvery</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { mockRepo.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() } returns Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(testData)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> service </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MyService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(mockRepo)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> result </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> service.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">performOperation</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    assertTrue</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(result.isSuccess)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    assertEquals</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(expectedOutput, result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getOrNull</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h3 id="mocking-multiple-repositories">Mocking Multiple Repositories<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#mocking-multiple-repositories" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">@Test</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> `service coordinates multiple repositories`</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> runTest</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> mockRepo1 </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> mockk</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Repository1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> mockRepo2 </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> mockk</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Repository2</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>()</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    coEvery</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { mockRepo1.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() } returns Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(data1)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    coEvery</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { mockRepo2.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() } returns Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(data2)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> service </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> ComplexService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(mockRepo1, mockRepo2)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> result </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> service.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">coordinateOperation</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    assertTrue</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(result.isSuccess)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    coVerify</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { mockRepo1.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() }</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    coVerify</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { mockRepo2.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<hr/>
+<h2 id="service-best-practices">Service Best Practices<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#service-best-practices" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="single-responsibility">Single Responsibility<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#single-responsibility" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Each service should have one clear purpose:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// GOOD: Focused responsibility</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> ScoreCalculationService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateTotal</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(arrows: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Arrow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateAverage</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(arrows: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Arrow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Double</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// BAD: Too many responsibilities</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> EverythingService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> syncToFirebase</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> validateUser</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> sendEmail</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h3 id="dependency-injection">Dependency Injection<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#dependency-injection" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Services should receive dependencies via constructor:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// GOOD: Testable</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MyService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Repository</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// BAD: Hard-coded dependency</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MyService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RepositoryImpl</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h3 id="error-handling">Error Handling<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#error-handling" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Use Result<t> for error propagation:</t></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> performOperation</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Output</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    return</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> try</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getOrElse</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">failure</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(it) }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> output </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> process</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">data</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(output)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    } </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">catch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (e: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Exception</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        LogConfig.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">e</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Service&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Operation failed&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, e)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">failure</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(e)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Architecture:</strong></p>
+<ul>
+<li><a href="../../../.././../../../architecture/service-architecture" class="internal alias" data-slug="architecture/service-architecture">Service Architecture</a></li>
+<li><a href="../../../.././../../../architecture/service-migration-flow" class="internal alias" data-slug="architecture/service-migration-flow">Service Extraction Pattern</a></li>
+<li><a href="../../../.././../../../architecture/live-scoring-vm-analysis" class="internal alias" data-slug="architecture/live-scoring-vm-analysis">Service Extraction Case Study</a></li>
+</ul>
+<p><strong>Flows:</strong></p>
+<ul>
+<li><a href="../../../.././../../flows/scoring-flow" class="internal alias" data-slug="flows/scoring-flow">Scoring Flow</a></li>
+<li><a href="../../../.././../../flows/data-sync-flow" class="internal alias" data-slug="flows/data-sync-flow">Data Sync Flow</a></li>
+</ul>
+<p><strong>Testing:</strong></p>
+<ul>
+<li><a href="../../../.././../../../testing/test-quality-standards" class="internal alias" data-slug="testing/test-quality-standards">Testing Standards</a></li>
+</ul>
+<hr/>
+<h2 id="contributing">Contributing<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#contributing" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Help us document the remaining services!</p>
+<p><strong>Priority Documentation Needed:</strong></p>
+<ol>
+<li>StatisticsCalculationService (analytics)</li>
+<li>RoundLifecycleService (core)</li>
+<li>EquipmentPerformanceService (equipment)</li>
+<li>Remaining utility services (13 services)</li>
+</ol>
+<p><strong>Template:</strong> <a href="../../../.././#contributing-to-api-docs" class="internal alias" data-slug="index">API Documentation Template</a></p>
+<hr/>
+<p><strong>Status:</strong> 3/19 Services documented (16%)
+<strong>Last Updated:</strong> 2025-11-01
+<strong>Extraction Progress:</strong> 3 major services extracted, 2 recommended</p></article><div class="page-listing"><p>9 items under this folder.</p><div><ul class="section-ul"><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-01T00:00:00.000Z">Nov 01, 2025</time></p><div class="desc"><h3><a href="../../../../developer-guide/technical-reference/api/services/data-lifecycle-services-reference" class="internal">Data Lifecycle Services Reference</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../../../tags/api">api</a></li><li><a class="internal tag-link" href="../../../../tags/service">service</a></li><li><a class="internal tag-link" href="../../../../tags/data-management">data-management</a></li><li><a class="internal tag-link" href="../../../../tags/export">export</a></li><li><a class="internal tag-link" href="../../../../tags/import">import</a></li><li><a class="internal tag-link" href="../../../../tags/archive">archive</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-01T00:00:00.000Z">Nov 01, 2025</time></p><div class="desc"><h3><a href="../../../../developer-guide/technical-reference/api/services/equipment-performance-service" class="internal">EquipmentPerformanceService API Reference</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../../../tags/api">api</a></li><li><a class="internal tag-link" href="../../../../tags/service">service</a></li><li><a class="internal tag-link" href="../../../../tags/equipment">equipment</a></li><li><a class="internal tag-link" href="../../../../tags/analytics">analytics</a></li><li><a class="internal tag-link" href="../../../../tags/business-logic">business-logic</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-01T00:00:00.000Z">Nov 01, 2025</time></p><div class="desc"><h3><a href="../../../../developer-guide/technical-reference/api/services/progress-calculation-service" class="internal">ProgressCalculationService API Reference</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../../../tags/api">api</a></li><li><a class="internal tag-link" href="../../../../tags/service">service</a></li><li><a class="internal tag-link" href="../../../../tags/progress">progress</a></li><li><a class="internal tag-link" href="../../../../tags/calculation">calculation</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-01T00:00:00.000Z">Nov 01, 2025</time></p><div class="desc"><h3><a href="../../../../developer-guide/technical-reference/api/services/round-display-service" class="internal">RoundDisplayService API Reference</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../../../tags/api">api</a></li><li><a class="internal tag-link" href="../../../../tags/service">service</a></li><li><a class="internal tag-link" href="../../../../tags/display">display</a></li><li><a class="internal tag-link" href="../../../../tags/ranking">ranking</a></li><li><a class="internal tag-link" href="../../../../tags/multi-participant">multi-participant</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-01T00:00:00.000Z">Nov 01, 2025</time></p><div class="desc"><h3><a href="../../../../developer-guide/technical-reference/api/services/round-lifecycle-service" class="internal">RoundLifecycleService API Reference</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../../../tags/api">api</a></li><li><a class="internal tag-link" href="../../../../tags/service">service</a></li><li><a class="internal tag-link" href="../../../../tags/round">round</a></li><li><a class="internal tag-link" href="../../../../tags/lifecycle">lifecycle</a></li><li><a class="internal tag-link" href="../../../../tags/state-management">state-management</a></li><li><a class="internal tag-link" href="../../../../tags/recommended">recommended</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-01T00:00:00.000Z">Nov 01, 2025</time></p><div class="desc"><h3><a href="../../../../developer-guide/technical-reference/api/services/statistics-calculation-service" class="internal">StatisticsCalculationService API Reference</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../../../tags/api">api</a></li><li><a class="internal tag-link" href="../../../../tags/service">service</a></li><li><a class="internal tag-link" href="../../../../tags/analytics">analytics</a></li><li><a class="internal tag-link" href="../../../../tags/statistics">statistics</a></li><li><a class="internal tag-link" href="../../../../tags/business-logic">business-logic</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-01T00:00:00.000Z">Nov 01, 2025</time></p><div class="desc"><h3><a href="../../../../developer-guide/technical-reference/api/services/sync-conflict-services-reference" class="internal">Sync &amp; Conflict Services Reference</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../../../tags/api">api</a></li><li><a class="internal tag-link" href="../../../../tags/service">service</a></li><li><a class="internal tag-link" href="../../../../tags/sync">sync</a></li><li><a class="internal tag-link" href="../../../../tags/conflict-resolution">conflict-resolution</a></li><li><a class="internal tag-link" href="../../../../tags/firebase">firebase</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-01T00:00:00.000Z">Nov 01, 2025</time></p><div class="desc"><h3><a href="../../../../developer-guide/technical-reference/api/services/tournament-management-service" class="internal">TournamentManagementService</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../../../tags/api">api</a></li><li><a class="internal tag-link" href="../../../../tags/service">service</a></li><li><a class="internal tag-link" href="../../../../tags/tournament">tournament</a></li><li><a class="internal tag-link" href="../../../../tags/competition">competition</a></li><li><a class="internal tag-link" href="../../../../tags/firebase">firebase</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-01T00:00:00.000Z">Nov 01, 2025</time></p><div class="desc"><h3><a href="../../../../developer-guide/technical-reference/api/services/utility-services-reference" class="internal">Utility Services Reference</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../../../tags/api">api</a></li><li><a class="internal tag-link" href="../../../../tags/service">service</a></li><li><a class="internal tag-link" href="../../../../tags/utility">utility</a></li><li><a class="internal tag-link" href="../../../../tags/validation">validation</a></li><li><a class="internal tag-link" href="../../../../tags/logging">logging</a></li></ul></div></li></ul></div></div></div><hr/><div class="page-footer"></div></div><div class="right sidebar"></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../../postscript.js" type="module"></script></html>

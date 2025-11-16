@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>combined-pr-strategy</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="combined-pr-strategy"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="combined-pr-strategy"/><meta name="twitter:description" content="Combined PR Strategy: When to Merge Multiple Weeks of Work Category: Best Practices Area: Git Workflow, PR Management, Release Strategy Importance: 🟡 MEDIUM - Improves atomic deployments Established: Week 17-18 (November 2025) Overview When working on sequential, related work across multiple weeks,..."/><meta property="og:description" content="Combined PR Strategy: When to Merge Multiple Weeks of Work Category: Best Practices Area: Git Workflow, PR Management, Release Strategy Importance: 🟡 MEDIUM - Improves atomic deployments Established: Week 17-18 (November 2025) Overview When working on sequential, related work across multiple weeks,..."/><meta property="og:image:alt" content="Combined PR Strategy: When to Merge Multiple Weeks of Work Category: Best Practices Area: Git Workflow, PR Management, Release Strategy Importance: 🟡 MEDIUM - Improves atomic deployments Established: Week 17-18 (November 2025) Overview When working on sequential, related work across multiple weeks,..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/guides/best-practices/combined-pr-strategy"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/guides/best-practices/combined-pr-strategy"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="Combined PR Strategy: When to Merge Multiple Weeks of Work Category: Best Practices Area: Git Workflow, PR Management, Release Strategy Importance: 🟡 MEDIUM - Improves atomic deployments Established: Week 17-18 (November 2025) Overview When working on sequential, related work across multiple weeks,..."/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/guides/best-practices/combined-pr-strategy-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/guides/best-practices/combined-pr-strategy-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/guides/best-practices/combined-pr-strategy-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="developer-guide/guides/best-practices/combined-pr-strategy"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-103"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-103" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../developer-guide/">developer guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../developer-guide/guides/">guides</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../developer-guide/guides/best-practices/">best practices</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>combined pr strategy</a></div></nav><h1 class="article-title">combined-pr-strategy</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-09T18:58:46.000Z">Nov 09, 2025</time><span>11 min read</span></p><ul class="tags"><li><a href="../../../tags/best-practice" class="internal tag-link">best-practice</a></li><li><a href="../../../tags/git-workflow" class="internal tag-link">git-workflow</a></li><li><a href="../../../tags/pr-strategy" class="internal tag-link">pr-strategy</a></li><li><a href="../../../tags/combined-pr" class="internal tag-link">combined-pr</a></li><li><a href="../../../tags/atomic-deployment" class="internal tag-link">atomic-deployment</a></li><li><a href="../../../tags/week-17-18" class="internal tag-link">week-17-18</a></li></ul></div></div><article class="popover-hint"><h1 id="combined-pr-strategy-when-to-merge-multiple-weeks-of-work">Combined PR Strategy: When to Merge Multiple Weeks of Work<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#combined-pr-strategy-when-to-merge-multiple-weeks-of-work" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Category</strong>: Best Practices
+<strong>Area</strong>: Git Workflow, PR Management, Release Strategy
+<strong>Importance</strong>: 🟡 MEDIUM - Improves atomic deployments
+<strong>Established</strong>: Week 17-18 (November 2025)</p>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>When working on sequential, related work across multiple weeks, consider combining the work into a <strong>single Pull Request</strong> for atomic deployment. This strategy works well when fixes or improvements discovered in Week N+1 should be applied retroactively to Week N.</p>
+<p><strong>Key Principle</strong>: If Week N+1 discovers issues that affect Week N, merge Week N+1 into Week N branch and create a single combined PR.</p>
+<h2 id="the-pattern">The Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#the-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="standard-workflow-separate-prs">Standard Workflow (Separate PRs)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#standard-workflow-separate-prs" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Normal case</strong>: Each week gets its own PR</p>
+<pre><code>main ← PR #1 (Week 17) ← feat/week-17-work
+main ← PR #2 (Week 18) ← feat/week-18-work
+main ← PR #3 (Week 19) ← feat/week-19-work
+</code></pre>
+<p><strong>When to use</strong>:</p>
+<ul>
+<li>Work is independent</li>
+<li>No retroactive fixes needed</li>
+<li>Clean separation of concerns</li>
+</ul>
+<h3 id="combined-pr-workflow">Combined PR Workflow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#combined-pr-workflow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Special case</strong>: Week 17+18 merged into single PR</p>
+<pre><code>main ← PR #211 (Week 17+18 combined) ← feat/week-17-work
+                                          ↑
+                                          feat/week-18-work (merged into Week 17)
+</code></pre>
+<p><strong>When to use</strong>:</p>
+<ul>
+<li>Sequential, related work</li>
+<li>Retroactive fixes discovered in Week N+1</li>
+<li>Atomic deployment desired</li>
+</ul>
+<h2 id="week-1718-case-study">Week 17+18 Case Study<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-1718-case-study" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="background">Background<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#background" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week 17</strong> (6 ViewModels migrated):</p>
+<ul>
+<li>LimbsViewModel, RiserViewModel, WeightViewModel</li>
+<li>RestViewModel, StabilizerViewModel, AccessoryViewModel</li>
+<li>Branch: <code>feat/week-17-viewmodel-presenter-migration</code></li>
+<li>PR #211 created but NOT merged yet</li>
+</ul>
+<p><strong>Week 18</strong> (3 ViewModels migrated):</p>
+<ul>
+<li>ArrowViewModel, BowStringViewModel, SightViewModel</li>
+<li>Branch: <code>feat/week-18-viewmodel-presenter-migration</code></li>
+<li>PR #209 created</li>
+</ul>
+<h3 id="problem-discovered">Problem Discovered<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#problem-discovered" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>During Week 18, <strong>memory leak pattern discovered in ALL Presenters</strong>:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ❌ Memory leak found in Week 17 AND Week 18 Presenters</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> loadItems</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    scope.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">launch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getItems</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">().</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">collectLatest</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { _items.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> it }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Impact</strong>:</p>
+<ul>
+<li>Week 17: 6 Presenters affected</li>
+<li>Week 18: 3 Presenters affected</li>
+<li>Total: 9 Presenters need fixing</li>
+</ul>
+<h3 id="decision-point">Decision Point<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#decision-point" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Option A: Separate PRs (Standard)</strong></p>
+<ul>
+<li>Fix Week 17 Presenters in PR #211</li>
+<li>Fix Week 18 Presenters in PR #209</li>
+<li>Merge PR #211 → Merge PR #209</li>
+<li><strong>Problem</strong>: Two PRs both fixing same memory leak pattern (redundant)</li>
+</ul>
+<p><strong>Option B: Combined PR (Chosen)</strong></p>
+<ul>
+<li>Merge <code>feat/week-18-work</code> into <code>feat/week-17-work</code> branch</li>
+<li>Fix ALL 9 Presenters in single PR #211</li>
+<li>PR #209 auto-closes when PR #211 merges</li>
+<li><strong>Benefit</strong>: Atomic deployment of memory leak fix</li>
+</ul>
+<h3 id="implementation">Implementation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#implementation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Step 1: Merge Week 18 into Week 17 Branch</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> checkout</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> feat/week-17-viewmodel-presenter-migration</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> merge</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> feat/week-18-viewmodel-presenter-migration</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Commit: a2c86aa1 (Week 18 merged into Week 17)</span></span></code></pre></figure>
+<p><strong>Step 2: Fix ALL 9 Presenters</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Fix Week 17 Presenters (6 files)</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Fix Week 18 Presenters (3 files)</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Commit: a8de4784 (Memory leak fixes for all Presenters)</span></span></code></pre></figure>
+<p><strong>Step 3: Update PR #211 Title and Description</strong></p>
+<pre><code>Title: Week 17+18: ViewModel → Presenter Migration (9 ViewModels)
+
+Description:
+Combined Week 17 and Week 18 work for atomic deployment of memory leak fixes.
+
+Week 17 (6 ViewModels):
+- LimbsViewModel, RiserViewModel, WeightViewModel
+- RestViewModel, StabilizerViewModel, AccessoryViewModel
+
+Week 18 (3 ViewModels):
+- ArrowViewModel, BowStringViewModel, SightViewModel
+
+Memory Leak Fixes:
+- All 9 Presenters updated to stateIn pattern
+- Fixes applied retroactively to Week 17 Presenters
+</code></pre>
+<p><strong>Step 4: Merge PR #211</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># PR #211 merged to main (commit 1babf967)</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Result: PR #209 auto-closed (all commits already in main)</span></span></code></pre></figure>
+<h3 id="outcome">Outcome<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#outcome" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>✅ Benefits Achieved</strong>:</p>
+<ul>
+<li><strong>Atomic Deployment</strong>: All 9 Presenters fixed in single merge</li>
+<li><strong>Clean Git History</strong>: One commit for memory leak fix across all Presenters</li>
+<li><strong>No Redundancy</strong>: Single PR description documents all work</li>
+<li><strong>Logical Grouping</strong>: Week 17+18 work closely related (same pattern)</li>
+</ul>
+<p><strong>Trade-offs</strong>:</p>
+<ul>
+<li>Larger PR (9 ViewModels instead of 6)</li>
+<li>PR #209 auto-closed (can confuse if not documented)</li>
+<li>More complex PR description</li>
+</ul>
+<p><strong>Overall</strong>: ✅ SUCCESS - Combined PR strategy worked well</p>
+<h2 id="when-to-use-combined-pr-strategy">When to Use Combined PR Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#when-to-use-combined-pr-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="-good-candidates">✅ Good Candidates<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#-good-candidates" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Retroactive Fixes Discovered</strong></p>
+<ul>
+<li>Week N+1 discovers bug in Week N</li>
+<li>Fix should be applied to both weeks</li>
+<li>Example: Week 18 memory leak affected Week 17</li>
+</ul>
+</li>
+<li>
+<p><strong>Sequential, Related Work</strong></p>
+<ul>
+<li>Week N+1 builds directly on Week N</li>
+<li>Same pattern, same files, same team</li>
+<li>Example: Week 17+18 ViewModel migrations</li>
+</ul>
+</li>
+<li>
+<p><strong>Atomic Deployment Desired</strong></p>
+<ul>
+<li>All work should go to production together</li>
+<li>Partial deployment creates inconsistency</li>
+<li>Example: Memory leak fix must apply to all Presenters</li>
+</ul>
+</li>
+<li>
+<p><strong>Small-to-Medium PRs</strong></p>
+<ul>
+<li>Week N: 6 ViewModels (acceptable PR size)</li>
+<li>Week N+1: 3 ViewModels (small addition)</li>
+<li>Combined: 9 ViewModels (still reasonable)</li>
+<li><strong>Threshold</strong>: &lt;1000 lines changed total</li>
+</ul>
+</li>
+</ol>
+<h3 id="-bad-candidates">❌ Bad Candidates<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#-bad-candidates" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Unrelated Work</strong></p>
+<ul>
+<li>Week N: ViewModel migrations</li>
+<li>Week N+1: Database schema changes</li>
+<li><strong>Problem</strong>: Mixed concerns, hard to review</li>
+</ul>
+</li>
+<li>
+<p><strong>Large PRs</strong></p>
+<ul>
+<li>Week N: 10 ViewModels (large PR)</li>
+<li>Week N+1: 10 more ViewModels (large PR)</li>
+<li>Combined: 20 ViewModels (too large!)</li>
+<li><strong>Threshold</strong>: >1500 lines changed</li>
+</ul>
+</li>
+<li>
+<p><strong>Independent Deployments</strong></p>
+<ul>
+<li>Week N can deploy independently</li>
+<li>Week N+1 can deploy independently</li>
+<li><strong>Benefit</strong>: Deploy Week N early, Week N+1 later</li>
+</ul>
+</li>
+<li>
+<p><strong>Different Teams</strong></p>
+<ul>
+<li>Week N: Team A</li>
+<li>Week N+1: Team B</li>
+<li><strong>Problem</strong>: Ownership confusion, review complexity</li>
+</ul>
+</li>
+</ol>
+<h2 id="decision-framework">Decision Framework<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#decision-framework" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Use this flowchart to decide:</p>
+<pre><code>Does Week N+1 discover issues in Week N?
+├─ YES → Is the fix needed in both weeks?
+│         ├─ YES → Consider combined PR
+│         └─ NO → Separate PRs (fix Week N retroactively)
+└─ NO → Is work sequential and related?
+          ├─ YES → Is combined PR size reasonable?
+│                 ├─ YES → Consider combined PR
+│                 └─ NO → Separate PRs (too large)
+          └─ NO → Separate PRs (unrelated work)
+</code></pre>
+<h3 id="example-decisions">Example Decisions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#example-decisions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Scenario 1: Memory Leak Discovery</strong></p>
+<ul>
+<li>Week N+1 discovers memory leak in Week N ✅</li>
+<li>Fix needed in both weeks ✅</li>
+<li>Work is related (same pattern) ✅</li>
+<li>Combined PR size reasonable (9 ViewModels) ✅</li>
+<li><strong>Decision</strong>: ✅ COMBINE (Week 17+18 case)</li>
+</ul>
+<p><strong>Scenario 2: Independent Features</strong></p>
+<ul>
+<li>Week N: ViewModel migrations</li>
+<li>Week N+1: New Firebase feature</li>
+<li>Work is unrelated ❌</li>
+<li><strong>Decision</strong>: ❌ SEPARATE (independent features)</li>
+</ul>
+<p><strong>Scenario 3: Large Sequential Work</strong></p>
+<ul>
+<li>Week N: 10 ViewModels</li>
+<li>Week N+1: 10 more ViewModels</li>
+<li>Combined size: 20 ViewModels (too large) ❌</li>
+<li><strong>Decision</strong>: ❌ SEPARATE (PR too large)</li>
+</ul>
+<p><strong>Scenario 4: Refactoring Discovery</strong></p>
+<ul>
+<li>Week N+1 discovers better pattern</li>
+<li>Wants to apply to Week N code ✅</li>
+<li>Work is related ✅</li>
+<li>Combined size reasonable ✅</li>
+<li><strong>Decision</strong>: ✅ COMBINE (pattern consistency)</li>
+</ul>
+<h2 id="implementation-steps">Implementation Steps<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#implementation-steps" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="step-1-assess-whether-to-combine">Step 1: Assess Whether to Combine<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#step-1-assess-whether-to-combine" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Checklist</strong>:</p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Week N+1 discovered issue in Week N? OR</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Work is sequential and related?</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Atomic deployment desired?</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Combined PR size reasonable (&lt;1000 lines)?</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Same team/agent working on both?</li>
+</ul>
+<p><strong>If 3+ YES</strong>: Consider combined PR
+<strong>If &lt;3 YES</strong>: Use separate PRs</p>
+<h3 id="step-2-merge-week-n1-into-week-n-branch">Step 2: Merge Week N+1 into Week N Branch<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#step-2-merge-week-n1-into-week-n-branch" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Checkout Week N branch</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> checkout</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> feat/week-N-work</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Merge Week N+1 branch</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> merge</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> feat/week-N+1-work</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Resolve any conflicts</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> .</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> commit</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -m</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Merge Week N+1 into Week N for combined PR&quot;</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Push updated Week N branch</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> push</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> origin</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> feat/week-N-work</span></span></code></pre></figure>
+<h3 id="step-3-apply-fixes-to-both-weeks">Step 3: Apply Fixes to Both Weeks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#step-3-apply-fixes-to-both-weeks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Fix issues discovered in Week N+1</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Apply fixes to both Week N and Week N+1 code</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> .</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> commit</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -m</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Fix [issue] in Week N and Week N+1 Presenters&quot;</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> push</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> origin</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> feat/week-N-work</span></span></code></pre></figure>
+<h3 id="step-4-update-pr-description">Step 4: Update PR Description<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#step-4-update-pr-description" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>PR Title</strong>: <code>Week N+N+1: [Feature] ([N1+N2] items)</code></p>
+<p><strong>PR Description</strong>:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Combined Week N and Week N+1 work for atomic deployment.</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Week N (X items)</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Item 1</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Item 2</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">...</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Week N+1 (Y items)</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Item 3</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Item 4</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">...</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Fixes Applied</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [Issue discovered in Week N+1]</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Applied retroactively to Week N</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Total impact: [N1+N2 items]</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Why Combined</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [Reason for combining, e.g., &quot;Atomic deployment of memory leak fix&quot;]</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Testing</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> All tests passing: [test count]</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Code reduction: [</span><span style="--shiki-light:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline;">percentage</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> No regressions</span></span></code></pre></figure>
+<h3 id="step-5-merge-pr">Step 5: Merge PR<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#step-5-merge-pr" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Merge PR N (contains both Week N and Week N+1)</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Result: PR N+1 auto-closes (all commits already in main)</span></span></code></pre></figure>
+<h3 id="step-6-document-in-session-wrap-up">Step 6: Document in Session Wrap-Up<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#step-6-document-in-session-wrap-up" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Include in wrap-up</strong>:</p>
+<ul>
+<li>Why PRs were combined</li>
+<li>What issue triggered combination</li>
+<li>Outcome (benefits vs trade-offs)</li>
+<li>Whether strategy should be repeated</li>
+</ul>
+<h2 id="git-history-considerations">Git History Considerations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#git-history-considerations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="combined-pr-git-history">Combined PR Git History<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#combined-pr-git-history" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>* 1babf967 (main) Merge PR #211: Week 17+18 ViewModel migrations
+│
+* a8de4784 Fix memory leaks in Week 17+18 Presenters (9 files)
+│
+* a2c86aa1 Merge Week 18 into Week 17 branch
+│
+* [Week 18 commits]
+│
+* [Week 17 commits]
+</code></pre>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>Clear merge commit shows combined work</li>
+<li>Single deployment point (1babf967)</li>
+<li>Memory leak fix visible as single commit (a8de4784)</li>
+</ul>
+<p><strong>Trade-offs</strong>:</p>
+<ul>
+<li>Week 18 commits appear in Week 17 branch</li>
+<li>PR #209 shows as “closed” (not merged)</li>
+<li>Requires good PR description to explain</li>
+</ul>
+<h3 id="alternative-separate-prs">Alternative: Separate PRs<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#alternative-separate-prs" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>* [commit] (main) Merge PR #209: Week 18 ViewModel migrations
+│
+* [commit] Merge PR #211: Week 17 ViewModel migrations + memory leak fix
+│
+* [Week 18 commits]
+│
+* [Week 17 commits]
+</code></pre>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>Clear separation of Week 17 and Week 18</li>
+<li>Both PRs show as “merged”</li>
+<li>Standard workflow</li>
+</ul>
+<p><strong>Trade-offs</strong>:</p>
+<ul>
+<li>Memory leak fix split across two PRs</li>
+<li>Two deployment points (potential for partial deployment)</li>
+<li>More complex to track retroactive fixes</li>
+</ul>
+<h2 id="review-process">Review Process<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#review-process" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="reviewer-considerations">Reviewer Considerations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#reviewer-considerations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When reviewing combined PRs</strong>:</p>
+<ol>
+<li>
+<p><strong>Check PR Description</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Clearly explains why PRs were combined</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Lists all work from both weeks</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Documents fixes applied retroactively</li>
+</ul>
+</li>
+<li>
+<p><strong>Verify Atomic Deployment</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> All related fixes included in single PR</li>
+<li class="task-list-item"><input type="checkbox" disabled/> No partial deployment possible</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Logical grouping of work</li>
+</ul>
+</li>
+<li>
+<p><strong>Assess PR Size</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Combined PR is reasonable size (&lt;1000 lines)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Not too large to review effectively</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Could be split if needed</li>
+</ul>
+</li>
+<li>
+<p><strong>Confirm Testing</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> All tests passing (both weeks)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> No regressions introduced</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Test coverage maintained</li>
+</ul>
+</li>
+</ol>
+<h3 id="approval-criteria">Approval Criteria<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#approval-criteria" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Approve combined PR if</strong>:</p>
+<ul>
+<li>✅ Combination is justified (retroactive fixes OR sequential work)</li>
+<li>✅ PR size is reasonable (&lt;1000 lines)</li>
+<li>✅ PR description clearly explains combination</li>
+<li>✅ All work tested and passing</li>
+<li>✅ Atomic deployment makes sense</li>
+</ul>
+<p><strong>Request separation if</strong>:</p>
+<ul>
+<li>❌ PR too large (>1500 lines)</li>
+<li>❌ Work is unrelated</li>
+<li>❌ Independent deployment preferred</li>
+<li>❌ Combination not justified in PR description</li>
+</ul>
+<h2 id="metrics--analysis">Metrics &amp; Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#metrics--analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-1718-combined-pr-metrics">Week 17+18 Combined PR Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-1718-combined-pr-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>PR #211 (Combined Week 17+18)</strong>:</p>
+<ul>
+<li><strong>Files changed</strong>: ~50 files</li>
+<li><strong>Lines changed</strong>: ~800 lines (within reasonable range)</li>
+<li><strong>Review time</strong>: Standard (2-3 hours)</li>
+<li><strong>Merge time</strong>: Same day</li>
+<li><strong>Issues found in review</strong>: 0 (already validated by Agent 3)</li>
+</ul>
+<p><strong>Comparison to Hypothetical Separate PRs</strong>:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Metric</th><th>Combined PR</th><th>Separate PRs</th><th>Difference</th></tr></thead><tbody><tr><td>PRs created</td><td>1</td><td>2</td><td>-1 PR</td></tr><tr><td>Merge commits</td><td>1</td><td>2</td><td>-1 commit</td></tr><tr><td>Memory leak fix commits</td><td>1</td><td>2</td><td>-1 commit</td></tr><tr><td>Review time</td><td>2-3 hours</td><td>3-4 hours</td><td>-1 hour</td></tr><tr><td>Deployment points</td><td>1</td><td>2</td><td>-1 deployment</td></tr><tr><td>Git history clarity</td><td>High</td><td>Medium</td><td>Clearer</td></tr></tbody></table></div>
+<p><strong>Conclusion</strong>: Combined PR was more efficient and clearer</p>
+<h2 id="common-scenarios">Common Scenarios<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#common-scenarios" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="scenario-1-pattern-fix-discovery">Scenario 1: Pattern Fix Discovery<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scenario-1-pattern-fix-discovery" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week N</strong>: Implement pattern
+<strong>Week N+1</strong>: Discover pattern bug</p>
+<p><strong>Solution</strong>: Combine PRs, fix pattern across both weeks
+<strong>Example</strong>: Week 17+18 memory leak fix</p>
+<h3 id="scenario-2-refactoring-opportunity">Scenario 2: Refactoring Opportunity<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scenario-2-refactoring-opportunity" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week N</strong>: Implement feature
+<strong>Week N+1</strong>: Discover better approach</p>
+<p><strong>Solution</strong>: Combine PRs if refactoring applies to both weeks
+<strong>Example</strong>: Extract shared logic discovered in Week N+1</p>
+<h3 id="scenario-3-dependency-fix">Scenario 3: Dependency Fix<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scenario-3-dependency-fix" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week N</strong>: Add dependency usage
+<strong>Week N+1</strong>: Discover dependency bug, need to fix Week N</p>
+<p><strong>Solution</strong>: Combine PRs, fix dependency across both weeks
+<strong>Example</strong>: KMP library update affecting both weeks</p>
+<h3 id="scenario-4-sequential-feature-work">Scenario 4: Sequential Feature Work<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scenario-4-sequential-feature-work" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week N</strong>: Implement feature part 1
+<strong>Week N+1</strong>: Implement feature part 2 (builds on part 1)</p>
+<p><strong>Solution</strong>: Consider combining if feature is cohesive
+<strong>Example</strong>: Multi-step feature implementation</p>
+<h2 id="anti-patterns-to-avoid">Anti-Patterns to Avoid<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#anti-patterns-to-avoid" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="-anti-pattern-1-combining-unrelated-work">❌ Anti-Pattern 1: Combining Unrelated Work<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#-anti-pattern-1-combining-unrelated-work" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Bad</strong>: Week N (ViewModel migrations) + Week N+1 (Firebase features)
+<strong>Why</strong>: Unrelated work, different concerns, hard to review
+<strong>Fix</strong>: Keep separate PRs</p>
+<h3 id="-anti-pattern-2-combining-too-many-weeks">❌ Anti-Pattern 2: Combining Too Many Weeks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#-anti-pattern-2-combining-too-many-weeks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Bad</strong>: Week N + Week N+1 + Week N+2 (3 weeks in one PR)
+<strong>Why</strong>: PR too large, review complexity, deployment risk
+<strong>Fix</strong>: Limit to 2 weeks maximum</p>
+<h3 id="-anti-pattern-3-combining-after-prs-merged">❌ Anti-Pattern 3: Combining After PRs Merged<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#-anti-pattern-3-combining-after-prs-merged" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Bad</strong>: Merge Week N, then try to “combine” Week N+1 retroactively
+<strong>Why</strong>: Too late, Week N already deployed
+<strong>Fix</strong>: Combine BEFORE merging Week N</p>
+<h3 id="-anti-pattern-4-poor-pr-description">❌ Anti-Pattern 4: Poor PR Description<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#-anti-pattern-4-poor-pr-description" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Bad</strong>: Combined PR with description “Week 17+18 work”
+<strong>Why</strong>: Doesn’t explain why combined, what’s included
+<strong>Fix</strong>: Detailed PR description (see Step 4)</p>
+<h2 id="best-practices-summary">Best Practices Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#best-practices-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="-do">✅ DO<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#-do" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Combine for Retroactive Fixes</strong></p>
+<ul>
+<li>Week N+1 discovers bug in Week N</li>
+<li>Fix both weeks in single atomic PR</li>
+</ul>
+</li>
+<li>
+<p><strong>Combine Sequential, Related Work</strong></p>
+<ul>
+<li>Same pattern, same files, same team</li>
+<li>Logical grouping for atomic deployment</li>
+</ul>
+</li>
+<li>
+<p><strong>Keep PR Size Reasonable</strong></p>
+<ul>
+<li>&lt;1000 lines changed (guideline)</li>
+<li>If too large, split into separate PRs</li>
+</ul>
+</li>
+<li>
+<p><strong>Document Clearly</strong></p>
+<ul>
+<li>Explain why combined in PR description</li>
+<li>List all work from both weeks</li>
+<li>Document retroactive fixes</li>
+</ul>
+</li>
+<li>
+<p><strong>Test Thoroughly</strong></p>
+<ul>
+<li>All tests passing (both weeks)</li>
+<li>No regressions introduced</li>
+<li>Code coverage maintained</li>
+</ul>
+</li>
+</ol>
+<h3 id="-dont">❌ DON’T<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#-dont" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Don’t Combine Unrelated Work</strong></p>
+<ul>
+<li>Different features, different concerns</li>
+<li>Keep separate for clarity</li>
+</ul>
+</li>
+<li>
+<p><strong>Don’t Combine Too Many Weeks</strong></p>
+<ul>
+<li>Limit to 2 weeks maximum</li>
+<li>
+<blockquote>
+<p>2 weeks = PR too large</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Don’t Combine After Merge</strong></p>
+<ul>
+<li>Combine BEFORE merging Week N</li>
+<li>Can’t retroactively combine</li>
+</ul>
+</li>
+<li>
+<p><strong>Don’t Skimp on PR Description</strong></p>
+<ul>
+<li>Explain why combined</li>
+<li>List all work clearly</li>
+<li>Document fixes</li>
+</ul>
+</li>
+</ol>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><a href="../../../internal/kmp-migration/week-17-19-summary" class="internal alias" data-slug="internal/kmp-migration/week-17-19-summary">Weeks 17-19 Overview</a></li>
+<li><a href="../../../internal/agents/agent-2-week-17-19" class="internal alias" data-slug="internal/agents/agent-2-week-17-19">Agent 2 Week 17-19 Summary</a></li>
+<li><a href="../../../developer-guide/guides/best-practices/memory-leak-prevention" class="internal alias" data-slug="developer-guide/guides/best-practices/memory-leak-prevention">Memory Leak Prevention Pattern</a></li>
+</ul>
+<h2 id="tags">Tags<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tags" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><a href="../../.././../../tags/best-practice" class="tag-link internal alias" data-slug="tags/best-practice">best-practice</a> <a href="../../.././../../tags/git-workflow" class="tag-link internal alias" data-slug="tags/git-workflow">git-workflow</a> <a href="../../.././../../tags/pr-strategy" class="tag-link internal alias" data-slug="tags/pr-strategy">pr-strategy</a> <a href="../../.././../../tags/combined-pr" class="tag-link internal alias" data-slug="tags/combined-pr">combined-pr</a> <a href="../../.././../../tags/atomic-deployment" class="tag-link internal alias" data-slug="tags/atomic-deployment">atomic-deployment</a> <a href="../../.././../../tags/week-17-18" class="tag-link internal alias" data-slug="tags/week-17-18">week-17-18</a></p>
+<h2 id="summary">Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>When to Combine PRs</strong>:</p>
+<ul>
+<li>Retroactive fixes discovered in Week N+1 affecting Week N</li>
+<li>Sequential, related work (same pattern, same team)</li>
+<li>Atomic deployment desired</li>
+<li>Combined PR size reasonable (&lt;1000 lines)</li>
+</ul>
+<p><strong>Benefits</strong>:</p>
+<ul>
+<li>Atomic deployment (all fixes together)</li>
+<li>Clean git history (single merge commit)</li>
+<li>No partial deployments</li>
+<li>Clear logical grouping</li>
+</ul>
+<p><strong>How</strong>:</p>
+<ol>
+<li>Merge Week N+1 into Week N branch</li>
+<li>Apply fixes to both weeks</li>
+<li>Update PR description (explain why combined)</li>
+<li>Merge single PR (Week N+1 PR auto-closes)</li>
+</ol>
+<p><strong>Week 17+18 Case Study</strong>: ✅ SUCCESS - Memory leak fix deployed atomically across 9 Presenters</p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-34" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#combined-pr-strategy-when-to-merge-multiple-weeks-of-work" data-for="combined-pr-strategy-when-to-merge-multiple-weeks-of-work">Combined PR Strategy: When to Merge Multiple Weeks of Work</a></li><li class="depth-1"><a href="#overview" data-for="overview">Overview</a></li><li class="depth-1"><a href="#the-pattern" data-for="the-pattern">The Pattern</a></li><li class="depth-2"><a href="#standard-workflow-separate-prs" data-for="standard-workflow-separate-prs">Standard Workflow (Separate PRs)</a></li><li class="depth-2"><a href="#combined-pr-workflow" data-for="combined-pr-workflow">Combined PR Workflow</a></li><li class="depth-1"><a href="#week-1718-case-study" data-for="week-1718-case-study">Week 17+18 Case Study</a></li><li class="depth-2"><a href="#background" data-for="background">Background</a></li><li class="depth-2"><a href="#problem-discovered" data-for="problem-discovered">Problem Discovered</a></li><li class="depth-2"><a href="#decision-point" data-for="decision-point">Decision Point</a></li><li class="depth-2"><a href="#implementation" data-for="implementation">Implementation</a></li><li class="depth-2"><a href="#outcome" data-for="outcome">Outcome</a></li><li class="depth-1"><a href="#when-to-use-combined-pr-strategy" data-for="when-to-use-combined-pr-strategy">When to Use Combined PR Strategy</a></li><li class="depth-2"><a href="#-good-candidates" data-for="-good-candidates">✅ Good Candidates</a></li><li class="depth-2"><a href="#-bad-candidates" data-for="-bad-candidates">❌ Bad Candidates</a></li><li class="depth-1"><a href="#decision-framework" data-for="decision-framework">Decision Framework</a></li><li class="depth-2"><a href="#example-decisions" data-for="example-decisions">Example Decisions</a></li><li class="depth-1"><a href="#implementation-steps" data-for="implementation-steps">Implementation Steps</a></li><li class="depth-2"><a href="#step-1-assess-whether-to-combine" data-for="step-1-assess-whether-to-combine">Step 1: Assess Whether to Combine</a></li><li class="depth-2"><a href="#step-2-merge-week-n1-into-week-n-branch" data-for="step-2-merge-week-n1-into-week-n-branch">Step 2: Merge Week N+1 into Week N Branch</a></li><li class="depth-2"><a href="#step-3-apply-fixes-to-both-weeks" data-for="step-3-apply-fixes-to-both-weeks">Step 3: Apply Fixes to Both Weeks</a></li><li class="depth-2"><a href="#step-4-update-pr-description" data-for="step-4-update-pr-description">Step 4: Update PR Description</a></li><li class="depth-2"><a href="#step-5-merge-pr" data-for="step-5-merge-pr">Step 5: Merge PR</a></li><li class="depth-2"><a href="#step-6-document-in-session-wrap-up" data-for="step-6-document-in-session-wrap-up">Step 6: Document in Session Wrap-Up</a></li><li class="depth-1"><a href="#git-history-considerations" data-for="git-history-considerations">Git History Considerations</a></li><li class="depth-2"><a href="#combined-pr-git-history" data-for="combined-pr-git-history">Combined PR Git History</a></li><li class="depth-2"><a href="#alternative-separate-prs" data-for="alternative-separate-prs">Alternative: Separate PRs</a></li><li class="depth-1"><a href="#review-process" data-for="review-process">Review Process</a></li><li class="depth-2"><a href="#reviewer-considerations" data-for="reviewer-considerations">Reviewer Considerations</a></li><li class="depth-2"><a href="#approval-criteria" data-for="approval-criteria">Approval Criteria</a></li><li class="depth-1"><a href="#metrics--analysis" data-for="metrics--analysis">Metrics &amp; Analysis</a></li><li class="depth-2"><a href="#week-1718-combined-pr-metrics" data-for="week-1718-combined-pr-metrics">Week 17+18 Combined PR Metrics</a></li><li class="depth-1"><a href="#common-scenarios" data-for="common-scenarios">Common Scenarios</a></li><li class="depth-2"><a href="#scenario-1-pattern-fix-discovery" data-for="scenario-1-pattern-fix-discovery">Scenario 1: Pattern Fix Discovery</a></li><li class="depth-2"><a href="#scenario-2-refactoring-opportunity" data-for="scenario-2-refactoring-opportunity">Scenario 2: Refactoring Opportunity</a></li><li class="depth-2"><a href="#scenario-3-dependency-fix" data-for="scenario-3-dependency-fix">Scenario 3: Dependency Fix</a></li><li class="depth-2"><a href="#scenario-4-sequential-feature-work" data-for="scenario-4-sequential-feature-work">Scenario 4: Sequential Feature Work</a></li><li class="depth-1"><a href="#anti-patterns-to-avoid" data-for="anti-patterns-to-avoid">Anti-Patterns to Avoid</a></li><li class="depth-2"><a href="#-anti-pattern-1-combining-unrelated-work" data-for="-anti-pattern-1-combining-unrelated-work">❌ Anti-Pattern 1: Combining Unrelated Work</a></li><li class="depth-2"><a href="#-anti-pattern-2-combining-too-many-weeks" data-for="-anti-pattern-2-combining-too-many-weeks">❌ Anti-Pattern 2: Combining Too Many Weeks</a></li><li class="depth-2"><a href="#-anti-pattern-3-combining-after-prs-merged" data-for="-anti-pattern-3-combining-after-prs-merged">❌ Anti-Pattern 3: Combining After PRs Merged</a></li><li class="depth-2"><a href="#-anti-pattern-4-poor-pr-description" data-for="-anti-pattern-4-poor-pr-description">❌ Anti-Pattern 4: Poor PR Description</a></li><li class="depth-1"><a href="#best-practices-summary" data-for="best-practices-summary">Best Practices Summary</a></li><li class="depth-2"><a href="#-do" data-for="-do">✅ DO</a></li><li class="depth-2"><a href="#-dont" data-for="-dont">❌ DON’T</a></li><li class="depth-1"><a href="#related-documentation" data-for="related-documentation">Related Documentation</a></li><li class="depth-1"><a href="#tags" data-for="tags">Tags</a></li><li class="depth-1"><a href="#summary" data-for="summary">Summary</a></li><li class="overflow-end"></li></ul></div><div class="backlinks"><h3>Backlinks</h3><ul id="list-2" class="overflow"><li><a href="../../../internal/agents/agent-2-week-17-19" class="internal">agent-2-week-17-19</a></li><li><a href="../../../internal/kmp-migration/week-17-19-summary" class="internal">week-17-19-summary</a></li><li><a href="../../../internal/kmp-migration/week-20-21-god-class-campaign" class="internal">Week 20-21: God Class Discovery &amp; Repository Layer Investigation</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

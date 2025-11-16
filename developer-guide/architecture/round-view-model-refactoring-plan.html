@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>round-view-model-refactoring-plan</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="round-view-model-refactoring-plan"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="round-view-model-refactoring-plan"/><meta name="twitter:description" content="RoundViewModel Refactoring Plan - Comprehensive Execution Guide Executive Summary This document provides a detailed, concrete refactoring plan for decomposing the 2,058-line RoundViewModel.kt god class into specialized service components."/><meta property="og:description" content="RoundViewModel Refactoring Plan - Comprehensive Execution Guide Executive Summary This document provides a detailed, concrete refactoring plan for decomposing the 2,058-line RoundViewModel.kt god class into specialized service components."/><meta property="og:image:alt" content="RoundViewModel Refactoring Plan - Comprehensive Execution Guide Executive Summary This document provides a detailed, concrete refactoring plan for decomposing the 2,058-line RoundViewModel.kt god class into specialized service components."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/round-view-model-refactoring-plan"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/round-view-model-refactoring-plan"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="RoundViewModel Refactoring Plan - Comprehensive Execution Guide Executive Summary This document provides a detailed, concrete refactoring plan for decomposing the 2,058-line RoundViewModel.kt god class into specialized service components."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/round-view-model-refactoring-plan-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/round-view-model-refactoring-plan-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/round-view-model-refactoring-plan-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="developer-guide/architecture/round-view-model-refactoring-plan"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-38"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-38" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../developer-guide/">developer guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../developer-guide/architecture/">architecture</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>round view model refactoring plan</a></div></nav><h1 class="article-title">round-view-model-refactoring-plan</h1><p show-comma="true" class="content-meta"><time datetime="2025-01-22T00:00:00.000Z">Jan 22, 2025</time><span>10 min read</span></p><ul class="tags"><li><a href="../../tags/refactoring" class="internal tag-link">refactoring</a></li><li><a href="../../tags/execution-plan" class="internal tag-link">execution-plan</a></li><li><a href="../../tags/roundviewmodel" class="internal tag-link">roundviewmodel</a></li><li><a href="../../tags/service-extraction" class="internal tag-link">service-extraction</a></li><li><a href="../../tags/solid-principles" class="internal tag-link">solid-principles</a></li><li><a href="../../tags/architecture" class="internal tag-link">architecture</a></li><li><a href="../../tags/technical-debt" class="internal tag-link">technical-debt</a></li></ul></div></div><article class="popover-hint"><h1 id="roundviewmodel-refactoring-plan---comprehensive-execution-guide">RoundViewModel Refactoring Plan - Comprehensive Execution Guide<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#roundviewmodel-refactoring-plan---comprehensive-execution-guide" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<h2 id="executive-summary">Executive Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#executive-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>This document provides a detailed, concrete refactoring plan for decomposing the 2,058-line RoundViewModel.kt god class into specialized service components. The plan includes specific line ranges, method extractions, implementation phases, testing strategies, and risk mitigation procedures.</p>
+<p><strong>Target Outcome</strong>: Reduce RoundViewModel from 2,058 lines to ~800-1,000 lines while maintaining 100% functionality, test coverage, and Firebase integration readiness for upcoming tournaments + user accounts.</p>
+<h2 id="current-state-analysis">Current State Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-state-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="file-metrics">File Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#file-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Total Lines</strong>: 2,058 (excluding comments)</li>
+<li><strong>Public Methods</strong>: 55</li>
+<li><strong>Private Methods</strong>: 28</li>
+<li><strong>State Properties</strong>: 23 StateFlow properties</li>
+<li><strong>Repository Dependencies</strong>: 2 (RoundRepository, BowSetupRepository)</li>
+<li><strong>UI Framework Dependencies</strong>: 1 (Compose.ui.geometry.Offset) - <strong>CRITICAL VIOLATION</strong></li>
+</ul>
+<h3 id="god-class-evidence">God Class Evidence<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#god-class-evidence" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Multiple Responsibilities</strong>: Round creation, scoring session management, data display, statistics calculation, ranking computation</li>
+<li><strong>Excessive State</strong>: 23 different StateFlow properties managing unrelated concerns</li>
+<li><strong>Layer Violations</strong>: UI geometry types in ViewModel (line 6, 542)</li>
+<li><strong>High Coupling</strong>: Direct dependencies on multiple repository types</li>
+</ol>
+<h2 id="extraction-targets-specific-line-ranges">EXTRACTION TARGETS (Specific Line Ranges)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#extraction-targets-specific-line-ranges" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="1-roundstatisticsservice">1. RoundStatisticsService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-roundstatisticsservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Target Lines</strong>: 987-1162, 1328-1547
+<strong>Responsibilities</strong>: Statistics calculation, ranking computation, accuracy calculations</p>
+<p><strong>Methods to Extract</strong>:</p>
+<ul>
+<li><code>createRoundDisplayData()</code> (lines 999-1090) - 92 lines</li>
+<li><code>createParticipantScoreSummaries()</code> (lines 1103-1162) - 60 lines</li>
+<li><code>calculateMuRank()</code> (lines 1331-1357) - 27 lines</li>
+<li><code>getMuScore()</code> (lines 1389-1416) - 28 lines</li>
+<li><code>getMuMaxScore()</code> (lines 1421-1424) - 4 lines</li>
+<li><code>calculateMuAccuracy()</code> (lines 1429-1433) - 5 lines</li>
+<li><code>formatRankDisplay()</code> (lines 1369-1378) - 10 lines</li>
+<li><code>getTotalParticipants()</code> (lines 1362-1364) - 3 lines</li>
+<li><code>calculateAccuracy()</code> (lines 1529-1533) - 5 lines</li>
+<li><code>formatReadableDate()</code> (lines 1538-1547) - 10 lines</li>
+</ul>
+<p><strong>Total Lines Extracted</strong>: 244 lines</p>
+<h3 id="2-rounddisplayservice">2. RoundDisplayService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-rounddisplayservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Target Lines</strong>: 57-86, 988-1090, 1094-1098
+<strong>Responsibilities</strong>: Display data preparation, UI formatting, caching</p>
+<p><strong>Methods to Extract</strong>:</p>
+<ul>
+<li><code>createRoundDisplayData()</code> (lines 999-1090) - 92 lines (shared with Statistics)</li>
+<li><code>clearDisplayDataCache()</code> (lines 1095-1097) - 3 lines</li>
+<li>Display data caching logic (lines 1001-1004, 1084-1087)</li>
+</ul>
+<p><strong>Data Classes to Move</strong>:</p>
+<ul>
+<li><code>RoundDisplayData</code> (lines 57-71) - 15 lines</li>
+<li><code>ParticipantScoreSummary</code> (lines 78-85) - 8 lines</li>
+</ul>
+<p><strong>Total Lines Extracted</strong>: 118 lines</p>
+<h3 id="3-tournamentrankingservice">3. TournamentRankingService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-tournamentrankingservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Target Lines</strong>: 1328-1416, 1467-1517
+<strong>Responsibilities</strong>: Multi-participant ranking, tournament scoring, subject resolution</p>
+<p><strong>Methods to Extract</strong>:</p>
+<ul>
+<li><code>calculateMuRank()</code> (lines 1331-1357) - 27 lines</li>
+<li><code>resolveMuSubject()</code> (lines 1467-1475) - 9 lines</li>
+<li><code>getSubjectScore()</code> (lines 1491-1498) - 8 lines</li>
+<li><code>getSubjectMaxScore()</code> (lines 1510-1517) - 8 lines</li>
+<li><code>inferScoringMode()</code> (lines 1444-1445) - 2 lines</li>
+<li><code>resolveLocalParticipantId()</code> (lines 1454-1455) - 2 lines</li>
+</ul>
+<p><strong>Total Lines Extracted</strong>: 56 lines</p>
+<h3 id="4-ui-framework-cleanup">4. UI Framework Cleanup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-ui-framework-cleanup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Target Lines</strong>: 6, 542, 878, 914, 1716
+<strong>Violations to Remove</strong>:</p>
+<ul>
+<li><code>import androidx.compose.ui.geometry.Offset</code> (line 6)</li>
+<li>Offset usage in method signatures (line 542)</li>
+<li>Offset in participant coordinates (lines 878, 914, 1716)</li>
+</ul>
+<p><strong>Solution</strong>: Replace with <code>data class ArrowCoordinate(val x: Float, val y: Float)</code></p>
+<h2 id="detailed-execution-plan">DETAILED EXECUTION PLAN<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#detailed-execution-plan" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="phase-1-foundation-setup-days-1-2">Phase 1: Foundation Setup (Days 1-2)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-1-foundation-setup-days-1-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Duration</strong>: 2 days
+<strong>Risk Level</strong>: LOW</p>
+<h4 id="day-1-create-service-interfaces">Day 1: Create Service Interfaces<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#day-1-create-service-interfaces" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li>
+<p><strong>Create ArrowCoordinate Data Class</strong> (30 mins)</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// File: app/src/main/java/com/archeryapprentice/ui/roundScoring/types/ArrowCoordinate.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> ArrowCoordinate</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> x: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Float</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> y: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Float</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+</li>
+<li>
+<p><strong>Create RoundStatisticsService Interface</strong> (45 mins)</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// File: app/src/main/java/com/archeryapprentice/domain/services/RoundStatisticsService.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundStatisticsService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateMuRank</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getMuScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getMuMaxScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateMuAccuracy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(muScore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, muMaxScore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Float</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateAccuracy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(score: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, max: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> formatRankDisplay</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(rank: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, total: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTotalParticipants</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> formatReadableDate</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(timestamp: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+</li>
+<li>
+<p><strong>Create RoundDisplayService Interface</strong> (45 mins)</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// File: app/src/main/java/com/archeryapprentice/domain/services/RoundDisplayService.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundDisplayService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createRoundDisplayData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, settings: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Settings</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundDisplayData</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createParticipantScoreSummaries</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, settings: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Settings</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ParticipantScoreSummary</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> clearDisplayDataCache</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+</li>
+<li>
+<p><strong>Create TournamentRankingService Interface</strong> (30 mins)</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// File: app/src/main/java/com/archeryapprentice/domain/services/TournamentRankingService.kt</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentRankingService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> resolveMuSubject</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, settings: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Settings</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ScoreSubject</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getSubjectScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, subject: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ScoreSubject</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getSubjectMaxScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, subject: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ScoreSubject</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+</li>
+</ol>
+<h4 id="day-2-create-implementation-skeletons">Day 2: Create Implementation Skeletons<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#day-2-create-implementation-skeletons" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol start="5">
+<li><strong>Create Empty Implementations</strong> (2 hours)
+<ul>
+<li>Create concrete classes with TODO stubs</li>
+<li>Set up dependency injection in RepositoryFactory</li>
+<li>Add constructor parameters to RoundViewModel</li>
+</ul>
+</li>
+</ol>
+<p><strong>Rollback Procedure</strong>: Simply delete new files and revert imports</p>
+<h3 id="phase-2-statistics-service-extraction-days-3-4">Phase 2: Statistics Service Extraction (Days 3-4)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-2-statistics-service-extraction-days-3-4" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Duration</strong>: 2 days
+<strong>Risk Level</strong>: MEDIUM</p>
+<h4 id="day-3-extract-core-statistics-methods">Day 3: Extract Core Statistics Methods<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#day-3-extract-core-statistics-methods" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li>
+<p><strong>Extract calculateMuRank()</strong> (45 mins)</p>
+<ul>
+<li>Lines 1331-1357 → RoundStatisticsServiceImpl.calculateMuRank()</li>
+<li>Update dependencies: needs RoundRepository.recomputeRoundTotals()</li>
+<li><strong>Test</strong>: Verify all ranking tests pass</li>
+</ul>
+</li>
+<li>
+<p><strong>Extract getMuScore()</strong> (30 mins)</p>
+<ul>
+<li>Lines 1389-1416 → RoundStatisticsServiceImpl.getMuScore()</li>
+<li><strong>Test</strong>: Verify score calculation tests pass</li>
+</ul>
+</li>
+<li>
+<p><strong>Extract Utility Methods</strong> (30 mins)</p>
+<ul>
+<li>getMuMaxScore(), calculateMuAccuracy(), calculateAccuracy()</li>
+<li>formatRankDisplay(), getTotalParticipants(), formatReadableDate()</li>
+<li><strong>Test</strong>: Run full test suite</li>
+</ul>
+</li>
+</ol>
+<h4 id="day-4-update-roundviewmodel-integration">Day 4: Update RoundViewModel Integration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#day-4-update-roundviewmodel-integration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol start="4">
+<li><strong>Replace Method Calls</strong> (2 hours)
+<ul>
+<li>Update all callers to use statisticsService.methodName()</li>
+<li>Remove original method implementations</li>
+<li><strong>Test</strong>: Full regression test suite</li>
+</ul>
+</li>
+</ol>
+<p><strong>Rollback Procedure</strong>:</p>
+<ul>
+<li>Revert method extractions</li>
+<li>Remove service calls</li>
+<li>Restore original method implementations</li>
+</ul>
+<h3 id="phase-3-display-service-extraction-days-5-6">Phase 3: Display Service Extraction (Days 5-6)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-3-display-service-extraction-days-5-6" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Duration</strong>: 2 days
+<strong>Risk Level</strong>: MEDIUM</p>
+<h4 id="day-5-extract-display-data-methods">Day 5: Extract Display Data Methods<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#day-5-extract-display-data-methods" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li>
+<p><strong>Move Data Classes</strong> (30 mins)</p>
+<ul>
+<li>RoundDisplayData → domain/models/</li>
+<li>ParticipantScoreSummary → domain/models/</li>
+</ul>
+</li>
+<li>
+<p><strong>Extract createRoundDisplayData()</strong> (1.5 hours)</p>
+<ul>
+<li>Lines 999-1090 → RoundDisplayServiceImpl</li>
+<li>Handle statisticsService dependency</li>
+<li><strong>Test</strong>: Verify Historical screen displays correctly</li>
+</ul>
+</li>
+</ol>
+<h4 id="day-6-cache-management">Day 6: Cache Management<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#day-6-cache-management" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol start="3">
+<li><strong>Extract Display Cache</strong> (1 hour)
+<ul>
+<li>Move displayDataCache to RoundDisplayServiceImpl</li>
+<li>Extract clearDisplayDataCache() method</li>
+<li><strong>Test</strong>: Verify caching behavior preserved</li>
+</ul>
+</li>
+</ol>
+<p><strong>Rollback Procedure</strong>:</p>
+<ul>
+<li>Move data classes back to RoundViewModel</li>
+<li>Restore createRoundDisplayData() in RoundViewModel</li>
+<li>Remove service delegation</li>
+</ul>
+<h3 id="phase-4-tournament-ranking-extraction-day-7">Phase 4: Tournament Ranking Extraction (Day 7)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-4-tournament-ranking-extraction-day-7" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Duration</strong>: 1 day
+<strong>Risk Level</strong>: LOW</p>
+<h4 id="day-7-extract-tournament-methods">Day 7: Extract Tournament Methods<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#day-7-extract-tournament-methods" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li>
+<p><strong>Extract Subject Resolution</strong> (1 hour)</p>
+<ul>
+<li>resolveMuSubject(), getSubjectScore(), getSubjectMaxScore()</li>
+<li>Lines 1467-1517 → TournamentRankingServiceImpl</li>
+</ul>
+</li>
+<li>
+<p><strong>Update Integration</strong> (1 hour)</p>
+<ul>
+<li>Replace calls in RoundViewModel</li>
+<li><strong>Test</strong>: Tournament functionality tests</li>
+</ul>
+</li>
+</ol>
+<p><strong>Rollback Procedure</strong>: Minimal - small method extractions, easy to revert</p>
+<h3 id="phase-5-ui-framework-cleanup-day-8">Phase 5: UI Framework Cleanup (Day 8)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-5-ui-framework-cleanup-day-8" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Duration</strong>: 1 day
+<strong>Risk Level</strong>: HIGH</p>
+<h4 id="day-8-remove-compose-dependencies">Day 8: Remove Compose Dependencies<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#day-8-remove-compose-dependencies" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li>
+<p><strong>Replace Offset with ArrowCoordinate</strong> (2-3 hours)</p>
+<ul>
+<li>Update method signatures (line 542)</li>
+<li>Update participant coordinates (lines 878, 914, 1716)</li>
+<li>Remove Offset import (line 6)</li>
+<li><strong>Critical</strong>: Update all UI screens that consume coordinates</li>
+</ul>
+</li>
+<li>
+<p><strong>Update ActiveScoringScreen</strong> (1 hour)</p>
+<ul>
+<li>Convert ArrowCoordinate back to Offset for Compose</li>
+<li>Add extension functions for conversion</li>
+</ul>
+</li>
+</ol>
+<p><strong>Rollback Procedure</strong>:</p>
+<ul>
+<li>Revert ArrowCoordinate to Offset</li>
+<li>Restore import androidx.compose.ui.geometry.Offset</li>
+<li>Revert method signatures</li>
+</ul>
+<h3 id="phase-6-final-integration--testing-days-9-10">Phase 6: Final Integration &amp; Testing (Days 9-10)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-6-final-integration--testing-days-9-10" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Duration</strong>: 2 days
+<strong>Risk Level</strong>: LOW</p>
+<h4 id="day-9-dependency-injection">Day 9: Dependency Injection<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#day-9-dependency-injection" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li><strong>Update RepositoryFactory</strong> (1 hour)</li>
+<li><strong>Update RoundViewModel Constructor</strong> (30 mins)</li>
+<li><strong>Update Test Mocks</strong> (2 hours)</li>
+</ol>
+<h4 id="day-10-comprehensive-testing">Day 10: Comprehensive Testing<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#day-10-comprehensive-testing" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li><strong>Run Full Test Suite</strong> (2 hours)</li>
+<li><strong>Performance Testing</strong> (1 hour)</li>
+<li><strong>UI Integration Testing</strong> (2 hours)</li>
+</ol>
+<h2 id="dependency-mapping">DEPENDENCY MAPPING<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#dependency-mapping" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="service-dependencies">Service Dependencies<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#service-dependencies" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>RoundStatisticsService
+├── RoundRepository (for recomputeRoundTotals)
+└── No UI dependencies
+
+RoundDisplayService
+├── RoundStatisticsService (for calculations)
+├── RoundRepository (for data fetching)
+└── No UI dependencies
+
+TournamentRankingService
+├── RoundStatisticsService (for score calculations)
+└── No external dependencies
+
+RoundViewModel (after refactoring)
+├── RoundStatisticsService
+├── RoundDisplayService
+├── TournamentRankingService
+├── RoundRepository
+└── BowSetupRepository
+</code></pre>
+<h3 id="method-call-flow">Method Call Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#method-call-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>UI Screen
+    ↓
+RoundViewModel.createRoundDisplayData()
+    ↓
+RoundDisplayService.createRoundDisplayData()
+    ↓
+RoundStatisticsService.calculateMuRank()
+    ↓
+RoundRepository.recomputeRoundTotals()
+</code></pre>
+<h2 id="testing-strategy">TESTING STRATEGY<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#testing-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="phase-by-phase-testing">Phase-by-Phase Testing<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-by-phase-testing" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Unit Tests</strong>: Create new test files for each service</li>
+<li><strong>Integration Tests</strong>: Verify service interactions</li>
+<li><strong>Regression Tests</strong>: Ensure existing functionality preserved</li>
+<li><strong>Performance Tests</strong>: Verify no performance degradation</li>
+</ol>
+<h3 id="test-files-to-create">Test Files to Create<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#test-files-to-create" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>- RoundStatisticsServiceTest.kt
+- RoundDisplayServiceTest.kt
+- TournamentRankingServiceTest.kt
+- RoundViewModelRefactoredTest.kt (integration)
+</code></pre>
+<h3 id="critical-test-cases">Critical Test Cases<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-test-cases" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Multi-participant ranking</strong> calculations</li>
+<li><strong>Display data caching</strong> behavior</li>
+<li><strong>Tournament scoring</strong> accuracy</li>
+<li><strong>UI coordinate conversion</strong> (Offset ↔ ArrowCoordinate)</li>
+</ol>
+<h2 id="risk-mitigation">RISK MITIGATION<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#risk-mitigation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="high-risk-areas">High-Risk Areas<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#high-risk-areas" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="1-ui-framework-dependencies-phase-5">1. UI Framework Dependencies (Phase 5)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-ui-framework-dependencies-phase-5" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Risk</strong>: Breaking ActiveScoringScreen coordinate system
+<strong>Mitigation</strong>:</p>
+<ul>
+<li>Create conversion extensions before replacing Offset</li>
+<li>Test coordinate accuracy with sample data</li>
+<li>Keep backup of working Offset implementation</li>
+</ul>
+<h4 id="2-firebase-integration-compatibility">2. Firebase Integration Compatibility<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-firebase-integration-compatibility" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Risk</strong>: Creating conflicts with upcoming Firebase tournaments + user accounts
+<strong>Prevention</strong>:</p>
+<ul>
+<li><strong>SAFE TO EXTRACT</strong>: Statistics, display, and ranking services (pure computation)</li>
+<li><strong>PRESERVE</strong>: Session coordination logic (needed for Firebase real-time sync)</li>
+<li><strong>PRESERVE</strong>: Multi-participant switching (Firebase presence integration)</li>
+<li><strong>PRESERVE</strong>: Repository patterns (Firebase hybrid architecture pending)</li>
+</ul>
+<p><strong>Firebase Integration Points Identified</strong>:</p>
+<ul>
+<li><code>SessionParticipant</code> → User account linking ready</li>
+<li><code>ParticipantProgress</code> → Firestore real-time sync ready</li>
+<li><code>RoundDisplayData</code> → Tournament leaderboard sync ready</li>
+<li>Service boundaries → Compatible with Firebase architecture patterns</li>
+</ul>
+<h4 id="3-tournament-data-integrity">3. Tournament Data Integrity<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-tournament-data-integrity" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Risk</strong>: Ranking calculations becoming inconsistent
+<strong>Prevention</strong>:</p>
+<ul>
+<li>Extract rank calculation as single atomic operation</li>
+<li>Validate against known tournament data</li>
+<li>Keep original calculation as backup during transition</li>
+</ul>
+<h3 id="rollback-triggers">Rollback Triggers<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#rollback-triggers" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Stop and rollback if:</p>
+<ul>
+<li>Test coverage drops below 75%</li>
+<li>Performance degrades > 15%</li>
+<li>Any Firebase sync errors occur</li>
+<li>UI rendering breaks</li>
+<li>Tournament rankings become inconsistent</li>
+</ul>
+<h2 id="performance-impact-analysis">PERFORMANCE IMPACT ANALYSIS<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#performance-impact-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="expected-improvements">Expected Improvements<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#expected-improvements" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Memory Usage</strong>: 15-20% reduction (smaller ViewModels)</li>
+<li><strong>Initialization Time</strong>: 10-15% faster (focused responsibilities)</li>
+<li><strong>Test Execution</strong>: 20-25% faster (isolated testing)</li>
+</ul>
+<h3 id="potential-concerns">Potential Concerns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#potential-concerns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Service Creation Overhead</strong>: +5-10ms initialization</li>
+<li><strong>Method Call Indirection</strong>: +1-2ms per display operation</li>
+<li><strong>Dependency Resolution</strong>: +2-3ms per ViewModel creation</li>
+</ul>
+<p><strong>Net Impact</strong>: Overall positive due to reduced god class complexity</p>
+<h2 id="concrete-deliverables">CONCRETE DELIVERABLES<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#concrete-deliverables" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="new-files-created">New Files Created<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#new-files-created" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>domain/services/
+├── RoundStatisticsService.kt (interface)
+├── RoundStatisticsServiceImpl.kt (implementation)
+├── RoundDisplayService.kt (interface)
+├── RoundDisplayServiceImpl.kt (implementation)
+├── TournamentRankingService.kt (interface)
+└── TournamentRankingServiceImpl.kt (implementation)
+
+domain/models/
+├── RoundDisplayData.kt (moved from RoundViewModel)
+└── ParticipantScoreSummary.kt (moved from RoundViewModel)
+
+ui/roundScoring/types/
+└── ArrowCoordinate.kt (replaces Offset)
+
+test/java/.../services/
+├── RoundStatisticsServiceTest.kt
+├── RoundDisplayServiceTest.kt
+└── TournamentRankingServiceTest.kt
+</code></pre>
+<h3 id="interface-definitions">Interface Definitions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#interface-definitions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="roundstatisticsservice-complete">RoundStatisticsService (Complete)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#roundstatisticsservice-complete" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundStatisticsService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateMuRank</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getMuScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getMuMaxScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateMuAccuracy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(muScore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, muMaxScore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Float</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateAccuracy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(score: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, max: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> formatRankDisplay</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(rank: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, total: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTotalParticipants</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> formatReadableDate</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(timestamp: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h4 id="rounddisplayservice-complete">RoundDisplayService (Complete)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#rounddisplayservice-complete" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundDisplayService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createRoundDisplayData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, settings: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Settings</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundDisplayData</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createParticipantScoreSummaries</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, settings: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Settings</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ParticipantScoreSummary</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> clearDisplayDataCache</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h4 id="tournamentrankingservice-complete">TournamentRankingService (Complete)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournamentrankingservice-complete" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentRankingService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> resolveMuSubject</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, settings: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Settings</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ScoreSubject</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getSubjectScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, subject: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ScoreSubject</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getSubjectMaxScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, subject: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ScoreSubject</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h3 id="dependency-injection-updates">Dependency Injection Updates<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#dependency-injection-updates" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// RepositoryFactory.kt additions</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RepositoryFactory</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createRoundStatisticsService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundStatisticsService</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createRoundDisplayService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundDisplayService</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createTournamentRankingService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentRankingService</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// RoundViewModel.kt constructor updates</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundViewModel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    application: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Application</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repositoryFactory: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RepositoryFactory</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">? </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> null</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> statisticsService: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundStatisticsService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">? </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> null</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> displayService: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundDisplayService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">? </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> null</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> rankingService: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentRankingService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">? </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> null</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+<h2 id="success-criteria">SUCCESS CRITERIA<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-criteria" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="quantitative-metrics">Quantitative Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quantitative-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> RoundViewModel reduced from 2,058 to &lt;1,000 lines</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Public methods reduced from 55 to &lt;30</li>
+<li class="task-list-item"><input type="checkbox" disabled/> StateFlow properties reduced from 23 to &lt;15</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All 1,034 tests pass</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Test coverage maintained >75%</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Performance within 5% of baseline</li>
+</ul>
+<h3 id="qualitative-goals">Qualitative Goals<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#qualitative-goals" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> UI framework dependencies completely removed</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Layer violations eliminated</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Service responsibilities clearly separated</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Code complexity significantly reduced</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Maintainability dramatically improved</li>
+</ul>
+<h3 id="architecture-decision-records">Architecture Decision Records<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#architecture-decision-records" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Document service extraction rationale</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Record coordinate system design decisions</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Capture performance optimization choices</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Log dependency injection patterns</li>
+</ul>
+<h2 id="timeline-summary">TIMELINE SUMMARY<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#timeline-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Phase</th><th>Duration</th><th>Risk</th><th>Key Deliverables</th></tr></thead><tbody><tr><td>1: Foundation</td><td>2 days</td><td>LOW</td><td>Interfaces, data classes</td></tr><tr><td>2: Statistics</td><td>2 days</td><td>MEDIUM</td><td>RoundStatisticsService</td></tr><tr><td>3: Display</td><td>2 days</td><td>MEDIUM</td><td>RoundDisplayService</td></tr><tr><td>4: Tournament</td><td>1 day</td><td>LOW</td><td>TournamentRankingService</td></tr><tr><td>5: UI Cleanup</td><td>1 day</td><td>HIGH</td><td>Remove Compose dependencies</td></tr><tr><td>6: Integration</td><td>2 days</td><td>LOW</td><td>Testing, polish</td></tr></tbody></table></div>
+<p><strong>Total Duration</strong>: 10 days
+<strong>Total Lines Extracted</strong>: ~400-500 lines
+<strong>Complexity Reduction</strong>: ~60%</p>
+<hr/>
+<p><strong>Source</strong>: <code>docs/architecture/ROUNDVIEWMODEL_REFACTORING_PLAN.md</code><br/>
+<strong>Note</strong>: See <a href="../../Refactoring-Reality-Check" class="internal" data-slug="Refactoring-Reality-Check">Refactoring-Reality-Check</a> for actual implementation outcomes</p>
+<p><em>This plan provides stakeholder-ready documentation for a comprehensive RoundViewModel refactoring that maintains 100% functionality while dramatically improving code maintainability and architectural compliance.</em></p>
+<hr/>
+<h2 id="implementation-updates">Implementation Updates<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#implementation-updates" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="rounddisplayservice---ranking-functionality-added-2025-10-15">RoundDisplayService - Ranking Functionality Added (2025-10-15)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#rounddisplayservice---ranking-functionality-added-2025-10-15" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status</strong>: ✅ Partially Implemented</p>
+<p>The <code>RoundDisplayService</code> has been enhanced with multi-participant ranking functionality beyond the original refactoring plan. This demonstrates the service’s extensibility and validates the domain service extraction strategy.</p>
+<h4 id="new-method-added">New Method Added<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#new-method-added" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateAllParticipantRanks</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Map</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span></code></pre></figure>
+<p><strong>Purpose</strong>: Calculate ranks for ALL participants in a round (for participant selector and leaderboards)</p>
+<p><strong>Implementation Details</strong>:</p>
+<ul>
+<li><strong>Lines</strong>: 336-428 in RoundDisplayService.kt (+93 lines)</li>
+<li><strong>Dual-Path Logic</strong>:
+<ul>
+<li>Tournament rounds: Fetch ranks from Firebase Firestore (server-calculated)</li>
+<li>Offline rounds: Calculate locally using Room database</li>
+</ul>
+</li>
+<li><strong>Tie-Breaking Algorithm</strong>: Score first (descending), then X count (descending)</li>
+<li><strong>Error Handling</strong>: Graceful fallback to empty map on errors</li>
+</ul>
+<p><strong>Integration Points</strong>:</p>
+<ul>
+<li>Used by <code>RoundDetailsScreen</code> for participant selector rank badges</li>
+<li>Used by <code>HistoricalRoundsScreen</code> for rank display on round cards</li>
+<li>Works seamlessly with both tournament and offline rounds</li>
+</ul>
+<p><strong>Test Coverage</strong>:</p>
+<ul>
+<li>8 unit tests in <code>RoundDisplayServiceTest.kt</code> (lines 652-883)</li>
+<li>3 E2E instrumented tests in <code>MultiParticipantRankingDisplayE2ETest.kt</code></li>
+<li>Tests cover: single participant, in-progress rounds, offline calculations, tie-breaking, Firebase fallback, error handling</li>
+</ul>
+<p><strong>Architectural Benefits</strong>:</p>
+<ul>
+<li>✅ Avoided bloating RoundViewModel (domain service pattern validated)</li>
+<li>✅ Single source of truth for ranking calculations</li>
+<li>✅ Reusable across multiple UI components</li>
+<li>✅ Consistent tie-breaking logic for tournament and offline modes</li>
+</ul>
+<p><strong>Related Features</strong>:</p>
+<ul>
+<li>Display name collision detection (GU1, GU2, GU3 instead of GUE, GUE, GUE)</li>
+<li>Rank badges in participant selector (#1, #2, #3)</li>
+<li>Historical round card rank display (“1st / 3 participants”)</li>
+</ul>
+<p><strong>Documentation</strong>: See <a href="../../2025-10-15-Multi-Participant-Ranking-Display" class="internal" data-slug="2025-10-15-Multi-Participant-Ranking-Display">2025-10-15-Multi-Participant-Ranking-Display</a> for complete implementation details.</p>
+<p><strong>Lesson Learned</strong>: The domain service extraction strategy proved highly effective. Adding this ranking functionality to RoundDisplayService was straightforward and maintained clean separation of concerns. This validates the refactoring plan’s approach of extracting display logic from ViewModels.</p>
+<hr/>
+<p><em>Last Updated: 2025-10-15 - Added ranking functionality implementation notes</em></p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-12" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#roundviewmodel-refactoring-plan---comprehensive-execution-guide" data-for="roundviewmodel-refactoring-plan---comprehensive-execution-guide">RoundViewModel Refactoring Plan - Comprehensive Execution Guide</a></li><li class="depth-1"><a href="#executive-summary" data-for="executive-summary">Executive Summary</a></li><li class="depth-1"><a href="#current-state-analysis" data-for="current-state-analysis">Current State Analysis</a></li><li class="depth-2"><a href="#file-metrics" data-for="file-metrics">File Metrics</a></li><li class="depth-2"><a href="#god-class-evidence" data-for="god-class-evidence">God Class Evidence</a></li><li class="depth-1"><a href="#extraction-targets-specific-line-ranges" data-for="extraction-targets-specific-line-ranges">EXTRACTION TARGETS (Specific Line Ranges)</a></li><li class="depth-2"><a href="#1-roundstatisticsservice" data-for="1-roundstatisticsservice">1. RoundStatisticsService</a></li><li class="depth-2"><a href="#2-rounddisplayservice" data-for="2-rounddisplayservice">2. RoundDisplayService</a></li><li class="depth-2"><a href="#3-tournamentrankingservice" data-for="3-tournamentrankingservice">3. TournamentRankingService</a></li><li class="depth-2"><a href="#4-ui-framework-cleanup" data-for="4-ui-framework-cleanup">4. UI Framework Cleanup</a></li><li class="depth-1"><a href="#detailed-execution-plan" data-for="detailed-execution-plan">DETAILED EXECUTION PLAN</a></li><li class="depth-2"><a href="#phase-1-foundation-setup-days-1-2" data-for="phase-1-foundation-setup-days-1-2">Phase 1: Foundation Setup (Days 1-2)</a></li><li class="depth-2"><a href="#phase-2-statistics-service-extraction-days-3-4" data-for="phase-2-statistics-service-extraction-days-3-4">Phase 2: Statistics Service Extraction (Days 3-4)</a></li><li class="depth-2"><a href="#phase-3-display-service-extraction-days-5-6" data-for="phase-3-display-service-extraction-days-5-6">Phase 3: Display Service Extraction (Days 5-6)</a></li><li class="depth-2"><a href="#phase-4-tournament-ranking-extraction-day-7" data-for="phase-4-tournament-ranking-extraction-day-7">Phase 4: Tournament Ranking Extraction (Day 7)</a></li><li class="depth-2"><a href="#phase-5-ui-framework-cleanup-day-8" data-for="phase-5-ui-framework-cleanup-day-8">Phase 5: UI Framework Cleanup (Day 8)</a></li><li class="depth-2"><a href="#phase-6-final-integration--testing-days-9-10" data-for="phase-6-final-integration--testing-days-9-10">Phase 6: Final Integration &amp; Testing (Days 9-10)</a></li><li class="depth-1"><a href="#dependency-mapping" data-for="dependency-mapping">DEPENDENCY MAPPING</a></li><li class="depth-2"><a href="#service-dependencies" data-for="service-dependencies">Service Dependencies</a></li><li class="depth-2"><a href="#method-call-flow" data-for="method-call-flow">Method Call Flow</a></li><li class="depth-1"><a href="#testing-strategy" data-for="testing-strategy">TESTING STRATEGY</a></li><li class="depth-2"><a href="#phase-by-phase-testing" data-for="phase-by-phase-testing">Phase-by-Phase Testing</a></li><li class="depth-2"><a href="#test-files-to-create" data-for="test-files-to-create">Test Files to Create</a></li><li class="depth-2"><a href="#critical-test-cases" data-for="critical-test-cases">Critical Test Cases</a></li><li class="depth-1"><a href="#risk-mitigation" data-for="risk-mitigation">RISK MITIGATION</a></li><li class="depth-2"><a href="#high-risk-areas" data-for="high-risk-areas">High-Risk Areas</a></li><li class="depth-2"><a href="#rollback-triggers" data-for="rollback-triggers">Rollback Triggers</a></li><li class="depth-1"><a href="#performance-impact-analysis" data-for="performance-impact-analysis">PERFORMANCE IMPACT ANALYSIS</a></li><li class="depth-2"><a href="#expected-improvements" data-for="expected-improvements">Expected Improvements</a></li><li class="depth-2"><a href="#potential-concerns" data-for="potential-concerns">Potential Concerns</a></li><li class="depth-1"><a href="#concrete-deliverables" data-for="concrete-deliverables">CONCRETE DELIVERABLES</a></li><li class="depth-2"><a href="#new-files-created" data-for="new-files-created">New Files Created</a></li><li class="depth-2"><a href="#interface-definitions" data-for="interface-definitions">Interface Definitions</a></li><li class="depth-2"><a href="#dependency-injection-updates" data-for="dependency-injection-updates">Dependency Injection Updates</a></li><li class="depth-1"><a href="#success-criteria" data-for="success-criteria">SUCCESS CRITERIA</a></li><li class="depth-2"><a href="#quantitative-metrics" data-for="quantitative-metrics">Quantitative Metrics</a></li><li class="depth-2"><a href="#qualitative-goals" data-for="qualitative-goals">Qualitative Goals</a></li><li class="depth-2"><a href="#architecture-decision-records" data-for="architecture-decision-records">Architecture Decision Records</a></li><li class="depth-1"><a href="#timeline-summary" data-for="timeline-summary">TIMELINE SUMMARY</a></li><li class="depth-1"><a href="#implementation-updates" data-for="implementation-updates">Implementation Updates</a></li><li class="depth-2"><a href="#rounddisplayservice---ranking-functionality-added-2025-10-15" data-for="rounddisplayservice---ranking-functionality-added-2025-10-15">RoundDisplayService - Ranking Functionality Added (2025-10-15)</a></li><li class="overflow-end"></li></ul></div><div class="backlinks"><h3>Backlinks</h3><ul id="list-2" class="overflow"><li><a href="../../developer-guide/architecture/tournament-details-viewmodel" class="internal">tournament-details-viewmodel</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

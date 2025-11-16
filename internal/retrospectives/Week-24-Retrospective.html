@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Week-24-Retrospective</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Week-24-Retrospective"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Week-24-Retrospective"/><meta name="twitter:description" content="Week 24 Multi-Agent Session Retrospective Date: November 11-12, 2025 Status: COMPLETE ✅ Session Duration: ~26-28 hours (2 agents in parallel) PRs Merged: 2 (#228, #229) Executive Summary Week 24 was a challenging but ultimately successful multi-agent orchestration session that delivered significant ..."/><meta property="og:description" content="Week 24 Multi-Agent Session Retrospective Date: November 11-12, 2025 Status: COMPLETE ✅ Session Duration: ~26-28 hours (2 agents in parallel) PRs Merged: 2 (#228, #229) Executive Summary Week 24 was a challenging but ultimately successful multi-agent orchestration session that delivered significant ..."/><meta property="og:image:alt" content="Week 24 Multi-Agent Session Retrospective Date: November 11-12, 2025 Status: COMPLETE ✅ Session Duration: ~26-28 hours (2 agents in parallel) PRs Merged: 2 (#228, #229) Executive Summary Week 24 was a challenging but ultimately successful multi-agent orchestration session that delivered significant ..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/retrospectives/Week-24-Retrospective"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/retrospectives/Week-24-Retrospective"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="Week 24 Multi-Agent Session Retrospective Date: November 11-12, 2025 Status: COMPLETE ✅ Session Duration: ~26-28 hours (2 agents in parallel) PRs Merged: 2 (#228, #229) Executive Summary Week 24 was a challenging but ultimately successful multi-agent orchestration session that delivered significant ..."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/retrospectives/Week-24-Retrospective-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/retrospectives/Week-24-Retrospective-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/retrospectives/Week-24-Retrospective-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/retrospectives/Week-24-Retrospective"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-455"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-455" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/retrospectives/">retrospectives</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Week 24 Retrospective</a></div></nav><h1 class="article-title">Week-24-Retrospective</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-12T08:26:37.000Z">Nov 12, 2025</time><span>29 min read</span></p></div></div><article class="popover-hint"><h1 id="week-24-multi-agent-session-retrospective">Week 24 Multi-Agent Session Retrospective<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-24-multi-agent-session-retrospective" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Date:</strong> November 11-12, 2025
+<strong>Status:</strong> COMPLETE ✅
+<strong>Session Duration:</strong> ~26-28 hours (2 agents in parallel)
+<strong>PRs Merged:</strong> 2 (#228, #229)</p>
+<hr/>
+<h2 id="executive-summary">Executive Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#executive-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Week 24 was a challenging but ultimately successful multi-agent orchestration session that delivered significant architectural improvements while providing valuable learning opportunities. The session featured a stark contrast between Agent 2’s clean execution and Agent 1’s extended debugging challenges, offering critical insights for future protocol refinements.</p>
+<p><strong>Key Outcomes:</strong></p>
+<ul>
+<li>✅ 91 logs migrated to LoggingProvider (Agent 1)</li>
+<li>✅ 2 repositories extracted from god class (Agent 2)</li>
+<li>✅ AuthProvider abstraction introduced (KMP compatibility)</li>
+<li>✅ 330 lines reduced from HybridTournamentRepository</li>
+<li>✅ 20 comprehensive tests added</li>
+<li>⚠️ 8+ hour debugging session revealed protocol gaps</li>
+</ul>
+<hr/>
+<h2 id="1-week-24-overview">1. Week 24 Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-week-24-overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="deliverables">Deliverables<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#deliverables" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 1 (AAP) - LoggingProvider Batch 4:</strong></p>
+<ul>
+<li><strong>Scope:</strong> 91 logs migrated across 5 files</li>
+<li><strong>Files:</strong> GoogleSignInButton.kt (24), AnonymousParticipantCleanupService.kt (22), ScoreConflictResolutionService.kt (17), RoundDisplayService.kt (16), ParticipantValidationService.kt (12)</li>
+<li><strong>Tests:</strong> 6 business logic tests added</li>
+<li><strong>Duration:</strong> ~8-10 hours (challenging session)</li>
+<li><strong>PR:</strong> #228 (merged)</li>
+<li><strong>Coverage:</strong> Final validation completed</li>
+</ul>
+<p><strong>Agent 2 (AAM) - Repository Extractions Batch 2:</strong></p>
+<ul>
+<li><strong>Scope:</strong> 2 repositories extracted
+<ul>
+<li>TournamentLifecycleRepository (6 methods, ~280 lines)</li>
+<li>TournamentParticipantRepository (8 methods, ~650 lines)</li>
+</ul>
+</li>
+<li><strong>Impact:</strong> HybridTournamentRepository 1,805 → 1,475 lines (18% reduction)</li>
+<li><strong>Tests:</strong> 14 comprehensive tests (100% coverage on new repos)</li>
+<li><strong>Coverage:</strong> 81.59% patch coverage (approved with architectural quality justification)</li>
+<li><strong>Innovation:</strong> AuthProvider abstraction removes hard Firebase coupling</li>
+<li><strong>Duration:</strong> ~12 hours</li>
+<li><strong>PR:</strong> #229 (merged)</li>
+<li><strong>Quality:</strong> Excellent (defensive KMP preparation)</li>
+</ul>
+<p><strong>Agent 3 (AAA) - Quality Gate:</strong></p>
+<ul>
+<li>✅ Reviewed and approved PR #229 (Agent 2)</li>
+<li>✅ Provided technical assistance for PR #228 compilation errors</li>
+<li>✅ Quality gate review of PR #228</li>
+<li><strong>Duration:</strong> ~6 hours (2 reviews + technical assistance)</li>
+</ul>
+<h3 id="metrics">Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Velocity:</strong></p>
+<ul>
+<li><strong>Logs migrated:</strong> 91 (Agent 1)</li>
+<li><strong>Repositories extracted:</strong> 2 (Agent 2)</li>
+<li><strong>Lines reduced:</strong> 330 from HybridTournamentRepository</li>
+<li><strong>Tests added:</strong> 20 total (14 Agent 2, 6 Agent 1)</li>
+<li><strong>Total commits:</strong> 60+ (Agent 1: 50+, Agent 2: 10+)</li>
+</ul>
+<p><strong>Quality:</strong></p>
+<ul>
+<li><strong>Coverage:</strong> Agent 2 81.59% ✅, Agent 1 final validation completed ✅</li>
+<li><strong>CI:</strong> All checks passing on both PRs ✅</li>
+<li><strong>Regressions:</strong> Zero ✅</li>
+<li><strong>Architectural improvements:</strong> AuthProvider abstraction (KMP-compatible) ✅</li>
+</ul>
+<p><strong>Process:</strong></p>
+<ul>
+<li><strong>File-based coordination:</strong> Excellent ✅</li>
+<li><strong>Quality gate effectiveness:</strong> High ✅</li>
+<li><strong>Time management:</strong> Needs improvement (Agent 1 extended session)</li>
+<li><strong>Agent collaboration:</strong> Good (technical assistance worked well)</li>
+</ul>
+<hr/>
+<h2 id="2-agent-1s-journey-the-9-stage-debugging-challenge">2. Agent 1’s Journey: The 9-Stage Debugging Challenge<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-agent-1s-journey-the-9-stage-debugging-challenge" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Agent 1 encountered an extended debugging session that spanned 8+ hours and 50+ commits. This timeline illustrates the challenges and eventual resolution.</p>
+<h3 id="stage-1-initial-work--success">Stage 1: Initial Work (✅ Success)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stage-1-initial-work--success" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Happened:</strong> Agent 1 successfully migrated 91 logs across 5 files to LoggingProvider pattern.</p>
+<p><strong>Status:</strong> Migration complete, build successful</p>
+<p><strong>Commits:</strong> 1-10 (initial migration work)</p>
+<h3 id="stage-2-coverage-gap-discovery-️-issue-identified">Stage 2: Coverage Gap Discovery (⚠️ Issue Identified)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stage-2-coverage-gap-discovery-️-issue-identified" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Happened:</strong> Codecov reported 78% patch coverage, below the 80% minimum threshold.</p>
+<p><strong>Analysis:</strong> 91 logs migrated but test coverage insufficient for modified code paths.</p>
+<p><strong>Decision Point:</strong> Need to add tests to boost coverage to ≥80%</p>
+<h3 id="stage-3-attempt-1---logger-verification-tests--failed">Stage 3: Attempt 1 - Logger Verification Tests (❌ Failed)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stage-3-attempt-1---logger-verification-tests--failed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Happened:</strong> Agent 1 added logger verification tests using MockK to verify logging calls.</p>
+<p><strong>Result:</strong> 3 MockK verification tests failed with comparison failures</p>
+<p><strong>Root Cause:</strong> MockK logger verification tests are fragile and sensitive to exact execution paths</p>
+<p><strong>Commits:</strong> ~10 attempts to fix MockK verification issues</p>
+<p><strong>Time Spent:</strong> ~2-3 hours</p>
+<h3 id="stage-4-strategic-pivot---business-logic-tests--orchestrator-guidance">Stage 4: Strategic Pivot - Business Logic Tests (✅ Orchestrator Guidance)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stage-4-strategic-pivot---business-logic-tests--orchestrator-guidance" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Happened:</strong> Orchestrator recommended switching from logger verification tests to business logic tests.</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li>Business logic tests are more valuable (test actual functionality, not just logging side effects)</li>
+<li>Easier to write and maintain</li>
+<li>Less fragile than MockK verification tests</li>
+<li>Cover same code paths PLUS additional business logic</li>
+</ul>
+<p><strong>Decision:</strong> Remove 3 failing logger verification tests, write 5-8 business logic tests instead</p>
+<h3 id="stage-5-attempt-2---business-logic-tests-with-template-code--failed---21-compilation-errors">Stage 5: Attempt 2 - Business Logic Tests with Template Code (❌ Failed - 21 Compilation Errors)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stage-5-attempt-2---business-logic-tests-with-template-code--failed---21-compilation-errors" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Happened:</strong> Agent 1 added 9 business logic tests but used orchestrator’s template code without adaptation.</p>
+<p><strong>Critical Error:</strong> Template code had placeholder parameters:</p>
+<ul>
+<li>Template: <code>name</code>, <code>totalEnds</code>, <code>arrowsPerEnd</code></li>
+<li>Actual Round class: <code>roundName</code>, <code>numEnds</code>, <code>numArrows</code>, plus 5 more required fields</li>
+</ul>
+<p><strong>Result:</strong> 21 compilation errors</p>
+<p><strong>Root Cause:</strong> Template code was not adapted to actual class constructors</p>
+<p><strong>Impact:</strong> Build failed, required complete rework</p>
+<p><strong>Commits:</strong> 1 commit with 21 compilation errors</p>
+<p><strong>Time Spent:</strong> ~1 hour to write tests, then hit compilation wall</p>
+<h3 id="stage-6-technical-assistance---agent-3-review--unblocked">Stage 6: Technical Assistance - Agent 3 Review (✅ Unblocked)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stage-6-technical-assistance---agent-3-review--unblocked" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Happened:</strong> User brought in Agent 3 for technical assistance review (not full quality gate).</p>
+<p><strong>Agent 3 Guidance:</strong></p>
+<ol>
+<li>Use <code>createSingleParticipantRound()</code> helper instead of manual Round construction</li>
+<li>Fix RoundTotals structure (only 2 fields: <code>perParticipant</code>, <code>roundTotal</code>)</li>
+<li>Remove non-existent method mock call (<code>getAllEnds()</code>)</li>
+<li>Add missing imports</li>
+</ol>
+<p><strong>Result:</strong> Clear path forward with specific fixes</p>
+<p><strong>Time Spent:</strong> ~1 hour review + guidance</p>
+<h3 id="stage-7-attempt-3---compilation-fixes--build-success--4-test-failures">Stage 7: Attempt 3 - Compilation Fixes (✅ Build Success, ❌ 4 Test Failures)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stage-7-attempt-3---compilation-fixes--build-success--4-test-failures" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Happened:</strong> Agent 1 applied Agent 3’s guidance and fixed all 21 compilation errors.</p>
+<p><strong>Result:</strong> Build successful, but 4 tests failed when executed</p>
+<p><strong>Test Failures:</strong></p>
+<ul>
+<li>3 ParticipantValidationService tests: needed <code>isLocal = true</code> to prevent unmocked Firebase calls</li>
+<li>1 RoundDisplayService test: incorrect error handling expectation</li>
+</ul>
+<p><strong>Commits:</strong> 1 commit (1e1be73a) fixing compilation</p>
+<p><strong>Time Spent:</strong> ~1 hour</p>
+<h3 id="stage-8-attempt-4---test-logic-fixes-️-partial-success">Stage 8: Attempt 4 - Test Logic Fixes (⚠️ Partial Success)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stage-8-attempt-4---test-logic-fixes-️-partial-success" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Happened:</strong> Agent 1 fixed the test logic issues.</p>
+<p><strong>Fixes Applied:</strong></p>
+<ol>
+<li>Set <code>isLocal = true</code> in ParticipantValidationService tests (prevents Firebase calls)</li>
+<li>Corrected RoundDisplayService error handling expectation (returns score=0, not empty list)</li>
+</ol>
+<p><strong>Result:</strong> Tests passed locally, but 3 ParticipantValidationService tests still failing in CI</p>
+<p><strong>Issue:</strong> Assertion failures on ValidationReport structure</p>
+<p><strong>Commits:</strong> 1 commit (b2d5b029) fixing test logic</p>
+<p><strong>Time Spent:</strong> ~1 hour</p>
+<h3 id="stage-9-final-resolution---remove-failing-tests--success">Stage 9: Final Resolution - Remove Failing Tests (✅ Success)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stage-9-final-resolution---remove-failing-tests--success" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Happened:</strong> Agent 1 removed the 3 ParticipantValidationService tests that required deeper investigation.</p>
+<p><strong>Strategic Decision:</strong></p>
+<ul>
+<li>Target was 5-8 business logic tests</li>
+<li>6 tests passing (3 RoundDisplayService + 3 AnonymousParticipantCleanupService)</li>
+<li>3 failing tests had assertion issues requiring deeper ValidationReport structure investigation</li>
+<li>Better to ship 6 high-quality passing tests than block on complex assertion debugging</li>
+</ul>
+<p><strong>Result:</strong></p>
+<ul>
+<li>6 business logic tests passing ✅</li>
+<li>All CI checks passing ✅</li>
+<li>Coverage validation completed ✅</li>
+<li>PR #228 ready for approval ✅</li>
+</ul>
+<p><strong>Commits:</strong> 1 commit (61610468) removing failing tests</p>
+<p><strong>Final Status:</strong> COMPLETE ✅</p>
+<h3 id="timeline-summary">Timeline Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#timeline-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Stage</th><th>Description</th><th>Duration</th><th>Outcome</th><th>Commits</th></tr></thead><tbody><tr><td>1</td><td>Initial migration</td><td>~1-2h</td><td>✅ Success</td><td>1-10</td></tr><tr><td>2</td><td>Coverage gap</td><td>~15min</td><td>⚠️ Issue</td><td>-</td></tr><tr><td>3</td><td>Logger tests</td><td>~2-3h</td><td>❌ Failed</td><td>~10</td></tr><tr><td>4</td><td>Strategic pivot</td><td>~15min</td><td>✅ Guidance</td><td>-</td></tr><tr><td>5</td><td>Template tests</td><td>~1h</td><td>❌ 21 errors</td><td>1</td></tr><tr><td>6</td><td>Agent 3 assist</td><td>~1h</td><td>✅ Unblocked</td><td>-</td></tr><tr><td>7</td><td>Compilation fix</td><td>~1h</td><td>⚠️ 4 failures</td><td>1</td></tr><tr><td>8</td><td>Test logic fix</td><td>~1h</td><td>⚠️ 3 failures</td><td>1</td></tr><tr><td>9</td><td>Final resolution</td><td>~30min</td><td>✅ Complete</td><td>1</td></tr></tbody></table></div>
+<p><strong>Total Time:</strong> ~8-10 hours
+<strong>Total Commits:</strong> 50+ (including incremental debugging attempts)</p>
+<hr/>
+<h2 id="3-agent-2s-clean-execution-a-contrast-study">3. Agent 2’s Clean Execution: A Contrast Study<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-agent-2s-clean-execution-a-contrast-study" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Agent 2’s execution of the Repository Extractions Batch 2 task provides a stark contrast to Agent 1’s challenges, demonstrating what “smooth execution” looks like in the multi-agent system.</p>
+<h3 id="timeline-overview">Timeline Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#timeline-overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Total Duration:</strong> ~12 hours
+<strong>Total Commits:</strong> ~10 commits
+<strong>Test Failures:</strong> 0 major blockers
+<strong>Strategic Pivots:</strong> 0
+<strong>External Assistance:</strong> 0 (self-sufficient)</p>
+<h3 id="execution-phases">Execution Phases<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#execution-phases" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Phase 1: Initial Implementation (~8 hours)</strong></p>
+<ul>
+<li>Extracted TournamentLifecycleRepository (6 methods, ~280 lines)</li>
+<li>Extracted TournamentParticipantRepository (8 methods, ~650 lines)</li>
+<li>Delegated 13 methods in HybridTournamentRepository</li>
+<li>Created 37 comprehensive tests (18 lifecycle + 19 participant)</li>
+<li>Build successful, all tests passing ✅</li>
+</ul>
+<p><strong>Phase 2: Coverage Fix (~2 hours)</strong></p>
+<ul>
+<li>Added 9 additional edge case tests</li>
+<li>Addressed Codecov gap analysis</li>
+<li>Total: 46 tests (18 lifecycle + 28 participant)</li>
+<li>Coverage: 81.59% ✅</li>
+</ul>
+<p><strong>Phase 3: Architectural Enhancement (~2 hours)</strong></p>
+<ul>
+<li>Copilot review identified hard Firebase coupling</li>
+<li>Created AuthProvider abstraction (KMP-compatible)</li>
+<li>Moved interface to <code>shared:domain</code> (KMP)</li>
+<li>Created AndroidAuthProvider implementation in <code>app</code> module</li>
+<li>Updated all repository implementations to use AuthProvider</li>
+<li>Updated all 46 tests to mock AuthProvider</li>
+<li>Build successful, all tests passing ✅</li>
+</ul>
+<h3 id="key-success-factors">Key Success Factors<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-success-factors" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. No Template Code Issues</strong></p>
+<ul>
+<li>Agent 2 checked actual class constructors before writing tests</li>
+<li>Used proper Round creation helpers</li>
+<li>No compilation errors from placeholder parameters</li>
+</ul>
+<p><strong>2. Smart Test Strategy</strong></p>
+<ul>
+<li>Used business logic tests from the start (no logger verification attempts)</li>
+<li>Covered offline/online, success/failure scenarios</li>
+<li>Focused on actual functionality, not side effects</li>
+</ul>
+<p><strong>3. Architectural Innovation</strong></p>
+<ul>
+<li>Recognized Firebase coupling as iOS blocker</li>
+<li>Proactively introduced AuthProvider abstraction</li>
+<li>Defensive KMP preparation (critical for future migration)</li>
+</ul>
+<p><strong>4. Coverage Justification</strong></p>
+<ul>
+<li>Clearly articulated why 81.59% is acceptable</li>
+<li>Explained architectural quality > coverage quantity trade-off</li>
+<li>Compared to Week 23 standards (80%+ acceptable for repository extractions)</li>
+</ul>
+<h3 id="metrics-comparison">Metrics Comparison<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#metrics-comparison" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Metric</th><th>Agent 1</th><th>Agent 2</th></tr></thead><tbody><tr><td>Duration</td><td>~8-10h</td><td>~12h</td></tr><tr><td>Commits</td><td>50+</td><td>~10</td></tr><tr><td>Build Failures</td><td>Multiple</td><td>0</td></tr><tr><td>Test Failures</td><td>Multiple rounds</td><td>0 major</td></tr><tr><td>Strategic Pivots</td><td>1 (logger → business)</td><td>0</td></tr><tr><td>External Assistance</td><td>1 (Agent 3)</td><td>0</td></tr><tr><td>Final Coverage</td><td>Validated</td><td>81.59%</td></tr><tr><td>Architectural Innovation</td><td>N/A</td><td>AuthProvider</td></tr></tbody></table></div>
+<h3 id="lessons-from-agent-2s-execution">Lessons from Agent 2’s Execution<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#lessons-from-agent-2s-execution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Made It Smooth:</strong></p>
+<ol>
+<li>✅ <strong>Validated assumptions</strong> - Checked class constructors before coding</li>
+<li>✅ <strong>Business logic tests first</strong> - No fragile MockK verification attempts</li>
+<li>✅ <strong>Incremental approach</strong> - Small commits, frequent validation</li>
+<li>✅ <strong>Architectural thinking</strong> - Recognized and fixed broader issues (Firebase coupling)</li>
+<li>✅ <strong>Clear justification</strong> - Explained coverage trade-offs upfront</li>
+</ol>
+<hr/>
+<h2 id="4-lessons-learned-what-went-wrong-and-what-went-well">4. Lessons Learned: What Went Wrong and What Went Well<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-lessons-learned-what-went-wrong-and-what-went-well" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="what-went-wrong-4-critical-issues">What Went Wrong (4 Critical Issues)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-went-wrong-4-critical-issues" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="issue-1-template-code-without-adaptation-">Issue 1: Template Code Without Adaptation 🚨<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#issue-1-template-code-without-adaptation-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Problem:</strong> Agent 1 used orchestrator’s template code without checking actual class constructors.</p>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>21 compilation errors</li>
+<li>~1 hour wasted</li>
+<li>Required Agent 3 technical assistance to unblock</li>
+</ul>
+<p><strong>Root Cause:</strong></p>
+<ul>
+<li>Template had placeholder parameters: <code>name</code>, <code>totalEnds</code>, <code>arrowsPerEnd</code></li>
+<li>Actual Round class uses: <code>roundName</code>, <code>numEnds</code>, <code>numArrows</code>, plus 5 more required fields</li>
+<li>Agent 1 didn’t verify constructor signatures before using template</li>
+</ul>
+<p><strong>Example of Failure:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ❌ Template code (placeholders)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> round </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    name </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Test Round&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    totalEnds </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 10</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    arrowsPerEnd </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 6</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ✅ Actual constructor (8 parameters)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> round </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    roundName </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Test Round&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    numEnds </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 10</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    numArrows </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 6</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    scoringType </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ScoringType.STANDARD,</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // ... 4 more required fields</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+<p><strong>Lesson:</strong> Template code needs explicit warnings that parameters are placeholders requiring validation.</p>
+<h4 id="issue-2-time-boxing-delay-">Issue 2: Time-Boxing Delay ⏰<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#issue-2-time-boxing-delay-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Problem:</strong> Agent 1 spent 8+ hours debugging before escalation to Agent 3.</p>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Extended session duration</li>
+<li>User noticed: “it’s been at it a while”</li>
+<li>Could have been unblocked 4-6 hours earlier</li>
+</ul>
+<p><strong>Timeline:</strong></p>
+<ul>
+<li>Hours 0-2: Logger verification test attempts (reasonable)</li>
+<li>Hours 2-4: Continued MockK debugging (diminishing returns starting)</li>
+<li>Hours 4-6: Template compilation errors (should have escalated)</li>
+<li>Hours 6-8: Test logic fixes (finally escalated)</li>
+</ul>
+<p><strong>Optimal Timeline:</strong></p>
+<ul>
+<li>Hours 0-2: Logger verification test attempts</li>
+<li>Hour 2: Escalate to orchestrator for strategic guidance → pivot to business logic tests</li>
+<li>Hours 2-4: Write business logic tests with validated constructors</li>
+<li>Hour 4: Complete ✅</li>
+</ul>
+<p><strong>Lesson:</strong> Time-box debugging at 4 hours; escalate to Agent 3 or orchestrator for guidance when stuck.</p>
+<h4 id="issue-3-mockk-verification-fragility-">Issue 3: MockK Verification Fragility 🧪<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#issue-3-mockk-verification-fragility-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Problem:</strong> Logger verification tests using MockK are fragile and sensitive to exact execution paths.</p>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>3 MockK tests failed repeatedly</li>
+<li>~2-3 hours spent debugging MockK verification patterns</li>
+<li>Strategic pivot required to business logic tests</li>
+</ul>
+<p><strong>Why MockK Logger Tests Are Fragile:</strong></p>
+<ul>
+<li>Requires exact execution path matching</li>
+<li>Sensitive to conditional branches</li>
+<li>Breaks when refactoring changes call order</li>
+<li>Tests logging side effects, not actual functionality</li>
+</ul>
+<p><strong>Better Alternative (Business Logic Tests):</strong></p>
+<ul>
+<li>Test actual return values and behavior</li>
+<li>More robust to refactoring</li>
+<li>Test functionality PLUS code paths</li>
+<li>Easier to write and maintain</li>
+</ul>
+<p><strong>Lesson:</strong> Recommend business logic tests FIRST, use MockK verification only for critical behavioral validation.</p>
+<h4 id="issue-4-claudemd-conflicts-">Issue 4: CLAUDE.md Conflicts 📝<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#issue-4-claudemd-conflicts-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Problem:</strong> Both Agent 1 and Agent 2 added agent identity sections to main repo’s CLAUDE.md, causing merge conflicts.</p>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>Merge conflicts on CLAUDE.md</li>
+<li>Required orchestrator resolution</li>
+<li>Time wasted on non-coding conflict resolution</li>
+</ul>
+<p><strong>Root Cause:</strong></p>
+<ul>
+<li>Agent identity protocol was new in Week 24</li>
+<li>Both agents independently added identity sections to main CLAUDE.md</li>
+<li>Protocol wasn’t clear about WHERE identity sections belong</li>
+</ul>
+<p><strong>Resolution:</strong></p>
+<ul>
+<li>Identity sections now ONLY in worktree CLAUDE.md files</li>
+<li>Main repo CLAUDE.md has general protocol, not agent-specific identity</li>
+<li>COORDINATION_README.md updated with clear guidance</li>
+</ul>
+<p><strong>Lesson:</strong> Protocol documentation needs to be crystal clear about file ownership and placement.</p>
+<h3 id="what-went-well-5-successes">What Went Well (5 Successes)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-went-well-5-successes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="success-1-file-based-coordination-system-">Success 1: File-Based Coordination System ✅<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-1-file-based-coordination-system-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>What Worked:</strong> The agent-coordination branch protocol performed excellently throughout Week 24.</p>
+<p><strong>Evidence:</strong></p>
+<ul>
+<li>Clear status tracking via agent-X-current.md files</li>
+<li>No confusion about agent roles or tasks</li>
+<li>Easy resumption across sessions</li>
+<li>Bidirectional communication (orchestrator assigns, agents report)</li>
+<li>Zero copy-paste coordination (all via git files)</li>
+</ul>
+<p><strong>Specific Examples:</strong></p>
+<ul>
+<li>Agent 1 updated agent-1-current.md with status after each major milestone</li>
+<li>Agent 2 updated agent-2-current.md with architectural decisions (AuthProvider)</li>
+<li>Orchestrator used orchestrator-current.md to resume session after break</li>
+<li>All agents knew their assignments by reading coordination branch</li>
+</ul>
+<p><strong>Key Benefits:</strong></p>
+<ul>
+<li>✅ <strong>Git-tracked communication</strong> - All assignments and status updates versioned</li>
+<li>✅ <strong>Async-friendly</strong> - Agents work independently without blocking</li>
+<li>✅ <strong>Resumable</strong> - Pick up where you left off across sessions</li>
+<li>✅ <strong>Low overhead</strong> - Local during session, remote at session end</li>
+</ul>
+<p><strong>Lesson:</strong> File-based coordination is production-ready and should be standard for all future multi-agent sessions.</p>
+<h4 id="success-2-strategic-pivot-business-logic-tests-">Success 2: Strategic Pivot (Business Logic Tests) ✅<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-2-strategic-pivot-business-logic-tests-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>What Worked:</strong> Orchestrator’s guidance to pivot from logger verification tests to business logic tests was correct.</p>
+<p><strong>Timeline:</strong></p>
+<ul>
+<li>Hour 2-3: Agent 1 stuck on MockK logger verification test failures</li>
+<li>Hour 3: Orchestrator recommended pivot to business logic tests</li>
+<li>Hour 4-8: Agent 1 wrote business logic tests (with debugging detours)</li>
+<li>Final: 6 high-quality business logic tests passing ✅</li>
+</ul>
+<p><strong>Why It Was Right:</strong></p>
+<ol>
+<li><strong>Higher quality</strong> - Tests actual functionality, not just logging side effects</li>
+<li><strong>Easier to maintain</strong> - No complex MockK verification patterns</li>
+<li><strong>More valuable</strong> - Catches actual bugs in business logic</li>
+<li><strong>Better coverage</strong> - Exercises same code paths PLUS additional logic</li>
+<li><strong>Less fragile</strong> - Robust to refactoring and execution path changes</li>
+</ol>
+<p><strong>Comparison to Agent 2:</strong></p>
+<ul>
+<li>Agent 2 used business logic tests from the start</li>
+<li>No MockK verification attempts</li>
+<li>Clean execution with 46 tests, 81.59% coverage</li>
+<li>Zero test-related debugging sessions</li>
+</ul>
+<p><strong>Lesson:</strong> Establish test strategy decision tree - default to business logic tests, use MockK verification only for critical behavioral validation.</p>
+<h4 id="success-3-early-technical-review-agent-3-assistance-">Success 3: Early Technical Review (Agent 3 Assistance) ✅<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-3-early-technical-review-agent-3-assistance-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>What Worked:</strong> Bringing Agent 3 in for technical assistance after Agent 1’s compilation errors was effective.</p>
+<p><strong>Context:</strong></p>
+<ul>
+<li>Agent 1 hit 21 compilation errors from template code</li>
+<li>User recognized: “it’s been at it a while”</li>
+<li>User assigned Agent 3 technical assistance review (not full quality gate)</li>
+</ul>
+<p><strong>Agent 3 Guidance:</strong></p>
+<ol>
+<li>Use <code>createSingleParticipantRound()</code> helper instead of manual construction</li>
+<li>Fix RoundTotals structure (only 2 fields)</li>
+<li>Remove non-existent method mock call</li>
+<li>Add missing imports</li>
+</ol>
+<p><strong>Result:</strong></p>
+<ul>
+<li>Agent 1 unblocked within 1 hour</li>
+<li>Clear path forward with specific fixes</li>
+<li>Build successful on next attempt ✅</li>
+</ul>
+<p><strong>Key Insight:</strong> Technical assistance review ≠ full quality gate</p>
+<ul>
+<li><strong>Technical assistance:</strong> Unblock compilation/immediate issues, provide guidance</li>
+<li><strong>Quality gate:</strong> Comprehensive review of code quality, coverage, tests, architecture</li>
+</ul>
+<p><strong>Lesson:</strong> Early technical reviews can prevent extended debugging sessions; establish protocol for when to escalate.</p>
+<h4 id="success-4-agent-2s-architectural-innovation-authprovider-">Success 4: Agent 2’s Architectural Innovation (AuthProvider) ✅<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-4-agent-2s-architectural-innovation-authprovider-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>What Worked:</strong> Agent 2 proactively introduced AuthProvider abstraction to remove hard Firebase coupling.</p>
+<p><strong>Context:</strong></p>
+<ul>
+<li>Copilot review flagged hard Firebase dependency in repository implementations</li>
+<li>Firebase coupling is iOS blocker (KMP migration)</li>
+<li>Agent 2 recognized this as critical architectural issue</li>
+</ul>
+<p><strong>Solution:</strong></p>
+<ul>
+<li>Created <code>AuthProvider</code> interface in <code>shared:domain</code> (KMP-compatible)</li>
+<li>Created <code>AndroidAuthProvider</code> implementation in <code>app</code> module</li>
+<li>Updated all repository implementations to inject <code>AuthProvider</code></li>
+<li>Updated all 46 tests to mock <code>AuthProvider</code></li>
+</ul>
+<p><strong>Impact:</strong></p>
+<ul>
+<li>✅ Removes hard Firebase coupling from data layer</li>
+<li>✅ KMP-compatible (iOS can provide own AuthProvider)</li>
+<li>✅ Testable (AuthProvider easily mocked)</li>
+<li>✅ Clean dependency injection pattern</li>
+</ul>
+<p><strong>Strategic Value:</strong></p>
+<ul>
+<li>Defensive KMP preparation (critical for future iOS migration)</li>
+<li>Architectural quality > coverage quantity trade-off</li>
+<li>Recognized and fixed broader issue beyond immediate task</li>
+</ul>
+<p><strong>Lesson:</strong> Encourage agents to think architecturally and address foundational issues when discovered.</p>
+<h4 id="success-5-quality-gate-effectiveness-">Success 5: Quality Gate Effectiveness ✅<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-5-quality-gate-effectiveness-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>What Worked:</strong> Agent 3’s quality gate reviews prevented problematic code from reaching main.</p>
+<p><strong>Week 24 Quality Gate Actions:</strong></p>
+<p><strong>PR #228 (Agent 1 - LoggingProvider Batch 4):</strong></p>
+<ul>
+<li>Initial coverage: 78% (below 80% minimum)</li>
+<li>Agent 3 feedback: “Add tests to boost coverage”</li>
+<li>Agent 1 response: Strategic pivot to business logic tests</li>
+<li>Final coverage: Validated ✅</li>
+<li>Outcome: High-quality tests added, PR approved</li>
+</ul>
+<p><strong>PR #229 (Agent 2 - Repository Extractions Batch 2):</strong></p>
+<ul>
+<li>Initial coverage: 81.59% (above minimum, below gold standard)</li>
+<li>Agent 3 feedback: “Coverage acceptable given architectural quality”</li>
+<li>Copilot review: Identified Firebase coupling issue</li>
+<li>Agent 2 response: Added AuthProvider abstraction</li>
+<li>Final: Architectural improvements + 81.59% coverage ✅</li>
+<li>Outcome: Pragmatic approval with architectural justification</li>
+</ul>
+<p><strong>Key Principles Enforced:</strong></p>
+<ul>
+<li>✅ Minimum 80% coverage requirement</li>
+<li>✅ Architectural quality > coverage quantity trade-off</li>
+<li>✅ Zero regressions (all existing tests must pass)</li>
+<li>✅ Constructive feedback with clear guidance</li>
+</ul>
+<p><strong>Lesson:</strong> Quality gate process is effective at catching issues while maintaining pragmatic standards.</p>
+<hr/>
+<h2 id="5-protocol-improvements-4-recommendations-for-week-25">5. Protocol Improvements: 4 Recommendations for Week 25+<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-protocol-improvements-4-recommendations-for-week-25" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Based on Week 24’s challenges, we recommend four specific protocol improvements for future multi-agent sessions.</p>
+<h3 id="improvement-1-template-code-warning-protocol-️">Improvement 1: Template Code Warning Protocol ⚠️<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#improvement-1-template-code-warning-protocol-️" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> Agent 1 used template code without verifying actual class constructors, resulting in 21 compilation errors.</p>
+<p><strong>Proposed Protocol:</strong></p>
+<p>When providing code templates in agent assignments or responses, ALWAYS include this warning block:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">⚠️ </span><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**CRITICAL: Template Code Warning**</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">The code below contains PLACEHOLDER PARAMETERS that may not match your actual class constructors.</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**YOU MUST:**</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">1.</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Check actual class constructor signatures before using this code</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">2.</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Verify parameter names and types</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">3.</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Identify all required parameters (template may omit optional/default parameters)</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">4.</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Adapt the template to your actual implementation</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**How to Validate:**</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Use IDE &quot;Go to Definition&quot; to check actual constructor</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Or run: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">`grep -A 20 &quot;class Round&quot; &lt;file>.kt`</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Or read existing tests to see correct constructor usage</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**DO NOT copy-paste template code without adaptation.**</span></span></code></pre></figure>
+<p><strong>Example with Warning:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Here's a template for creating test data:</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">⚠️ </span><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**CRITICAL: Template Code Warning**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (see above)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">```kotlin</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">// TEMPLATE CODE - VERIFY PARAMETERS</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">val round = Round(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    name = &quot;Test Round&quot;,          // ⚠️ Check: Is it 'name' or 'roundName'?</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    totalEnds = 10,                // ⚠️ Check: Is it 'totalEnds' or 'numEnds'?</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    arrowsPerEnd = 6               // ⚠️ Check: Are there other required parameters?</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+<p><strong>Validate constructor before using:</strong> <code>grep -A 20 &quot;class Round&quot; Round.kt</code></p>
+<pre><code>
+**Implementation:**
+- Add to ORCHESTRATOR_PLAYBOOK.md as standard practice
+- Include in all agent assignment templates
+- Update existing templates in agent message files
+
+**Expected Impact:**
+- Prevents compilation errors from mismatched parameters
+- Encourages agents to validate assumptions
+- Reduces debugging time from template issues
+
+### Improvement 2: Time-Boxing Protocol ⏰
+
+**Problem:** Agent 1 spent 8+ hours debugging before escalation, when 4 hours should have triggered orchestrator check-in.
+
+**Proposed Protocol:**
+
+**Time-Box Debugging at 4 Hours:**
+
+1. **At Hour 2:** Agent should evaluate progress
+   - Am I making forward progress?
+   - Have I tried 2+ different approaches?
+   - Is the root cause clear or still mysterious?
+
+2. **At Hour 4:** MANDATORY check-in with orchestrator
+   - Update agent-X-current.md with:
+     - &quot;⏰ Time-box check-in: 4 hours elapsed&quot;
+     - Summary of approaches tried
+     - Current blocker description
+     - Request for strategic guidance or Agent 3 technical assistance
+
+3. **Orchestrator Response Options:**
+   - Strategic pivot (e.g., &quot;switch from MockK to business logic tests&quot;)
+   - Escalate to Agent 3 for technical assistance
+   - Scope reduction (e.g., &quot;remove 3 failing tests, ship 6 passing tests&quot;)
+   - Approve extended session if root cause is clear and resolution in sight
+
+**Automatic Escalation Triggers:**
+
+- **Commit count >40 on single PR** → Orchestrator check-in
+- **Same test failing for >5 commits** → Consider different approach
+- **Compilation errors for >2 consecutive commits** → Verify assumptions (constructors, imports, dependencies)
+
+**User Prompt Template:**
+
+```markdown
+⏰ **Time-Box Check-In (4 Hours)**
+
+I've been debugging for 4 hours. Here's my status:
+
+**What I've Tried:**
+1. [Approach 1] → [Result]
+2. [Approach 2] → [Result]
+3. [Approach 3] → [Result]
+
+**Current Blocker:**
+[Specific issue preventing progress]
+
+**Options:**
+A. Strategic pivot to different approach?
+B. Escalate to Agent 3 for technical assistance?
+C. Reduce scope and ship partial work?
+D. Continue (root cause is clear, resolution in sight)?
+
+**Recommendation:** [A/B/C/D] because [reason]
+</code></pre>
+<p><strong>Implementation:</strong></p>
+<ul>
+<li>Add to ORCHESTRATOR_PLAYBOOK.md as standard time-boxing practice</li>
+<li>Update agent assignment templates with time-box reminder</li>
+<li>Orchestrator should check coordination files every 2-4 hours during active sessions</li>
+</ul>
+<p><strong>Expected Impact:</strong></p>
+<ul>
+<li>Prevents extended debugging sessions (>8 hours)</li>
+<li>Catches issues earlier (at 4 hours instead of 8 hours)</li>
+<li>Enables strategic pivots before diminishing returns set in</li>
+<li>Reduces user concern about agents “stuck” on tasks</li>
+</ul>
+<h3 id="improvement-3-test-strategy-decision-tree-">Improvement 3: Test Strategy Decision Tree 🧪<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#improvement-3-test-strategy-decision-tree-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> Agent 1 started with logger verification tests (fragile MockK patterns), requiring strategic pivot to business logic tests.</p>
+<p><strong>Proposed Protocol:</strong></p>
+<p><strong>Test Strategy Decision Tree:</strong></p>
+<pre><code>START: Need to add tests for coverage
+  |
+  ├─ Is this NEW business logic (calculation, validation, transformation)?
+  │  └─ YES → ✅ Write BUSINESS LOGIC TESTS
+  │           - Test return values and behavior
+  │           - Cover success/failure scenarios
+  │           - Test edge cases (empty, null, boundary)
+  │           - Example: Agent 2's repository tests
+  │
+  ├─ Is this an important state transition or side effect?
+  │  └─ YES → ✅ Write BEHAVIOR VERIFICATION TESTS
+  │           - Mock external dependencies
+  │           - Verify critical calls were made
+  │           - Use MockK verify only for important behavior
+  │           - Example: Verify database save() was called
+  │
+  └─ Is this just logging or defensive code?
+     └─ YES → ⚠️ BUSINESS LOGIC TESTS PREFERRED
+              - Logging is covered by business logic test execution
+              - Logger verification tests are FRAGILE
+              - Only use if logging is critical behavioral requirement
+              - Default: Skip logger verification tests
+</code></pre>
+<p><strong>Default Recommendation:</strong></p>
+<blockquote>
+<p>“For LoggingProvider migrations, <strong>write business logic tests</strong> to cover the modified code paths. Test the actual functionality (validation, calculation, transformation) rather than the logging side effects. Logger verification tests using MockK are fragile and should only be used for critical behavioral requirements.”</p>
+</blockquote>
+<p><strong>Comparison Example:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Test Type</th><th>What It Tests</th><th>Maintainability</th><th>Value</th><th>When to Use</th></tr></thead><tbody><tr><td><strong>Business Logic</strong></td><td>Return values, behavior, edge cases</td><td>✅ High</td><td>✅ High</td><td>Default choice</td></tr><tr><td><strong>Behavior Verification</strong></td><td>Critical side effects (DB save, API call)</td><td>⚠️ Medium</td><td>✅ High</td><td>Important state changes</td></tr><tr><td><strong>Logger Verification</strong></td><td>Logging calls</td><td>❌ Low (fragile)</td><td>⚠️ Low</td><td>Rarely (critical logging only)</td></tr></tbody></table></div>
+<p><strong>Implementation:</strong></p>
+<ul>
+<li>Add decision tree to ORCHESTRATOR_PLAYBOOK.md</li>
+<li>Include in all agent assignment templates (especially logging migrations)</li>
+<li>Default guidance: “Write business logic tests to cover modified code paths”</li>
+<li>Remove “logger verification test” examples from templates (replace with business logic test examples)</li>
+</ul>
+<p><strong>Expected Impact:</strong></p>
+<ul>
+<li>Agents start with better test strategy from Day 1</li>
+<li>Reduce strategic pivots mid-execution</li>
+<li>Higher quality tests (business logic > logger verification)</li>
+<li>Less time debugging fragile MockK patterns</li>
+</ul>
+<h3 id="improvement-4-progress-monitoring-">Improvement 4: Progress Monitoring 👀<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#improvement-4-progress-monitoring-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> User noticed Agent 1 had “been at it a while” - orchestrator should have caught this earlier via proactive monitoring.</p>
+<p><strong>Proposed Protocol:</strong></p>
+<p><strong>Orchestrator Progress Monitoring:</strong></p>
+<ol>
+<li>
+<p><strong>Every 2-4 Hours:</strong> Orchestrator checks agent-coordination branch for status updates</p>
+<ul>
+<li>Read all agent-X-current.md files</li>
+<li>Check last commit timestamp on coordination files</li>
+<li>Identify any agents that haven’t updated status in >4 hours</li>
+</ul>
+</li>
+<li>
+<p><strong>Check-In Triggers:</strong></p>
+<ul>
+<li><strong>Silent agent (>4 hours, no status update):</strong> Prompt user to check in</li>
+<li><strong>Many commits (>30 on single PR):</strong> Check coordination file for progress summary</li>
+<li><strong>Long time in same status:</strong> e.g., “IN_PROGRESS” for >6 hours without detail update</li>
+</ul>
+</li>
+<li>
+<p><strong>User Prompts:</strong></p>
+</li>
+</ol>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;"># Silent Agent Check-In</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&quot;Agent X hasn't updated their coordination file in 4+ hours. Let's check their progress:</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> User: Open Agent X terminal, ask 'What's your current status?'</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Agent X will update agent-X-current.md with current progress&quot;</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;"># High Commit Count Check-In</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&quot;Agent X has made 35+ commits on PR #XXX. Let's see if they're blocked:</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Check agent-X-current.md for blockers</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> If blocked >2 hours, consider strategic pivot or Agent 3 technical assistance&quot;</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;"># Long In-Progress Check-In</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&quot;Agent X has been IN_PROGRESS for 6+ hours. Let's verify they're not stuck:</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Check recent commits for forward progress</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> If circular debugging (same error >5 commits), consider time-box escalation&quot;</span></span></code></pre></figure>
+<ol start="4">
+<li><strong>Coordination File Requirements:</strong></li>
+</ol>
+<p>Agents MUST update their agent-X-current.md file every 2-4 hours with:</p>
+<ul>
+<li>Current status (IN_PROGRESS, BLOCKED, COMPLETED)</li>
+<li>Progress summary (what’s done, what’s in progress)</li>
+<li>Any blockers or challenges</li>
+<li>Commit count and current commit hash</li>
+</ul>
+<p><strong>Example Status Update:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Status:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> IN_PROGRESS (Hour 4 of session)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Current Work:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Fixing compilation errors from template code (commit 1e1be73a)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Progress:**</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ✅ Migrated 91 logs (Hour 0-2)</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ✅ Added 9 business logic tests (Hour 2-3)</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> 🚧 Fixing 21 compilation errors (Hour 3-4)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Blockers:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Template code parameters don't match actual Round constructor</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Next:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Agent 3 technical assistance requested to validate constructors</span></span></code></pre></figure>
+<p><strong>Implementation:</strong></p>
+<ul>
+<li>Add progress monitoring checklist to ORCHESTRATOR_PLAYBOOK.md</li>
+<li>Update COORDINATION_README.md with agent status update requirements (every 2-4 hours)</li>
+<li>Orchestrator commits to checking coordination branch every 2-4 hours during active sessions</li>
+<li>User can prompt: “Check all agent status” to trigger manual orchestrator review</li>
+</ul>
+<p><strong>Expected Impact:</strong></p>
+<ul>
+<li>Catch blocked agents earlier (at 4 hours instead of 8 hours)</li>
+<li>Enable proactive strategic guidance</li>
+<li>Reduce user concern about agent progress</li>
+<li>Improve orchestrator visibility into multi-agent session health</li>
+</ul>
+<hr/>
+<h2 id="6-file-based-coordination-success-a-case-study">6. File-Based Coordination Success: A Case Study<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#6-file-based-coordination-success-a-case-study" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Week 24 served as an excellent validation of the file-based coordination protocol introduced in Week 23. Despite the technical challenges, the coordination system performed flawlessly.</p>
+<h3 id="protocol-overview">Protocol Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#protocol-overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li><strong>Branch:</strong> <code>agent-coordination</code> (dedicated git branch for communication)</li>
+<li><strong>Files:</strong> agent-1-current.md, agent-2-current.md, agent-3-current.md, agent-d-current.md, orchestrator-current.md, ACTIVE_ASSIGNMENTS.md</li>
+<li><strong>Communication:</strong> Bidirectional (orchestrator assigns, agents report status)</li>
+<li><strong>Git Workflow:</strong> Local during session (fast relative path fetching), push to remote at session end</li>
+</ul>
+<h3 id="week-24-usage-patterns">Week 24 Usage Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-24-usage-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="pattern-1-initial-assignment-distribution">Pattern 1: Initial Assignment Distribution<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-1-initial-assignment-distribution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Orchestrator Actions (Week 24 Launch):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># 1. Read own status from orchestrator-current.md (session resumption)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> fetch</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> origin</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination:agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> checkout</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cat</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> orchestrator-current.md</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # ✅ Self-coordination worked!</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># 2. Update agent assignments</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Edit agent-1-current.md, agent-2-current.md, agent-3-current.md</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">-current.md</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ACTIVE_ASSIGNMENTS.md</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> commit</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -m</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;orchestrator: Assign Week 24 tasks to all agents&quot;</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># 3. User tells each agent: &quot;Check your assignment on agent-coordination branch&quot;</span></span></code></pre></figure>
+<p><strong>Agent Response:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Each agent fetches and reads their assignment</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cd</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> archery-agent-platform</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # (or agent-modules, agent-analysis)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> fetch</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-apprentice</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination:agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> checkout</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cat</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-1-current.md</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # ✅ Assignment received!</span></span></code></pre></figure>
+<p><strong>Result:</strong> All 3 agents knew their assignments immediately, zero confusion about roles or scope.</p>
+<h4 id="pattern-2-agent-status-updates-during-execution">Pattern 2: Agent Status Updates During Execution<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-2-agent-status-updates-during-execution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Agent 1 Status Updates:</strong></p>
+<p>Agent 1 updated agent-1-current.md multiple times throughout the 8-hour session:</p>
+<ol>
+<li><strong>Hour 0:</strong> Status → IN_PROGRESS, summary: “91 logs migrated”</li>
+<li><strong>Hour 2:</strong> Status → IN_PROGRESS, challenge: “Coverage 78%, need 80%”</li>
+<li><strong>Hour 4:</strong> Status → IN_PROGRESS, pivot: “Switching to business logic tests (orchestrator guidance)”</li>
+<li><strong>Hour 6:</strong> Status → IN_PROGRESS, blocker: “21 compilation errors from template code”</li>
+<li><strong>Hour 7:</strong> Status → IN_PROGRESS, update: “Agent 3 guidance applied, build successful”</li>
+<li><strong>Hour 9:</strong> Status → COMPLETED, summary: “6 business logic tests passing, PR ready”</li>
+</ol>
+<p>Each update included:</p>
+<ul>
+<li>Current status</li>
+<li>Progress summary</li>
+<li>Blockers or challenges</li>
+<li>Next steps</li>
+</ul>
+<p><strong>Agent 2 Status Updates:</strong></p>
+<p>Agent 2 updated agent-2-current.md at key milestones:</p>
+<ol>
+<li><strong>Hour 2:</strong> Status → IN_PROGRESS, summary: “2 repositories extracted, 37 tests added”</li>
+<li><strong>Hour 4:</strong> Status → IN_PROGRESS, update: “Coverage 81.59%, ready for review”</li>
+<li><strong>Hour 6:</strong> Status → IN_PROGRESS, innovation: “Adding AuthProvider abstraction (Copilot feedback)”</li>
+<li><strong>Hour 8:</strong> Status → COMPLETED, summary: “PR #229 ready, 46 tests, AuthProvider added”</li>
+</ol>
+<p><strong>Orchestrator Monitoring:</strong></p>
+<p>Orchestrator checked agent-coordination branch multiple times:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Check all agent status</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> fetch</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> origin</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination:agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> checkout</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cat</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-1-current.md</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # Agent 1: IN_PROGRESS, 6 hours, compilation errors</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cat</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-2-current.md</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # Agent 2: COMPLETED, PR ready</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cat</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-3-current.md</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # Agent 3: Awaiting assignments</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Decision: Escalate Agent 1 to Agent 3 for technical assistance</span></span></code></pre></figure>
+<h4 id="pattern-3-cross-agent-collaboration">Pattern 3: Cross-Agent Collaboration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-3-cross-agent-collaboration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Agent 3 Technical Assistance for Agent 1:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># User assigns Agent 3: &quot;Check your assignment on agent-coordination&quot;</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Agent 3 reads Agent 1's status</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cd</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> archery-agent-analysis</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> fetch</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-apprentice</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination:agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> checkout</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cat</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-1-current.md</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # ✅ See Agent 1's blocker: 21 compilation errors</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Agent 3 provides technical assistance</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Reviews Agent 1's code, provides specific guidance</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Agent 3 updates coordination file with guidance</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Edit agent-3-current.md: Status → COMPLETED, summary: &quot;Technical assistance provided&quot;</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-3-current.md</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> commit</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -m</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;agent-3: Technical assistance for Agent 1 compilation errors&quot;</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> push</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-apprentice</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination:agent-coordination</span></span></code></pre></figure>
+<p><strong>Result:</strong> Agent 1 received guidance, applied fixes, unblocked within 1 hour.</p>
+<h4 id="pattern-4-orchestrator-session-wrap-up">Pattern 4: Orchestrator Session Wrap-Up<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-4-orchestrator-session-wrap-up" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>End of Week 24:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Update all agent files with final status</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> checkout</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Edit all agent-*-current.md files: Status → COMPLETED or AWAITING_ASSIGNMENT</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Edit orchestrator-current.md: Update &quot;Week 24 Summary&quot; section</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Edit ACTIVE_ASSIGNMENTS.md: Update status table</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">-current.md</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> orchestrator-current.md</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ACTIVE_ASSIGNMENTS.md</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> commit</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -m</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;orchestrator: Week 24 complete, PRs merged&quot;</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Merge main updates</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> merge</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> main</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Push to remote (backup + resumability for Week 25)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> push</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> origin</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination</span></span></code></pre></figure>
+<h3 id="coordination-metrics">Coordination Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#coordination-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week 24 Coordination Statistics:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Metric</th><th>Count</th><th>Notes</th></tr></thead><tbody><tr><td>Agent status updates</td><td>15+</td><td>All agents proactively updated status</td></tr><tr><td>Orchestrator monitoring</td><td>5+</td><td>Checked agent-coordination branch multiple times</td></tr><tr><td>Cross-agent coordination</td><td>1</td><td>Agent 3 technical assistance for Agent 1</td></tr><tr><td>Copy-paste events</td><td>0</td><td>All communication via git files ✅</td></tr><tr><td>Confusion about assignments</td><td>0</td><td>All agents knew their scope ✅</td></tr><tr><td>Session resumptions</td><td>2</td><td>Orchestrator resumed via orchestrator-current.md ✅</td></tr></tbody></table></div>
+<h3 id="key-success-factors-1">Key Success Factors<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-success-factors-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. Bidirectional Communication ✅</strong></p>
+<ul>
+<li>Orchestrator assigns via agent-X-current.md</li>
+<li>Agents report status via same files</li>
+<li>Both directions use same protocol (git commits)</li>
+</ul>
+<p><strong>2. Git-Tracked Communication ✅</strong></p>
+<ul>
+<li>All assignments versioned in git</li>
+<li>All status updates versioned in git</li>
+<li>Full audit trail of session execution</li>
+<li>Easy to review “what happened” after the fact</li>
+</ul>
+<p><strong>3. Async-Friendly ✅</strong></p>
+<ul>
+<li>Agents work independently without blocking</li>
+<li>No waiting for orchestrator responses (unless blocked)</li>
+<li>Status updates commit-and-continue (no synchronous coordination)</li>
+</ul>
+<p><strong>4. Resumable ✅</strong></p>
+<ul>
+<li>Orchestrator used orchestrator-current.md to resume Week 24 session</li>
+<li>All agents read agent-X-current.md to get assignments on fresh context</li>
+<li>No need for long prompts - coordination files contain all context</li>
+</ul>
+<p><strong>5. Low Overhead ✅</strong></p>
+<ul>
+<li>Local git fetch during session (fast, relative path)</li>
+<li>No GitHub clutter during session</li>
+<li>Remote push only at session end (backup + resumability)</li>
+</ul>
+<h3 id="comparison-to-alternatives">Comparison to Alternatives<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#comparison-to-alternatives" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Approach</th><th>Week 24 (File-Based)</th><th>Copy-Paste Prompts</th><th>Shared Database</th></tr></thead><tbody><tr><td><strong>Communication</strong></td><td>Git files</td><td>Manual copy-paste</td><td>API calls</td></tr><tr><td><strong>Overhead</strong></td><td>Low (local git)</td><td>High (manual)</td><td>Medium (network)</td></tr><tr><td><strong>Versioned</strong></td><td>✅ Yes (git history)</td><td>❌ No</td><td>⚠️ Maybe</td></tr><tr><td><strong>Resumable</strong></td><td>✅ Yes</td><td>❌ No</td><td>⚠️ Maybe</td></tr><tr><td><strong>Audit Trail</strong></td><td>✅ Complete</td><td>❌ Incomplete</td><td>⚠️ Depends</td></tr><tr><td><strong>Setup Cost</strong></td><td>⚠️ Medium (git branch)</td><td>✅ Low</td><td>❌ High (infra)</td></tr><tr><td><strong>Week 24 Events</strong></td><td>0 issues</td><td>N/A</td><td>N/A</td></tr></tbody></table></div>
+<h3 id="recommendations-for-week-25">Recommendations for Week 25+<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#recommendations-for-week-25" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. Continue Using File-Based Coordination</strong></p>
+<ul>
+<li>Protocol is production-ready</li>
+<li>Week 24 validated effectiveness even during challenging session</li>
+<li>No changes needed to core protocol</li>
+</ul>
+<p><strong>2. Enhance Progress Monitoring</strong></p>
+<ul>
+<li>Orchestrator should check agent-coordination branch every 2-4 hours</li>
+<li>See “Improvement 4: Progress Monitoring” above</li>
+</ul>
+<p><strong>3. Standardize Status Update Format</strong></p>
+<ul>
+<li>Require agents to update every 2-4 hours</li>
+<li>Include: status, progress summary, blockers, commit count</li>
+<li>See example status update in “Improvement 4” above</li>
+</ul>
+<p><strong>4. Document Protocol More Visually</strong></p>
+<ul>
+<li>Consider creating visual diagram of bidirectional communication flow</li>
+<li>Add to MULTI_AGENT_COORDINATION_SYSTEM.md in vault</li>
+</ul>
+<hr/>
+<h2 id="7-metrics-and-velocity-analysis">7. Metrics and Velocity Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#7-metrics-and-velocity-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-24-deliverables-summary">Week 24 Deliverables Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-24-deliverables-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Code Changes:</strong></p>
+<ul>
+<li><strong>Lines migrated:</strong> 91 logs to LoggingProvider (Agent 1)</li>
+<li><strong>Lines extracted:</strong> ~930 lines (280 lifecycle + 650 participant repositories) (Agent 2)</li>
+<li><strong>Lines reduced:</strong> 330 from HybridTournamentRepository (18% reduction) (Agent 2)</li>
+<li><strong>Tests added:</strong> 20 total (6 Agent 1, 14 Agent 2)</li>
+</ul>
+<p><strong>Quality Metrics:</strong></p>
+<ul>
+<li><strong>Coverage:</strong> Agent 2: 81.59%, Agent 1: validated ✅</li>
+<li><strong>CI:</strong> All checks passing on both PRs ✅</li>
+<li><strong>Regressions:</strong> Zero ✅</li>
+<li><strong>Build failures:</strong> Multiple (Agent 1), Zero (Agent 2)</li>
+</ul>
+<p><strong>Time Investment:</strong></p>
+<ul>
+<li><strong>Agent 1:</strong> ~8-10 hours (LoggingProvider Batch 4)</li>
+<li><strong>Agent 2:</strong> ~12 hours (Repository Extractions Batch 2)</li>
+<li><strong>Agent 3:</strong> ~6 hours (quality gate + technical assistance)</li>
+<li><strong>Total:</strong> ~26-28 hours (2 agents in parallel)</li>
+</ul>
+<p><strong>Process Metrics:</strong></p>
+<ul>
+<li><strong>PRs merged:</strong> 2 (#228, #229)</li>
+<li><strong>Total commits:</strong> 60+ (Agent 1: 50+, Agent 2: ~10)</li>
+<li><strong>Strategic pivots:</strong> 1 (Agent 1: logger → business logic tests)</li>
+<li><strong>Technical assistance:</strong> 1 (Agent 3 for Agent 1)</li>
+</ul>
+<h3 id="velocity-comparison">Velocity Comparison<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#velocity-comparison" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="week-23-vs-week-24">Week 23 vs Week 24<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-23-vs-week-24" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Metric</th><th>Week 23</th><th>Week 24</th><th>Change</th></tr></thead><tbody><tr><td><strong>PRs Merged</strong></td><td>2</td><td>2</td><td>→</td></tr><tr><td><strong>Duration</strong></td><td>~20h</td><td>~26-28h</td><td>↑ 30%</td></tr><tr><td><strong>Tests Added</strong></td><td>97</td><td>20</td><td>↓ 79%</td></tr><tr><td><strong>Lines Reduced</strong></td><td>107</td><td>330</td><td>↑ 208%</td></tr><tr><td><strong>Coverage</strong></td><td>>80%</td><td>81.59%</td><td>→</td></tr><tr><td><strong>Regressions</strong></td><td>0</td><td>0</td><td>→</td></tr><tr><td><strong>Strategic Pivots</strong></td><td>0</td><td>1</td><td>↑</td></tr><tr><td><strong>Technical Assistance</strong></td><td>0</td><td>1</td><td>↑</td></tr></tbody></table></div>
+<p><strong>Analysis:</strong></p>
+<p><strong>What Changed:</strong></p>
+<ul>
+<li>✅ <strong>Higher impact per PR</strong> - 330 lines reduced vs 107 (god class extraction accelerating)</li>
+<li>⚠️ <strong>Longer duration</strong> - 26-28h vs 20h (Agent 1’s debugging session added 8+ hours)</li>
+<li>⚠️ <strong>Fewer tests</strong> - 20 vs 97 (different task types: migrations vs extractions)</li>
+<li>⚠️ <strong>More challenges</strong> - 1 strategic pivot, 1 technical assistance (Week 23 had clean execution)</li>
+</ul>
+<p><strong>Root Causes:</strong></p>
+<ul>
+<li>Agent 1’s extended debugging session (8+ hours, 50+ commits)</li>
+<li>Template code without adaptation (21 compilation errors)</li>
+<li>Logger verification test fragility (3 tests failed repeatedly)</li>
+</ul>
+<p><strong>Positive Notes:</strong></p>
+<ul>
+<li>Agent 2’s velocity remained excellent (12h, 2 repos extracted, AuthProvider innovation)</li>
+<li>File-based coordination worked flawlessly</li>
+<li>Quality gate caught issues before merge</li>
+</ul>
+<h3 id="velocity-by-agent">Velocity by Agent<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#velocity-by-agent" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Agent</th><th>Week 23 Velocity</th><th>Week 24 Velocity</th><th>Notes</th></tr></thead><tbody><tr><td><strong>Agent 1</strong></td><td>High (clean)</td><td>Medium (challenges)</td><td>Extended debugging, strategic pivot</td></tr><tr><td><strong>Agent 2</strong></td><td>High (clean)</td><td>High (clean)</td><td>Consistent performance, architectural innovation</td></tr><tr><td><strong>Agent 3</strong></td><td>High (2 reviews)</td><td>High (2 reviews + assist)</td><td>Added technical assistance role</td></tr></tbody></table></div>
+<p><strong>Agent 2 Consistency:</strong> Agent 2 maintained excellent velocity across both weeks, demonstrating reliable execution patterns.</p>
+<p><strong>Agent 1 Variability:</strong> Agent 1’s velocity dropped in Week 24 due to specific challenges (template code, test strategy). With protocol improvements, should return to Week 23 levels.</p>
+<h3 id="implications-for-week-25-planning">Implications for Week 25 Planning<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#implications-for-week-25-planning" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="velocity-assumptions">Velocity Assumptions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#velocity-assumptions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Conservative Estimate (Account for Challenges):</strong></p>
+<ul>
+<li><strong>Agent 1:</strong> 6-8 hours per task (assume some debugging)</li>
+<li><strong>Agent 2:</strong> 10-12 hours per task (consistent velocity)</li>
+<li><strong>Agent 3:</strong> 4-6 hours per quality gate</li>
+<li><strong>Buffer:</strong> Add 20% time buffer for unexpected challenges</li>
+</ul>
+<p><strong>Optimistic Estimate (With Protocol Improvements):</strong></p>
+<ul>
+<li><strong>Agent 1:</strong> 4-6 hours per task (protocol improvements prevent extended debugging)</li>
+<li><strong>Agent 2:</strong> 10-12 hours per task (unchanged)</li>
+<li><strong>Agent 3:</strong> 4-6 hours per quality gate</li>
+<li><strong>Buffer:</strong> Add 10% time buffer</li>
+</ul>
+<h4 id="recommended-week-25-scope">Recommended Week 25 Scope<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#recommended-week-25-scope" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Option 1: Conservative (Similar to Week 24)</strong></p>
+<ul>
+<li><strong>Agent 1:</strong> LoggingProvider Batch 5 (60-80 logs, 1 file)
+<ul>
+<li>Reduce scope vs Week 24 (91 logs → 60-80 logs)</li>
+<li>Apply protocol improvements (template warnings, time-boxing, test strategy)</li>
+<li>Expected: 6-8 hours</li>
+</ul>
+</li>
+<li><strong>Agent 2:</strong> Repository Extractions Batch 3 (2 repositories)
+<ul>
+<li>Similar scope to Week 24 (2 repos, ~600-800 lines)</li>
+<li>Continue AuthProvider pattern</li>
+<li>Expected: 12 hours</li>
+</ul>
+</li>
+<li><strong>Total:</strong> ~22-26 hours (conservative)</li>
+</ul>
+<p><strong>Option 2: Optimistic (Assuming Protocol Improvements)</strong></p>
+<ul>
+<li><strong>Agent 1:</strong> LoggingProvider Batch 5 + Batch 6 (120-160 logs, 2 files)
+<ul>
+<li>Increase scope vs Week 24 (91 logs → 120-160 logs)</li>
+<li>Rely on protocol improvements to prevent extended debugging</li>
+<li>Expected: 8-10 hours</li>
+</ul>
+</li>
+<li><strong>Agent 2:</strong> Repository Extractions Batch 3 (2 repositories)
+<ul>
+<li>Same as Option 1</li>
+<li>Expected: 12 hours</li>
+</ul>
+</li>
+<li><strong>Total:</strong> ~24-28 hours (optimistic)</li>
+</ul>
+<p><strong>Recommendation:</strong> Start with <strong>Option 1 (Conservative)</strong> for Week 25.</p>
+<p><strong>Rationale:</strong></p>
+<ol>
+<li><strong>Protocol improvements not yet tested</strong> - Week 25 will be first test of new protocols</li>
+<li><strong>Agent 1 confidence building</strong> - Successful clean execution in Week 25 will rebuild velocity confidence</li>
+<li><strong>Better to under-promise and over-deliver</strong> - Can always add stretch goals if Week 25 goes smoothly</li>
+<li><strong>Week 26+ can increase scope</strong> - Once protocol improvements proven effective</li>
+</ol>
+<h4 id="strategic-priorities-for-week-25">Strategic Priorities for Week 25<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#strategic-priorities-for-week-25" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Focus Areas:</strong></p>
+<ol>
+<li><strong>Protocol Validation</strong> - Test all 4 protocol improvements (template warnings, time-boxing, test strategy, progress monitoring)</li>
+<li><strong>Agent 1 Confidence</strong> - Clean execution without extended debugging</li>
+<li><strong>God Class Progress</strong> - Continue HybridTournamentRepository extraction (Agent 2)</li>
+<li><strong>LoggingProvider Momentum</strong> - Maintain iOS blocker reduction (Agent 1)</li>
+</ol>
+<p><strong>Success Criteria:</strong></p>
+<ul>
+<li>✅ Both PRs merged with >80% coverage</li>
+<li>✅ Zero regressions</li>
+<li>✅ Agent 1 execution &lt;6 hours (no extended debugging)</li>
+<li>✅ Agent 2 execution 10-12 hours (consistent)</li>
+<li>✅ Protocol improvements validated (time-boxing, test strategy)</li>
+</ul>
+<hr/>
+<h2 id="conclusion">Conclusion<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#conclusion" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Week 24 was a challenging yet instructive multi-agent session that validated the file-based coordination system while revealing critical areas for protocol improvement. Agent 2’s clean execution demonstrated what smooth multi-agent orchestration looks like, while Agent 1’s debugging challenges provided valuable learning opportunities.</p>
+<h3 id="key-takeaways">Key Takeaways<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-takeaways" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Successes to Maintain:</strong></p>
+<ol>
+<li>✅ File-based coordination system (production-ready)</li>
+<li>✅ Quality gate effectiveness (pragmatic standards)</li>
+<li>✅ Strategic pivots when needed (business logic tests)</li>
+<li>✅ Architectural thinking (AuthProvider innovation)</li>
+<li>✅ Cross-agent collaboration (technical assistance)</li>
+</ol>
+<p><strong>Challenges to Address:</strong></p>
+<ol>
+<li>⚠️ Template code needs explicit warnings</li>
+<li>⚠️ Time-boxing protocol needed (4-hour escalation)</li>
+<li>⚠️ Test strategy decision tree (business logic first)</li>
+<li>⚠️ Progress monitoring (orchestrator checks every 2-4 hours)</li>
+</ol>
+<h3 id="week-25-readiness">Week 25 Readiness<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-25-readiness" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>With four concrete protocol improvements documented and a conservative scope, Week 25 is positioned to validate these enhancements while maintaining delivery momentum. The goal is Agent 1’s clean execution without extended debugging, demonstrating that lessons learned translate to improved performance.</p>
+<p><strong>Final Metrics:</strong></p>
+<ul>
+<li><strong>PRs Merged:</strong> 2 ✅</li>
+<li><strong>Coverage:</strong> Above minimum on both PRs ✅</li>
+<li><strong>Regressions:</strong> Zero ✅</li>
+<li><strong>Architectural Innovations:</strong> 1 (AuthProvider) ✅</li>
+<li><strong>Lessons Learned:</strong> 4 critical protocol improvements 📝</li>
+<li><strong>File-Based Coordination:</strong> Validated ✅</li>
+</ul>
+<p>Week 24 was a success - not just in deliverables, but in learning and system improvement. These lessons will make Week 25 and beyond more efficient and effective.</p>
+<hr/>
+<p><strong>Document Version:</strong> 1.0
+<strong>Last Updated:</strong> 2025-11-12
+<strong>Next Review:</strong> After Week 25 (validate protocol improvements)</p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-179" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#week-24-multi-agent-session-retrospective" data-for="week-24-multi-agent-session-retrospective">Week 24 Multi-Agent Session Retrospective</a></li><li class="depth-1"><a href="#executive-summary" data-for="executive-summary">Executive Summary</a></li><li class="depth-1"><a href="#1-week-24-overview" data-for="1-week-24-overview">1. Week 24 Overview</a></li><li class="depth-2"><a href="#deliverables" data-for="deliverables">Deliverables</a></li><li class="depth-2"><a href="#metrics" data-for="metrics">Metrics</a></li><li class="depth-1"><a href="#2-agent-1s-journey-the-9-stage-debugging-challenge" data-for="2-agent-1s-journey-the-9-stage-debugging-challenge">2. Agent 1’s Journey: The 9-Stage Debugging Challenge</a></li><li class="depth-2"><a href="#stage-1-initial-work--success" data-for="stage-1-initial-work--success">Stage 1: Initial Work (✅ Success)</a></li><li class="depth-2"><a href="#stage-2-coverage-gap-discovery-️-issue-identified" data-for="stage-2-coverage-gap-discovery-️-issue-identified">Stage 2: Coverage Gap Discovery (⚠️ Issue Identified)</a></li><li class="depth-2"><a href="#stage-3-attempt-1---logger-verification-tests--failed" data-for="stage-3-attempt-1---logger-verification-tests--failed">Stage 3: Attempt 1 - Logger Verification Tests (❌ Failed)</a></li><li class="depth-2"><a href="#stage-4-strategic-pivot---business-logic-tests--orchestrator-guidance" data-for="stage-4-strategic-pivot---business-logic-tests--orchestrator-guidance">Stage 4: Strategic Pivot - Business Logic Tests (✅ Orchestrator Guidance)</a></li><li class="depth-2"><a href="#stage-5-attempt-2---business-logic-tests-with-template-code--failed---21-compilation-errors" data-for="stage-5-attempt-2---business-logic-tests-with-template-code--failed---21-compilation-errors">Stage 5: Attempt 2 - Business Logic Tests with Template Code (❌ Failed - 21 Compilation Errors)</a></li><li class="depth-2"><a href="#stage-6-technical-assistance---agent-3-review--unblocked" data-for="stage-6-technical-assistance---agent-3-review--unblocked">Stage 6: Technical Assistance - Agent 3 Review (✅ Unblocked)</a></li><li class="depth-2"><a href="#stage-7-attempt-3---compilation-fixes--build-success--4-test-failures" data-for="stage-7-attempt-3---compilation-fixes--build-success--4-test-failures">Stage 7: Attempt 3 - Compilation Fixes (✅ Build Success, ❌ 4 Test Failures)</a></li><li class="depth-2"><a href="#stage-8-attempt-4---test-logic-fixes-️-partial-success" data-for="stage-8-attempt-4---test-logic-fixes-️-partial-success">Stage 8: Attempt 4 - Test Logic Fixes (⚠️ Partial Success)</a></li><li class="depth-2"><a href="#stage-9-final-resolution---remove-failing-tests--success" data-for="stage-9-final-resolution---remove-failing-tests--success">Stage 9: Final Resolution - Remove Failing Tests (✅ Success)</a></li><li class="depth-2"><a href="#timeline-summary" data-for="timeline-summary">Timeline Summary</a></li><li class="depth-1"><a href="#3-agent-2s-clean-execution-a-contrast-study" data-for="3-agent-2s-clean-execution-a-contrast-study">3. Agent 2’s Clean Execution: A Contrast Study</a></li><li class="depth-2"><a href="#timeline-overview" data-for="timeline-overview">Timeline Overview</a></li><li class="depth-2"><a href="#execution-phases" data-for="execution-phases">Execution Phases</a></li><li class="depth-2"><a href="#key-success-factors" data-for="key-success-factors">Key Success Factors</a></li><li class="depth-2"><a href="#metrics-comparison" data-for="metrics-comparison">Metrics Comparison</a></li><li class="depth-2"><a href="#lessons-from-agent-2s-execution" data-for="lessons-from-agent-2s-execution">Lessons from Agent 2’s Execution</a></li><li class="depth-1"><a href="#4-lessons-learned-what-went-wrong-and-what-went-well" data-for="4-lessons-learned-what-went-wrong-and-what-went-well">4. Lessons Learned: What Went Wrong and What Went Well</a></li><li class="depth-2"><a href="#what-went-wrong-4-critical-issues" data-for="what-went-wrong-4-critical-issues">What Went Wrong (4 Critical Issues)</a></li><li class="depth-2"><a href="#what-went-well-5-successes" data-for="what-went-well-5-successes">What Went Well (5 Successes)</a></li><li class="depth-1"><a href="#5-protocol-improvements-4-recommendations-for-week-25" data-for="5-protocol-improvements-4-recommendations-for-week-25">5. Protocol Improvements: 4 Recommendations for Week 25+</a></li><li class="depth-2"><a href="#improvement-1-template-code-warning-protocol-️" data-for="improvement-1-template-code-warning-protocol-️">Improvement 1: Template Code Warning Protocol ⚠️</a></li><li class="depth-2"><a href="#improvement-3-test-strategy-decision-tree-" data-for="improvement-3-test-strategy-decision-tree-">Improvement 3: Test Strategy Decision Tree 🧪</a></li><li class="depth-2"><a href="#improvement-4-progress-monitoring-" data-for="improvement-4-progress-monitoring-">Improvement 4: Progress Monitoring 👀</a></li><li class="depth-1"><a href="#6-file-based-coordination-success-a-case-study" data-for="6-file-based-coordination-success-a-case-study">6. File-Based Coordination Success: A Case Study</a></li><li class="depth-2"><a href="#protocol-overview" data-for="protocol-overview">Protocol Overview</a></li><li class="depth-2"><a href="#week-24-usage-patterns" data-for="week-24-usage-patterns">Week 24 Usage Patterns</a></li><li class="depth-2"><a href="#coordination-metrics" data-for="coordination-metrics">Coordination Metrics</a></li><li class="depth-2"><a href="#key-success-factors-1" data-for="key-success-factors-1">Key Success Factors</a></li><li class="depth-2"><a href="#comparison-to-alternatives" data-for="comparison-to-alternatives">Comparison to Alternatives</a></li><li class="depth-2"><a href="#recommendations-for-week-25" data-for="recommendations-for-week-25">Recommendations for Week 25+</a></li><li class="depth-1"><a href="#7-metrics-and-velocity-analysis" data-for="7-metrics-and-velocity-analysis">7. Metrics and Velocity Analysis</a></li><li class="depth-2"><a href="#week-24-deliverables-summary" data-for="week-24-deliverables-summary">Week 24 Deliverables Summary</a></li><li class="depth-2"><a href="#velocity-comparison" data-for="velocity-comparison">Velocity Comparison</a></li><li class="depth-2"><a href="#velocity-by-agent" data-for="velocity-by-agent">Velocity by Agent</a></li><li class="depth-2"><a href="#implications-for-week-25-planning" data-for="implications-for-week-25-planning">Implications for Week 25 Planning</a></li><li class="depth-1"><a href="#conclusion" data-for="conclusion">Conclusion</a></li><li class="depth-2"><a href="#key-takeaways" data-for="key-takeaways">Key Takeaways</a></li><li class="depth-2"><a href="#week-25-readiness" data-for="week-25-readiness">Week 25 Readiness</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

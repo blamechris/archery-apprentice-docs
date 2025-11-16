@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution)</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution)"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution)"/><meta name="twitter:description" content="Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution) Overview Strategy: Parallel Execution (Option C) Duration: 5 days (November 2025) Status: Partial (iOS 60% complete, ViewModels 100% complete) Agents: Agent 1 (AAP - iOS), Agent 2 (AAM - ViewModels), Agent 3 (AAA - Validation) T..."/><meta property="og:description" content="Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution) Overview Strategy: Parallel Execution (Option C) Duration: 5 days (November 2025) Status: Partial (iOS 60% complete, ViewModels 100% complete) Agents: Agent 1 (AAP - iOS), Agent 2 (AAM - ViewModels), Agent 3 (AAA - Validation) T..."/><meta property="og:image:alt" content="Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution) Overview Strategy: Parallel Execution (Option C) Duration: 5 days (November 2025) Status: Partial (iOS 60% complete, ViewModels 100% complete) Agents: Agent 1 (AAP - iOS), Agent 2 (AAM - ViewModels), Agent 3 (AAA - Validation) T..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/week-17-ios-viewmodels"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/week-17-ios-viewmodels"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution) Overview Strategy: Parallel Execution (Option C) Duration: 5 days (November 2025) Status: Partial (iOS 60% complete, ViewModels 100% complete) Agents: Agent 1 (AAP - iOS), Agent 2 (AAM - ViewModels), Agent 3 (AAA - Validation) T..."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/week-17-ios-viewmodels-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/week-17-ios-viewmodels-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/week-17-ios-viewmodels-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="developer-guide/architecture/week-17-ios-viewmodels"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-67"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-67" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../developer-guide/">developer guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../developer-guide/architecture/">architecture</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution)</a></div></nav><h1 class="article-title">Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution)</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-05T00:00:00.000Z">Nov 05, 2025</time><span>10 min read</span></p><ul class="tags"><li><a href="../../tags/architecture" class="internal tag-link">architecture</a></li><li><a href="../../tags/kmp" class="internal tag-link">kmp</a></li><li><a href="../../tags/ios" class="internal tag-link">ios</a></li><li><a href="../../tags/viewmodel" class="internal tag-link">viewmodel</a></li><li><a href="../../tags/presenter" class="internal tag-link">presenter</a></li><li><a href="../../tags/firebase" class="internal tag-link">firebase</a></li><li><a href="../../tags/parallel-execution" class="internal tag-link">parallel-execution</a></li><li><a href="../../tags/week-17" class="internal tag-link">week-17</a></li><li><a href="../../tags/gitlive" class="internal tag-link">gitlive</a></li><li><a href="../../tags/pattern-establishment" class="internal tag-link">pattern-establishment</a></li></ul></div></div><article class="popover-hint"><h1 id="week-17-ios-investigation--viewmodel-pattern-parallel-execution">Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-17-ios-investigation--viewmodel-pattern-parallel-execution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Strategy:</strong> Parallel Execution (Option C)
+<strong>Duration:</strong> 5 days (November 2025)
+<strong>Status:</strong> Partial (iOS 60% complete, ViewModels 100% complete)
+<strong>Agents:</strong> Agent 1 (AAP - iOS), Agent 2 (AAM - ViewModels), Agent 3 (AAA - Validation)</p>
+<p><strong>Two Parallel Tracks:</strong></p>
+<ol>
+<li><strong>Track 1 (Agent 1):</strong> iOS Firebase SDK investigation and PoC implementation</li>
+<li><strong>Track 2 (Agent 2):</strong> Simple ViewModel → Presenter pattern establishment</li>
+</ol>
+<hr/>
+<h2 id="executive-summary">Executive Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#executive-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Week 17 executed a parallel development strategy to maximize velocity while Firebase abstraction unblocked iOS work. Agent 1 investigated iOS Firebase SDK options and delivered a validated PoC with GitLive Firebase KMP SDK, achieving 52% code reduction versus native implementations. Agent 2 established the ViewModel → Presenter pattern by migrating 6 simple equipment ViewModels, achieving 68% average code reduction and proving iOS-compatible architecture.</p>
+<p><strong>Key Achievement:</strong> Validated iOS technical path forward (GitLive SDK, 80% confidence) while simultaneously establishing presentation layer migration pattern for iOS code sharing.</p>
+<p><strong>Deferred:</strong> iOS runtime validation awaits macOS availability (environmental constraint, not technical blocker).</p>
+<hr/>
+<h2 id="track-1-ios-firebase-investigation-agent-1">Track 1: iOS Firebase Investigation (Agent 1)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#track-1-ios-firebase-investigation-agent-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Status:</strong> 60% Complete (static validation done, runtime deferred)
+<strong>Deliverables:</strong> 3,428 lines (spike reports + PoC + documentation)
+<strong>Quality:</strong> 4.75/5 average (5/5 spike, 4.5/5 PoC static)</p>
+<h3 id="phase-1-ios-firebase-sdk-spike-days-1-2">Phase 1: iOS Firebase SDK Spike (Days 1-2)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-1-ios-firebase-sdk-spike-days-1-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Objective:</strong> Evaluate GitLive KMP SDK vs Native iOS SDK for RemoteTournamentDataSource implementation.</p>
+<p><strong>Documentation Delivered:</strong></p>
+<ul>
+<li><code>IOS_FIREBASE_SPIKE_REPORT.md</code> (841 lines) - Comprehensive comparison</li>
+<li><code>IOS_POC_DESIGN.md</code> (545 lines) - Implementation design</li>
+</ul>
+<p><strong>Comparison Results:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Criterion</th><th>GitLive KMP SDK</th><th>Native iOS SDK</th><th>Winner</th></tr></thead><tbody><tr><td>Code Sharing</td><td>80-90% shared</td><td>0% (duplicate Swift)</td><td>GitLive</td></tr><tr><td>Maintenance</td><td>Single codebase</td><td>Dual maintenance</td><td>GitLive</td></tr><tr><td>Feature Parity</td><td>95% (27/27 methods)</td><td>100%</td><td>Native (slight edge)</td></tr><tr><td>Community</td><td>Medium (KMP ecosystem)</td><td>Large (official support)</td><td>Native</td></tr><tr><td>Risk</td><td>Medium (community-maintained)</td><td>Low (Google-backed)</td><td>Native</td></tr></tbody></table></div>
+<p><strong>Recommendation:</strong> GitLive Firebase KMP SDK (80% confidence)</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li><strong>52% code reduction:</strong> 136 shared lines (KMP) vs 286+ duplicated lines (Android + iOS native)</li>
+<li><strong>27/27 methods supported:</strong> Full RemoteTournamentDataSource interface coverage</li>
+<li><strong>Real-time listeners:</strong> Properly abstracts <code>callbackFlow</code> pattern for iOS</li>
+<li><strong>Trade-offs accepted:</strong> Manual CocoaPods setup, community support vs code duplication</li>
+</ul>
+<p><strong>User Decision:</strong> APPROVED - Proceed to PoC validation</p>
+<p><strong>Agent 3 Validation:</strong> ⭐⭐⭐⭐⭐ (5/5 - EXCELLENT)</p>
+<hr/>
+<h3 id="phase-2-gitlive-poc-implementation-days-3-5">Phase 2: GitLive PoC Implementation (Days 3-5)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-2-gitlive-poc-implementation-days-3-5" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Objective:</strong> Validate GitLive SDK with static implementation and iOS target compilation.</p>
+<p><strong>Implementation:</strong></p>
+<ul>
+<li><code>RemoteTournamentDataSource.kt</code> (85 lines, commonMain) - Platform-agnostic interface</li>
+<li><code>GitLiveFirebaseDataSource.kt</code> (117 lines, commonMain) - Shared implementation for Android + iOS</li>
+</ul>
+<p><strong>Documentation Delivered:</strong></p>
+<ul>
+<li><code>GITLIVE_POC_REPORT.md</code> (676 lines) - PoC findings and trade-offs</li>
+<li><code>IOS_COCOAPODS_SETUP.md</code> (278 lines) - iOS integration guide</li>
+<li><code>IOS_SWIFT_USAGE_GUIDE.md</code> (479 lines) - Swift consumption patterns</li>
+</ul>
+<p><strong>Static Validation Results:</strong></p>
+<ul>
+<li>✅ iOS targets compile successfully</li>
+<li>✅ Interface accessible from Swift (Objective-C header generation verified)</li>
+<li>✅ Flow types properly bridged to Swift</li>
+<li>✅ Result types correctly exposed</li>
+</ul>
+<p><strong>Deferred (Environmental Constraint):</strong></p>
+<ul>
+<li>❌ Runtime validation requires macOS (unavailable for few weeks)</li>
+<li>5 critical tests deferred:
+<ol>
+<li>Authentication flow (Firebase Auth integration)</li>
+<li>Flow observation in Swift (real-time listener behavior)</li>
+<li>Performance benchmarks (iOS device testing)</li>
+<li>Edge case handling (error propagation, network failures)</li>
+<li>Build integration (CocoaPods + Xcode build)</li>
+</ol>
+</li>
+</ul>
+<p><strong>Resume Plan (When macOS Available):</strong></p>
+<ol>
+<li>Create minimal iOS app (1 day)</li>
+<li>Run 5 critical runtime tests</li>
+<li>Final GO/NO-GO decision</li>
+<li>If GO → Full implementation (27 methods)</li>
+<li>If NO-GO → Pivot to Native Swift SDK</li>
+</ol>
+<p><strong>Agent 3 Validation:</strong> ⭐⭐⭐⭐½ (4.5/5 - CONDITIONAL GO)</p>
+<ul>
+<li><strong>Rating:</strong> EXCELLENT with runtime caveat</li>
+<li><strong>Recommendation:</strong> Static validation successful, proceed with runtime deferred</li>
+</ul>
+<hr/>
+<h2 id="track-2-viewmodel--presenter-migrations-agent-2">Track 2: ViewModel → Presenter Migrations (Agent 2)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#track-2-viewmodel--presenter-migrations-agent-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Status:</strong> 100% Complete (6/6 ViewModels migrated)
+<strong>Deliverables:</strong> 1,091 lines (presenters + repository interfaces + implementations)
+<strong>Quality:</strong> ⭐⭐⭐⭐⭐ (5/5 - EXCELLENT)</p>
+<h3 id="pattern-establishment">Pattern Establishment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-establishment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Goal:</strong> Migrate simple equipment ViewModels to establish iOS-compatible Presenter pattern.</p>
+<p><strong>Architecture Pattern:</strong></p>
+<p><strong>Before (Android-only):</strong></p>
+<pre><code>┌──────────────┐
+│  ViewModel   │  ← Android-only (ViewModel base class)
+│  (Android)   │     Business logic in platform code
+└──────┬───────┘
+       │
+   ┌───▼────────┐
+   │ Repository │
+   │ (Android)  │
+   └────────────┘
+
+❌ Cannot share with iOS
+❌ Business logic duplicated
+❌ Platform-specific base class
+</code></pre>
+<p><strong>After (KMP-compatible):</strong></p>
+<pre><code>┌─────────────────────┐
+│  shared:presentation │  ← Presenter (KMP)
+│   Presenter.kt       │     All business logic
+│   (commonMain)       │     80-90% code reuse
+└─────────┬────────────┘
+          │
+     ┌────▼─────────────┐
+     │  shared:data     │  ← Repository Interface
+     │  Repository.kt   │     (KMP-compatible)
+     │  (commonMain)    │
+     └────┬─────────────┘
+          │
+   ┌──────▼───────┬──────────┐
+   │   Android    │   iOS    │  ← Platform implementations
+   │ RepositoryImpl│ (Future) │
+   └──────────────┴──────────┘
+
+✅ Business logic shared (KMP)
+✅ iOS can implement Repository
+✅ ViewModels become thin wrappers
+</code></pre>
+<hr/>
+<h3 id="viewmodels-migrated-6-total">ViewModels Migrated (6 Total)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#viewmodels-migrated-6-total" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Batch 1: Simple Equipment ViewModels</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>ViewModel</th><th>Before</th><th>After</th><th>Reduction</th><th>Status</th></tr></thead><tbody><tr><td>LimbsViewModel</td><td>150 lines</td><td>48 lines</td><td>68%</td><td>✅</td></tr><tr><td>RiserViewModel</td><td>153 lines</td><td>49 lines</td><td>68%</td><td>✅</td></tr><tr><td>WeightViewModel</td><td>160 lines</td><td>55 lines</td><td>66%</td><td>✅</td></tr><tr><td>RestViewModel</td><td>167 lines</td><td>50 lines</td><td>70%</td><td>✅</td></tr><tr><td>StabilizerViewModel</td><td>168 lines</td><td>54 lines</td><td>68%</td><td>✅</td></tr><tr><td>AccessoryViewModel</td><td>178 lines</td><td>54 lines</td><td>70%</td><td>✅</td></tr></tbody></table></div>
+<p><strong>Total Code Reduction:</strong> 976 → 310 lines (68% average)</p>
+<p><strong>Why This Matters:</strong></p>
+<ul>
+<li>Business logic now in <code>shared:presentation</code> (KMP-compatible)</li>
+<li>ViewModels reduced to thin wrappers (SavedStateHandle, lifecycle management)</li>
+<li>iOS can reuse Presenters directly from Swift (80-90% code sharing)</li>
+</ul>
+<hr/>
+<h3 id="infrastructure-created">Infrastructure Created<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#infrastructure-created" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. SaveResult Sealed Class (shared:domain):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">sealed</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> SaveResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> object</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SaveResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Error</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> message: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SaveResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> object</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> ValidationError</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SaveResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Why:</strong> Platform-agnostic success/error handling (no Android-specific types)</p>
+<p><strong>2. Repository Interfaces (shared:data, 6 total):</strong></p>
+<ul>
+<li><code>LimbsRepository.kt</code></li>
+<li><code>RiserRepository.kt</code></li>
+<li><code>WeightRepository.kt</code></li>
+<li><code>RestRepository.kt</code></li>
+<li><code>StabilizerRepository.kt</code></li>
+<li><code>AccessoryRepository.kt</code></li>
+</ul>
+<p><strong>Why:</strong> iOS can implement interfaces with iOS-specific Firebase SDK</p>
+<p><strong>3. Presenters (shared:presentation, 973 lines total):</strong></p>
+<ul>
+<li>All business logic migrated from ViewModels</li>
+<li>Full CRUD operations</li>
+<li>State management (<code>StateFlow</code> patterns)</li>
+<li>Validation logic</li>
+</ul>
+<p><strong>4. RepositoryImpl Classes (app module):</strong></p>
+<ul>
+<li>Android-specific implementations</li>
+<li>Firebase SDK integration</li>
+<li>Preserves existing behavior</li>
+</ul>
+<hr/>
+<h3 id="quality-metrics">Quality Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quality-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Test Coverage:</strong></p>
+<ul>
+<li>✅ 100% maintained (zero regressions)</li>
+<li>✅ All 4,090 tests passing</li>
+<li>✅ No behavioral changes (validation confirmed)</li>
+</ul>
+<p><strong>Code Quality:</strong></p>
+<ul>
+<li>✅ Pattern consistency (6/6 ViewModels follow same structure)</li>
+<li>✅ KMP compatibility verified</li>
+<li>✅ iOS-ready architecture</li>
+</ul>
+<p><strong>Documentation:</strong></p>
+<ul>
+<li>✅ Pattern guide created</li>
+<li>✅ Migration checklist documented</li>
+<li>✅ Ready to scale to medium-complexity ViewModels</li>
+</ul>
+<hr/>
+<h2 id="parallel-execution-strategy">Parallel Execution Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#parallel-execution-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Decision:</strong> Option C (Parallel Tracks)</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li>iOS work independent of ViewModel work</li>
+<li>No blocking dependencies between tracks</li>
+<li>Maximize velocity (both tracks progress simultaneously)</li>
+<li>Multiple validation checkpoints (quality maintained)</li>
+</ul>
+<p><strong>Benefits Realized:</strong></p>
+<ul>
+<li>✅ No time wasted waiting (5 days vs 7-8 days sequential)</li>
+<li>✅ iOS data informs long-term planning</li>
+<li>✅ ViewModel work progressed immediately after Firebase abstraction</li>
+<li>✅ Multiple validation cycles (Agent 3 delivered 4 reports)</li>
+</ul>
+<p><strong>Challenges:</strong></p>
+<ul>
+<li>Workflow gap: Agents didn’t auto-push branches (required orchestrator reminders)</li>
+<li>Environmental constraint: iOS requires macOS (identified early, deferred safely)</li>
+<li>Validation dependencies: Small delays waiting for branch pushes</li>
+</ul>
+<p><strong>Recommendation:</strong> Continue parallel execution for Week 18+ (proven effective)</p>
+<hr/>
+<h2 id="key-decisions">Key Decisions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-decisions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="decision-1-gitlive-firebase-kmp-sdk-high-confidence">Decision 1: GitLive Firebase KMP SDK (HIGH Confidence)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#decision-1-gitlive-firebase-kmp-sdk-high-confidence" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Recommendation:</strong> GitLive Firebase KMP SDK
+<strong>Confidence:</strong> 80% (APPROVED)
+<strong>User Decision:</strong> Proceed to PoC validation</p>
+<p><strong>Why GitLive:</strong></p>
+<ul>
+<li>52% code reduction (136 shared vs 286+ duplicated)</li>
+<li>27/27 methods supported (full RemoteTournamentDataSource coverage)</li>
+<li>Proven KMP ecosystem integration (callbackFlow, coroutines)</li>
+</ul>
+<p><strong>Trade-offs Accepted:</strong></p>
+<ul>
+<li>Manual CocoaPods setup (vs SPM auto-config)</li>
+<li>Community support (vs official Google SDK)</li>
+<li>Medium-sized community (vs large iOS ecosystem)</li>
+</ul>
+<p><strong>Validation Path:</strong></p>
+<ul>
+<li>✅ Static validation (4.5/5) - PoC compiles, types exposed correctly</li>
+<li>⏳ Runtime validation deferred (macOS unavailable)</li>
+</ul>
+<hr/>
+<h3 id="decision-2-defer-ios-runtime-validation-option-c">Decision 2: Defer iOS Runtime Validation (Option C)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#decision-2-defer-ios-runtime-validation-option-c" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Blocker:</strong> macOS unavailable for few weeks
+<strong>Decision:</strong> Defer iOS runtime, continue ViewModel work
+<strong>Rationale:</strong> iOS work preserved at 60%, ViewModel track unblocked</p>
+<p><strong>iOS Work Preserved:</strong></p>
+<ul>
+<li>✅ Spike report (841 lines)</li>
+<li>✅ PoC design (545 lines)</li>
+<li>✅ GitLive implementation (117 lines)</li>
+<li>✅ Documentation (1,433 lines)</li>
+<li>✅ Static validation (4.5/5)</li>
+</ul>
+<p><strong>Resume Plan:</strong> 1-2 days runtime validation when macOS available</p>
+<hr/>
+<h3 id="decision-3-continue-viewmodel-migrations">Decision 3: Continue ViewModel Migrations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#decision-3-continue-viewmodel-migrations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Day 2 Checkpoint:</strong> Agent 3 validation ⭐⭐⭐⭐⭐ (5/5)
+<strong>User Decision:</strong> Continue Days 3-5
+<strong>Result:</strong> 6/6 ViewModels complete (pattern proven)</p>
+<p><strong>Why Continue:</strong></p>
+<ul>
+<li>Pattern validated (68% average code reduction)</li>
+<li>Zero regressions (test coverage maintained)</li>
+<li>iOS path clear (business logic now shareable)</li>
+</ul>
+<hr/>
+<h2 id="metrics">Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="combined-week-17-output">Combined Week 17 Output<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#combined-week-17-output" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Total Deliverables:</strong> ~5,000 lines</p>
+<ul>
+<li>iOS work: 3,428 lines (spike + PoC + docs)</li>
+<li>ViewModel work: 1,091 lines (presenters + repositories + implementations)</li>
+<li>Validation reports: 4 comprehensive reports</li>
+</ul>
+<p><strong>Code Reduction:</strong></p>
+<ul>
+<li>iOS: 52% (136 shared vs 286+ duplicated)</li>
+<li>ViewModels: 68% average (976 → 310 lines)</li>
+</ul>
+<p><strong>Quality:</strong></p>
+<ul>
+<li>Test pass rate: 100% (4,090/4,090 tests)</li>
+<li>Zero regressions maintained</li>
+<li>Agent 3 validations: 4.88/5 average (EXCELLENT)</li>
+</ul>
+<hr/>
+<h3 id="agent-contributions">Agent Contributions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-contributions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 1 (Architecture &amp; Patterns):</strong></p>
+<ul>
+<li>iOS Spike Report (841 lines, 5/5 validation)</li>
+<li>PoC Design (545 lines)</li>
+<li>GitLive PoC implementation (117 lines, 4.5/5 validation)</li>
+<li>Documentation: CocoaPods setup, Swift usage guide</li>
+</ul>
+<p><strong>Agent 2 (Modules &amp; Data Layer):</strong></p>
+<ul>
+<li>6 Presenters migrated (973 lines)</li>
+<li>6 Repository interfaces (shared:data)</li>
+<li>6 RepositoryImpl classes (app)</li>
+<li>SaveResult sealed class infrastructure</li>
+</ul>
+<p><strong>Agent 3 (Analysis &amp; Assurance):</strong></p>
+<ul>
+<li>4 validation reports delivered:
+<ol>
+<li>iOS Spike: ⭐⭐⭐⭐⭐ (5/5)</li>
+<li>Day 2 Checkpoint: ⭐⭐⭐⭐⭐ (5/5)</li>
+<li>GitLive PoC Static: ⭐⭐⭐⭐½ (4.5/5)</li>
+<li>Final Week 17: ⭐⭐⭐⭐⭐ (5/5)</li>
+</ol>
+</li>
+</ul>
+<hr/>
+<h2 id="lessons-learned">Lessons Learned<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#lessons-learned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="what-worked-well">What Worked Well<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-worked-well" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Parallel Execution Maximized Velocity:</strong></p>
+<ul>
+<li>5 days vs 7-8 days sequential (30% time savings)</li>
+<li>No blocking dependencies between tracks</li>
+<li>Both tracks delivered high-quality output</li>
+</ul>
+</li>
+<li>
+<p><strong>Evidence-Based Decisions:</strong></p>
+<ul>
+<li>iOS spike data (841 lines) informed GitLive SDK choice</li>
+<li>52% code reduction quantified vs native approach</li>
+<li>Static validation de-risked runtime deferral</li>
+</ul>
+</li>
+<li>
+<p><strong>Environmental Constraint Handling:</strong></p>
+<ul>
+<li>Identified early (Day 2)</li>
+<li>Deferred safely (iOS work preserved at 60%)</li>
+<li>Alternative track unblocked (ViewModel migrations)</li>
+</ul>
+</li>
+<li>
+<p><strong>Pattern Establishment:</strong></p>
+<ul>
+<li>6/6 ViewModels migrated (consistent 68% reduction)</li>
+<li>Pattern documented and ready to scale</li>
+<li>iOS code sharing path proven</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h3 id="challenges--improvements">Challenges &amp; Improvements<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#challenges--improvements" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Workflow Gaps:</strong></p>
+<ul>
+<li>Issue: Agents didn’t auto-push branches</li>
+<li>Impact: Orchestrator reminders needed for validation handoffs</li>
+<li>Fix: Add automated push step to agent workflows (Week 18+)</li>
+</ul>
+</li>
+<li>
+<p><strong>Environmental Constraints:</strong></p>
+<ul>
+<li>Issue: iOS requires macOS (unavailable for few weeks)</li>
+<li>Impact: Runtime validation deferred (60% complete)</li>
+<li>Mitigation: Static validation excellent (4.5/5), resume plan clear</li>
+</ul>
+</li>
+<li>
+<p><strong>Validation Dependencies:</strong></p>
+<ul>
+<li>Issue: Small delays waiting for branch pushes</li>
+<li>Impact: 1-2 hour delays between milestones</li>
+<li>Fix: Parallel validation prep (Agent 3 can start while Agent 1/2 push)</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="what-this-unblocks">What This Unblocks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-this-unblocks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="immediate-week-18">Immediate (Week 18)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#immediate-week-18" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>If macOS Available Early:</strong></p>
+<ul>
+<li>✅ iOS runtime validation (1-2 days)</li>
+<li>✅ Final GO/NO-GO decision on GitLive SDK</li>
+<li>✅ Full RemoteTournamentDataSource implementation (27 methods)</li>
+</ul>
+<p><strong>If macOS Still Unavailable:</strong></p>
+<ul>
+<li>✅ Continue ViewModel migrations (medium complexity)</li>
+<li>✅ Scale pattern to 9 ViewModels total</li>
+<li>✅ Target: EquipmentListViewModel, RoundScoringViewModel, TournamentDetailsViewModel</li>
+</ul>
+<hr/>
+<h3 id="long-term-week-19">Long-term (Week 19+)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#long-term-week-19" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>iOS Implementation:</strong></p>
+<ul>
+<li>✅ iOS app can consume Presenters from Swift (80-90% code reuse)</li>
+<li>✅ iOS can implement Repository interfaces</li>
+<li>✅ Business logic shared (no duplication)</li>
+</ul>
+<p><strong>Presentation Layer Migration:</strong></p>
+<ul>
+<li>✅ Pattern proven (6/6 ViewModels, 68% reduction)</li>
+<li>✅ Ready to scale to 30+ ViewModels</li>
+<li>✅ iOS-compatible architecture established</li>
+</ul>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-17-primary-documentation">Week 17 Primary Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-17-primary-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>iOS Track (Agent 1):</strong></p>
+<ul>
+<li><a href="../../IOS_FIREBASE_SPIKE_REPORT" class="internal" data-slug="IOS_FIREBASE_SPIKE_REPORT">IOS_FIREBASE_SPIKE_REPORT</a> - GitLive vs Native SDK comparison (841 lines)</li>
+<li><a href="../../GITLIVE_POC_REPORT" class="internal" data-slug="GITLIVE_POC_REPORT">GITLIVE_POC_REPORT</a> - PoC findings and implementation (676 lines)</li>
+<li><a href="../../IOS_POC_DESIGN" class="internal" data-slug="IOS_POC_DESIGN">IOS_POC_DESIGN</a> - Architecture design (545 lines)</li>
+<li><a href="../../IOS_COCOAPODS_SETUP" class="internal" data-slug="IOS_COCOAPODS_SETUP">IOS_COCOAPODS_SETUP</a> - iOS integration guide (278 lines)</li>
+<li><a href="../../IOS_SWIFT_USAGE_GUIDE" class="internal" data-slug="IOS_SWIFT_USAGE_GUIDE">IOS_SWIFT_USAGE_GUIDE</a> - Swift consumption patterns (479 lines)</li>
+</ul>
+<p><strong>ViewModel Track (Agent 2):</strong></p>
+<ul>
+<li>Session Wrap-Up: <code>docs/AGENT_MESSAGES/WEEK_17/WEEK_17_SESSION_WRAP_UP.md</code></li>
+</ul>
+<p><strong>Validation Reports (Agent 3):</strong></p>
+<ul>
+<li><code>docs/AGENT_MESSAGES/WEEK_17/AGENT_3_IOS_SPIKE_VALIDATION_REPORT.md</code> (5/5)</li>
+<li><code>docs/AGENT_MESSAGES/WEEK_17/AGENT_3_DAY_2_CHECKPOINT_VALIDATION_REPORT.md</code> (5/5)</li>
+<li><code>docs/AGENT_MESSAGES/WEEK_17/AGENT_3_GITLIVE_POC_VALIDATION_REPORT.md</code> (4.5/5)</li>
+<li><code>docs/AGENT_MESSAGES/WEEK_17/AGENT_3_FINAL_WEEK_17_VALIDATION_REPORT.md</code> (5/5)</li>
+</ul>
+<hr/>
+<h3 id="related-milestones">Related Milestones<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-milestones" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Previous:</strong></p>
+<ul>
+<li><a href="../../developer-guide/architecture/week-15-16-firebase-abstraction" class="internal" data-slug="developer-guide/architecture/week-15-16-firebase-abstraction">week-15-16-firebase-abstraction</a> - Firebase abstraction layer (Week 15-16)</li>
+<li><a href="../../developer-guide/architecture/week-13-14-database-cutover" class="internal" data-slug="developer-guide/architecture/week-13-14-database-cutover">week-13-14-database-cutover</a> - Database migration complete (Week 13-14)</li>
+</ul>
+<p><strong>Next:</strong></p>
+<ul>
+<li><a href="../../week-18-viewmodel-scaling" class="internal" data-slug="week-18-viewmodel-scaling">week-18-viewmodel-scaling</a> OR <a href="../../ios-runtime-validation" class="internal" data-slug="ios-runtime-validation">ios-runtime-validation</a> (TBD based on macOS availability)</li>
+</ul>
+<hr/>
+<h3 id="cross-references">Cross-References<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cross-references" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><a href="../../developer-guide/architecture/kmp-migration-architecture" class="internal" data-slug="developer-guide/architecture/kmp-migration-architecture">kmp-migration-architecture</a> - Overall KMP migration strategy</li>
+<li><a href="../../developer-guide/architecture/mvvm-patterns" class="internal" data-slug="developer-guide/architecture/mvvm-patterns">mvvm-patterns</a> - ViewModel → Presenter pattern guide</li>
+<li><a href="../../firebase-patterns" class="internal" data-slug="firebase-patterns">firebase-patterns</a> - RemoteTournamentDataSource interface patterns</li>
+</ul>
+<hr/>
+<h2 id="quality-assurance">Quality Assurance<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quality-assurance" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="agent-3-validation-summary">Agent 3 (Validation) Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-3-validation-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Overall Rating:</strong> 4.88/5 (EXCELLENT)</p>
+<p><strong>iOS Spike Validation:</strong></p>
+<ul>
+<li>Rating: ⭐⭐⭐⭐⭐ (5/5 - EXCELLENT)</li>
+<li>Recommendation: GitLive SDK (HIGH confidence)</li>
+<li>Evidence-based approach validated</li>
+</ul>
+<p><strong>Day 2 Checkpoint (ViewModel):</strong></p>
+<ul>
+<li>Rating: ⭐⭐⭐⭐⭐ (5/5 - EXCELLENT)</li>
+<li>Pattern established (68% code reduction)</li>
+<li>Zero regressions confirmed</li>
+</ul>
+<p><strong>GitLive PoC Static Validation:</strong></p>
+<ul>
+<li>Rating: ⭐⭐⭐⭐½ (4.5/5 - CONDITIONAL GO)</li>
+<li>Static validation successful</li>
+<li>Runtime deferred (macOS constraint)</li>
+<li>Recommendation: Proceed with runtime when available</li>
+</ul>
+<p><strong>Final Week 17 Validation:</strong></p>
+<ul>
+<li>Rating: ⭐⭐⭐⭐⭐ (5/5 - EXCELLENT)</li>
+<li>All P0 criteria met</li>
+<li>Quality maintained across both tracks</li>
+<li>Parallel execution validated as effective strategy</li>
+</ul>
+<hr/>
+<h2 id="pull-requests">Pull Requests<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pull-requests" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Week 17 PRs:</strong></p>
+<ul>
+<li>PR #206: Week 17 Documentation (Agent 3)</li>
+<li>PR #207: iOS GitLive PoC (Agent 1)</li>
+<li>PR #208: ViewModel Migrations (Agent 2)</li>
+</ul>
+<hr/>
+<p><strong>Tags:</strong> <a href="../.././../tags/architecture" class="tag-link internal alias" data-slug="tags/architecture">architecture</a> <a href="../.././../tags/kmp" class="tag-link internal alias" data-slug="tags/kmp">kmp</a> <a href="../.././../tags/ios" class="tag-link internal alias" data-slug="tags/ios">ios</a> <a href="../.././../tags/firebase" class="tag-link internal alias" data-slug="tags/firebase">firebase</a> <a href="../.././../tags/viewmodel" class="tag-link internal alias" data-slug="tags/viewmodel">viewmodel</a> <a href="../.././../tags/presenter" class="tag-link internal alias" data-slug="tags/presenter">presenter</a> <a href="../.././../tags/parallel-execution" class="tag-link internal alias" data-slug="tags/parallel-execution">parallel-execution</a> <a href="../.././../tags/week-17" class="tag-link internal alias" data-slug="tags/week-17">week-17</a> <a href="../.././../tags/gitlive" class="tag-link internal alias" data-slug="tags/gitlive">gitlive</a> <a href="../.././../tags/pattern-establishment" class="tag-link internal alias" data-slug="tags/pattern-establishment">pattern-establishment</a></p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-22" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#week-17-ios-investigation--viewmodel-pattern-parallel-execution" data-for="week-17-ios-investigation--viewmodel-pattern-parallel-execution">Week 17: iOS Investigation &amp; ViewModel Pattern (Parallel Execution)</a></li><li class="depth-1"><a href="#overview" data-for="overview">Overview</a></li><li class="depth-1"><a href="#executive-summary" data-for="executive-summary">Executive Summary</a></li><li class="depth-1"><a href="#track-1-ios-firebase-investigation-agent-1" data-for="track-1-ios-firebase-investigation-agent-1">Track 1: iOS Firebase Investigation (Agent 1)</a></li><li class="depth-2"><a href="#phase-1-ios-firebase-sdk-spike-days-1-2" data-for="phase-1-ios-firebase-sdk-spike-days-1-2">Phase 1: iOS Firebase SDK Spike (Days 1-2)</a></li><li class="depth-2"><a href="#phase-2-gitlive-poc-implementation-days-3-5" data-for="phase-2-gitlive-poc-implementation-days-3-5">Phase 2: GitLive PoC Implementation (Days 3-5)</a></li><li class="depth-1"><a href="#track-2-viewmodel--presenter-migrations-agent-2" data-for="track-2-viewmodel--presenter-migrations-agent-2">Track 2: ViewModel → Presenter Migrations (Agent 2)</a></li><li class="depth-2"><a href="#pattern-establishment" data-for="pattern-establishment">Pattern Establishment</a></li><li class="depth-2"><a href="#viewmodels-migrated-6-total" data-for="viewmodels-migrated-6-total">ViewModels Migrated (6 Total)</a></li><li class="depth-2"><a href="#infrastructure-created" data-for="infrastructure-created">Infrastructure Created</a></li><li class="depth-2"><a href="#quality-metrics" data-for="quality-metrics">Quality Metrics</a></li><li class="depth-1"><a href="#parallel-execution-strategy" data-for="parallel-execution-strategy">Parallel Execution Strategy</a></li><li class="depth-1"><a href="#key-decisions" data-for="key-decisions">Key Decisions</a></li><li class="depth-2"><a href="#decision-1-gitlive-firebase-kmp-sdk-high-confidence" data-for="decision-1-gitlive-firebase-kmp-sdk-high-confidence">Decision 1: GitLive Firebase KMP SDK (HIGH Confidence)</a></li><li class="depth-2"><a href="#decision-2-defer-ios-runtime-validation-option-c" data-for="decision-2-defer-ios-runtime-validation-option-c">Decision 2: Defer iOS Runtime Validation (Option C)</a></li><li class="depth-2"><a href="#decision-3-continue-viewmodel-migrations" data-for="decision-3-continue-viewmodel-migrations">Decision 3: Continue ViewModel Migrations</a></li><li class="depth-1"><a href="#metrics" data-for="metrics">Metrics</a></li><li class="depth-2"><a href="#combined-week-17-output" data-for="combined-week-17-output">Combined Week 17 Output</a></li><li class="depth-2"><a href="#agent-contributions" data-for="agent-contributions">Agent Contributions</a></li><li class="depth-1"><a href="#lessons-learned" data-for="lessons-learned">Lessons Learned</a></li><li class="depth-2"><a href="#what-worked-well" data-for="what-worked-well">What Worked Well</a></li><li class="depth-2"><a href="#challenges--improvements" data-for="challenges--improvements">Challenges &amp; Improvements</a></li><li class="depth-1"><a href="#what-this-unblocks" data-for="what-this-unblocks">What This Unblocks</a></li><li class="depth-2"><a href="#immediate-week-18" data-for="immediate-week-18">Immediate (Week 18)</a></li><li class="depth-2"><a href="#long-term-week-19" data-for="long-term-week-19">Long-term (Week 19+)</a></li><li class="depth-1"><a href="#related-documentation" data-for="related-documentation">Related Documentation</a></li><li class="depth-2"><a href="#week-17-primary-documentation" data-for="week-17-primary-documentation">Week 17 Primary Documentation</a></li><li class="depth-2"><a href="#related-milestones" data-for="related-milestones">Related Milestones</a></li><li class="depth-2"><a href="#cross-references" data-for="cross-references">Cross-References</a></li><li class="depth-1"><a href="#quality-assurance" data-for="quality-assurance">Quality Assurance</a></li><li class="depth-2"><a href="#agent-3-validation-summary" data-for="agent-3-validation-summary">Agent 3 (Validation) Summary</a></li><li class="depth-1"><a href="#pull-requests" data-for="pull-requests">Pull Requests</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

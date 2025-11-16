@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>week-20-god-class-discovery</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="week-20-god-class-discovery"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="week-20-god-class-discovery"/><meta name="twitter:description" content="Week 20: God Class Discovery &amp; Analysis Discovery Date: November 9, 2025 Analyst: Agent 3 (AAA - Auditor, Analysis, Architecture) Scope: Full codebase scan Status: 🔴 CRITICAL FINDING Executive Summary Major Discovery: Full codebase scan revealed 10 god classes totaling 16,211 lines (not 3 as pr..."/><meta property="og:description" content="Week 20: God Class Discovery &amp; Analysis Discovery Date: November 9, 2025 Analyst: Agent 3 (AAA - Auditor, Analysis, Architecture) Scope: Full codebase scan Status: 🔴 CRITICAL FINDING Executive Summary Major Discovery: Full codebase scan revealed 10 god classes totaling 16,211 lines (not 3 as pr..."/><meta property="og:image:alt" content="Week 20: God Class Discovery &amp; Analysis Discovery Date: November 9, 2025 Analyst: Agent 3 (AAA - Auditor, Analysis, Architecture) Scope: Full codebase scan Status: 🔴 CRITICAL FINDING Executive Summary Major Discovery: Full codebase scan revealed 10 god classes totaling 16,211 lines (not 3 as pr..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-20-god-class-discovery"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-20-god-class-discovery"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="Week 20: God Class Discovery &amp; Analysis Discovery Date: November 9, 2025 Analyst: Agent 3 (AAA - Auditor, Analysis, Architecture) Scope: Full codebase scan Status: 🔴 CRITICAL FINDING Executive Summary Major Discovery: Full codebase scan revealed 10 god classes totaling 16,211 lines (not 3 as pr..."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-20-god-class-discovery-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-20-god-class-discovery-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-20-god-class-discovery-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/kmp-migration/week-20-god-class-discovery"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-392"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-392" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/kmp-migration/">kmp migration</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>week 20 god class discovery</a></div></nav><h1 class="article-title">week-20-god-class-discovery</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-09T19:28:40.000Z">Nov 09, 2025</time><span>12 min read</span></p><ul class="tags"><li><a href="../../tags/kmp-migration" class="internal tag-link">kmp-migration</a></li><li><a href="../../tags/god-class-discovery" class="internal tag-link">god-class-discovery</a></li><li><a href="../../tags/code-quality" class="internal tag-link">code-quality</a></li><li><a href="../../tags/analysis" class="internal tag-link">analysis</a></li><li><a href="../../tags/week-20" class="internal tag-link">week-20</a></li><li><a href="../../tags/repository-layer" class="internal tag-link">repository-layer</a></li><li><a href="../../tags/firebase-abstraction" class="internal tag-link">firebase-abstraction</a></li><li><a href="../../tags/critical-finding" class="internal tag-link">critical-finding</a></li><li><a href="../../tags/scope-increase" class="internal tag-link">scope-increase</a></li><li><a href="../../tags/roadmap" class="internal tag-link">roadmap</a></li></ul></div></div><article class="popover-hint"><h1 id="week-20-god-class-discovery--analysis">Week 20: God Class Discovery &amp; Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-20-god-class-discovery--analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Discovery Date</strong>: November 9, 2025
+<strong>Analyst</strong>: Agent 3 (AAA - Auditor, Analysis, Architecture)
+<strong>Scope</strong>: Full codebase scan
+<strong>Status</strong>: 🔴 CRITICAL FINDING</p>
+<h2 id="executive-summary">Executive Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#executive-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Major Discovery</strong>: Full codebase scan revealed <strong>10 god classes totaling 16,211 lines</strong> (not 3 as previously documented).</p>
+<p><strong>Impact</strong>: God class refactoring scope is <strong>3.3x larger</strong> than previously estimated:</p>
+<ul>
+<li><strong>Previously known</strong>: 3 classes, 5,089 lines</li>
+<li><strong>Actual scope</strong>: 10 classes, 16,211 lines</li>
+<li><strong>Additional work</strong>: 7 classes, 11,122 lines</li>
+</ul>
+<p><strong>Priority</strong>: HIGH - Repository layer god classes (3,726 lines) are <strong>critical blockers</strong> for iOS Firebase abstraction.</p>
+<hr/>
+<h2 id="the-discovery">The Discovery<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#the-discovery" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="previously-known-god-classes-3-classes-5089-lines">Previously Known God Classes (3 classes, 5,089 lines)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#previously-known-god-classes-3-classes-5089-lines" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>From baseline documentation and CLAUDE.md:</p>
+<ol>
+<li>
+<p><strong>LiveScoringViewModel</strong> - 1,497 lines</p>
+<ul>
+<li>Originally 2,808 lines (Week 2)</li>
+<li>Reduced 46% through service extraction</li>
+<li>Remaining: UI orchestration logic</li>
+</ul>
+</li>
+<li>
+<p><strong>RoundViewModel</strong> - 1,581 lines</p>
+<ul>
+<li>Originally 2,177 lines</li>
+<li>82 methods, complex state management</li>
+<li>Primary god class target</li>
+</ul>
+</li>
+<li>
+<p><strong>ActiveScoringScreen</strong> - 2,011 lines</p>
+<ul>
+<li>UI composition god class</li>
+<li>Grew 6% since baseline (1,896 → 2,011)</li>
+<li>Needs splitting into components</li>
+</ul>
+</li>
+</ol>
+<p><strong>Known Total</strong>: 5,089 lines</p>
+<hr/>
+<h3 id="newly-discovered-god-classes-7-classes-11122-lines">Newly Discovered God Classes (7 classes, 11,122 lines)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#newly-discovered-god-classes-7-classes-11122-lines" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Agent 3’s Week 20 scan discovered <strong>7 additional god classes</strong>:</p>
+<h4 id="repository-layer-3-classes-3726-lines--critical">Repository Layer (3 classes, 3,726 lines) 🔴 CRITICAL<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#repository-layer-3-classes-3726-lines--critical" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>4. FirebaseTournamentRepository</strong> - 1,912 lines</p>
+<ul>
+<li><strong>Methods</strong>: 42 Firebase-dependent operations</li>
+<li><strong>Complexity</strong>: Transactions, batches, real-time listeners</li>
+<li><strong>Blocker</strong>: iOS Firebase abstraction (Week 15-16 investigation)</li>
+<li><strong>Priority</strong>: CRITICAL PATH for KMP migration</li>
+</ul>
+<p><strong>5. HybridTournamentRepository</strong> - 1,814 lines</p>
+<ul>
+<li><strong>Delegates to</strong>: FirebaseTournamentRepository + OfflineTournamentRepository</li>
+<li><strong>Complexity</strong>: Sync logic, conflict resolution, offline queue</li>
+<li><strong>Dependencies</strong>: Firebase repository (must refactor together)</li>
+</ul>
+<p><strong>6. RoundRepository</strong> - 1,518 lines (interface + implementations)</p>
+<ul>
+<li><strong>Methods</strong>: 30+ round management operations</li>
+<li><strong>Complexity</strong>: Multi-source data (local + Firebase)</li>
+<li><strong>Issue</strong>: Interface too large, needs splitting</li>
+</ul>
+<p><strong>Repository Layer Total</strong>: 3,726 lines (23% of total god class scope)</p>
+<h4 id="ui-layer-3-classes-3951-lines">UI Layer (3 classes, 3,951 lines)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#ui-layer-3-classes-3951-lines" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>7. TournamentDetailsScreen</strong> - 1,725 lines</p>
+<ul>
+<li><strong>Type</strong>: Compose UI screen</li>
+<li><strong>Complexity</strong>: Multi-tab layout, participant management, scoring</li>
+<li><strong>Similar to</strong>: ActiveScoringScreen pattern</li>
+<li><strong>Needs</strong>: Component extraction</li>
+</ul>
+<p><strong>8. RoundDetailsScreen</strong> - 1,215 lines</p>
+<ul>
+<li><strong>Type</strong>: Compose UI screen</li>
+<li><strong>Complexity</strong>: Round configuration, scoring display</li>
+<li><strong>Opportunity</strong>: Shared components with TournamentDetailsScreen</li>
+</ul>
+<p><strong>9. RoundScoringEntryScreen</strong> - 1,011 lines</p>
+<ul>
+<li><strong>Type</strong>: Compose UI screen</li>
+<li><strong>Complexity</strong>: Score input, validation, submission</li>
+<li><strong>Minimum god class size</strong> (1,000 line threshold)</li>
+</ul>
+<p><strong>UI Layer Total</strong>: 3,951 lines (24% of total god class scope)</p>
+<h4 id="viewmodel-layer-1-class-1418-lines">ViewModel Layer (1 class, 1,418 lines)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#viewmodel-layer-1-class-1418-lines" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>10. TournamentDetailsViewModel</strong> - 1,418 lines</p>
+<ul>
+<li><strong>Methods</strong>: 45+ tournament management operations</li>
+<li><strong>Complexity</strong>: Participant state, scoring state, sync state</li>
+<li><strong>Dependencies</strong>: HybridTournamentRepository</li>
+<li><strong>Similar to</strong>: RoundViewModel pattern</li>
+</ul>
+<p><strong>ViewModel Layer Total</strong>: 1,418 lines (9% of total god class scope)</p>
+<hr/>
+<h3 id="newly-discovered-total-11122-lines-7-classes">Newly Discovered Total: 11,122 lines (7 classes)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#newly-discovered-total-11122-lines-7-classes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>All God Classes Combined</strong>: 16,211 lines (10 classes)</p>
+<hr/>
+<h2 id="breakdown-by-layer">Breakdown by Layer<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#breakdown-by-layer" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Layer</th><th>Classes</th><th>Total Lines</th><th>% of Total</th><th>Priority</th></tr></thead><tbody><tr><td><strong>UI (Screens)</strong></td><td>3</td><td>3,951</td><td>24%</td><td>Medium</td></tr><tr><td><strong>Repository</strong></td><td>3</td><td>3,726</td><td>23%</td><td>🔴 Critical</td></tr><tr><td><strong>ViewModel</strong></td><td>4</td><td>7,496</td><td>46%</td><td>High</td></tr><tr><td><strong>UI (Known)</strong></td><td>1 (ActiveScoringScreen)</td><td>2,011</td><td>12%</td><td>Medium</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>10</strong></td><td><strong>16,211</strong></td><td><strong>100%</strong></td><td>-</td></tr></tbody></table></div>
+<p><strong>Key Insight</strong>: ViewModel + Repository layers account for <strong>69% of god class scope</strong> (11,222 lines).</p>
+<hr/>
+<h2 id="repository-health-assessment">Repository Health Assessment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#repository-health-assessment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Overall Score</strong>: 72/100 ⭐⭐⭐⭐ (Fair to Good)</p>
+<p>Agent 3’s comprehensive health analysis:</p>
+<h3 id="strengths-">Strengths ✅<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#strengths-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Excellent Test Coverage</strong></p>
+<ul>
+<li>257 test files</li>
+<li>87,000+ lines of test code</li>
+<li>4,034+ tests passing (100% pass rate)</li>
+<li>Good test organization (clear patterns)</li>
+</ul>
+</li>
+<li>
+<p><strong>Good Architecture</strong></p>
+<ul>
+<li>Clear layer separation (UI, ViewModel, Repository, Data)</li>
+<li>Established patterns (MVVM, Repository)</li>
+<li>KMP migration progress (Weeks 1-19)</li>
+</ul>
+</li>
+<li>
+<p><strong>Stable CI/CD</strong></p>
+<ul>
+<li>Hybrid runner system functional</li>
+<li>Automated test execution</li>
+<li>Branch protection enforced</li>
+</ul>
+</li>
+</ol>
+<h3 id="critical-issues-">Critical Issues 🔴<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-issues-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>God Classes (10 classes, 16,211 lines)</strong></p>
+<ul>
+<li><strong>Impact</strong>: Maintainability, testability, iOS readiness</li>
+<li><strong>Scope</strong>: 3.3x larger than previously known</li>
+<li><strong>Priority</strong>: Repository layer blocks iOS Firebase abstraction</li>
+</ul>
+</li>
+<li>
+<p><strong>Repository Layer Bloat</strong></p>
+<ul>
+<li>FirebaseTournamentRepository: 1,912 lines (42 methods)</li>
+<li>HybridTournamentRepository: 1,814 lines (sync complexity)</li>
+<li>RoundRepository: 1,518 lines (too many responsibilities)</li>
+<li><strong>Blocker</strong>: Cannot move to KMP shared layer until refactored</li>
+</ul>
+</li>
+<li>
+<p><strong>Code Duplication</strong></p>
+<ul>
+<li>452 log statements (opportunity for LoggingService)</li>
+<li>147 StateFlow instances (opportunity for StateViewModel base class)</li>
+<li>Repeated validation patterns</li>
+<li>Repeated error handling</li>
+</ul>
+</li>
+<li>
+<p><strong>Technical Debt</strong></p>
+<ul>
+<li>127 TODO/FIXME comments</li>
+<li>23 deprecated API usages</li>
+<li>15 suppressed warnings</li>
+<li>Inconsistent naming conventions</li>
+</ul>
+</li>
+</ol>
+<h3 id="medium-concerns-️">Medium Concerns ⚠️<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#medium-concerns-️" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>UI Complexity</strong></p>
+<ul>
+<li>3 UI god classes (3,951 lines total)</li>
+<li>Component reuse opportunities missed</li>
+<li>Compose best practices not always followed</li>
+</ul>
+</li>
+<li>
+<p><strong>ViewModel Complexity</strong></p>
+<ul>
+<li>4 ViewModel god classes (7,496 lines total)</li>
+<li>Business logic in ViewModels (should be in Presenters/Services)</li>
+<li>Weeks 17-19 proved migration pattern works</li>
+</ul>
+</li>
+<li>
+<p><strong>Documentation Gaps</strong></p>
+<ul>
+<li>God class discovery not documented until Week 20</li>
+<li>Repository interfaces not documented</li>
+<li>Firebase abstraction design documented but not implemented</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="week-21-roadmap">Week 21+ Roadmap<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-21-roadmap" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Agent 3 created <strong>3 execution options</strong> for god class refactoring:</p>
+<h3 id="option-1-conservative-18-reduction-20-25-hrsweek">Option 1: Conservative (18% reduction, 20-25 hrs/week)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#option-1-conservative-18-reduction-20-25-hrsweek" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Scope</strong>: UI extractions only</p>
+<ul>
+<li>Focus: ActiveScoringScreen, TournamentDetailsScreen, RoundDetailsScreen</li>
+<li>Target: ~3,000 lines reduced (18% of total)</li>
+<li>Risk: LOW - UI extractions are low-risk</li>
+<li>Velocity: Steady, sustainable</li>
+</ul>
+<p><strong>Timeline</strong>: 8-10 weeks
+<strong>Pros</strong>: Low risk, predictable
+<strong>Cons</strong>: Slow progress, doesn’t address repository blockers</p>
+<h3 id="option-2-balanced-28-reduction-30-35-hrsweek--recommended">Option 2: Balanced (28% reduction, 30-35 hrs/week) ⭐ RECOMMENDED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#option-2-balanced-28-reduction-30-35-hrsweek--recommended" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Scope</strong>: UI extractions + service extractions + ViewModel migrations</p>
+<ul>
+<li>Track 1: UI component extractions (~3,000 lines)</li>
+<li>Track 2: Service extractions from ViewModels (~1,500 lines)</li>
+<li>Track 3: ViewModel → Presenter migrations (proven pattern)</li>
+<li>Target: ~4,500 lines reduced (28% of total)</li>
+<li>Risk: MEDIUM - Proven patterns, managed velocity</li>
+</ul>
+<p><strong>Timeline</strong>: 6-8 weeks
+<strong>Pros</strong>: Good velocity, manageable risk, proven patterns
+<strong>Cons</strong>: Requires coordination across tracks</p>
+<p><strong>Agent Allocation</strong>:</p>
+<ul>
+<li>Agent 2: ViewModel migrations (Track 3) - proven velocity</li>
+<li>Agent 3: UI extractions (Track 1) - started in Week 20</li>
+<li>Agent 1: Service extractions (Track 2) - when iOS work paused</li>
+</ul>
+<h3 id="option-3-aggressive-40-reduction-40-50-hrsweek">Option 3: Aggressive (40% reduction, 40-50 hrs/week)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#option-3-aggressive-40-reduction-40-50-hrsweek" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Scope</strong>: All tracks + repository refactoring</p>
+<ul>
+<li>Track 1: UI extractions</li>
+<li>Track 2: Service extractions</li>
+<li>Track 3: ViewModel migrations</li>
+<li>Track 4: Repository layer refactoring (HIGH RISK)</li>
+<li>Target: ~6,500 lines reduced (40% of total)</li>
+<li>Risk: HIGH - Repository refactoring is complex</li>
+</ul>
+<p><strong>Timeline</strong>: 4-6 weeks
+<strong>Pros</strong>: Maximum velocity, fastest path to iOS readiness
+<strong>Cons</strong>: High risk, requires perfect execution, repository changes are dangerous</p>
+<p><strong>Not Recommended</strong>: Repository refactoring is high-risk, requires careful planning</p>
+<hr/>
+<h2 id="week-20-quick-wins-executed">Week 20 Quick Wins (Executed)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-20-quick-wins-executed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>From Agent 3’s roadmap, <strong>Week 20 pivot executed immediately</strong>:</p>
+<h3 id="agent-3-ui-extraction--complete">Agent 3: UI Extraction (✅ COMPLETE)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-3-ui-extraction--complete" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>File</strong>: ActiveScoringScreen.kt</li>
+<li><strong>Extracted</strong>: ~235 lines (statistics panel component)</li>
+<li><strong>Impact</strong>: 1.5% of total goal (235/16,211)</li>
+<li><strong>Status</strong>: Merged to main</li>
+</ul>
+<h3 id="agent-1-stub-cleanup--in-progress">Agent 1: Stub Cleanup (🔄 IN PROGRESS)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-1-stub-cleanup--in-progress" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>File</strong>: RoundViewModel.kt</li>
+<li><strong>Target</strong>: ~250 lines (iOS-specific stubs)</li>
+<li><strong>Impact</strong>: 1.5% of total goal (250/16,211)</li>
+<li><strong>Status</strong>: Worktree created, work started</li>
+</ul>
+<h3 id="agent-2-viewmodel-migrations--in-progress">Agent 2: ViewModel Migrations (🔄 IN PROGRESS)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-2-viewmodel-migrations--in-progress" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Target</strong>: 3-4 medium ViewModels (~1,200 lines)</li>
+<li><strong>Impact</strong>: 7.4% of total goal (1,200/16,211)</li>
+<li><strong>Status</strong>: Week 20 kickoff prompt ready</li>
+</ul>
+<p><strong>Week 20 Combined Target</strong>: ~1,685 lines (10.4% of total god class goal)</p>
+<p><strong>Actual Week 20 Execution</strong>:</p>
+<ul>
+<li>Agent 3 complete: 235 lines ✅</li>
+<li>Agent 1 ongoing: ~250 lines 🔄</li>
+<li>Agent 2 ongoing: ~1,200 lines 🔄</li>
+<li><strong>Total</strong>: ~1,685 lines (if all complete)</li>
+</ul>
+<hr/>
+<h2 id="key-insights">Key Insights<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-insights" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="1-repository-layer--new-critical-blocker">1. Repository Layer = New Critical Blocker<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-repository-layer--new-critical-blocker" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Discovery</strong>: Repository god classes (3,726 lines) are <strong>critical blockers</strong> for iOS Firebase abstraction.</p>
+<p><strong>Why Critical</strong>:</p>
+<ul>
+<li>FirebaseTournamentRepository (1,912 lines) has 42 Firebase-dependent methods</li>
+<li>Week 15-16 investigation identified Firebase coupling as CRITICAL PATH blocker</li>
+<li>Cannot move services to <code>shared:domain</code> until Firebase abstracted</li>
+<li>iOS app cannot use Firebase until repository layer is KMP-compatible</li>
+</ul>
+<p><strong>Priority</strong>: 🔴 HIGHEST - Must address after current ViewModel migrations</p>
+<p><strong>Approach</strong>:</p>
+<ol>
+<li>Complete Agent 1 Firebase abstraction design (already done)</li>
+<li>Implement RemoteDataSource interfaces (Week 21-22)</li>
+<li>Refactor FirebaseTournamentRepository → interface implementation</li>
+<li>Refactor HybridTournamentRepository to use interfaces</li>
+<li>Move repository interfaces to <code>shared:data</code></li>
+</ol>
+<h3 id="2-week-2-success-proves-refactoring-pattern-works">2. Week 2 Success Proves Refactoring Pattern Works<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-week-2-success-proves-refactoring-pattern-works" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Evidence</strong>: LiveScoringViewModel reduced 46% successfully</p>
+<ul>
+<li><strong>Before</strong>: 2,808 lines (Week 2 baseline)</li>
+<li><strong>After</strong>: 1,497 lines (current)</li>
+<li><strong>Reduction</strong>: 1,311 lines (46%)</li>
+<li><strong>Method</strong>: Service extraction (19 services created)</li>
+</ul>
+<p><strong>Pattern Proven</strong>:</p>
+<ul>
+<li>Extract business logic → domain services</li>
+<li>Keep UI orchestration in ViewModel</li>
+<li>Maintain 100% test coverage</li>
+<li>Zero regressions</li>
+</ul>
+<p><strong>Implication</strong>: Same pattern can apply to all god class ViewModels</p>
+<h3 id="3-weeks-17-19-proved-viewmodel--presenter-migration-pattern">3. Weeks 17-19 Proved ViewModel → Presenter Migration Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-weeks-17-19-proved-viewmodel--presenter-migration-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Evidence</strong>: 10 ViewModels migrated with 70.2% code reduction</p>
+<ul>
+<li><strong>Total reduction</strong>: 1,370 lines (70.2% average)</li>
+<li><strong>Test coverage</strong>: 100% maintained</li>
+<li><strong>Regressions</strong>: 0</li>
+<li><strong>iOS readiness</strong>: All Presenters KMP-compatible</li>
+</ul>
+<p><strong>Pattern Proven</strong>:</p>
+<ul>
+<li>ViewModel → thin wrapper (delegation only)</li>
+<li>Business logic → KMP Presenter (<code>shared:presentation</code>)</li>
+<li>Repository abstraction → interface in <code>shared:data</code></li>
+<li>Memory leak prevention (stateIn pattern)</li>
+</ul>
+<p><strong>Implication</strong>: Apply to remaining 4 ViewModel god classes</p>
+<h3 id="4-code-duplication--quick-win-opportunities">4. Code Duplication = Quick Win Opportunities<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-code-duplication--quick-win-opportunities" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>452 Log Statements</strong>:</p>
+<ul>
+<li>Opportunity: Create <code>LoggingService</code> utility</li>
+<li>Impact: Reduce 452 duplications</li>
+<li>Effort: 1-2 days</li>
+<li>Benefit: Cleaner code, centralized logging</li>
+</ul>
+<p><strong>147 StateFlow Instances</strong>:</p>
+<ul>
+<li>Opportunity: Create <code>StateViewModel</code> base class</li>
+<li>Impact: Reduce 147 duplications</li>
+<li>Effort: 2-3 days</li>
+<li>Benefit: Consistent state management pattern</li>
+</ul>
+<p><strong>Validation Patterns</strong>:</p>
+<ul>
+<li>Opportunity: Extract validation logic to domain services</li>
+<li>Impact: Reduce duplication across ViewModels</li>
+<li>Effort: 3-5 days per validation type</li>
+</ul>
+<h3 id="5-ui-god-classes-need-component-extraction">5. UI God Classes Need Component Extraction<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-ui-god-classes-need-component-extraction" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Pattern</strong>: 3 UI god classes (ActiveScoringScreen, TournamentDetailsScreen, RoundDetailsScreen)</p>
+<p><strong>Approach</strong> (proven in Week 20):</p>
+<ul>
+<li>Extract reusable Compose components</li>
+<li>Create shared UI building blocks</li>
+<li>Reduce duplication across screens</li>
+<li>Improve testability (component-level tests)</li>
+</ul>
+<p><strong>Week 20 Example</strong>:</p>
+<ul>
+<li>Extracted statistics panel from ActiveScoringScreen (235 lines)</li>
+<li>Created reusable component</li>
+<li>Improved testability</li>
+</ul>
+<p><strong>Next Targets</strong>:</p>
+<ul>
+<li>Participant list component (shared across 2 screens)</li>
+<li>Scoring display component (shared across 3 screens)</li>
+<li>Navigation components</li>
+</ul>
+<hr/>
+<h2 id="comparison-known-vs-actual-scope">Comparison: Known vs Actual Scope<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#comparison-known-vs-actual-scope" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="previously-documented-claudemd--baseline">Previously Documented (CLAUDE.md + Baseline)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#previously-documented-claudemd--baseline" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Class</th><th>Lines</th><th>Status</th></tr></thead><tbody><tr><td>LiveScoringViewModel</td><td>1,497</td><td>Known (reduced 46% in Week 2)</td></tr><tr><td>RoundViewModel</td><td>1,581</td><td>Known (primary target)</td></tr><tr><td>ActiveScoringScreen</td><td>2,011</td><td>Known (grew 6%)</td></tr><tr><td><strong>Total</strong></td><td><strong>5,089</strong></td><td><strong>3 classes</strong></td></tr></tbody></table></div>
+<p><strong>Estimated Effort</strong>: 4-6 weeks (based on 3 god classes)</p>
+<h3 id="actual-scope-week-20-discovery">Actual Scope (Week 20 Discovery)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#actual-scope-week-20-discovery" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Class</th><th>Lines</th><th>Layer</th><th>Priority</th></tr></thead><tbody><tr><td>LiveScoringViewModel</td><td>1,497</td><td>ViewModel</td><td>High</td></tr><tr><td>RoundViewModel</td><td>1,581</td><td>ViewModel</td><td>High</td></tr><tr><td>ActiveScoringScreen</td><td>2,011</td><td>UI</td><td>Medium</td></tr><tr><td>FirebaseTournamentRepository</td><td>1,912</td><td>Repository</td><td>🔴 Critical</td></tr><tr><td>HybridTournamentRepository</td><td>1,814</td><td>Repository</td><td>🔴 Critical</td></tr><tr><td>TournamentDetailsScreen</td><td>1,725</td><td>UI</td><td>Medium</td></tr><tr><td>RoundRepository</td><td>1,518</td><td>Repository</td><td>High</td></tr><tr><td>TournamentDetailsViewModel</td><td>1,418</td><td>ViewModel</td><td>High</td></tr><tr><td>RoundDetailsScreen</td><td>1,215</td><td>UI</td><td>Medium</td></tr><tr><td>RoundScoringEntryScreen</td><td>1,011</td><td>UI</td><td>Medium</td></tr><tr><td><strong>Total</strong></td><td><strong>16,211</strong></td><td><strong>10 classes</strong></td><td><strong>Mixed</strong></td></tr></tbody></table></div>
+<p><strong>Revised Effort</strong>: 8-12 weeks (based on 10 god classes, Option 2)</p>
+<p><strong>Scope Increase</strong>: 3.2x larger (16,211 vs 5,089 lines)</p>
+<hr/>
+<h2 id="impact-on-kmp-migration-timeline">Impact on KMP Migration Timeline<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#impact-on-kmp-migration-timeline" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="original-plan-pre-discovery">Original Plan (Pre-Discovery)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#original-plan-pre-discovery" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week 19</strong>: ViewModel migrations complete (10 ViewModels)
+<strong>Week 20-22</strong>: Continue ViewModel migrations (3 god classes)
+<strong>Week 23-24</strong>: iOS app development
+<strong>Week 25</strong>: Production deployment</p>
+<p><strong>Estimated Timeline</strong>: 6 weeks to iOS readiness</p>
+<h3 id="revised-plan-post-discovery">Revised Plan (Post-Discovery)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#revised-plan-post-discovery" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week 20</strong>: Quick wins (UI + stubs + ViewModels) ~1,685 lines
+<strong>Week 21-22</strong>: Firebase abstraction implementation (CRITICAL PATH)
+<strong>Week 23-28</strong>: God class refactoring (Option 2: Balanced approach)</p>
+<ul>
+<li>Tracks: UI extractions + Service extractions + ViewModel migrations</li>
+<li>Target: ~4,500 lines reduced (28% of total)
+<strong>Week 29-30</strong>: Repository layer refactoring (high-risk, careful planning)
+<strong>Week 31-32</strong>: iOS app development
+<strong>Week 33</strong>: Production deployment</li>
+</ul>
+<p><strong>Revised Timeline</strong>: 14 weeks to iOS readiness (8 weeks added)</p>
+<p><strong>Critical Path</strong>: Firebase abstraction MUST complete before repository refactoring can begin</p>
+<hr/>
+<h2 id="recommendations">Recommendations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#recommendations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="immediate-week-20">Immediate (Week 20)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#immediate-week-20" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Continue Quick Wins</strong></p>
+<ul>
+<li>✅ Agent 3: UI extraction (complete)</li>
+<li>🔄 Agent 1: Stub cleanup (in progress)</li>
+<li>🔄 Agent 2: ViewModel migrations (in progress)</li>
+<li><strong>Target</strong>: ~1,685 lines (10.4% of goal)</li>
+</ul>
+</li>
+<li>
+<p><strong>Document Discovery</strong></p>
+<ul>
+<li>✅ Create vault entry (this document)</li>
+<li>Update CLAUDE.md with god class count (10 not 3)</li>
+<li>Update roadmap with revised timeline</li>
+</ul>
+</li>
+<li>
+<p><strong>User Decision Required</strong></p>
+<ul>
+<li>Choose execution option (recommend Option 2: Balanced)</li>
+<li>Approve extended timeline (14 weeks vs 6 weeks)</li>
+<li>Prioritize Firebase abstraction (CRITICAL PATH)</li>
+</ul>
+</li>
+</ol>
+<h3 id="week-21-22-critical-path">Week 21-22 (CRITICAL PATH)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-21-22-critical-path" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Priority 1: Firebase Abstraction Implementation</strong></p>
+<ul>
+<li>Agent: Agent 1 (AAP) or Agent 2 (AAM)</li>
+<li>Effort: 3-4 weeks (from Week 15-16 investigation)</li>
+<li>Deliverable: RemoteDataSource interfaces implemented</li>
+<li>Blocker: MUST complete before repository refactoring</li>
+</ul>
+<p><strong>Rationale</strong>:</p>
+<ul>
+<li>FirebaseTournamentRepository (1,912 lines) cannot refactor without abstraction</li>
+<li>iOS Firebase support requires abstraction layer</li>
+<li>Blocks entire repository layer refactoring (3,726 lines)</li>
+</ul>
+<h3 id="week-23-28-balanced-execution">Week 23-28 (Balanced Execution)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-23-28-balanced-execution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Option 2: Balanced Approach</strong> (RECOMMENDED)</p>
+<ul>
+<li>Track 1: UI extractions (Agent 3)</li>
+<li>Track 2: Service extractions (Agent 1, when iOS paused)</li>
+<li>Track 3: ViewModel migrations (Agent 2, proven velocity)</li>
+<li>Target: ~4,500 lines (28% reduction)</li>
+<li>Timeline: 6-8 weeks</li>
+</ul>
+<p><strong>Why Balanced</strong>:</p>
+<ul>
+<li>Proven patterns (Weeks 2, 17-19)</li>
+<li>Manageable risk</li>
+<li>Good velocity without overextension</li>
+<li>Addresses multiple layers simultaneously</li>
+</ul>
+<h3 id="week-29-30-high-risk-work">Week 29-30 (High-Risk Work)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-29-30-high-risk-work" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Repository Layer Refactoring</strong></p>
+<ul>
+<li>FirebaseTournamentRepository → interface-based</li>
+<li>HybridTournamentRepository → use interfaces</li>
+<li>RoundRepository → split responsibilities</li>
+<li><strong>Risk</strong>: HIGH - Requires careful planning and testing</li>
+<li><strong>Approach</strong>: Incremental, one repository at a time</li>
+</ul>
+<h3 id="week-31-32-ios-development">Week 31-32 (iOS Development)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-31-32-ios-development" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>iOS App Development</strong></p>
+<ul>
+<li>Agent 1 (AAP): iOS runtime validation</li>
+<li>Validate all Presenters work on iOS</li>
+<li>Validate Firebase abstraction layer</li>
+<li>Create iOS UI with SwiftUI</li>
+</ul>
+<hr/>
+<h2 id="risk-assessment">Risk Assessment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#risk-assessment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="critical-risks-">Critical Risks 🔴<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-risks-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Repository Refactoring Complexity</strong></p>
+<ul>
+<li><strong>Risk</strong>: Breaking changes in data layer</li>
+<li><strong>Impact</strong>: Production outages, data loss</li>
+<li><strong>Mitigation</strong>: Incremental refactoring, comprehensive testing, feature flags</li>
+</ul>
+</li>
+<li>
+<p><strong>Firebase Abstraction Delay</strong></p>
+<ul>
+<li><strong>Risk</strong>: Blocks repository refactoring (3,726 lines)</li>
+<li><strong>Impact</strong>: Timeline slippage, iOS readiness delayed</li>
+<li><strong>Mitigation</strong>: Prioritize Firebase work, allocate experienced agent</li>
+</ul>
+</li>
+<li>
+<p><strong>Scope Creep</strong></p>
+<ul>
+<li><strong>Risk</strong>: Discovering more god classes during refactoring</li>
+<li><strong>Impact</strong>: Timeline extension, team fatigue</li>
+<li><strong>Mitigation</strong>: Option 2 (Balanced) provides buffer, regular scope reviews</li>
+</ul>
+</li>
+</ol>
+<h3 id="medium-risks-️">Medium Risks ⚠️<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#medium-risks-️" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Parallel Track Coordination</strong></p>
+<ul>
+<li><strong>Risk</strong>: Merge conflicts, integration issues</li>
+<li><strong>Impact</strong>: Rework, delayed merges</li>
+<li><strong>Mitigation</strong>: Clear file ownership, frequent integration</li>
+</ul>
+</li>
+<li>
+<p><strong>Test Coverage Maintenance</strong></p>
+<ul>
+<li><strong>Risk</strong>: Regressions during refactoring</li>
+<li><strong>Impact</strong>: Production bugs, rollbacks</li>
+<li><strong>Mitigation</strong>: Maintain 100% test coverage, Agent 3 validation</li>
+</ul>
+</li>
+<li>
+<p><strong>Agent Availability</strong></p>
+<ul>
+<li><strong>Risk</strong>: macOS delays, agent conflicts</li>
+<li><strong>Impact</strong>: Timeline slippage</li>
+<li><strong>Mitigation</strong>: Flexible agent allocation, pivot strategies</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="success-metrics">Success Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-20-quick-wins">Week 20 (Quick Wins)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-20-quick-wins" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> UI extraction complete (~235 lines) - ✅ Agent 3</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Stub cleanup complete (~250 lines) - 🔄 Agent 1</li>
+<li class="task-list-item"><input type="checkbox" disabled/> ViewModel migrations complete (~1,200 lines) - 🔄 Agent 2</li>
+<li><strong>Target</strong>: ~1,685 lines (10.4% of goal)</li>
+</ul>
+<h3 id="week-21-22-firebase-abstraction">Week 21-22 (Firebase Abstraction)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-21-22-firebase-abstraction" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> RemoteDataSource interfaces designed</li>
+<li class="task-list-item"><input type="checkbox" disabled/> FirebaseRemoteDataSource implementation complete</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Domain layer Firebase imports eliminated (10 imports)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All services ready for <code>shared:domain</code> migration</li>
+</ul>
+<h3 id="week-23-28-balanced-execution-1">Week 23-28 (Balanced Execution)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-23-28-balanced-execution-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> UI extractions: ~3,000 lines reduced</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Service extractions: ~1,500 lines reduced</li>
+<li class="task-list-item"><input type="checkbox" disabled/> ViewModel migrations: All remaining ViewModels migrated</li>
+<li><strong>Target</strong>: ~4,500 lines (28% of goal)</li>
+</ul>
+<h3 id="week-29-30-repository-refactoring">Week 29-30 (Repository Refactoring)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-29-30-repository-refactoring" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> FirebaseTournamentRepository refactored</li>
+<li class="task-list-item"><input type="checkbox" disabled/> HybridTournamentRepository refactored</li>
+<li class="task-list-item"><input type="checkbox" disabled/> RoundRepository split into focused interfaces</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All repository interfaces in <code>shared:data</code></li>
+</ul>
+<h3 id="week-31-32-ios-readiness">Week 31-32 (iOS Readiness)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-31-32-ios-readiness" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> iOS app builds successfully</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All Presenters work on iOS</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Firebase abstraction validated on iOS</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Production deployment ready</li>
+</ul>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Week 20 Analysis Documents</strong> (Agent 3 worktree):</p>
+<ul>
+<li>GOD_CLASS_STATE_ASSESSMENT_WEEK_20.md (god class discovery)</li>
+<li>CODEBASE_HEALTH_REPORT_WEEK_20.md (health score 72/100)</li>
+<li>WEEK_21_PLUS_ROADMAP.md (3 execution options)</li>
+</ul>
+<p><strong>Historical Context</strong>:</p>
+<ul>
+<li><a href="../../internal/kmp-migration/week-17-19-summary" class="internal alias" data-slug="internal/kmp-migration/week-17-19-summary">Week 17-19 Summary</a> (ViewModel pattern success)</li>
+<li><a href="../../internal/agents/agent-2-week-17-19" class="internal alias" data-slug="internal/agents/agent-2-week-17-19">Agent 2 Week 17-19</a> (exceptional velocity)</li>
+<li><a href="../../internal/agents/agent-3-week-17-19" class="internal alias" data-slug="internal/agents/agent-3-week-17-19">Agent 3 Week 17-19</a> (quality gate)</li>
+</ul>
+<p><strong>Strategic Documents</strong>:</p>
+<ul>
+<li><code>docs/kmp-migration/WEEK_15_20_INVESTIGATION_FINDINGS.md</code> (Firebase abstraction)</li>
+<li><code>docs/kmp-migration/KMP_MIGRATION_ROADMAP.md</code> (overall plan)</li>
+<li><code>CLAUDE.md</code> (will be updated with god class count)</li>
+</ul>
+<hr/>
+<h2 id="tags">Tags<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tags" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><a href="../.././../tags/kmp-migration" class="tag-link internal alias" data-slug="tags/kmp-migration">kmp-migration</a> <a href="../.././../tags/god-class-discovery" class="tag-link internal alias" data-slug="tags/god-class-discovery">god-class-discovery</a> <a href="../.././../tags/code-quality" class="tag-link internal alias" data-slug="tags/code-quality">code-quality</a> <a href="../.././../tags/analysis" class="tag-link internal alias" data-slug="tags/analysis">analysis</a> <a href="../.././../tags/week-20" class="tag-link internal alias" data-slug="tags/week-20">week-20</a> <a href="../.././../tags/repository-layer" class="tag-link internal alias" data-slug="tags/repository-layer">repository-layer</a> <a href="../.././../tags/firebase-abstraction" class="tag-link internal alias" data-slug="tags/firebase-abstraction">firebase-abstraction</a> <a href="../.././../tags/critical-finding" class="tag-link internal alias" data-slug="tags/critical-finding">critical-finding</a> <a href="../.././../tags/scope-increase" class="tag-link internal alias" data-slug="tags/scope-increase">scope-increase</a> <a href="../.././../tags/roadmap" class="tag-link internal alias" data-slug="tags/roadmap">roadmap</a></p>
+<hr/>
+<h2 id="status">Status<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#status" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>🔴 <strong>CRITICAL FINDING DOCUMENTED</strong></p>
+<ul>
+<li>God class scope: 3.2x larger than known (16,211 vs 5,089 lines)</li>
+<li>Timeline revised: +8 weeks (14 weeks vs 6 weeks to iOS)</li>
+<li>Critical blocker: Repository layer requires Firebase abstraction first</li>
+<li>Recommended approach: Option 2 (Balanced, 28% reduction, 6-8 weeks)</li>
+<li>Week 20 quick wins: In progress (~1,685 lines target)</li>
+</ul>
+<p><strong>User Decision Required</strong>: Approve execution option and revised timeline</p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-148" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#week-20-god-class-discovery--analysis" data-for="week-20-god-class-discovery--analysis">Week 20: God Class Discovery &amp; Analysis</a></li><li class="depth-1"><a href="#executive-summary" data-for="executive-summary">Executive Summary</a></li><li class="depth-1"><a href="#the-discovery" data-for="the-discovery">The Discovery</a></li><li class="depth-2"><a href="#previously-known-god-classes-3-classes-5089-lines" data-for="previously-known-god-classes-3-classes-5089-lines">Previously Known God Classes (3 classes, 5,089 lines)</a></li><li class="depth-2"><a href="#newly-discovered-god-classes-7-classes-11122-lines" data-for="newly-discovered-god-classes-7-classes-11122-lines">Newly Discovered God Classes (7 classes, 11,122 lines)</a></li><li class="depth-2"><a href="#newly-discovered-total-11122-lines-7-classes" data-for="newly-discovered-total-11122-lines-7-classes">Newly Discovered Total: 11,122 lines (7 classes)</a></li><li class="depth-1"><a href="#breakdown-by-layer" data-for="breakdown-by-layer">Breakdown by Layer</a></li><li class="depth-1"><a href="#repository-health-assessment" data-for="repository-health-assessment">Repository Health Assessment</a></li><li class="depth-2"><a href="#strengths-" data-for="strengths-">Strengths ✅</a></li><li class="depth-2"><a href="#critical-issues-" data-for="critical-issues-">Critical Issues 🔴</a></li><li class="depth-2"><a href="#medium-concerns-️" data-for="medium-concerns-️">Medium Concerns ⚠️</a></li><li class="depth-1"><a href="#week-21-roadmap" data-for="week-21-roadmap">Week 21+ Roadmap</a></li><li class="depth-2"><a href="#option-1-conservative-18-reduction-20-25-hrsweek" data-for="option-1-conservative-18-reduction-20-25-hrsweek">Option 1: Conservative (18% reduction, 20-25 hrs/week)</a></li><li class="depth-2"><a href="#option-2-balanced-28-reduction-30-35-hrsweek--recommended" data-for="option-2-balanced-28-reduction-30-35-hrsweek--recommended">Option 2: Balanced (28% reduction, 30-35 hrs/week) ⭐ RECOMMENDED</a></li><li class="depth-2"><a href="#option-3-aggressive-40-reduction-40-50-hrsweek" data-for="option-3-aggressive-40-reduction-40-50-hrsweek">Option 3: Aggressive (40% reduction, 40-50 hrs/week)</a></li><li class="depth-1"><a href="#week-20-quick-wins-executed" data-for="week-20-quick-wins-executed">Week 20 Quick Wins (Executed)</a></li><li class="depth-2"><a href="#agent-3-ui-extraction--complete" data-for="agent-3-ui-extraction--complete">Agent 3: UI Extraction (✅ COMPLETE)</a></li><li class="depth-2"><a href="#agent-1-stub-cleanup--in-progress" data-for="agent-1-stub-cleanup--in-progress">Agent 1: Stub Cleanup (🔄 IN PROGRESS)</a></li><li class="depth-2"><a href="#agent-2-viewmodel-migrations--in-progress" data-for="agent-2-viewmodel-migrations--in-progress">Agent 2: ViewModel Migrations (🔄 IN PROGRESS)</a></li><li class="depth-1"><a href="#key-insights" data-for="key-insights">Key Insights</a></li><li class="depth-2"><a href="#1-repository-layer--new-critical-blocker" data-for="1-repository-layer--new-critical-blocker">1. Repository Layer = New Critical Blocker</a></li><li class="depth-2"><a href="#2-week-2-success-proves-refactoring-pattern-works" data-for="2-week-2-success-proves-refactoring-pattern-works">2. Week 2 Success Proves Refactoring Pattern Works</a></li><li class="depth-2"><a href="#3-weeks-17-19-proved-viewmodel--presenter-migration-pattern" data-for="3-weeks-17-19-proved-viewmodel--presenter-migration-pattern">3. Weeks 17-19 Proved ViewModel → Presenter Migration Pattern</a></li><li class="depth-2"><a href="#4-code-duplication--quick-win-opportunities" data-for="4-code-duplication--quick-win-opportunities">4. Code Duplication = Quick Win Opportunities</a></li><li class="depth-2"><a href="#5-ui-god-classes-need-component-extraction" data-for="5-ui-god-classes-need-component-extraction">5. UI God Classes Need Component Extraction</a></li><li class="depth-1"><a href="#comparison-known-vs-actual-scope" data-for="comparison-known-vs-actual-scope">Comparison: Known vs Actual Scope</a></li><li class="depth-2"><a href="#previously-documented-claudemd--baseline" data-for="previously-documented-claudemd--baseline">Previously Documented (CLAUDE.md + Baseline)</a></li><li class="depth-2"><a href="#actual-scope-week-20-discovery" data-for="actual-scope-week-20-discovery">Actual Scope (Week 20 Discovery)</a></li><li class="depth-1"><a href="#impact-on-kmp-migration-timeline" data-for="impact-on-kmp-migration-timeline">Impact on KMP Migration Timeline</a></li><li class="depth-2"><a href="#original-plan-pre-discovery" data-for="original-plan-pre-discovery">Original Plan (Pre-Discovery)</a></li><li class="depth-2"><a href="#revised-plan-post-discovery" data-for="revised-plan-post-discovery">Revised Plan (Post-Discovery)</a></li><li class="depth-1"><a href="#recommendations" data-for="recommendations">Recommendations</a></li><li class="depth-2"><a href="#immediate-week-20" data-for="immediate-week-20">Immediate (Week 20)</a></li><li class="depth-2"><a href="#week-21-22-critical-path" data-for="week-21-22-critical-path">Week 21-22 (CRITICAL PATH)</a></li><li class="depth-2"><a href="#week-23-28-balanced-execution" data-for="week-23-28-balanced-execution">Week 23-28 (Balanced Execution)</a></li><li class="depth-2"><a href="#week-29-30-high-risk-work" data-for="week-29-30-high-risk-work">Week 29-30 (High-Risk Work)</a></li><li class="depth-2"><a href="#week-31-32-ios-development" data-for="week-31-32-ios-development">Week 31-32 (iOS Development)</a></li><li class="depth-1"><a href="#risk-assessment" data-for="risk-assessment">Risk Assessment</a></li><li class="depth-2"><a href="#critical-risks-" data-for="critical-risks-">Critical Risks 🔴</a></li><li class="depth-2"><a href="#medium-risks-️" data-for="medium-risks-️">Medium Risks ⚠️</a></li><li class="depth-1"><a href="#success-metrics" data-for="success-metrics">Success Metrics</a></li><li class="depth-2"><a href="#week-20-quick-wins" data-for="week-20-quick-wins">Week 20 (Quick Wins)</a></li><li class="depth-2"><a href="#week-21-22-firebase-abstraction" data-for="week-21-22-firebase-abstraction">Week 21-22 (Firebase Abstraction)</a></li><li class="depth-2"><a href="#week-23-28-balanced-execution-1" data-for="week-23-28-balanced-execution-1">Week 23-28 (Balanced Execution)</a></li><li class="depth-2"><a href="#week-29-30-repository-refactoring" data-for="week-29-30-repository-refactoring">Week 29-30 (Repository Refactoring)</a></li><li class="depth-2"><a href="#week-31-32-ios-readiness" data-for="week-31-32-ios-readiness">Week 31-32 (iOS Readiness)</a></li><li class="depth-1"><a href="#related-documentation" data-for="related-documentation">Related Documentation</a></li><li class="depth-1"><a href="#tags" data-for="tags">Tags</a></li><li class="depth-1"><a href="#status" data-for="status">Status</a></li><li class="overflow-end"></li></ul></div><div class="backlinks"><h3>Backlinks</h3><ul id="list-2" class="overflow"><li><a href="../../internal/kmp-migration/week-20-21-god-class-campaign" class="internal">Week 20-21: God Class Discovery &amp; Repository Layer Investigation</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

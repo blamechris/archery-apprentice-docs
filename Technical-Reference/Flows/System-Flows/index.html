@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>System Flows</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="System Flows"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="System Flows"/><meta name="twitter:description" content="Internal system processes and data flows"/><meta property="og:description" content="Internal system processes and data flows"/><meta property="og:image:alt" content="Internal system processes and data flows"/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/System-Flows/index"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/System-Flows/index"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="Internal system processes and data flows"/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/System-Flows/index-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/System-Flows/index-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/System-Flows/index-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="Technical-Reference/Flows/System-Flows/index"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-101"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-101" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-3"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../Technical-Reference/">Technical Reference</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../Technical-Reference/Flows/">System Flows</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>System Flows</a></div></nav><h1 class="article-title">System Flows</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-05T02:41:19.000Z">Nov 05, 2025</time><span>16 min read</span></p></div></div><div class="popover-hint"><article class><p><a href="../../../" class="internal alias" data-slug="index">Home</a> > <a href="../../.././../" class="internal alias" data-slug="index">Technical Reference</a> > <a href="../../.././" class="internal alias" data-slug="index">Flows</a> > System Flows</p>
+<hr/>
+<h1 id="system-flows">System Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#system-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p>Complete reference for internal system processes, state management, and data flows in Archery Apprentice.</p>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>System flows describe the internal processes that power the application, from state management and data persistence to background processing and error handling. This guide documents all major system-level workflows.</p>
+<p><strong>Flow Organization:</strong></p>
+<p>Flows are organized by system architectural concern:</p>
+<ol>
+<li><strong>State Management</strong> - Reactive state propagation, StateFlow patterns</li>
+<li><strong>Data Persistence</strong> - Database operations, caching, versioning</li>
+<li><strong>Background Processing</strong> - Async operations, coroutines, sync</li>
+<li><strong>Error Handling</strong> - Error propagation, recovery, validation</li>
+<li><strong>Lifecycle Management</strong> - Component lifecycles, state preservation</li>
+</ol>
+<p><strong>Related Documentation:</strong></p>
+<ul>
+<li><a href="../../.././User-Flows/" class="internal alias" data-slug="User-Flows/index">User Flows</a> - User-facing workflows and interactions</li>
+<li><a href="../../.././Integration-Flows/" class="internal alias" data-slug="Integration-Flows/index">Integration Flows</a> - External service integrations</li>
+<li><a href="../../.././../../developer-guide/architecture/system-architecture/" class="internal alias" data-slug="developer-guide/architecture/system-architecture/index">System Architecture</a> - Overall architecture patterns</li>
+<li><a href="../../.././../../developer-guide/architecture/mvvm-patterns/" class="internal alias" data-slug="developer-guide/architecture/mvvm-patterns/index">MVVM Patterns</a> - State management architecture</li>
+</ul>
+<hr/>
+<h2 id="state-management-flows">State Management Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#state-management-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Flows related to reactive state management and UI updates.</p>
+<h3 id="1-stateflow-propagation-pattern">1. StateFlow Propagation Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-stateflow-propagation-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Documented (demonstrated across multiple flows)
+<strong>Documentation:</strong> See <a href="../../.././../../../developer-guide/technical-reference/flows/settings-architecture/" class="internal alias" data-slug="developer-guide/technical-reference/flows/settings-architecture/index">Settings Architecture</a> for canonical example</p>
+<p><strong>Overview:</strong></p>
+<p>All state changes in Archery Apprentice follow a unidirectional data flow pattern using Kotlin StateFlow for reactive updates.</p>
+<p><strong>Flow Pattern:</strong></p>
+<pre><code>User Action → ViewModel Method → Repository Update → Database/Cache Write →
+StateFlow Emission → UI Observes StateFlow → Recomposition
+</code></pre>
+<p><strong>Key Principles:</strong></p>
+<ol>
+<li><strong>Single Source of Truth</strong> - Database or repository cache is authoritative</li>
+<li><strong>Unidirectional Flow</strong> - Data flows from repository → ViewModel → UI</li>
+<li><strong>Reactive Updates</strong> - UI observes StateFlow, recomposes automatically</li>
+<li><strong>Immutable State</strong> - State objects are immutable, updates create new instances</li>
+<li><strong>No Direct Mutation</strong> - UI never mutates state directly, only emits events</li>
+</ol>
+<p><strong>Example: Settings State Propagation</strong></p>
+<pre><code>User Changes Measurement System (UI) →
+SettingsViewModel.updateMeasurementSystem() →
+SettingsRepository.updateSettings() →
+SettingsDao.update() (Room database) →
+settingsFlow.emit(newSettings) (StateFlow) →
+All UI Consumers Observe settingsFlow →
+UI Recomposes with New Measurement System
+</code></pre>
+<p><strong>StateFlow vs LiveData:</strong></p>
+<ul>
+<li><strong>StateFlow</strong> - Preferred for new code, Kotlin-native, coroutines integration</li>
+<li><strong>LiveData</strong> - Legacy code only, being migrated to StateFlow</li>
+<li><strong>Migration Pattern</strong> - Replace LiveData with StateFlow + <code>.asLiveData()</code> for compatibility</li>
+</ul>
+<p><strong>Typical StateFlow Declaration:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> SomeViewModel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ViewModel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _state </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MutableStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">UiState</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>(UiState.Loading)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> state: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">StateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">UiState</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _state.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">asStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> updateState</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(newData: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Data</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        _state.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> UiState.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(newData)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="../../.././../../../developer-guide/technical-reference/flows/settings-architecture/" class="internal alias" data-slug="developer-guide/technical-reference/flows/settings-architecture/index">Settings Architecture</a> - Canonical StateFlow example</li>
+<li><a href="../../.././../../../developer-guide/technical-reference/flows/scoring-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/scoring-flow/index">Scoring Flow</a> - Complex StateFlow with multi-participant state</li>
+<li><a href="../../.././../../developer-guide/architecture/mvvm-patterns/" class="internal alias" data-slug="developer-guide/architecture/mvvm-patterns/index">MVVM Patterns</a> - Architecture overview</li>
+</ul>
+<hr/>
+<h3 id="2-state-composition-and-derivation">2. State Composition and Derivation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-state-composition-and-derivation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ⚠️ Partially Documented (scattered across flows)
+<strong>Documentation:</strong> Examples in Scoring Flow and Round Lifecycle Flow</p>
+<p><strong>Overview:</strong></p>
+<p>Complex UI state is often derived from multiple StateFlows using <code>combine()</code> or computed properties.</p>
+<p><strong>Combination Pattern:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> combinedState </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> combine</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    roundFlow,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    equipmentFlow,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    participantsFlow</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) { round, equipment, participants </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    ScoringScreenState</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        round </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> round,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        equipment </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> equipment,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        participants </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> participants</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    )</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">stateIn</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    scope </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> viewModelScope,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    started </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> SharingStarted.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">WhileSubscribed</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">5000</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">),</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    initialValue </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ScoringScreenState.Loading</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+<p><strong>Key Patterns:</strong></p>
+<ol>
+<li><strong>combine()</strong> - Merge multiple StateFlows into one derived state</li>
+<li><strong>map()</strong> - Transform StateFlow values</li>
+<li><strong>flatMapLatest()</strong> - Switch to new StateFlow based on upstream value</li>
+<li><strong>distinctUntilChanged()</strong> - Only emit when value actually changes</li>
+<li><strong>stateIn()</strong> - Convert Flow to StateFlow with lifecycle management</li>
+</ol>
+<p><strong>State Sharing Strategies:</strong></p>
+<ul>
+<li><strong>WhileSubscribed(5000)</strong> - Most common, stops upstream after 5 seconds of no subscribers</li>
+<li><strong>Eagerly</strong> - Start immediately, never stop (use sparingly, memory leak risk)</li>
+<li><strong>Lazily</strong> - Start when first subscriber collects, never stop</li>
+</ul>
+<p><strong>Example: Scoring Session State Derivation</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> scoringSessionState </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> combine</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    currentEndFlow,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    arrowScoresFlow,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    tournamentSyncStatusFlow</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) { currentEnd, arrows, syncStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    ScoringSessionState</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        endNumber </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> currentEnd.number,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        totalArrows </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> arrows.size,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        isEndComplete </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> arrows.size </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> currentEnd.maxArrows,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        syncStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> syncStatus</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    )</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">stateIn</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(viewModelScope, </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">WhileSubscribed</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">5000</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">), ScoringSessionState.Initial)</span></span></code></pre></figure>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="../../.././../../../developer-guide/technical-reference/flows/scoring-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/scoring-flow/index">Scoring Flow</a> - Multi-state composition examples</li>
+<li><a href="../../.././../../../developer-guide/technical-reference/flows/round-lifecycle-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/round-lifecycle-flow/index">Round Lifecycle Flow</a> - State derivation for round status</li>
+</ul>
+<hr/>
+<h3 id="3-state-persistence-across-configuration-changes">3. State Persistence Across Configuration Changes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-state-persistence-across-configuration-changes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Documented (MVVM architecture inherent)
+<strong>Documentation:</strong> <a href="../../.././../../developer-guide/architecture/mvvm-patterns/" class="internal alias" data-slug="developer-guide/architecture/mvvm-patterns/index">MVVM Patterns</a></p>
+<p><strong>Overview:</strong></p>
+<p>ViewModels survive configuration changes (rotation, dark mode toggle), preserving state automatically.</p>
+<p><strong>Persistence Pattern:</strong></p>
+<pre><code>Activity Created → ViewModel Created → State Initialized →
+Configuration Change (Rotation) → Activity Destroyed/Recreated →
+ViewModel Survives → State Preserved → UI Recomposes with Existing State
+</code></pre>
+<p><strong>What Survives:</strong></p>
+<ul>
+<li>ViewModel instances (scoped to Activity/Fragment lifecycle)</li>
+<li>StateFlow state (stored in ViewModel)</li>
+<li>Cached data in repositories (in-memory caches)</li>
+<li>Database data (persisted to disk)</li>
+</ul>
+<p><strong>What Doesn’t Survive:</strong></p>
+<ul>
+<li>Activity/Fragment instances (recreated)</li>
+<li>View state (unless saved via SavedStateHandle)</li>
+<li>Non-ViewModel objects (unless explicitly saved)</li>
+</ul>
+<p><strong>SavedStateHandle Pattern:</strong></p>
+<p>For state that must survive process death (e.g., low memory kill):</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> SomeViewModel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> savedStateHandle: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SavedStateHandle</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ViewModel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    var</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> tempState: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        get</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> savedStateHandle.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">get</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;temp_state&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) ?: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;&quot;</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        set</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> savedStateHandle.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">set</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;temp_state&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="../../.././../../developer-guide/architecture/mvvm-patterns/" class="internal alias" data-slug="developer-guide/architecture/mvvm-patterns/index">MVVM Patterns</a> - ViewModel lifecycle documentation</li>
+<li>Android ViewModel documentation (survives configuration changes)</li>
+</ul>
+<hr/>
+<h2 id="data-persistence-flows">Data Persistence Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#data-persistence-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Flows related to database operations, caching, and data versioning.</p>
+<h3 id="4-data-persistence-pattern-repository--dao--room">4. Data Persistence Pattern (Repository → DAO → Room)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-data-persistence-pattern-repository--dao--room" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (demonstrated across all flows)
+<strong>Documentation:</strong> See all flow docs, especially <a href="../../.././../../../developer-guide/technical-reference/flows/round-lifecycle-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/round-lifecycle-flow/index">Round Lifecycle Flow</a></p>
+<p><strong>Overview:</strong></p>
+<p>All data persistence follows the Repository pattern with Room database as the single source of truth.</p>
+<p><strong>Persistence Flow:</strong></p>
+<pre><code>ViewModel → Repository → DAO → Room Database → SQLite
+</code></pre>
+<p><strong>Write Flow:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ViewModel</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> saveRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> viewModelScope.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">launch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">saveRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Repository</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> saveRound</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SaveResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    return</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> try</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">insert</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        SaveResult.Success</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    } </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">catch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (e: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Exception</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        SaveResult.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Error</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(e.message)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// DAO (Room)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">@Insert</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(onConflict </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> OnConflictStrategy.REPLACE)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> insert</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span></span></code></pre></figure>
+<p><strong>Read Flow:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Repository exposes Flow from DAO</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> observeRounds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>> </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getAllRounds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ViewModel converts to StateFlow</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> rounds </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">observeRounds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">stateIn</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(viewModelScope, </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">WhileSubscribed</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">5000</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">), </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">emptyList</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// UI observes StateFlow</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> rounds </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">by</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> viewModel.rounds.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">collectAsState</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span></code></pre></figure>
+<p><strong>Key Patterns:</strong></p>
+<ol>
+<li><strong>Flow-Based Queries</strong> - DAOs return Flow<t>, automatically update on DB changes</t></li>
+<li><strong>Suspend Functions</strong> - All write operations are suspend functions</li>
+<li><strong>Transaction Support</strong> - Use <code>@Transaction</code> for multi-table operations</li>
+<li><strong>Conflict Strategies</strong> - REPLACE, IGNORE, ABORT for insert conflicts</li>
+<li><strong>Foreign Key Cascades</strong> - CASCADE DELETE, SET NULL for referential integrity</li>
+</ol>
+<p><strong>SaveResult Pattern:</strong></p>
+<p>Consistent error handling across all repositories:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">sealed</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> SaveResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    object</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SaveResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Error</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> message: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SaveResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="../../.././../Database/Tables/" class="internal alias" data-slug="Database/Tables/index">Database Tables</a> - Complete schema reference</li>
+<li><a href="../../.././../Database/" class="internal alias" data-slug="Database/index">Database Overview</a> - Room architecture documentation</li>
+<li><a href="../../.././../Data-Models/" class="internal alias" data-slug="Data-Models/index">Data Models</a> - Entity model documentation</li>
+</ul>
+<hr/>
+<h3 id="5-equipment-versioning-flow">5. Equipment Versioning Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-equipment-versioning-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (1,949 lines)
+<strong>Documentation:</strong> <a href="../../.././../../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/index">Equipment Management End-to-End Flow</a></p>
+<p><strong>Overview:</strong></p>
+<p>Equipment modifications create new versions to preserve historical accuracy for past rounds.</p>
+<p><strong>Versioning Flow:</strong></p>
+<pre><code>BowSetup v1 Created → Round 1 Uses v1 Snapshot →
+User Edits BowSetup → v2 Created → Round 2 Uses v2 Snapshot →
+Round 1 Still References v1 Snapshot (Historical Accuracy Preserved)
+</code></pre>
+<p><strong>Key Mechanisms:</strong></p>
+<ol>
+<li><strong>Version Counter</strong> - <code>bowSetupVersion</code> column incremented on modification</li>
+<li><strong>Snapshot Embedding</strong> - Round embeds complete equipment snapshot (JSON)</li>
+<li><strong>Historical Immutability</strong> - Past rounds never affected by equipment changes</li>
+<li><strong>Current Version Tracking</strong> - Latest version used for new rounds</li>
+</ol>
+<p><strong>Versioning Trigger:</strong></p>
+<p>Any equipment modification creates new version:</p>
+<ul>
+<li>Add/remove/edit component</li>
+<li>Change bow type</li>
+<li>Update bow setup name</li>
+<li>Modify component properties</li>
+</ul>
+<p><strong>See Full Documentation:</strong> <a href="../../.././../../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/index">Equipment Management End-to-End Flow</a></p>
+<hr/>
+<h3 id="6-round-status-state-machine">6. Round Status State Machine<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#6-round-status-state-machine" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (1,168 lines)
+<strong>Documentation:</strong> <a href="../../.././../../../developer-guide/technical-reference/flows/round-lifecycle-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/round-lifecycle-flow/index">Round Lifecycle Flow</a></p>
+<p><strong>Overview:</strong></p>
+<p>Round lifecycle is governed by a strict state machine with validation at each transition.</p>
+<p><strong>State Machine:</strong></p>
+<pre><code>PLANNED → IN_PROGRESS ⇄ PAUSED → COMPLETED
+                                → CANCELLED
+</code></pre>
+<p><strong>State Transitions:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>From</th><th>To</th><th>Trigger</th><th>Validation</th></tr></thead><tbody><tr><td>PLANNED</td><td>IN_PROGRESS</td><td>User clicks “Start”</td><td>All participants have equipment selected</td></tr><tr><td>IN_PROGRESS</td><td>PAUSED</td><td>User clicks “Pause”</td><td>None</td></tr><tr><td>PAUSED</td><td>IN_PROGRESS</td><td>User clicks “Resume”</td><td>None</td></tr><tr><td>IN_PROGRESS</td><td>COMPLETED</td><td>All ends completed</td><td>All arrows scored, all ends finalized</td></tr><tr><td>IN_PROGRESS</td><td>CANCELLED</td><td>User cancels round</td><td>Confirmation prompt</td></tr><tr><td>PLANNED</td><td>CANCELLED</td><td>User deletes draft</td><td>Confirmation prompt</td></tr></tbody></table></div>
+<p><strong>Invalid Transitions:</strong></p>
+<ul>
+<li>COMPLETED → Any (completed rounds are immutable)</li>
+<li>CANCELLED → Any (cancelled rounds cannot be resumed)</li>
+<li>PLANNED → PAUSED (can’t pause before starting)</li>
+</ul>
+<p><strong>Validation Logic:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> canTransitionTo</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(newStatus: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Boolean</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    return</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> when</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (currentStatus) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        PLANNED </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> newStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> IN_PROGRESS </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">||</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> newStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> CANCELLED</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        IN_PROGRESS </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> newStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> PAUSED </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">||</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> newStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> COMPLETED </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">||</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> newStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> CANCELLED</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        PAUSED </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> newStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> IN_PROGRESS </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">||</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> newStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> CANCELLED</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        COMPLETED, CANCELLED </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> false</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"> // Terminal states</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>See Full Documentation:</strong> <a href="../../.././../../../developer-guide/technical-reference/flows/round-lifecycle-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/round-lifecycle-flow/index">Round Lifecycle Flow</a></p>
+<hr/>
+<h3 id="7-caching-strategy">7. Caching Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#7-caching-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (1,399 lines)
+<strong>Documentation:</strong> <a href="../../.././../../../developer-guide/technical-reference/flows/data-sync-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/data-sync-flow/index">Data Sync Flow</a></p>
+<p><strong>Overview:</strong></p>
+<p>Smart caching with TTL (Time-To-Live) reduces database queries and Firebase network calls.</p>
+<p><strong>Caching Layers:</strong></p>
+<ol>
+<li><strong>In-Memory Cache</strong> - ViewModel/Repository level, short-lived</li>
+<li><strong>Room Database</strong> - Local persistent cache, offline-first source of truth</li>
+<li><strong>Firebase Cache</strong> - Remote data cache, TTL-based invalidation</li>
+</ol>
+<p><strong>Cache Read Flow:</strong></p>
+<pre><code>Request Data → Check In-Memory Cache (valid?) → Check Room Database →
+Check Firebase (if network) → Update Caches → Return Data
+</code></pre>
+<p><strong>Cache Write Flow:</strong></p>
+<pre><code>Write Data → Update In-Memory Cache → Write to Room Database →
+Write to Firebase (Async) → Invalidate Related Caches
+</code></pre>
+<p><strong>TTL Strategy:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Data Type</th><th>TTL</th><th>Rationale</th></tr></thead><tbody><tr><td>Tournament Leaderboard</td><td>5 min</td><td>Balance real-time updates vs network load</td></tr><tr><td>Equipment Stats</td><td>5 min</td><td>Infrequently changing, expensive to recalculate</td></tr><tr><td>Historical Rounds</td><td>1 week</td><td>Immutable after completion, safe to cache long-term</td></tr><tr><td>Active Round State</td><td>No cache</td><td>Always reflect latest state, no staleness tolerated</td></tr><tr><td>Settings</td><td>No cache</td><td>Single-row, StateFlow updates immediately</td></tr></tbody></table></div>
+<p><strong>Cache Invalidation:</strong></p>
+<ul>
+<li><strong>Explicit</strong> - After mutations (insert, update, delete)</li>
+<li><strong>Time-Based</strong> - TTL expiration (5 minutes, 1 week)</li>
+<li><strong>Event-Based</strong> - Firebase listeners trigger invalidation</li>
+</ul>
+<p><strong>Example: Tournament Leaderboard Cache</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentScoreCacheService</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> cache </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> mutableMapOf</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">CachedLeaderboard</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> TTL </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 5</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.minutes</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getLeaderboard</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Score</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> cached </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> cache[tournamentId]</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (cached </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">!=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> null</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> &amp;&amp;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> !</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">cached.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">isExpired</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> cached.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">data</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> fresh </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> firebaseRepository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getLeaderboard</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournamentId)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        cache[tournamentId] </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> CachedLeaderboard</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(fresh, Clock.System.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">now</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> fresh</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> invalidate</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        cache.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">remove</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournamentId)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>See Full Documentation:</strong> <a href="../../.././../../../developer-guide/technical-reference/flows/data-sync-flow/#caching-strategy" class="internal alias" data-slug="developer-guide/technical-reference/flows/data-sync-flow/index">Data Sync Flow - Caching Strategy</a></p>
+<hr/>
+<h2 id="background-processing-flows">Background Processing Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#background-processing-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Flows related to asynchronous operations, coroutines, and background sync.</p>
+<h3 id="8-coroutine-patterns">8. Coroutine Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#8-coroutine-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Documented (demonstrated across all flows)
+<strong>Documentation:</strong> Examples in all flow documentation</p>
+<p><strong>Overview:</strong></p>
+<p>All async operations use Kotlin coroutines with structured concurrency.</p>
+<p><strong>Coroutine Scopes:</strong></p>
+<ol>
+<li><strong>viewModelScope</strong> - Tied to ViewModel lifecycle, most common</li>
+<li><strong>lifecycleScope</strong> - Tied to Activity/Fragment lifecycle</li>
+<li><strong>GlobalScope</strong> - Avoid! Use viewModelScope instead</li>
+</ol>
+<p><strong>Dispatchers:</strong></p>
+<ol>
+<li><strong>Dispatchers.Main</strong> - UI updates, StateFlow emissions (default for viewModelScope)</li>
+<li><strong>Dispatchers.IO</strong> - Database, network, file I/O</li>
+<li><strong>Dispatchers.Default</strong> - CPU-intensive computations</li>
+</ol>
+<p><strong>Common Patterns:</strong></p>
+<p><strong>1. Launch and Forget:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">viewModelScope.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">launch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">saveData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">data</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Async, non-blocking</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>2. Async with Result:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">viewModelScope.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">launch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> result </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> withContext</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(Dispatchers.IO) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">fetchData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    _state.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> UiState.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(result)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>3. Parallel Operations:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">viewModelScope.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">launch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> deferred1 </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> async</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">fetchA</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() }</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> deferred2 </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> async</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">fetchB</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() }</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> combined </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> deferred1.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">await</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">+</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> deferred2.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">await</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>4. Error Handling:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">viewModelScope.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">launch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    try</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">riskyOperation</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    } </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">catch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (e: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Exception</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        _error.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> e.message</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>See Also:</strong></p>
+<ul>
+<li>Kotlin Coroutines documentation</li>
+<li>All flow docs for practical coroutine examples</li>
+</ul>
+<hr/>
+<h3 id="9-tournament-sync-with-exponential-backoff">9. Tournament Sync with Exponential Backoff<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#9-tournament-sync-with-exponential-backoff" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (1,399 lines)
+<strong>Documentation:</strong> <a href="../../.././../../../developer-guide/technical-reference/flows/data-sync-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/data-sync-flow/index">Data Sync Flow</a></p>
+<p><strong>Overview:</strong></p>
+<p>Async tournament score submission with exponential backoff retry handles transient network failures gracefully.</p>
+<p><strong>Sync Flow:</strong></p>
+<pre><code>End Completed → Save to Local DB → Emit Success to UI (Immediate) →
+Background: Submit to Firebase (Async) → Network Error? →
+Retry 1 (1s delay) → Retry 2 (2s delay) → Retry 3 (4s delay) →
+Retry 4 (8s delay) → Retry 5 (16s delay) → Give Up (Log Error)
+</code></pre>
+<p><strong>Exponential Backoff Algorithm:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> submitScoreWithRetry</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(score: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Score</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, maxRetries: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 5</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    var</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> attempt </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 0</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    var</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> delay </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1000L</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"> // Start with 1 second</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    while</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (attempt </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> maxRetries) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        try</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            firebaseRepository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">submitScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(score)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Result.Success</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        } </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">catch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (e: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Exception</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            attempt</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">++</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (attempt </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">>=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> maxRetries) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">                return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Result.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Failure</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(e)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            }</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">            delay</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(delay)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            delay </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">*=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 2</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"> // Exponential backoff</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Key Features:</strong></p>
+<ol>
+<li><strong>Non-Blocking</strong> - User can continue scoring while sync happens in background</li>
+<li><strong>Exponential Backoff</strong> - Delays: 1s, 2s, 4s, 8s, 16s (up to 5 retries)</li>
+<li><strong>Offline-First</strong> - Local DB updated immediately, Firebase sync happens async</li>
+<li><strong>Conflict Detection</strong> - Last-write-wins with timestamp-based conflict resolution</li>
+<li><strong>Error Notification</strong> - User notified if sync ultimately fails after all retries</li>
+</ol>
+<p><strong>See Full Documentation:</strong> <a href="../../.././../../../developer-guide/technical-reference/flows/data-sync-flow/#retry-logic" class="internal alias" data-slug="developer-guide/technical-reference/flows/data-sync-flow/index">Data Sync Flow - Retry Logic</a></p>
+<hr/>
+<h3 id="10-statistics-calculation-flow">10. Statistics Calculation Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#10-statistics-calculation-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Documented (part of Scoring Flow)
+<strong>Documentation:</strong> <a href="../../.././../../../developer-guide/technical-reference/flows/scoring-flow/#statistics-calculation" class="internal alias" data-slug="developer-guide/technical-reference/flows/scoring-flow/index">Scoring Flow - Statistics Calculation</a></p>
+<p><strong>Overview:</strong></p>
+<p>Statistics aggregated at multiple levels: arrow → end → round → equipment → all-time.</p>
+<p><strong>Calculation Hierarchy:</strong></p>
+<pre><code>Arrow Scores → End Statistics (total, average, highs, lows) →
+Round Statistics (total, average, consistency, highs, lows) →
+Equipment Statistics (average by distance, round count, performance) →
+All-Time Statistics (personal bests, trends, comparisons)
+</code></pre>
+<p><strong>End Statistics Calculation:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateEndStats</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(arrows: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Arrow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">EndStats</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    return</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> EndStats</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        total </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> arrows.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">sumOf</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.score },</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        average </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> arrows.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">map</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.score }.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">average</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(),</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        max </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> arrows.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">maxOf</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.score },</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        min </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> arrows.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">minOf</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.score },</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        xCount </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> arrows.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">count</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.score </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 10</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> &amp;&amp;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> it.isX }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    )</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Round Statistics Calculation:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateRoundStats</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(ends: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">End</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RoundStats</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> allArrows </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ends.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">flatMap</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.arrows }</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    return</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RoundStats</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        total </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ends.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">sumOf</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.total },</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        average </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ends.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">map</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.average }.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">average</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(),</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        consistency </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> calculateStandardDeviation</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(ends.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">map</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.total }),</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        maxEnd </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ends.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">maxOf</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.total },</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        minEnd </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ends.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">minOf</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.total },</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        xCount </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> allArrows.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">count</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { it.isX }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    )</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Calculation Trigger:</strong></p>
+<ul>
+<li><strong>End Completion</strong> - End statistics calculated and saved</li>
+<li><strong>Round Completion</strong> - Round statistics calculated and saved</li>
+<li><strong>On-Demand</strong> - Equipment/all-time statistics calculated when viewed (cached)</li>
+</ul>
+<p><strong>Performance Optimization:</strong></p>
+<ul>
+<li>End/Round stats pre-calculated and stored (not recomputed)</li>
+<li>Equipment stats cached for 5 minutes</li>
+<li>Database indexes on scoring fields for fast aggregation queries</li>
+</ul>
+<p><strong>See Full Documentation:</strong> <a href="../../.././../../../developer-guide/technical-reference/flows/scoring-flow/#statistics-calculation" class="internal alias" data-slug="developer-guide/technical-reference/flows/scoring-flow/index">Scoring Flow - Statistics Calculation</a></p>
+<hr/>
+<h2 id="error-handling-flows">Error Handling Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#error-handling-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Flows related to error propagation, recovery, and user feedback.</p>
+<h3 id="11-validation-flow">11. Validation Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#11-validation-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Documented (demonstrated across flows)
+<strong>Documentation:</strong> Examples in Scoring Flow and Round Lifecycle Flow</p>
+<p><strong>Overview:</strong></p>
+<p>Multi-level validation ensures data integrity: UI → ViewModel → Repository → Database.</p>
+<p><strong>Validation Layers:</strong></p>
+<ol>
+<li><strong>UI Validation</strong> - Client-side input validation (TextField, Button enabled/disabled)</li>
+<li><strong>ViewModel Validation</strong> - Business logic validation before repository call</li>
+<li><strong>Repository Validation</strong> - Pre-database checks, authorization</li>
+<li><strong>Database Validation</strong> - Constraints, foreign keys, NOT NULL checks</li>
+</ol>
+<p><strong>Example: End Completion Validation</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// UI Layer - Button enabled only when valid</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Button</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    onClick </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { viewModel.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">completeEnd</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() },</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    enabled </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> allArrowsScored </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&amp;&amp;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> !</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">isProcessing</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ViewModel Layer - Business logic validation</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> completeEnd</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">!</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">allArrowsScored</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        _error.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;All arrows must be scored before completing end&quot;</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    viewModelScope.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">launch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> result </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">completeEnd</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(currentEnd)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        when</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (result) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            is</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> SaveResult.Success </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _state.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> UiState.Success</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            is</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> SaveResult.Error </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _error.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> result.message</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Repository Layer - Authorization check</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> completeEnd</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(end: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">End</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SaveResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">!</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">hasPermission</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(end.roundId)) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> SaveResult.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Error</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;No permission to score in this round&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">updateEnd</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(end)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Database Layer - Constraints enforced</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">@Entity</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    foreignKeys </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ForeignKey</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        entity </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Round::</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">class</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        parentColumns </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;id&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        childColumns </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;roundId&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        onDelete </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> CASCADE</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    )]</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> End</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    @ColumnInfo</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(name </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;roundId&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> roundId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    @ColumnInfo</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(name </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;endNumber&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> endNumber: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Round must exist, otherwise foreign key violation</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+<p><strong>Validation Result Patterns:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">sealed</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> ValidationResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    object</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Valid</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ValidationResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Invalid</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> errors: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ValidationResult</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="../../.././../../../developer-guide/technical-reference/flows/scoring-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/scoring-flow/index">Scoring Flow</a> - End completion validation</li>
+<li><a href="../../.././../../../developer-guide/technical-reference/flows/round-lifecycle-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/round-lifecycle-flow/index">Round Lifecycle Flow</a> - Round status validation</li>
+</ul>
+<hr/>
+<h3 id="12-error-propagation-and-recovery">12. Error Propagation and Recovery<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#12-error-propagation-and-recovery" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ⚠️ Partially Documented (scattered across flows)
+<strong>Documentation:</strong> Examples in Data Sync Flow</p>
+<p><strong>Overview:</strong></p>
+<p>Errors propagate from lowest layer to UI with appropriate recovery strategies at each level.</p>
+<p><strong>Error Flow:</strong></p>
+<pre><code>Database Error → Repository Catches → Returns SaveResult.Error →
+ViewModel Handles → Updates Error StateFlow → UI Observes → Shows Error Message
+</code></pre>
+<p><strong>Error Categories:</strong></p>
+<ol>
+<li><strong>Validation Errors</strong> - User input errors, show inline error messages</li>
+<li><strong>Database Errors</strong> - Constraint violations, foreign key errors, show toast/snackbar</li>
+<li><strong>Network Errors</strong> - Firebase timeouts, connectivity loss, retry automatically</li>
+<li><strong>Conflict Errors</strong> - Tournament score conflicts, resolve automatically or notify user</li>
+<li><strong>Permission Errors</strong> - Unauthorized operations, show error dialog</li>
+</ol>
+<p><strong>Recovery Strategies:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Error Type</th><th>Strategy</th></tr></thead><tbody><tr><td>Validation</td><td>Show inline error, disable submit button</td></tr><tr><td>Database</td><td>Show error toast, allow user to retry</td></tr><tr><td>Network (transient)</td><td>Retry with exponential backoff (up to 5 times)</td></tr><tr><td>Network (persistent)</td><td>Show offline mode, queue for later sync</td></tr><tr><td>Conflict</td><td>Automatic last-write-wins resolution</td></tr><tr><td>Permission</td><td>Show error dialog, navigate back</td></tr></tbody></table></div>
+<p><strong>Example: Network Error with Retry</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> syncScores</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    var</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> attempt </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 0</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> maxRetries </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 5</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    while</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (attempt </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> maxRetries) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        try</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            firebaseRepository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">syncScores</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            _syncStatus.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> SyncStatus.Success</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            return</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        } </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">catch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (e: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">IOException</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            attempt</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">++</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (attempt </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">>=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> maxRetries) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                _syncStatus.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> SyncStatus.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Failed</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(e.message)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">                return</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            }</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">            delay</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">2.0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">pow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(attempt).</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toLong</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">*</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1000</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Exponential backoff</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>User-Facing Error Messages:</strong></p>
+<ul>
+<li><strong>Validation</strong> - “All arrows must be scored” (specific, actionable)</li>
+<li><strong>Database</strong> - “Failed to save round. Please try again.” (generic, retry)</li>
+<li><strong>Network</strong> - “Unable to sync scores. Will retry automatically.” (informational, automatic recovery)</li>
+<li><strong>Permission</strong> - “You don’t have permission to score in this tournament.” (clear, blocking)</li>
+</ul>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="../../.././../../../developer-guide/technical-reference/flows/data-sync-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/data-sync-flow/index">Data Sync Flow</a> - Network error handling and retry</li>
+<li><a href="../../.././../../../developer-guide/technical-reference/flows/scoring-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/scoring-flow/index">Scoring Flow</a> - Validation error handling</li>
+</ul>
+<hr/>
+<h2 id="lifecycle-management-flows">Lifecycle Management Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#lifecycle-management-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Flows related to Android component lifecycles and state preservation.</p>
+<h3 id="13-viewmodel-lifecycle">13. ViewModel Lifecycle<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#13-viewmodel-lifecycle" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Documented (MVVM patterns)
+<strong>Documentation:</strong> <a href="../../.././../../developer-guide/architecture/mvvm-patterns/" class="internal alias" data-slug="developer-guide/architecture/mvvm-patterns/index">MVVM Patterns</a></p>
+<p><strong>Overview:</strong></p>
+<p>ViewModels survive configuration changes and are cleared when Activity/Fragment is finished.</p>
+<p><strong>Lifecycle Flow:</strong></p>
+<pre><code>Activity Created → ViewModel Created (via ViewModelProvider) →
+Activity Destroyed (Config Change) → ViewModel Survives →
+Activity Recreated → ViewModel Reattached →
+Activity Finished → ViewModel.onCleared() → Resources Cleaned Up
+</code></pre>
+<p><strong>ViewModel Cleanup:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> SomeViewModel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ViewModel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> disposables </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> CompositeDisposable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> onCleared</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">        super</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">onCleared</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">        // Clean up resources</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        disposables.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">clear</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">        // Cancel coroutines (viewModelScope automatically cancelled)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>viewModelScope:</strong></p>
+<ul>
+<li>Automatically cancelled when <code>onCleared()</code> is called</li>
+<li>All launched coroutines are cancelled</li>
+<li>No manual cleanup needed for coroutines</li>
+</ul>
+<p><strong>See Full Documentation:</strong> <a href="../../.././../../developer-guide/architecture/mvvm-patterns/" class="internal alias" data-slug="developer-guide/architecture/mvvm-patterns/index">MVVM Patterns</a></p>
+<hr/>
+<h3 id="14-navigation-patterns">14. Navigation Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#14-navigation-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ⚠️ Not Documented (High Priority)
+<strong>Planned Documentation:</strong> To be created</p>
+<p><strong>Overview:</strong></p>
+<p>Jetpack Compose Navigation with bottom navigation and deep linking support.</p>
+<p><strong>High-Level Flow (Not Yet Documented):</strong></p>
+<ol>
+<li><strong>Bottom Navigation</strong> - Primary navigation for main sections (Rounds, Equipment, Analytics, Tournaments, Settings)</li>
+<li><strong>Back Stack Management</strong> - Standard Android back button behavior, state preserved</li>
+<li><strong>Deep Linking</strong> - Direct navigation to specific screens (round detail, equipment detail)</li>
+<li><strong>Cross-Feature Navigation</strong> - Equipment → Rounds, Rounds → Analytics, etc.</li>
+<li><strong>State Restoration</strong> - Navigation state survives configuration changes</li>
+</ol>
+<p><strong>Key Components (Identified but Not Documented):</strong></p>
+<ul>
+<li>NavHost setup (Compose Navigation)</li>
+<li>NavGraph definition (navigation routes)</li>
+<li>BottomNavigationBar (tab navigation)</li>
+<li>Deep link handlers (URL schemes)</li>
+</ul>
+<p><strong>Why Not Documented:</strong></p>
+<p>Navigation patterns are complex and span the entire application. This is identified as <strong>High Priority</strong> for future documentation as it’s foundational for understanding application structure.</p>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><strong><a href="../../.././User-Flows/" class="internal alias" data-slug="User-Flows/index">User Flows</a></strong> - User-facing workflows and interactions</li>
+<li><strong><a href="../../.././Integration-Flows/" class="internal alias" data-slug="Integration-Flows/index">Integration Flows</a></strong> - External service integrations (Firebase, exports)</li>
+<li><strong><a href="../../.././../../developer-guide/architecture/system-architecture/" class="internal alias" data-slug="developer-guide/architecture/system-architecture/index">System Architecture</a></strong> - Overall architecture patterns</li>
+<li><strong><a href="../../.././../../developer-guide/architecture/mvvm-patterns/" class="internal alias" data-slug="developer-guide/architecture/mvvm-patterns/index">MVVM Patterns</a></strong> - State management architecture</li>
+<li><strong><a href="../../.././../Database/" class="internal alias" data-slug="Database/index">Database Overview</a></strong> - Data persistence and schemas</li>
+<li><strong><a href="../../.././../Data-Models/" class="internal alias" data-slug="Data-Models/index">Data Models</a></strong> - Entity models and relationships</li>
+</ul>
+<hr/>
+<h2 id="contributing-system-flow-documentation">Contributing System Flow Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#contributing-system-flow-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>To add or improve system flow documentation:</p>
+<ol>
+<li><strong>Trace the Flow</strong> - Follow code execution from entry to completion</li>
+<li><strong>Document State Changes</strong> - Track StateFlow emissions and state transitions</li>
+<li><strong>Identify Decision Points</strong> - Where does the system branch based on conditions?</li>
+<li><strong>Document Error Paths</strong> - What happens when operations fail?</li>
+<li><strong>Add Performance Notes</strong> - Caching, optimization strategies</li>
+<li><strong>Cross-Reference</strong> - Link to related flows, architecture, and database docs</li>
+<li><strong>Include Code Examples</strong> - Show actual implementation patterns</li>
+</ol>
+<p><strong>System Flow Checklist:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> High-level flow diagram (Mermaid)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Step-by-step code execution with file paths</li>
+<li class="task-list-item"><input type="checkbox" disabled/> State transitions and StateFlow emissions</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Error handling and recovery strategies</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Performance considerations (caching, optimization)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Related flows and components</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Code examples with file paths and line numbers</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Testing strategies and examples</li>
+</ul>
+<hr/>
+<p><strong>Last Updated:</strong> 2025-11-04
+<strong>Documentation Coverage:</strong> 10 flows documented (8,647 total lines from related docs), 4 flows planned</p></article><div class="page-listing"><p>0 items under this folder.</p><div><ul class="section-ul"></ul></div></div></div><hr/><div class="page-footer"></div></div><div class="right sidebar"></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

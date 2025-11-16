@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Scoring Scenarios</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Scoring Scenarios"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Scoring Scenarios"/><meta name="twitter:description" content="How to handle different scoring situations and workflows"/><meta property="og:description" content="How to handle different scoring situations and workflows"/><meta property="og:image:alt" content="How to handle different scoring situations and workflows"/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Scoring-Scenarios/index"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Scoring-Scenarios/index"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="How to handle different scoring situations and workflows"/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Scoring-Scenarios/index-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Scoring-Scenarios/index-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Scoring-Scenarios/index-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="user-guide/How-To/Scoring-Scenarios/index"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-241"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-241" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-3"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../user-guide/">user guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../user-guide/How-To/">How To</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Scoring Scenarios</a></div></nav><h1 class="article-title">Scoring Scenarios</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-05T02:41:19.000Z">Nov 05, 2025</time><span>11 min read</span></p></div></div><div class="popover-hint"><article class><p><a href="../../../" class="internal alias" data-slug="index">Home</a> > <a href="../../.././../" class="internal alias" data-slug="index">User Guide</a> > <a href="../../.././" class="internal alias" data-slug="index">How-To</a> > Scoring Scenarios</p>
+<hr/>
+<h1 id="scoring-scenarios">Scoring Scenarios<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scoring-scenarios" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p>This guide covers all the common scoring workflows in Archery Apprentice. From basic individual rounds to multi-participant scoring, you’ll find step-by-step instructions for every scenario.</p>
+<h2 id="table-of-contents">Table of Contents<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#table-of-contents" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ol>
+<li><a href="#scoring-an-individual-round" class="internal alias">Scoring an Individual Round</a></li>
+<li><a href="#scoring-a-multi-participant-round" class="internal alias">Scoring a Multi-Participant Round</a></li>
+<li><a href="#using-different-scoring-methods" class="internal alias">Using Different Scoring Methods</a></li>
+<li><a href="#pausing-and-resuming-rounds" class="internal alias">Pausing and Resuming Rounds</a></li>
+<li><a href="#cancelling-a-round" class="internal alias">Cancelling a Round</a></li>
+<li><a href="#reviewing-previous-ends" class="internal alias">Reviewing Previous Ends</a></li>
+<li><a href="#correcting-scoring-mistakes" class="internal alias">Correcting Scoring Mistakes</a></li>
+<li><a href="#different-scoring-systems" class="internal alias">Different Scoring Systems</a></li>
+</ol>
+<hr/>
+<h2 id="scoring-an-individual-round">Scoring an Individual Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scoring-an-individual-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>The most common scenario - scoring a round for yourself.</p>
+<h3 id="step-1-create-the-round">Step 1: Create the Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#step-1-create-the-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>From the landing page, tap <strong>Round Scoring</strong></li>
+<li>Tap <strong>Create Round</strong> or the <strong>+</strong> button</li>
+<li>Fill in round details:
+<ul>
+<li><strong>Round Name</strong> (e.g., “Practice Session - May 15”)</li>
+<li><strong>Number of Ends</strong> (e.g., “6”)</li>
+<li><strong>Arrows per End</strong> (e.g., “6”)</li>
+<li><strong>Distance</strong> (e.g., “50 meters”)</li>
+<li><strong>Target Size</strong> (e.g., “122cm”)</li>
+<li><strong>Scoring System</strong> (e.g., “10-ring”)</li>
+<li><strong>Bow Setup</strong> (select your equipment)</li>
+</ul>
+</li>
+<li>Tap <strong>Create</strong> or <strong>Start Round</strong></li>
+</ol>
+<p>The round is now in <strong>IN_PROGRESS</strong> status.</p>
+<h3 id="step-2-score-each-end">Step 2: Score Each End<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#step-2-score-each-end" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>For each end:</p>
+<ol>
+<li>
+<p><strong>Enter arrow scores</strong> in the order shot:</p>
+<ul>
+<li>Tap the score buttons or type scores</li>
+<li>For example: 10, 10, 9, 8, 7, 6</li>
+</ul>
+</li>
+<li>
+<p><strong>Mark X-ring hits</strong> (if applicable):</p>
+<ul>
+<li>Tap the <strong>X</strong> checkbox for inner 10 hits</li>
+<li>Important for tie-breaking in competition</li>
+</ul>
+</li>
+<li>
+<p><strong>Review the end total</strong>:</p>
+<ul>
+<li>App automatically calculates end total</li>
+<li>Running total updates in real-time</li>
+</ul>
+</li>
+<li>
+<p><strong>Tap “Next End”</strong> to continue to the next end</p>
+</li>
+</ol>
+<h3 id="step-3-complete-the-round">Step 3: Complete the Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#step-3-complete-the-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>After scoring all ends:</p>
+<ol>
+<li>
+<p>Review your <strong>final statistics</strong>:</p>
+<ul>
+<li>Total score</li>
+<li>Average per arrow</li>
+<li>Accuracy percentage</li>
+<li>Ring distribution (X, 10, 9, 8, etc.)</li>
+</ul>
+</li>
+<li>
+<p>Tap <strong>Complete Round</strong></p>
+</li>
+<li>
+<p>The round moves to <strong>COMPLETED</strong> status</p>
+</li>
+<li>
+<p>View detailed statistics and round history</p>
+</li>
+</ol>
+<hr/>
+<h2 id="scoring-a-multi-participant-round">Scoring a Multi-Participant Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scoring-a-multi-participant-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Score rounds with friends or practice partners (up to 4 participants total).</p>
+<h3 id="why-use-multi-participant-mode">Why Use Multi-Participant Mode?<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#why-use-multi-participant-mode" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Score for yourself + up to 3 guests</li>
+<li>Track everyone’s scores in one session</li>
+<li>Compare performance in real-time</li>
+<li>Automatically generate temporary setups for guests</li>
+</ul>
+<h3 id="creating-a-multi-participant-round">Creating a Multi-Participant Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#creating-a-multi-participant-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>
+<p>Tap <strong>Create Round</strong></p>
+</li>
+<li>
+<p>Configure basic round settings (ends, arrows, distance, target, scoring system)</p>
+</li>
+<li>
+<p><strong>Enable Multi-Participant Mode</strong>:</p>
+<ul>
+<li>Toggle <strong>“Multi-Participant”</strong> on</li>
+<li>Or select <strong>“Multiple Participants”</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Add participants</strong>:</p>
+<ul>
+<li>Enter guest names (e.g., “John”, “Sarah”, “Mike”)</li>
+<li>You can add 1-3 guests (4 total including yourself)</li>
+<li>App uses your Settings username for you</li>
+</ul>
+</li>
+<li>
+<p>Select <strong>your bow setup</strong> (from your equipment)</p>
+</li>
+<li>
+<p>Guest setups are <strong>auto-generated</strong> temporarily</p>
+</li>
+<li>
+<p>Tap <strong>Start Round</strong></p>
+</li>
+</ol>
+<h3 id="scoring-multi-participant-ends">Scoring Multi-Participant Ends<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scoring-multi-participant-ends" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>For each end:</strong></p>
+<ol>
+<li>
+<p><strong>Select the participant</strong> to score:</p>
+<ul>
+<li>Tap the participant name or icon</li>
+<li>Participant indicators show whose turn it is</li>
+</ul>
+</li>
+<li>
+<p><strong>Enter scores for that participant</strong>:</p>
+<ul>
+<li>Type or tap scores as normal</li>
+<li>Mark X-ring hits if applicable</li>
+</ul>
+</li>
+<li>
+<p><strong>Switch to next participant</strong>:</p>
+<ul>
+<li>Tap next participant name</li>
+<li>Repeat scoring process</li>
+</ul>
+</li>
+<li>
+<p><strong>After all participants scored</strong>:</p>
+<ul>
+<li>Tap <strong>“Next End”</strong></li>
+<li>Move to the next end</li>
+</ul>
+</li>
+<li>
+<p>Repeat for all ends</p>
+</li>
+</ol>
+<h3 id="multi-participant-features">Multi-Participant Features<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#multi-participant-features" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Real-time Leaderboard:</strong></p>
+<ul>
+<li>See current standings during the round</li>
+<li>Compare scores end-by-end</li>
+<li>Identify who’s leading</li>
+</ul>
+<p><strong>Individual Statistics:</strong></p>
+<ul>
+<li>Each participant gets separate stats</li>
+<li>Total score, average, accuracy</li>
+<li>Ring distribution per participant</li>
+</ul>
+<p><strong>Guest Setup Management:</strong></p>
+<ul>
+<li>Guests get temporary bow setups automatically</li>
+<li>Equipment tracked separately from your equipment</li>
+<li>Guest setups don’t clutter your equipment list</li>
+<li>Can be cleaned up later</li>
+</ul>
+<h3 id="completing-a-multi-participant-round">Completing a Multi-Participant Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#completing-a-multi-participant-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>Score all ends for all participants</li>
+<li>Review final standings and statistics</li>
+<li>Tap <strong>Complete Round</strong></li>
+<li>View detailed breakdown by participant</li>
+</ol>
+<p><strong>Post-Round:</strong></p>
+<ul>
+<li>Each participant’s data is preserved</li>
+<li>You can review individual performance</li>
+<li>Compare participants side-by-side</li>
+</ul>
+<hr/>
+<h2 id="using-different-scoring-methods">Using Different Scoring Methods<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#using-different-scoring-methods" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Archery Apprentice supports three scoring input methods.</p>
+<h3 id="method-1-manual-entry-default">Method 1: Manual Entry (Default)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#method-1-manual-entry-default" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Best for: Most archers, fastest input method</p>
+<p><strong>How to use:</strong></p>
+<ol>
+<li>During scoring, use the <strong>number pad</strong> or buttons</li>
+<li>Type each arrow score in order</li>
+<li>Tap <strong>Next</strong> or <strong>Enter</strong> to confirm</li>
+<li>X-ring checkbox available for 10s</li>
+</ol>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>✅ Fastest method</li>
+<li>✅ Simple and straightforward</li>
+<li>✅ Works for all scoring systems</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>❌ No coordinate capture</li>
+<li>❌ No grouping analysis</li>
+</ul>
+<h3 id="method-2-target-face-scoring">Method 2: Target Face Scoring<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#method-2-target-face-scoring" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Best for: Shot grouping analysis, detailed performance tracking</p>
+<p><strong>How to use:</strong></p>
+<ol>
+<li>Switch to <strong>Target Face</strong> mode</li>
+<li>See a visual target face on screen</li>
+<li><strong>Tap</strong> where each arrow landed</li>
+<li>App calculates score based on coordinates</li>
+<li>X-ring automatically detected</li>
+</ol>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>✅ Captures arrow coordinates (x, y)</li>
+<li>✅ Enables grouping analysis (eccentricity, radial SD, bias)</li>
+<li>✅ Visual representation of shot pattern</li>
+<li>✅ Helps identify aiming issues</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>❌ Slower than manual entry</li>
+<li>❌ Requires precise tapping</li>
+</ul>
+<p><strong>When to Use:</strong></p>
+<ul>
+<li>Competition preparation (analyze patterns)</li>
+<li>Testing new equipment (compare grouping)</li>
+<li>Diagnosing form issues (identify bias)</li>
+<li>Practicing at close range (accurate placement)</li>
+</ul>
+<h3 id="method-3-quick-entry">Method 3: Quick Entry<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#method-3-quick-entry" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Best for: Rapid scoring when you need speed</p>
+<p><strong>How to use:</strong></p>
+<ol>
+<li>Switch to <strong>Quick Entry</strong> mode</li>
+<li>Streamlined interface with minimal taps</li>
+<li>Enter scores rapidly with fewer confirmations</li>
+<li>Best for practice rounds</li>
+</ol>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>✅ Very fast</li>
+<li>✅ Minimal UI interaction</li>
+<li>✅ Good for frequent practice</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>❌ No coordinate capture</li>
+<li>❌ Less detailed than other methods</li>
+</ul>
+<h3 id="switching-methods-mid-round">Switching Methods Mid-Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#switching-methods-mid-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>You can change scoring methods during a round:</p>
+<ol>
+<li>Tap <strong>Settings</strong> or <strong>Menu</strong> in scoring screen</li>
+<li>Select <strong>Scoring Method</strong></li>
+<li>Choose Manual, Target Face, or Quick Entry</li>
+<li>Continue scoring with new method</li>
+</ol>
+<hr/>
+<h2 id="pausing-and-resuming-rounds">Pausing and Resuming Rounds<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pausing-and-resuming-rounds" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Life happens - sometimes you need to stop mid-round.</p>
+<h3 id="pausing-a-round">Pausing a Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pausing-a-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Why pause?</strong></p>
+<ul>
+<li>Need to adjust equipment</li>
+<li>Taking a break</li>
+<li>Weather delay (outdoor)</li>
+<li>Interruption</li>
+</ul>
+<p><strong>How to pause:</strong></p>
+<ol>
+<li>While scoring, tap <strong>Pause</strong> button</li>
+<li>Round status changes to <strong>PAUSED</strong></li>
+<li>Progress is saved automatically</li>
+</ol>
+<h3 id="resuming-a-paused-round">Resuming a Paused Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#resuming-a-paused-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Go to <strong>Round Scoring</strong></li>
+<li>Find the paused round (marked with <strong>PAUSED</strong> badge)</li>
+<li>Tap on it to open</li>
+<li>Tap <strong>Resume</strong></li>
+<li>Continue scoring from where you left off</li>
+</ol>
+<p><strong>What’s Preserved:</strong></p>
+<ul>
+<li>All previously entered scores</li>
+<li>Current end position</li>
+<li>Round configuration</li>
+<li>Equipment selection</li>
+</ul>
+<h3 id="paused-round-behavior">Paused Round Behavior<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#paused-round-behavior" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Paused rounds appear in your active rounds list</li>
+<li>You can have multiple paused rounds</li>
+<li>No time limit on pause duration</li>
+<li>Statistics calculate normally when resumed</li>
+</ul>
+<hr/>
+<h2 id="cancelling-a-round">Cancelling a Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cancelling-a-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Sometimes a round goes wrong and needs to be abandoned.</p>
+<h3 id="when-to-cancel">When to Cancel<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#when-to-cancel" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Good reasons to cancel:</strong></p>
+<ul>
+<li>Equipment failure mid-round</li>
+<li>Severe weather (outdoor)</li>
+<li>Realized round was configured incorrectly</li>
+<li>Round no longer valid (rule violation, etc.)</li>
+</ul>
+<p><strong>Bad reasons to cancel:</strong></p>
+<ul>
+<li>Just having a bad round (complete it anyway for data)</li>
+<li>Don’t want the score in your history (keep for learning)</li>
+</ul>
+<h3 id="how-to-cancel">How to Cancel<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#how-to-cancel" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Open the round (in progress or paused)</li>
+<li>Tap <strong>Menu</strong> or <strong>Options</strong></li>
+<li>Select <strong>Cancel Round</strong></li>
+<li>Confirm cancellation</li>
+</ol>
+<p><strong>What Happens:</strong></p>
+<ul>
+<li>Round status changes to <strong>CANCELLED</strong></li>
+<li>Round removed from active list</li>
+<li>Scores are preserved but marked as cancelled</li>
+<li>Won’t affect statistics or equipment performance data</li>
+</ul>
+<h3 id="viewing-cancelled-rounds">Viewing Cancelled Rounds<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#viewing-cancelled-rounds" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Cancelled rounds are hidden by default</li>
+<li>Toggle <strong>“Show Cancelled”</strong> to view them</li>
+<li>Useful for troubleshooting or reviewing what went wrong</li>
+</ul>
+<hr/>
+<h2 id="reviewing-previous-ends">Reviewing Previous Ends<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#reviewing-previous-ends" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>During a round, you can review ends you’ve already scored.</p>
+<h3 id="why-review-previous-ends">Why Review Previous Ends?<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#why-review-previous-ends" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Verify score entry accuracy</li>
+<li>Check for patterns (fatigue, consistency)</li>
+<li>Compare current end to previous performance</li>
+<li>Mental preparation for next end</li>
+</ul>
+<h3 id="how-to-review">How to Review<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#how-to-review" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>While scoring a round (IN_PROGRESS)</li>
+<li>Tap <strong>Review Ends</strong> or <strong>End History</strong></li>
+<li>See list of completed ends with:
+<ul>
+<li>End number</li>
+<li>Arrow scores</li>
+<li>End total</li>
+<li>Running total after that end</li>
+</ul>
+</li>
+<li>Tap on an end to see details</li>
+<li>Tap <strong>Back</strong> to return to current scoring</li>
+</ol>
+<p><strong>What You See:</strong></p>
+<ul>
+<li>All arrow scores for that end</li>
+<li>X-ring marks (if applicable)</li>
+<li>End total and average</li>
+<li>Running total at that point</li>
+<li>Which participant (multi-participant rounds)</li>
+</ul>
+<h3 id="editing-previous-ends">Editing Previous Ends<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#editing-previous-ends" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Important:</strong> You generally <strong>cannot</strong> edit previous ends once submitted to preserve data integrity.</p>
+<p><strong>Exception:</strong> If you notice a mistake immediately, some implementations allow editing the most recent end.</p>
+<p>For older ends, see <a href="#correcting-scoring-mistakes" class="internal alias">Correcting Scoring Mistakes</a>.</p>
+<hr/>
+<h2 id="correcting-scoring-mistakes">Correcting Scoring Mistakes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#correcting-scoring-mistakes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Everyone makes mistakes - here’s how to fix them.</p>
+<h3 id="during-the-same-end-before-next-end">During the Same End (Before “Next End”)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#during-the-same-end-before-next-end" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Easy fix:</strong></p>
+<ol>
+<li>Notice the mistake before moving to next end</li>
+<li>Tap the arrow score to edit</li>
+<li>Change the value</li>
+<li>End total recalculates automatically</li>
+<li>Tap <strong>Next End</strong> when satisfied</li>
+</ol>
+<h3 id="after-moving-to-next-end">After Moving to Next End<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#after-moving-to-next-end" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>More involved:</strong></p>
+<p><strong>Option 1: Review and Edit (if supported)</strong></p>
+<ol>
+<li>Tap <strong>Review Ends</strong></li>
+<li>Find the end with the mistake</li>
+<li>If edit is enabled for recent ends, tap <strong>Edit</strong></li>
+<li>Correct the scores</li>
+<li>Save changes</li>
+</ol>
+<p><strong>Option 2: Note for Later</strong></p>
+<ul>
+<li>Continue the round as-is</li>
+<li>Note the mistake in round description or notes</li>
+<li>Understand the statistics will reflect the error</li>
+</ul>
+<p><strong>Option 3: Cancel and Restart</strong></p>
+<ul>
+<li>If the mistake is severe and early in the round</li>
+<li>Cancel the current round</li>
+<li>Start a new round with correct data</li>
+</ul>
+<h3 id="best-practices-to-avoid-mistakes">Best Practices to Avoid Mistakes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#best-practices-to-avoid-mistakes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Before Entering Scores:</strong></p>
+<ul>
+<li>Count arrows shot (should match arrows per end)</li>
+<li>Verify scores with shooting partner if available</li>
+<li>Double-check X-ring marks</li>
+</ul>
+<p><strong>When Entering:</strong></p>
+<ul>
+<li>Enter scores slowly and deliberately</li>
+<li>Verify end total before moving to next end</li>
+<li>Use consistent method (highest to lowest, left to right, etc.)</li>
+</ul>
+<p><strong>After the Round:</strong></p>
+<ul>
+<li>Review final statistics for anomalies</li>
+<li>Check for impossible scores (e.g., 7 tens in a 6-arrow end)</li>
+</ul>
+<hr/>
+<h2 id="different-scoring-systems">Different Scoring Systems<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#different-scoring-systems" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Archery Apprentice supports multiple scoring systems for different disciplines.</p>
+<h3 id="10-ring-system-standard-outdoor">10-Ring System (Standard Outdoor)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#10-ring-system-standard-outdoor" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>10 rings: 10, 9, 8, 7, 6, 5, 4, 3, 2, 1</li>
+<li>Inner 10 is X-ring (for tie-breaking)</li>
+<li>Miss = 0 points</li>
+</ul>
+<p><strong>Common uses:</strong></p>
+<ul>
+<li>Olympic recurve (outdoor)</li>
+<li>Target archery competitions</li>
+<li>Most standard practice rounds</li>
+</ul>
+<p><strong>Scoring tips:</strong></p>
+<ul>
+<li>Always mark X-ring hits</li>
+<li>X-count matters for rankings</li>
+<li>Used with 122cm or 80cm targets</li>
+</ul>
+<h3 id="6-ring-system-nfaa">6-Ring System (NFAA)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#6-ring-system-nfaa" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>6 rings only: 6, 5, 4, 3, 2, 1</li>
+<li>Simplified from 10-ring</li>
+<li>Used in field archery</li>
+</ul>
+<p><strong>Common uses:</strong></p>
+<ul>
+<li>NFAA field rounds</li>
+<li>Casual practice</li>
+<li>Beginners</li>
+</ul>
+<p><strong>Scoring tips:</strong></p>
+<ul>
+<li>Easier for beginners to score</li>
+<li>Fewer judgment calls on line breaks</li>
+<li>Different target face (6-ring target)</li>
+</ul>
+<h3 id="5-zone-system-simplified">5-Zone System (Simplified)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-zone-system-simplified" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>5 zones: 5, 4, 3, 2, 1</li>
+<li>Very simple, great for practice</li>
+<li>Quick to score</li>
+</ul>
+<p><strong>Common uses:</strong></p>
+<ul>
+<li>Practice rounds</li>
+<li>Training new archers</li>
+<li>Focus on form over score</li>
+</ul>
+<h3 id="x-ring-compound-scoring">X-Ring Compound Scoring<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#x-ring-compound-scoring" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>How it works:</strong></p>
+<ul>
+<li>Same as 10-ring, but X-ring is smaller</li>
+<li>X-ring = 10 points (but marked differently)</li>
+<li>Used in compound archery</li>
+</ul>
+<p><strong>Common uses:</strong></p>
+<ul>
+<li>Compound bow competitions</li>
+<li>Precision shooting disciplines</li>
+</ul>
+<p><strong>Scoring tips:</strong></p>
+<ul>
+<li>X-ring is much smaller than recurve X-ring</li>
+<li>Every arrow touching inner 10 counts as X</li>
+<li>Critical for compound rankings</li>
+</ul>
+<h3 id="selecting-scoring-system">Selecting Scoring System<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#selecting-scoring-system" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When creating a round:</strong></p>
+<ol>
+<li>On round creation screen</li>
+<li>Select <strong>Scoring System</strong> dropdown</li>
+<li>Choose:
+<ul>
+<li>10-ring</li>
+<li>6-ring</li>
+<li>5-zone</li>
+<li>X-ring (compound)</li>
+<li>Others as available</li>
+</ul>
+</li>
+<li>App validates scores based on system chosen</li>
+</ol>
+<p><strong>Changing Scoring System:</strong></p>
+<ul>
+<li><strong>Cannot</strong> change scoring system mid-round</li>
+<li>Must complete or cancel round first</li>
+<li>Create new round with correct system</li>
+</ul>
+<hr/>
+<h2 id="scoring-tips--best-practices">Scoring Tips &amp; Best Practices<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scoring-tips--best-practices" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="general-scoring">General Scoring<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#general-scoring" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Be Consistent:</strong></p>
+<ul>
+<li>Enter scores in the same order every time</li>
+<li>Highest to lowest is common</li>
+<li>Or left-to-right on the target</li>
+</ul>
+<p><strong>Use the Right Method:</strong></p>
+<ul>
+<li>Manual entry for speed</li>
+<li>Target face for analysis</li>
+<li>Quick entry for frequent practice</li>
+</ul>
+<p><strong>Select Bow Setup:</strong></p>
+<ul>
+<li>Always choose your bow setup when creating rounds</li>
+<li>Enables equipment performance tracking</li>
+<li>Critical for comparing setups</li>
+</ul>
+<h3 id="multi-participant-rounds">Multi-Participant Rounds<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#multi-participant-rounds" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Clear Communication:</strong></p>
+<ul>
+<li>Ensure all participants know whose turn it is</li>
+<li>Call out scores before entering</li>
+<li>Verify end totals together</li>
+</ul>
+<p><strong>Name Participants Clearly:</strong></p>
+<ul>
+<li>Use real names, not “Guest 1”</li>
+<li>Makes it easier to track who shot what</li>
+</ul>
+<p><strong>Review Standings:</strong></p>
+<ul>
+<li>Check leaderboard between ends</li>
+<li>Builds engagement and friendly competition</li>
+</ul>
+<h3 id="equipment-tracking">Equipment Tracking<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-tracking" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Link Equipment:</strong></p>
+<ul>
+<li>Select your actual bow setup</li>
+<li>Don’t skip this step</li>
+<li>Enables all analytics features</li>
+</ul>
+<p><strong>Note Equipment Changes:</strong></p>
+<ul>
+<li>If you change equipment mid-session, complete current round first</li>
+<li>Start new round with updated setup</li>
+<li>Maintains data integrity</li>
+</ul>
+<h3 id="performance-review">Performance Review<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#performance-review" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Review After Each Round:</strong></p>
+<ul>
+<li>Check statistics immediately</li>
+<li>Note patterns (fatigue, consistency)</li>
+<li>Adjust practice focus based on data</li>
+</ul>
+<p><strong>Use Historical Data:</strong></p>
+<ul>
+<li>Compare to previous rounds at same distance</li>
+<li>Track improvement over time</li>
+<li>Identify trends</li>
+</ul>
+<hr/>
+<h2 id="troubleshooting-common-issues">Troubleshooting Common Issues<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#troubleshooting-common-issues" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="scores-wont-save">Scores Won’t Save<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scores-wont-save" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Possible causes:</strong></p>
+<ul>
+<li>Not all arrows entered (e.g., 5 of 6)</li>
+<li>Invalid score for scoring system (e.g., “11” in 10-ring)</li>
+<li>Network issue (tournament rounds only)</li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Verify all arrow scores entered</li>
+<li>Check scores are valid for your scoring system</li>
+<li>For tournaments, check network connection</li>
+</ul>
+<h3 id="cant-complete-round">Can’t Complete Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cant-complete-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Possible causes:</strong></p>
+<ul>
+<li>Not all ends scored</li>
+<li>Participant missing scores (multi-participant)</li>
+<li>Round still in PAUSED status</li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Score all remaining ends</li>
+<li>Check all participants have complete scores</li>
+<li>Resume paused rounds before completing</li>
+</ul>
+<h3 id="wrong-equipment-selected">Wrong Equipment Selected<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#wrong-equipment-selected" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>If round not started: Delete and recreate</li>
+<li>If round in progress: Complete it, note in description</li>
+<li>Create new round with correct setup going forward</li>
+</ul>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Learn More:</strong></p>
+<ul>
+<li><a href="../../.././../quick-start/" class="internal alias" data-slug="quick-start/index">Quick Start Guide</a> - Basics of scoring your first round</li>
+<li><a href="../../.././../features/analytics/" class="internal alias" data-slug="features/analytics/index">Analytics Features</a> - Understanding your scoring data</li>
+<li><a href="../../.././../reference/" class="internal alias" data-slug="reference/index">Reference Guide</a> - Scoring system definitions</li>
+</ul>
+<p><strong>Equipment Setup:</strong></p>
+<ul>
+<li><a href="../../.././equipment-tasks/" class="internal alias" data-slug="equipment-tasks/index">Equipment Tasks</a> - Managing bow setups for rounds</li>
+</ul>
+<hr/>
+<h2 id="quick-reference">Quick Reference<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quick-reference" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Scenario</th><th>Steps</th></tr></thead><tbody><tr><td><strong>Start Individual Round</strong></td><td>Round Scoring → Create Round → Configure → Start</td></tr><tr><td><strong>Start Multi-Participant</strong></td><td>Create Round → Enable Multi-Participant → Add Guests → Start</td></tr><tr><td><strong>Use Target Face</strong></td><td>Change to Target Face mode → Tap arrow positions</td></tr><tr><td><strong>Pause Round</strong></td><td>Active Round → Pause → Resume later</td></tr><tr><td><strong>Cancel Round</strong></td><td>Active Round → Menu → Cancel Round</td></tr><tr><td><strong>Review Ends</strong></td><td>Active Round → End History → Select end</td></tr><tr><td><strong>Complete Round</strong></td><td>Score all ends → Complete Round</td></tr></tbody></table></div>
+<hr/>
+<p><strong>Ready to start scoring? Create your first round and track your progress!</strong></p></article><div class="page-listing"><p>0 items under this folder.</p><div><ul class="section-ul"></ul></div></div></div><hr/><div class="page-footer"></div></div><div class="right sidebar"></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Data Management</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Data Management"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Data Management"/><meta name="twitter:description" content="Managing, backing up, and syncing your archery data"/><meta property="og:description" content="Managing, backing up, and syncing your archery data"/><meta property="og:image:alt" content="Managing, backing up, and syncing your archery data"/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Data-Management/index"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Data-Management/index"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="Managing, backing up, and syncing your archery data"/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Data-Management/index-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Data-Management/index-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Data-Management/index-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="user-guide/How-To/Data-Management/index"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-229"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-229" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-3"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../user-guide/">user guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../user-guide/How-To/">How To</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Data Management</a></div></nav><h1 class="article-title">Data Management</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-05T04:48:52.000Z">Nov 05, 2025</time><span>21 min read</span></p></div></div><div class="popover-hint"><article class><p><a href="../../../" class="internal alias" data-slug="index">Home</a> > <a href="../../.././../" class="internal alias" data-slug="index">User Guide</a> > <a href="../../.././" class="internal alias" data-slug="index">How-To</a> > Data Management</p>
+<hr/>
+<h1 id="data-management">Data Management<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#data-management" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p>Archery Apprentice provides comprehensive data management features to help you backup, export, import, share, and sync your archery data across devices. This guide covers all workflows for managing your data safely and effectively.</p>
+<hr/>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Data management features include:</p>
+<ul>
+<li><strong>Export</strong> - Save rounds, equipment, and analytics to CSV, JSON, or PDF</li>
+<li><strong>Import</strong> - Load data from external sources with validation</li>
+<li><strong>Backup</strong> - Create automatic or manual backups of your database</li>
+<li><strong>Share</strong> - Share data via email, cloud storage, or external apps</li>
+<li><strong>Cloud Sync</strong> - Synchronize data across devices with Firebase</li>
+<li><strong>Cleanup</strong> - Archive or delete old rounds to free up storage</li>
+<li><strong>Offline Mode</strong> - Use the app without internet connectivity</li>
+</ul>
+<hr/>
+<h2 id="1-exporting-your-data">1. Exporting Your Data<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-exporting-your-data" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Exporting allows you to save your archery data in standard formats for spreadsheet analysis, external tools, or long-term archival.</p>
+<h3 id="supported-export-formats">Supported Export Formats<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#supported-export-formats" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Format</th><th>Use Case</th><th>Data Included</th></tr></thead><tbody><tr><td><strong>CSV</strong></td><td>Spreadsheet analysis, Excel</td><td>Round scores, statistics, ring distributions</td></tr><tr><td><strong>JSON</strong></td><td>Programming, data analysis, backups</td><td>Complete data model with relationships</td></tr><tr><td><strong>PDF</strong></td><td>Printing, reports, sharing</td><td>Statistics summary, formatted reports</td></tr><tr><td><strong>Archery GB</strong></td><td>Competition submission</td><td>Archery GB compliant format</td></tr><tr><td><strong>WA Ianseo</strong></td><td>World Archery competitions</td><td>Ianseo scoring format</td></tr></tbody></table></div>
+<h3 id="export-individual-rounds">Export Individual Rounds<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#export-individual-rounds" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Share a single practice session or competition round.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Round Scoring</strong> → <strong>Historical Rounds</strong></li>
+<li>Long-press the round you want to export (or tap for details)</li>
+<li>Tap <strong>Export</strong> from the menu</li>
+<li>Select export format:
+<ul>
+<li><strong>CSV</strong> - For spreadsheets</li>
+<li><strong>JSON</strong> - For complete data</li>
+<li><strong>PDF</strong> - For printable reports</li>
+</ul>
+</li>
+<li>Configure export options:
+<ul>
+<li>✅ Include equipment details</li>
+<li>✅ Include statistics (X-count, 10-count, etc.)</li>
+<li>✅ Include notes and comments</li>
+</ul>
+</li>
+<li>Tap <strong>Export</strong></li>
+<li>Choose destination (email, cloud storage, download)</li>
+</ol>
+<p><strong>Result:</strong> File saved with name like <code>Round_IndoorPractice_2025-11-04.csv</code></p>
+<h3 id="export-multiple-rounds">Export Multiple Rounds<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#export-multiple-rounds" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Analyze performance across multiple sessions or backup a date range.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Round Scoring</strong> → <strong>Historical Rounds</strong></li>
+<li>Tap the <strong>Select Multiple</strong> icon (checkbox)</li>
+<li>Select rounds to export (tap each round)</li>
+<li>Tap <strong>Export Selected</strong> from bottom action bar</li>
+<li>Choose format (CSV recommended for multi-round analysis)</li>
+<li>Apply filters (optional):
+<ul>
+<li>Date range (e.g., “Last 30 days”, “January 2025”)</li>
+<li>Distance filter (e.g., “Only 70m rounds”)</li>
+<li>Equipment filter (e.g., “Competition Bow only”)</li>
+</ul>
+</li>
+<li>Tap <strong>Export</strong></li>
+<li>Choose share destination</li>
+</ol>
+<p><strong>Result:</strong> Combined CSV file with all selected rounds.</p>
+<h3 id="export-equipment-configuration">Export Equipment Configuration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#export-equipment-configuration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Share your bow setup with other archers or backup equipment configurations.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Equipment Page</strong></li>
+<li>Scroll to <strong>Bow Setups</strong> section</li>
+<li>Long-press the setup you want to export</li>
+<li>Tap <strong>Export Setup</strong></li>
+<li>Select format:
+<ul>
+<li><strong>JSON</strong> - Complete equipment details</li>
+<li><strong>PDF</strong> - Printable equipment sheet</li>
+</ul>
+</li>
+<li>Tap <strong>Export</strong></li>
+<li>Share via email, cloud storage, or save to device</li>
+</ol>
+<p><strong>JSON Export Structure:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="json" data-theme="github-light github-dark"><code data-language="json" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">{</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">  &quot;bowSetup&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;name&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Competition Bow&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;riser&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">&quot;brand&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Hoyt&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">&quot;model&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Formula X&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">&quot;length&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;25 inches&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">},</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;limbs&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">&quot;brand&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Win&amp;Win&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">&quot;model&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Wiawis One&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">&quot;poundage&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;38 lbs&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">},</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;sight&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span><span style="--shiki-light:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic;">...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">},</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;stabilizer&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span><span style="--shiki-light:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic;">...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">},</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;arrows&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span><span style="--shiki-light:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic;">...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  },</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">  &quot;metadata&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;exportedAt&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;2025-11-04T14:30:00Z&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;appVersion&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;2.0.0&quot;</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h3 id="export-analytics-data">Export Analytics Data<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#export-analytics-data" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Analyze performance trends in Excel or share statistics reports.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Round Detail</strong> → Tap <strong>View Analytics</strong></li>
+<li>Tap the <strong>Export</strong> icon (share icon)</li>
+<li>Select export type:
+<ul>
+<li><strong>Round Statistics</strong> - Single round metrics</li>
+<li><strong>Equipment Performance</strong> - Performance by bow setup</li>
+<li><strong>Distance Statistics</strong> - Performance by distance</li>
+<li><strong>Fatigue Analysis</strong> - Performance drop metrics</li>
+<li><strong>Shot Grouping</strong> - Grouping metrics (requires target face scoring)</li>
+</ul>
+</li>
+<li>Choose format:
+<ul>
+<li><strong>CSV</strong> - For Excel/Google Sheets</li>
+<li><strong>JSON</strong> - For programmatic analysis</li>
+</ul>
+</li>
+<li>Apply date range filter (if applicable)</li>
+<li>Tap <strong>Export</strong></li>
+<li>Share via preferred method</li>
+</ol>
+<p><strong>CSV Export Example:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="csv" data-theme="github-light github-dark"><code data-language="csv" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Date,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Round Name,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Distance,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">Target Size,</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">Total Score,</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">Avg per End,</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Avg per Arrow,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Equipment,</span><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">X-Count,</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">10-Count,Accuracy %</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">2025-11-04,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Indoor 18m,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">18m,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">40cm,</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">680,</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">56.7,</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">9.4,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Competition Bow,</span><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">42,</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">68,94.4%</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">2025-11-03,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Outdoor 70m,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">70m,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">122cm,</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">650,</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">54.2,</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">9.0,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Competition Bow,</span><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">28,</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">54,90.3%</span></span></code></pre></figure>
+<h3 id="export-all-data-full-backup">Export All Data (Full Backup)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#export-all-data-full-backup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Complete database backup before major changes, device migration, or long-term archival.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Settings</strong> → <strong>Data Management</strong></li>
+<li>Tap <strong>Export All Data</strong></li>
+<li>Select export options:
+<ul>
+<li>✅ Include all rounds</li>
+<li>✅ Include all equipment</li>
+<li>✅ Include all statistics</li>
+<li>✅ Include archived data</li>
+<li>✅ Include settings</li>
+</ul>
+</li>
+<li>Choose format:
+<ul>
+<li><strong>JSON</strong> - Recommended for full backup (includes all relationships)</li>
+<li><strong>CSV</strong> - For data analysis only (loses some relationships)</li>
+</ul>
+</li>
+<li>Tap <strong>Create Backup</strong></li>
+<li>Save to secure location:
+<ul>
+<li>✅ Cloud storage (Google Drive, Dropbox)</li>
+<li>✅ Email to yourself</li>
+<li>⚠️ Local device (less secure - device loss = data loss)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Result:</strong> File named <code>ArcheryApprentice_Backup_2025-11-04.json</code></p>
+<p><strong>⚠️ Backup Best Practice:</strong> Export full backup monthly and before major app updates.</p>
+<hr/>
+<h2 id="2-importing-data">2. Importing Data<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-importing-data" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Importing allows you to load data from external sources, restore backups, or migrate from other archery apps.</p>
+<h3 id="supported-import-formats">Supported Import Formats<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#supported-import-formats" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>JSON</strong> - Full data model (rounds, equipment, statistics)</li>
+<li><strong>CSV</strong> - Round scores only (simplified)</li>
+<li><strong>Archery GB</strong> - Import from Archery GB systems</li>
+<li><strong>WA Ianseo</strong> - Import from Ianseo scoring</li>
+</ul>
+<h3 id="import-round-data-from-csv">Import Round Data from CSV<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#import-round-data-from-csv" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Import scores from spreadsheets or other archery apps.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Prepare CSV file with required format:
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="csv" data-theme="github-light github-dark"><code data-language="csv" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Date,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Round Name,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Distance,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">Target Size,</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">Scoring System,</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">Arrows per End,</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Num Ends,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Score</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">2025-11-04,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Indoor Practice,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">18m,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">40cm,</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">10-ring,</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">6,</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">10,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">680</span></span></code></pre></figure>
+</li>
+<li>Navigate to <strong>Settings</strong> → <strong>Data Management</strong></li>
+<li>Tap <strong>Import Data</strong></li>
+<li>Select <strong>Import from CSV</strong></li>
+<li>Choose CSV file from device</li>
+<li><strong>Validation Phase:</strong>
+<ul>
+<li>App checks format compatibility</li>
+<li>Verifies required columns exist</li>
+<li>Detects potential conflicts</li>
+</ul>
+</li>
+<li><strong>Preview Phase:</strong>
+<ul>
+<li>Shows rounds to be imported</li>
+<li>Highlights any warnings or conflicts</li>
+<li>Example: “3 rounds will be imported, 1 duplicate detected”</li>
+</ul>
+</li>
+<li><strong>Conflict Resolution:</strong>
+<ul>
+<li><strong>Skip</strong> - Don’t import duplicate rounds</li>
+<li><strong>Overwrite</strong> - Replace existing round with imported data</li>
+<li><strong>Create New</strong> - Import as separate round (recommended)</li>
+</ul>
+</li>
+<li>Tap <strong>Import</strong> to confirm</li>
+<li>Review import results:
+<ul>
+<li>”✅ 3 rounds imported successfully”</li>
+<li>“⚠️ 1 round skipped (duplicate)”</li>
+</ul>
+</li>
+</ol>
+<p><strong>CSV Format Requirements:</strong></p>
+<ul>
+<li>Required columns: Date, Round Name, Distance, Scoring System, Score</li>
+<li>Optional columns: Equipment, Target Size, Notes</li>
+<li>Date format: YYYY-MM-DD (e.g., 2025-11-04)</li>
+</ul>
+<h3 id="import-equipment-from-json">Import Equipment from JSON<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#import-equipment-from-json" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Load equipment configurations shared by other archers or restore equipment backups.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Obtain JSON equipment file (from export or shared source)</li>
+<li>Navigate to <strong>Equipment Page</strong> → <strong>⋮</strong> (menu) → <strong>Import Equipment</strong></li>
+<li>Select JSON file</li>
+<li><strong>Validation:</strong>
+<ul>
+<li>Checks JSON structure</li>
+<li>Verifies database version compatibility</li>
+<li>Detects duplicate equipment</li>
+</ul>
+</li>
+<li><strong>Preview:</strong>
+<ul>
+<li>Shows equipment to be imported</li>
+<li>Example: “Bow Setup: Competition Bow (Riser: Hoyt Formula X, Limbs: Win&amp;Win Wiawis One)”</li>
+</ul>
+</li>
+<li><strong>Conflict Resolution:</strong>
+<ul>
+<li>Equipment with same brand/model exists?
+<ul>
+<li><strong>Skip</strong> - Don’t import</li>
+<li><strong>Import as Variant</strong> - Add as separate item (e.g., “Hoyt Formula X (2)”)</li>
+<li><strong>Merge</strong> - Update existing equipment with new details</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Tap <strong>Import</strong></li>
+<li>Review import results</li>
+</ol>
+<p><strong>JSON Structure (Minimum Required):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="json" data-theme="github-light github-dark"><code data-language="json" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">{</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">  &quot;bowSetup&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;name&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Competition Bow&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;riser&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">&quot;brand&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Hoyt&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">&quot;model&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Formula X&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">},</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;limbs&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">&quot;brand&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Win&amp;Win&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">&quot;model&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Wiawis One&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h3 id="import-from-full-backup">Import from Full Backup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#import-from-full-backup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Restore complete database after device migration, data loss, or app reinstall.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Locate your backup file (e.g., <code>ArcheryApprentice_Backup_2025-11-04.json</code>)</li>
+<li>Navigate to <strong>Settings</strong> → <strong>Data Management</strong></li>
+<li>Tap <strong>Restore from Backup</strong></li>
+<li>Select backup file</li>
+<li><strong>Validation Phase:</strong>
+<ul>
+<li>Checks backup file integrity</li>
+<li>Verifies app version compatibility</li>
+<li>Example: “Backup created on 2025-11-04 with app v2.0.0”</li>
+</ul>
+</li>
+<li><strong>⚠️ Warning:</strong> “This will overwrite all current data. Continue?”</li>
+<li>Choose restore mode:
+<ul>
+<li><strong>Full Restore</strong> - Replace entire database (⚠️ destructive)</li>
+<li><strong>Merge Import</strong> - Add backup data to existing data (safer)</li>
+</ul>
+</li>
+<li>Tap <strong>Restore</strong></li>
+<li>Wait for import to complete (progress bar shown)</li>
+<li>Review import summary:
+<ul>
+<li>”✅ 125 rounds restored”</li>
+<li>”✅ 8 equipment setups restored”</li>
+<li>”✅ Statistics recalculated”</li>
+</ul>
+</li>
+</ol>
+<p><strong>⚠️ Critical:</strong> Always export current data before full restore in case you need to recover.</p>
+<h3 id="troubleshooting-import-issues">Troubleshooting Import Issues<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#troubleshooting-import-issues" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>“Invalid file format” Error:</strong></p>
+<ul>
+<li>Verify file is valid CSV or JSON</li>
+<li>Check file isn’t corrupted</li>
+<li>Ensure file extension matches format (.csv or .json)</li>
+</ul>
+<p><strong>“Incompatible database version” Error:</strong></p>
+<ul>
+<li>Update app to latest version</li>
+<li>Export data from source app in compatible format</li>
+<li>Try importing in smaller batches</li>
+</ul>
+<p><strong>“Duplicate data detected” Warnings:</strong></p>
+<ul>
+<li>Review conflict resolution options</li>
+<li>Use “Skip” to avoid duplicates</li>
+<li>Use “Create New” if data is actually different</li>
+</ul>
+<p><strong>“Missing required columns” (CSV Import):</strong></p>
+<ul>
+<li>Ensure CSV has Date, Round Name, Distance, Score columns</li>
+<li>Check column headers match exactly (case-sensitive)</li>
+<li>Verify no empty rows at top of CSV</li>
+</ul>
+<hr/>
+<h2 id="3-backing-up-your-scores">3. Backing Up Your Scores<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-backing-up-your-scores" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Regular backups protect against data loss from device failure, app issues, or accidental deletion.</p>
+<h3 id="automatic-cloud-backup-firebase-sync">Automatic Cloud Backup (Firebase Sync)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#automatic-cloud-backup-firebase-sync" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Always! This is your automatic safety net.</p>
+<p><strong>Setup:</strong></p>
+<ol>
+<li>Navigate to <strong>Settings</strong> → <strong>Cloud Sync</strong></li>
+<li>Tap <strong>Enable Cloud Sync</strong></li>
+<li>Sign in with Firebase account:
+<ul>
+<li>Google account</li>
+<li>Email/password</li>
+<li>Anonymous (limited - tied to device)</li>
+</ul>
+</li>
+<li>Grant permissions when prompted</li>
+<li>Initial sync begins automatically</li>
+<li>Status: ”✅ Synced 2 minutes ago”</li>
+</ol>
+<p><strong>What Gets Backed Up:</strong></p>
+<ul>
+<li>✅ All completed rounds</li>
+<li>✅ All equipment configurations</li>
+<li>✅ Tournament participation data</li>
+<li>✅ Settings and preferences</li>
+<li>❌ Cancelled rounds (excluded by design)</li>
+<li>❌ Temporary/draft data</li>
+</ul>
+<p><strong>Sync Frequency:</strong></p>
+<ul>
+<li><strong>Automatic:</strong> After completing each round</li>
+<li><strong>Real-time:</strong> Tournament leaderboards (when online)</li>
+<li><strong>Background:</strong> Every 30 minutes when app is open</li>
+<li><strong>Manual:</strong> Pull-to-refresh on main screens</li>
+</ul>
+<p><strong>Offline-First Design:</strong> All changes saved locally first, then synced to cloud when internet available.</p>
+<h3 id="manual-backup-export-method">Manual Backup (Export Method)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#manual-backup-export-method" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Before major app updates, device changes, or as additional safety.</p>
+<p><strong>Recommended Schedule:</strong></p>
+<ul>
+<li><strong>Monthly</strong> - Export full database backup</li>
+<li><strong>Before Updates</strong> - Export before major app updates</li>
+<li><strong>Before Device Change</strong> - Export before switching phones/tablets</li>
+<li><strong>After Important Events</strong> - Export after competitions or milestones</li>
+</ul>
+<p><strong>Steps:</strong> (See “Export All Data” section above)</p>
+<h3 id="archive-old-rounds">Archive Old Rounds<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#archive-old-rounds" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Free up storage while preserving data you may need later.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Settings</strong> → <strong>Data Management</strong></li>
+<li>Tap <strong>Archive Old Rounds</strong></li>
+<li>Choose archival criteria:
+<ul>
+<li><strong>Older than 1 year</strong> (recommended)</li>
+<li><strong>Older than 6 months</strong></li>
+<li><strong>Custom date range</strong></li>
+</ul>
+</li>
+<li>Preview rounds to be archived:
+<ul>
+<li>“45 rounds from 2023 will be archived”</li>
+</ul>
+</li>
+<li>Tap <strong>Archive</strong></li>
+<li>Rounds moved to compressed archive storage</li>
+<li>Access archived rounds:
+<ul>
+<li><strong>Settings</strong> → <strong>Data Management</strong> → <strong>View Archives</strong></li>
+<li>Restore individual rounds if needed</li>
+</ul>
+</li>
+</ol>
+<p><strong>Archive vs Delete:</strong></p>
+<ul>
+<li><strong>Archive:</strong> Data preserved, compressed, can be restored</li>
+<li><strong>Delete:</strong> Permanent removal (with soft-delete undo period)</li>
+</ul>
+<p><strong>Automatic Archival Rules:</strong></p>
+<ul>
+<li>Rounds older than 1 year → Auto-archive (if enabled in settings)</li>
+<li>Archives older than 2 years → Prompt for deletion</li>
+</ul>
+<hr/>
+<h2 id="4-sharing-your-data">4. Sharing Your Data<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-sharing-your-data" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Share rounds, equipment setups, or statistics with coaches, friends, or for competition submission.</p>
+<h3 id="share-individual-round">Share Individual Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#share-individual-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Send practice results to coach, share competition scores with club.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Round Detail</strong></li>
+<li>Tap <strong>Share</strong> icon (⋯ menu → Share)</li>
+<li>Choose share format:
+<ul>
+<li><strong>PDF</strong> - Visual report with statistics (best for sharing)</li>
+<li><strong>CSV</strong> - Raw data for analysis</li>
+<li><strong>JSON</strong> - Complete data with metadata</li>
+</ul>
+</li>
+<li>Select share method:
+<ul>
+<li><strong>Email</strong> - Attach file to email</li>
+<li><strong>Messaging</strong> - Send via WhatsApp, Telegram, etc.</li>
+<li><strong>Cloud Storage</strong> - Upload to Drive, Dropbox</li>
+<li><strong>Copy Link</strong> - If using Firebase public sharing</li>
+</ul>
+</li>
+<li>Add optional message</li>
+<li>Tap <strong>Send</strong></li>
+</ol>
+<p><strong>Shared Data Includes:</strong></p>
+<ul>
+<li>Round name, date, distance, target size</li>
+<li>Total score, average per arrow, accuracy %</li>
+<li>X-count, 10-count, ring distribution</li>
+<li>End-by-end breakdown</li>
+<li>Equipment used</li>
+<li>Notes and comments</li>
+</ul>
+<h3 id="share-equipment-setup">Share Equipment Setup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#share-equipment-setup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Share bow configuration with friends, get setup advice from coach.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Equipment Page</strong> → <strong>Bow Setups</strong></li>
+<li>Long-press the setup to share</li>
+<li>Tap <strong>Share Setup</strong></li>
+<li>Choose format:
+<ul>
+<li><strong>PDF</strong> - Formatted equipment sheet (best for sharing)</li>
+<li><strong>JSON</strong> - For others to import into their app</li>
+</ul>
+</li>
+<li>Select share destination</li>
+<li>Tap <strong>Send</strong></li>
+</ol>
+<p><strong>PDF Equipment Sheet Includes:</strong></p>
+<ul>
+<li>Bow setup name and description</li>
+<li>Riser details (brand, model, length, material)</li>
+<li>Limbs details (brand, model, poundage, limb length)</li>
+<li>Sight configuration and sight marks</li>
+<li>Stabilizer setup (length, weight)</li>
+<li>Arrow specifications (spine, length, weight, point, nock)</li>
+<li>Accessories</li>
+</ul>
+<h3 id="share-analytics-report">Share Analytics Report<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#share-analytics-report" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Share performance analysis with coach, demonstrate improvement.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Analytics</strong> → Select report type</li>
+<li>Tap <strong>Share</strong> icon</li>
+<li>Choose report:
+<ul>
+<li><strong>Equipment Comparison</strong> - Side-by-side setup performance</li>
+<li><strong>Distance Statistics</strong> - Performance at specific distances</li>
+<li><strong>Fatigue Analysis</strong> - Performance drop metrics</li>
+<li><strong>Shot Grouping</strong> - Grouping metrics and visualizations</li>
+</ul>
+</li>
+<li>Select format (PDF recommended for reports)</li>
+<li>Share via preferred method</li>
+</ol>
+<h3 id="share-for-competition-submission">Share for Competition Submission<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#share-for-competition-submission" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Submit scores to Archery GB, World Archery, or club competitions.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Round Detail</strong> (competition round)</li>
+<li>Tap <strong>⋯</strong> menu → <strong>Export for Competition</strong></li>
+<li>Select competition format:
+<ul>
+<li><strong>Archery GB</strong> - UK competition submission</li>
+<li><strong>WA Ianseo</strong> - World Archery format</li>
+<li><strong>Generic CSV</strong> - Universal format</li>
+</ul>
+</li>
+<li>Verify round details match competition requirements</li>
+<li>Export and submit via competition system</li>
+</ol>
+<p><strong>Verification Checklist:</strong></p>
+<ul>
+<li>✅ Round name matches competition</li>
+<li>✅ Distance and target size correct</li>
+<li>✅ Scoring system matches (10-ring, 6-ring, etc.)</li>
+<li>✅ Date is competition date</li>
+<li>✅ Equipment recorded (if required)</li>
+</ul>
+<hr/>
+<h2 id="5-cleaning-up-old-data">5. Cleaning Up Old Data<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-cleaning-up-old-data" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Keep your app running smoothly by archiving or deleting old rounds you no longer need.</p>
+<h3 id="delete-individual-rounds">Delete Individual Rounds<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#delete-individual-rounds" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Remove invalid practice sessions, accidental rounds, or test data.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Round Scoring</strong> → <strong>Historical Rounds</strong></li>
+<li>Long-press the round to delete</li>
+<li>Tap <strong>Delete</strong></li>
+<li><strong>Soft Delete with Undo:</strong>
+<ul>
+<li>Snackbar appears: “Round deleted. UNDO?”</li>
+<li>Tap <strong>UNDO</strong> within 10 seconds to restore</li>
+<li>After 10 seconds, round marked for permanent deletion</li>
+</ul>
+</li>
+<li>Permanent deletion happens:
+<ul>
+<li>Automatically after 30 days</li>
+<li>Or manually via <strong>Settings</strong> → <strong>Data Management</strong> → <strong>Permanently Delete Marked Rounds</strong></li>
+</ul>
+</li>
+</ol>
+<p><strong>What Gets Deleted:</strong></p>
+<ul>
+<li>✅ Round metadata (name, date, distance)</li>
+<li>✅ All end scores</li>
+<li>✅ All arrow scores</li>
+<li>✅ Round statistics</li>
+<li>❌ Equipment (preserved for historical data)</li>
+</ul>
+<p><strong>⚠️ Important:</strong> Deleted rounds are excluded from statistics and equipment performance calculations.</p>
+<h3 id="bulk-delete-multiple-rounds">Bulk Delete Multiple Rounds<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#bulk-delete-multiple-rounds" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Clean up test rounds, old practice sessions, or entire date ranges.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Round Scoring</strong> → <strong>Historical Rounds</strong></li>
+<li>Tap <strong>Select Multiple</strong> icon</li>
+<li>Select rounds to delete (tap each round)</li>
+<li>Tap <strong>Delete Selected</strong> from bottom action bar</li>
+<li>Confirm bulk deletion:
+<ul>
+<li>“Delete 15 selected rounds?”</li>
+</ul>
+</li>
+<li>Tap <strong>Delete</strong></li>
+<li>Undo available for 10 seconds (for entire batch)</li>
+</ol>
+<p><strong>Bulk Deletion Result:</strong></p>
+<pre><code>✅ 15 rounds deleted
+✅ 180 end scores removed
+✅ 1,080 arrow scores removed
+✅ Equipment preserved for history
+</code></pre>
+<h3 id="delete-old-rounds-by-date">Delete Old Rounds by Date<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#delete-old-rounds-by-date" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Remove all rounds older than specific date to free storage.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Settings</strong> → <strong>Data Management</strong></li>
+<li>Tap <strong>Delete Old Rounds</strong></li>
+<li>Choose criteria:
+<ul>
+<li><strong>Older than 2 years</strong> (recommended for deletion)</li>
+<li><strong>Older than 1 year</strong></li>
+<li><strong>Custom date</strong> (select specific cutoff)</li>
+</ul>
+</li>
+<li>Preview rounds to be deleted:
+<ul>
+<li>“68 rounds from 2022-2023 will be deleted”</li>
+<li>Shows total storage to be freed (e.g., “~12 MB”)</li>
+</ul>
+</li>
+<li><strong>⚠️ Warning:</strong> “This cannot be undone. Export backup first?”
+<ul>
+<li>Tap <strong>Export Backup</strong> → Backup created automatically</li>
+<li>Or tap <strong>Skip</strong> if you already have backup</li>
+</ul>
+</li>
+<li>Tap <strong>Delete</strong></li>
+<li>Deletion completes with summary</li>
+</ol>
+<p><strong>⚠️ Best Practice:</strong> Always export backup before bulk deletion by date.</p>
+<h3 id="view-and-restore-deleted-rounds">View and Restore Deleted Rounds<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#view-and-restore-deleted-rounds" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Recover recently deleted rounds within 30-day grace period.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Settings</strong> → <strong>Data Management</strong></li>
+<li>Tap <strong>Deleted Rounds</strong> (shows count in badge)</li>
+<li>View list of soft-deleted rounds</li>
+<li>Select round to restore</li>
+<li>Tap <strong>Restore</strong></li>
+<li>Round moved back to active rounds list</li>
+<li>Statistics recalculated to include restored round</li>
+</ol>
+<p><strong>Deleted Rounds List Shows:</strong></p>
+<ul>
+<li>Round name and date</li>
+<li>Days until permanent deletion (e.g., “23 days remaining”)</li>
+<li>Total score and distance</li>
+<li>Restore button</li>
+</ul>
+<p><strong>Permanent Deletion:</strong></p>
+<ul>
+<li>After 30 days, rounds permanently deleted</li>
+<li>Cannot be recovered after permanent deletion</li>
+<li>Manual option: <strong>Permanently Delete All</strong> (immediate, irreversible)</li>
+</ul>
+<hr/>
+<h2 id="6-cloud-sync-setup">6. Cloud Sync Setup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#6-cloud-sync-setup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Cloud sync keeps your data synchronized across multiple devices and provides automatic backup.</p>
+<h3 id="enable-cloud-sync">Enable Cloud Sync<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#enable-cloud-sync" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Settings</strong> → <strong>Cloud Sync</strong></li>
+<li>Tap <strong>Enable Cloud Sync</strong></li>
+<li>Choose authentication method:
+<ul>
+<li><strong>Google Account</strong> (recommended - easiest)</li>
+<li><strong>Email/Password</strong> (create Firebase account)</li>
+<li><strong>Anonymous</strong> (⚠️ limited - tied to device only)</li>
+</ul>
+</li>
+<li>Grant permissions:
+<ul>
+<li>Internet access</li>
+<li>Cloud storage access</li>
+</ul>
+</li>
+<li>Initial sync begins:
+<ul>
+<li>Progress bar shown</li>
+<li>“Syncing 125 rounds… 45% complete”</li>
+</ul>
+</li>
+<li>Sync completes: ”✅ All data synced to cloud”</li>
+</ol>
+<p><strong>Initial Sync Duration:</strong></p>
+<ul>
+<li>10-50 rounds: 10-30 seconds</li>
+<li>50-200 rounds: 1-2 minutes</li>
+<li>200+ rounds: 2-5 minutes</li>
+</ul>
+<h3 id="sync-across-multiple-devices">Sync Across Multiple Devices<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#sync-across-multiple-devices" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Use app on both phone and tablet, or upgrade to new device.</p>
+<p><strong>Steps (on second device):</strong></p>
+<ol>
+<li>Install Archery Apprentice on second device</li>
+<li>Open app → Navigate to <strong>Settings</strong> → <strong>Cloud Sync</strong></li>
+<li>Tap <strong>Sign In to Sync</strong></li>
+<li>Sign in with same account used on first device</li>
+<li>Tap <strong>Download Cloud Data</strong></li>
+<li>Choose sync mode:
+<ul>
+<li><strong>Replace Local Data</strong> - Overwrite device with cloud data (for new device)</li>
+<li><strong>Merge Data</strong> - Combine device data with cloud data (if both have rounds)</li>
+</ul>
+</li>
+<li>Sync downloads cloud data</li>
+<li>Status: ”✅ Synced with cloud”</li>
+</ol>
+<p><strong>Real-Time Sync:</strong></p>
+<ul>
+<li>Changes on Device A → Sync to cloud → Device B downloads changes</li>
+<li>Happens automatically in background</li>
+<li>Manual refresh: Pull-to-refresh on main screens</li>
+</ul>
+<h3 id="conflict-resolution">Conflict Resolution<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#conflict-resolution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When conflicts occur:</strong> Same round edited on multiple devices while offline.</p>
+<p><strong>Conflict Detection:</strong></p>
+<ul>
+<li>App compares timestamps of local and cloud versions</li>
+<li>If both versions modified since last sync → Conflict detected</li>
+</ul>
+<p><strong>Resolution Strategies:</strong></p>
+<ol>
+<li>
+<p><strong>Last Write Wins (Default)</strong></p>
+<ul>
+<li>Most recent edit takes precedence</li>
+<li>Older version discarded</li>
+<li>✅ Simple, automatic</li>
+<li>⚠️ May lose some edits</li>
+</ul>
+</li>
+<li>
+<p><strong>Manual Resolution</strong></p>
+<ul>
+<li>App shows both versions side-by-side</li>
+<li>User chooses which version to keep</li>
+<li>✅ Full control</li>
+<li>⚠️ Requires user intervention</li>
+</ul>
+</li>
+</ol>
+<p><strong>Steps for Manual Resolution:</strong></p>
+<ol>
+<li>Sync conflict notification appears</li>
+<li>Tap notification or go to <strong>Settings</strong> → <strong>Cloud Sync</strong> → <strong>Resolve Conflicts</strong></li>
+<li>View conflicting rounds:
+<ul>
+<li>“Local version: Score 680, edited 2 mins ago”</li>
+<li>“Cloud version: Score 675, edited 5 mins ago”</li>
+</ul>
+</li>
+<li>Choose version:
+<ul>
+<li><strong>Keep Local</strong> - Use device version</li>
+<li><strong>Keep Cloud</strong> - Use cloud version</li>
+<li><strong>Keep Both</strong> - Create separate rounds</li>
+</ul>
+</li>
+<li>Tap <strong>Resolve</strong></li>
+<li>Conflict resolved and synced</li>
+</ol>
+<p><strong>⚠️ Preventing Conflicts:</strong> Ensure device is online when completing rounds to sync immediately.</p>
+<h3 id="sync-status-and-troubleshooting">Sync Status and Troubleshooting<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#sync-status-and-troubleshooting" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Check Sync Status:</strong></p>
+<ul>
+<li><strong>Settings</strong> → <strong>Cloud Sync</strong> → View sync status
+<ul>
+<li>”✅ Synced 2 minutes ago” (all good)</li>
+<li>”⏳ Syncing…” (in progress)</li>
+<li>“⚠️ Sync failed - Retry?” (error)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Sync Indicators:</strong></p>
+<ul>
+<li>Cloud icon on round cards:
+<ul>
+<li>☁️ with checkmark = Synced to cloud</li>
+<li>☁️ with upload arrow = Waiting to sync</li>
+<li>☁️ with X = Sync failed</li>
+<li>No icon = Not yet synced</li>
+</ul>
+</li>
+</ul>
+<p><strong>Common Sync Issues:</strong></p>
+<p><strong>“Sync failed - No internet connection”</strong></p>
+<ul>
+<li>Solution: Connect to WiFi or mobile data</li>
+<li>App will retry automatically when connection restored</li>
+</ul>
+<p><strong>“Sync failed - Authentication expired”</strong></p>
+<ul>
+<li>Solution: Re-authenticate
+<ul>
+<li><strong>Settings</strong> → <strong>Cloud Sync</strong> → <strong>Sign Out</strong></li>
+<li>Sign back in with same account</li>
+<li>Sync resumes automatically</li>
+</ul>
+</li>
+</ul>
+<p><strong>“Sync failed - Server error”</strong></p>
+<ul>
+<li>Solution: Retry with exponential backoff
+<ul>
+<li>App automatically retries: 1s, 2s, 4s, 8s, 16s delays</li>
+<li>If still failing, wait 30 minutes and try manual sync</li>
+<li><strong>Settings</strong> → <strong>Cloud Sync</strong> → <strong>Sync Now</strong></li>
+</ul>
+</li>
+</ul>
+<p><strong>Manual Sync:</strong></p>
+<ul>
+<li>Pull-to-refresh on main screens</li>
+<li>Or: <strong>Settings</strong> → <strong>Cloud Sync</strong> → <strong>Sync Now</strong></li>
+</ul>
+<h3 id="disable-cloud-sync">Disable Cloud Sync<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#disable-cloud-sync" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Privacy concerns, want offline-only usage, or troubleshooting.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Settings</strong> → <strong>Cloud Sync</strong></li>
+<li>Tap <strong>Disable Cloud Sync</strong></li>
+<li><strong>⚠️ Warning:</strong> “Cloud backup will stop. Local data preserved.”</li>
+<li>Choose option:
+<ul>
+<li><strong>Export Backup First</strong> - Create local backup before disabling</li>
+<li><strong>Disable Without Backup</strong> - Just turn off sync</li>
+</ul>
+</li>
+<li>Confirm disable</li>
+<li>Cloud sync stopped</li>
+</ol>
+<p><strong>What Happens:</strong></p>
+<ul>
+<li>✅ All local data preserved on device</li>
+<li>❌ No more automatic cloud backups</li>
+<li>❌ No sync across devices</li>
+<li>✅ Can re-enable anytime (data will re-sync)</li>
+</ul>
+<hr/>
+<h2 id="7-offline-mode">7. Offline Mode<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#7-offline-mode" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Archery Apprentice is designed <strong>offline-first</strong> - all core features work without internet.</p>
+<h3 id="offline-first-architecture">Offline-First Architecture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#offline-first-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>What Works Offline:</strong></p>
+<ul>
+<li>✅ Create and score rounds</li>
+<li>✅ Add and edit equipment</li>
+<li>✅ View historical rounds and statistics</li>
+<li>✅ View equipment analytics</li>
+<li>✅ Export data to local files</li>
+<li>✅ Archive and delete rounds</li>
+</ul>
+<p><strong>What Requires Internet:</strong></p>
+<ul>
+<li>❌ Cloud sync (automatic backup)</li>
+<li>❌ Tournament leaderboards (real-time updates)</li>
+<li>❌ Firebase authentication (initial sign-in)</li>
+<li>❌ Sharing via cloud links</li>
+</ul>
+<p><strong>How It Works:</strong></p>
+<ol>
+<li>All data saved to local Room database first</li>
+<li>User sees immediate success (no waiting for network)</li>
+<li>Background sync queues changes for upload</li>
+<li>When internet available, changes uploaded to cloud</li>
+<li>If sync fails, retries automatically with exponential backoff</li>
+</ol>
+<h3 id="using-the-app-completely-offline">Using the App Completely Offline<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#using-the-app-completely-offline" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Scenario:</strong> Competition venue with no WiFi, remote outdoor range, airplane mode.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Ensure app is installed and opened at least once (while online)</li>
+<li>Disable cloud sync (optional, to avoid error notifications):
+<ul>
+<li><strong>Settings</strong> → <strong>Cloud Sync</strong> → <strong>Pause Sync While Offline</strong></li>
+</ul>
+</li>
+<li>Use app normally:
+<ul>
+<li>Score rounds → Saved locally</li>
+<li>Add equipment → Saved locally</li>
+<li>View statistics → Calculated from local data</li>
+</ul>
+</li>
+<li>When back online:
+<ul>
+<li>Re-enable cloud sync or tap <strong>Sync Now</strong></li>
+<li>All offline changes upload to cloud automatically</li>
+</ul>
+</li>
+</ol>
+<p><strong>⚠️ Offline Limitations:</strong></p>
+<ul>
+<li>Tournament leaderboards won’t update (shows cached data)</li>
+<li>Can’t join new tournaments (requires internet)</li>
+<li>Can’t view other participants’ scores in tournaments</li>
+</ul>
+<h3 id="sync-after-being-offline">Sync After Being Offline<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#sync-after-being-offline" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When you reconnect to internet:</strong></p>
+<ol>
+<li>App detects connection restored</li>
+<li>Automatic sync begins in background</li>
+<li>Notification: “Syncing offline changes… 15 rounds”</li>
+<li>Progress indicator in notification tray</li>
+<li>Completion notification: ”✅ All offline changes synced”</li>
+</ol>
+<p><strong>If conflicts detected:</strong> See “Conflict Resolution” section above.</p>
+<hr/>
+<h2 id="8-data-privacy--storage">8. Data Privacy &amp; Storage<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#8-data-privacy--storage" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Understanding where your data is stored and how it’s protected.</p>
+<h3 id="local-storage-room-database">Local Storage (Room Database)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#local-storage-room-database" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Where:</strong> Android device internal storage (app-private directory)</p>
+<ul>
+<li>Path: <code>/data/data/com.archeryapprentice/databases/archery_apprentice.db</code></li>
+<li>Accessible only to the app (Android security sandbox)</li>
+<li>Encrypted at rest (Android 6.0+ automatic full-disk encryption)</li>
+</ul>
+<p><strong>What’s Stored Locally:</strong></p>
+<ul>
+<li>All rounds, ends, and arrow scores</li>
+<li>All equipment configurations</li>
+<li>Tournament participation data</li>
+<li>Settings and preferences</li>
+<li>Cached analytics calculations</li>
+</ul>
+<p><strong>Storage Size:</strong></p>
+<ul>
+<li>Typical: 5-20 MB for 100-500 rounds</li>
+<li>Large databases: 50-100 MB for 1,000+ rounds with full equipment history</li>
+</ul>
+<h3 id="cloud-storage-firebase-firestore">Cloud Storage (Firebase Firestore)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cloud-storage-firebase-firestore" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Where:</strong> Google Cloud Platform (Firebase Firestore)</p>
+<ul>
+<li>Servers located in: us-central1 (Iowa, USA) by default</li>
+<li>Other regions available: europe-west, asia-east</li>
+</ul>
+<p><strong>What’s Stored in Cloud:</strong></p>
+<ul>
+<li>All completed rounds (cancelled rounds excluded)</li>
+<li>Equipment configurations</li>
+<li>Tournament data (if participating in tournaments)</li>
+<li>User settings</li>
+</ul>
+<p><strong>Security:</strong></p>
+<ul>
+<li>✅ TLS encryption in transit (HTTPS)</li>
+<li>✅ Encrypted at rest (Google Cloud encryption)</li>
+<li>✅ Access controlled by Firebase Security Rules</li>
+<li>✅ User authentication required (Firebase Auth)</li>
+</ul>
+<p><strong>Firebase Security Rules:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="javascript" data-theme="github-light github-dark"><code data-language="javascript" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Users can only read/write their own data</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">match </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">users</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">{userId} {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  allow read, </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">write</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> request.auth.uid </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> userId;</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Tournament data readable by all participants</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">match </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tournaments</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">{tournamentId} {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  allow </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">read</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> request.auth.uid </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">in</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> resource.data.participantIds;</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  allow </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">write</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> request.auth.uid </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">==</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> resource.data.creatorId;</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h3 id="data-privacy">Data Privacy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#data-privacy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Personal Data Collected:</strong></p>
+<ul>
+<li>Firebase UID (anonymous identifier)</li>
+<li>Username (if provided in settings)</li>
+<li>Email (if using email/password authentication)</li>
+<li>Round scores and equipment data</li>
+</ul>
+<p><strong>Data NOT Collected:</strong></p>
+<ul>
+<li>Real name (unless you enter it as username)</li>
+<li>Location data (beyond what you manually enter as range name)</li>
+<li>Device identifiers (IMEI, MAC address)</li>
+<li>Contacts or other app data</li>
+</ul>
+<p><strong>Data Sharing:</strong></p>
+<ul>
+<li>❌ Never shared with third parties</li>
+<li>❌ Never sold or used for advertising</li>
+<li>✅ Only you can access your data (via authentication)</li>
+<li>✅ Tournament data shared only with tournament participants</li>
+</ul>
+<p><strong>Data Retention:</strong></p>
+<ul>
+<li><strong>Local:</strong> Kept until you delete rounds or uninstall app</li>
+<li><strong>Cloud:</strong> Kept until you delete account or request data deletion</li>
+<li><strong>Deleted rounds:</strong> 30-day soft delete period, then permanent removal</li>
+</ul>
+<h3 id="delete-all-your-data">Delete All Your Data<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#delete-all-your-data" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to use:</strong> Stop using app, privacy concerns, start fresh.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Settings</strong> → <strong>Data Management</strong></li>
+<li>Scroll to <strong>Data Privacy</strong></li>
+<li>Tap <strong>Delete All Data</strong></li>
+<li><strong>⚠️ Critical Warning:</strong> “This will permanently delete ALL local and cloud data. This cannot be undone.”</li>
+<li>Choose option:
+<ul>
+<li><strong>Export Backup First</strong> (recommended)</li>
+<li><strong>Delete Without Backup</strong></li>
+</ul>
+</li>
+<li>Confirm deletion by typing: “DELETE ALL DATA”</li>
+<li>Tap <strong>Permanently Delete</strong></li>
+<li>Deletion process:
+<ul>
+<li>Local database wiped</li>
+<li>Cloud data deleted from Firebase</li>
+<li>Account authentication removed</li>
+</ul>
+</li>
+<li>App resets to fresh install state</li>
+</ol>
+<p><strong>What’s Deleted:</strong></p>
+<ul>
+<li>✅ All rounds and scores</li>
+<li>✅ All equipment</li>
+<li>✅ All settings</li>
+<li>✅ Cloud backups</li>
+<li>✅ Firebase authentication</li>
+</ul>
+<p><strong>⚠️ This is irreversible!</strong> Export backup if there’s any chance you’ll want the data later.</p>
+<h3 id="data-portability">Data Portability<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#data-portability" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Your right to your data:</strong> You can export all data at any time.</p>
+<p><strong>Export Everything:</strong></p>
+<ol>
+<li><strong>Settings</strong> → <strong>Data Management</strong> → <strong>Export All Data</strong></li>
+<li>Choose JSON format (most complete)</li>
+<li>Save to secure location</li>
+</ol>
+<p><strong>What You Get:</strong></p>
+<ul>
+<li>Complete JSON file with all rounds, equipment, statistics</li>
+<li>Can import into other archery apps (if they support format)</li>
+<li>Can analyze with programming tools (Python, R, JavaScript)</li>
+<li>Permanent record of your archery journey</li>
+</ul>
+<hr/>
+<h2 id="best-practices">Best Practices<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#best-practices" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="daily-use">Daily Use<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#daily-use" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>✅ Enable cloud sync for automatic backup</li>
+<li>✅ Complete rounds properly (don’t abandon mid-session)</li>
+<li>✅ Use descriptive round names for easy searching later</li>
+</ul>
+<h3 id="weekly">Weekly<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#weekly" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>✅ Check sync status (ensure cloud backup is current)</li>
+<li>✅ Review and delete invalid test rounds</li>
+</ul>
+<h3 id="monthly">Monthly<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#monthly" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>✅ Export full backup to external storage</li>
+<li>✅ Review storage usage, archive old rounds if needed</li>
+</ul>
+<h3 id="before-major-events">Before Major Events<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#before-major-events" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>✅ Export backup before app updates</li>
+<li>✅ Export backup before device changes</li>
+<li>✅ Verify cloud sync is working</li>
+<li>✅ Test offline mode at practice session</li>
+</ul>
+<h3 id="privacy-conscious-users">Privacy-Conscious Users<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#privacy-conscious-users" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>✅ Use anonymous authentication (no email required)</li>
+<li>✅ Don’t enter personal info in round notes</li>
+<li>✅ Export and delete cloud data periodically</li>
+<li>✅ Use offline mode exclusively if desired</li>
+</ul>
+<hr/>
+<h2 id="troubleshooting">Troubleshooting<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#troubleshooting" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="export-failed---storage-full">”Export Failed - Storage Full”<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#export-failed---storage-full" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Free up device storage space</li>
+<li>Delete cached files: <strong>Settings</strong> → <strong>Storage</strong> → <strong>Clear Cache</strong></li>
+<li>Archive old rounds to compress data</li>
+</ul>
+<h3 id="import-failed---invalid-format">”Import Failed - Invalid Format”<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#import-failed---invalid-format" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Verify file is valid CSV or JSON</li>
+<li>Check file extension matches format</li>
+<li>Try re-exporting from source app</li>
+</ul>
+<h3 id="sync-failed---authentication-error">”Sync Failed - Authentication Error”<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#sync-failed---authentication-error" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Sign out and sign back in: <strong>Settings</strong> → <strong>Cloud Sync</strong> → <strong>Sign Out</strong></li>
+<li>Re-authenticate with same account</li>
+<li>Check internet connection</li>
+</ul>
+<h3 id="cannot-delete-round---in-use">”Cannot Delete Round - In Use”<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cannot-delete-round---in-use" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Round may be referenced by equipment statistics</li>
+<li>This is expected behavior to preserve data integrity</li>
+<li>Archive round instead of deleting</li>
+</ul>
+<h3 id="backup-file-too-large">”Backup File Too Large”<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#backup-file-too-large" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Export in smaller batches (date ranges)</li>
+<li>Export CSV instead of JSON (smaller file size)</li>
+<li>Archive old rounds before export</li>
+</ul>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Learn More:</strong></p>
+<ul>
+<li><a href="../../.././../features/sync/" class="internal alias" data-slug="features/sync/index">Sync Features</a> - Cloud synchronization details</li>
+<li><a href="../../.././../features/analytics/" class="internal alias" data-slug="features/analytics/index">Analytics Features</a> - Understanding what data is exported</li>
+<li><a href="../../.././../features/equipment/" class="internal alias" data-slug="features/equipment/index">Equipment Features</a> - Equipment management and export</li>
+<li><a href="../../.././../troubleshooting/" class="internal alias" data-slug="troubleshooting/index">Troubleshooting</a> - Common issues and solutions</li>
+</ul>
+<p><strong>Developer Documentation:</strong></p>
+<ul>
+<li><a href="../../.././../../developer-guide/technical-reference/api/services/data-lifecycle-services-reference/" class="internal alias" data-slug="developer-guide/technical-reference/api/services/data-lifecycle-services-reference/index">Data Lifecycle Services</a> - Technical API details</li>
+<li><a href="../../.././../../Technical-Reference/Flows/Integration-Flows/" class="internal alias" data-slug="Technical-Reference/Flows/Integration-Flows/index">Integration Flows</a> - Firebase sync architecture</li>
+</ul>
+<hr/>
+<h2 id="summary">Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Archery Apprentice data management features help you:</p>
+<ul>
+<li>✅ <strong>Export</strong> rounds, equipment, and analytics in multiple formats</li>
+<li>✅ <strong>Import</strong> data from external sources with validation</li>
+<li>✅ <strong>Backup</strong> automatically via cloud sync or manually via export</li>
+<li>✅ <strong>Share</strong> data with coaches, friends, or for competition submission</li>
+<li>✅ <strong>Sync</strong> across multiple devices with conflict resolution</li>
+<li>✅ <strong>Work offline</strong> with full functionality and automatic sync when reconnected</li>
+<li>✅ <strong>Protect privacy</strong> with encrypted storage and user-controlled data deletion</li>
+<li>✅ <strong>Clean up</strong> old data with archival and deletion tools</li>
+</ul>
+<p><strong>Your data is always under your control - backup regularly and shoot with confidence!</strong></p></article><div class="page-listing"><p>0 items under this folder.</p><div><ul class="section-ul"></ul></div></div></div><hr/><div class="page-footer"></div></div><div class="right sidebar"></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

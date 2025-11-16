@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Database Documentation</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Database Documentation"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Database Documentation"/><meta name="twitter:description" content="Complete database schemas, tables, and architecture"/><meta property="og:description" content="Complete database schemas, tables, and architecture"/><meta property="og:image:alt" content="Complete database schemas, tables, and architecture"/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Database/index"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Database/index"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="Complete database schemas, tables, and architecture"/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Database/index-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Database/index-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Database/index-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="Technical-Reference/Database/index"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-89"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-89" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-3"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../Technical-Reference/">Technical Reference</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Database Documentation</a></div></nav><h1 class="article-title">Database Documentation</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-05T02:41:19.000Z">Nov 05, 2025</time><span>7 min read</span></p></div></div><div class="popover-hint"><article class><p><a href="../../" class="internal alias" data-slug="index">Home</a> > <a href="../.././" class="internal alias" data-slug="index">Technical Reference</a> > Database</p>
+<hr/>
+<h1 id="database-documentation">Database Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#database-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p>Archery Apprentice uses <strong>RoomKMP</strong> for cross-platform database management. This document covers the database architecture, schema design, and migration history.</p>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Database:</strong> <code>ArcheryKmpDatabase</code>
+<strong>Current Version:</strong> 35
+<strong>ORM:</strong> RoomKMP (Kotlin Multiplatform version of Room)
+<strong>Total Entities:</strong> 26
+<strong>Migration History:</strong> Versions 17→35 (18 migrations preserved)</p>
+<h3 id="database-location">Database Location<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#database-location" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Module:</strong> <code>shared:database</code></li>
+<li><strong>Package:</strong> <code>com.archeryapprentice.database</code></li>
+<li><strong>Main Class:</strong> <code>ArcheryKmpDatabase.kt</code></li>
+<li><strong>Platform:</strong> Android (Room), iOS (SQLite wrapper), JVM (SQLite)</li>
+</ul>
+<hr/>
+<h2 id="architecture">Architecture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="entity-categories">Entity Categories<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#entity-categories" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>The database is organized into logical categories:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Category</th><th>Entities</th><th>Purpose</th></tr></thead><tbody><tr><td><strong>Equipment</strong></td><td>13</td><td>Bow components, arrows, accessories</td></tr><tr><td><strong>Scoring</strong></td><td>3</td><td>Rounds, ends, arrow scores</td></tr><tr><td><strong>Tournament</strong></td><td>3</td><td>Tournament management, participants, caching</td></tr><tr><td><strong>Statistics</strong></td><td>2</td><td>Performance cache, equipment snapshots</td></tr><tr><td><strong>Settings</strong></td><td>1</td><td>User preferences</td></tr></tbody></table></div>
+<h3 id="design-principles">Design Principles<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#design-principles" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. Relational Integrity</strong></p>
+<ul>
+<li>Foreign key constraints enforce relationships</li>
+<li>Cascading deletes where appropriate</li>
+<li>Soft deletes for historical data (e.g., BowSetup uses <code>isActive</code>)</li>
+</ul>
+<p><strong>2. Performance Optimization</strong></p>
+<ul>
+<li>Strategic indexes on frequently queried fields</li>
+<li>Composite indexes for complex queries</li>
+<li>Efficient JOIN operations through proper relationships</li>
+</ul>
+<p><strong>3. Data Versioning</strong></p>
+<ul>
+<li>BowSetup tracks version changes</li>
+<li>Equipment snapshots preserve historical configurations</li>
+<li>Rounds reference exact equipment versions used</li>
+</ul>
+<p><strong>4. KMP Compatibility</strong></p>
+<ul>
+<li>All entities work across Android, iOS, JVM</li>
+<li>Platform-specific implementations in <code>DatabaseBuilder</code></li>
+<li>Type converters handle complex data types consistently</li>
+</ul>
+<hr/>
+<h2 id="entity-schema">Entity Schema<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#entity-schema" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="equipment-entities-13-total">Equipment Entities (13 Total)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-entities-13-total" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Equipment entities represent physical archery gear:</p>
+<h4 id="core-bow-components">Core Bow Components<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#core-bow-components" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li>
+<p><strong>Riser</strong> - Central bow body</p>
+<ul>
+<li>Fields: id, brand, model, length, material</li>
+<li>Used in: BowSetup</li>
+</ul>
+</li>
+<li>
+<p><strong>Limbs</strong> - Energy-storing bow arms</p>
+<ul>
+<li>Fields: id, brand, model, poundage, limbLength</li>
+<li>Used in: BowSetup</li>
+</ul>
+</li>
+<li>
+<p><strong>BowString</strong> - Connects limbs</p>
+<ul>
+<li>Fields: id, brand, model, strandCount, servingMaterial</li>
+<li>Used in: BowSetup</li>
+</ul>
+</li>
+</ol>
+<h4 id="sighting--aiming">Sighting &amp; Aiming<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#sighting--aiming" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol start="4">
+<li>
+<p><strong>Sight</strong> - Aiming device</p>
+<ul>
+<li>Fields: id, brand, model, material</li>
+<li>Used in: BowSetup, SightMark</li>
+</ul>
+</li>
+<li>
+<p><strong>SightMark</strong> - Distance-specific sight settings</p>
+<ul>
+<li>Fields: id, sightId, distance, markValue, notes</li>
+<li>Foreign Key: sightId → Sight(id)</li>
+</ul>
+</li>
+</ol>
+<h4 id="stabilization">Stabilization<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stabilization" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol start="6">
+<li>
+<p><strong>Stabilizer</strong> - Vibration reduction, balance</p>
+<ul>
+<li>Fields: id, brand, model, length, weight, straightnessRating</li>
+<li>Used in: BowSetup</li>
+</ul>
+</li>
+<li>
+<p><strong>Weight</strong> - Additional balance weights</p>
+<ul>
+<li>Fields: id, brand, model, ounces</li>
+<li>Used in: BowSetup</li>
+</ul>
+</li>
+</ol>
+<h4 id="arrow-rest-system">Arrow Rest System<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#arrow-rest-system" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol start="8">
+<li>
+<p><strong>Plunger</strong> - Fine-tune arrow flight</p>
+<ul>
+<li>Fields: id, brand, model, adjustment</li>
+<li>Used in: BowSetup</li>
+</ul>
+</li>
+<li>
+<p><strong>Rest</strong> - Arrow support</p>
+<ul>
+<li>Fields: id, brand, model, type</li>
+<li>Used in: BowSetup</li>
+</ul>
+</li>
+</ol>
+<h4 id="arrows">Arrows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#arrows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol start="10">
+<li>
+<p><strong>Arrow</strong> - Complete arrow set</p>
+<ul>
+<li>Fields: id, brand, model, spine, length, weight, diameter, arrowPoint (embedded), arrowNock (embedded)</li>
+<li>Embedded Objects: ArrowPoint, ArrowNock</li>
+<li>Used in: BowSetup</li>
+</ul>
+</li>
+<li>
+<p><strong>Accessory</strong> - Generic equipment</p>
+<ul>
+<li>Fields: id, brand, model, type</li>
+<li>Used in: BowSetup</li>
+</ul>
+</li>
+</ol>
+<h4 id="bow-configuration">Bow Configuration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#bow-configuration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol start="12">
+<li>
+<p><strong>BowSetup</strong> - Complete equipment configuration (15 fields)</p>
+<ul>
+<li>Fields: id, name, description, version, isActive, riserId, limbsId, sightId, stabilizerId, plungerId, restId, bowStringId, arrowId, weightId, accessoryId</li>
+<li>Foreign Keys: References all equipment types</li>
+<li>Soft Delete: Uses <code>isActive</code> flag</li>
+<li>Versioning: Auto-increments version on equipment changes</li>
+</ul>
+</li>
+<li>
+<p><strong>BowSetupEquipment</strong> - Junction table for setup-equipment relationships</p>
+<ul>
+<li>Fields: setupId, equipmentId, equipmentType</li>
+<li>Purpose: Flexible many-to-many relationships</li>
+</ul>
+</li>
+</ol>
+<h3 id="scoring-entities-3-total">Scoring Entities (3 Total)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scoring-entities-3-total" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Entities for round scoring and session management:</p>
+<ol>
+<li>
+<p><strong>Round</strong> (25 fields)</p>
+<ul>
+<li><strong>Basic:</strong> roundName, numEnds, numArrows, distance, targetSize</li>
+<li><strong>Scoring:</strong> scoringSystem, targetRings (legacy), ringValues (legacy)</li>
+<li><strong>Equipment:</strong> bowSetupId (FK → BowSetup), bowSetupVersion</li>
+<li><strong>Status:</strong> PLANNED, IN_PROGRESS, PAUSED, COMPLETED, CANCELLED</li>
+<li><strong>Multi-participant:</strong> participants (JSON list), participantTheme</li>
+<li><strong>Tournament:</strong> tournamentId, tournamentRoundNumber, isLocal, syncStatus</li>
+<li><strong>Timestamps:</strong> createdAt, startedAt, completedAt, lastModifiedAt</li>
+</ul>
+</li>
+<li>
+<p><strong>EndScore</strong></p>
+<ul>
+<li>Fields: id, roundId, endNumber, totalScore, isComplete, participantId</li>
+<li>Foreign Key: roundId → Round(id), CASCADE DELETE</li>
+<li>Purpose: Group arrow scores by end</li>
+</ul>
+</li>
+<li>
+<p><strong>ArrowScore</strong> (16 fields)</p>
+<ul>
+<li><strong>Score:</strong> scoreValue, isXRing</li>
+<li><strong>Coordinates:</strong> targetX, targetY, centerX, centerY (for grouping analysis)</li>
+<li><strong>Position:</strong> ringNumber, clockPosition</li>
+<li><strong>Equipment Tracking:</strong> bowSetupId, bowSetupVersion</li>
+<li><strong>Metadata:</strong> participantId, inputMethod (MANUAL/TARGET_FACE/QUICK_ENTRY)</li>
+<li>Foreign Keys: endScoreId → EndScore(id), roundId → Round(id)</li>
+</ul>
+</li>
+</ol>
+<h3 id="tournament-entities-3-total">Tournament Entities (3 Total)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournament-entities-3-total" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Entities for tournament management and offline support:</p>
+<ol>
+<li>
+<p><strong>TournamentEntity</strong> (36 fields)</p>
+<ul>
+<li><strong>Metadata:</strong> name, description, location, createdBy, creatorEmail</li>
+<li><strong>Status:</strong> OPEN, IN_PROGRESS, COMPLETED, CANCELLED</li>
+<li><strong>Round Format:</strong> numEnds, numArrows, distance, targetSize, scoringSystem</li>
+<li><strong>Access Control:</strong> isPublic, joinCode, maxParticipants, requireApproval</li>
+<li><strong>Settings:</strong> allowSpectators, useSettingsDisplayNames</li>
+<li><strong>Sync:</strong> needsSync, lastSyncedAt, isLocal</li>
+</ul>
+</li>
+<li>
+<p><strong>TournamentParticipantEntity</strong></p>
+<ul>
+<li>Fields: id, tournamentId, userId, displayName, currentRound, totalScore, ranking, status</li>
+<li>Foreign Key: tournamentId → TournamentEntity(id)</li>
+<li>Purpose: Track participant progress and rankings</li>
+</ul>
+</li>
+<li>
+<p><strong>TournamentScoreCache</strong></p>
+<ul>
+<li>Fields: id, tournamentId, participantId, roundNumber, scores, lastUpdated</li>
+<li>Purpose: Offline score caching for sync when online</li>
+</ul>
+</li>
+</ol>
+<h3 id="statistics--cache-entities-2-total">Statistics &amp; Cache Entities (2 Total)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#statistics--cache-entities-2-total" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>EquipmentStatsCache</strong></p>
+<ul>
+<li>Fields: setupId, distance, totalRounds, averageScore, accuracy, ringDistribution</li>
+<li>Purpose: Cached performance metrics for equipment</li>
+</ul>
+</li>
+<li>
+<p><strong>ArrowEquipmentSnapshot</strong></p>
+<ul>
+<li>Fields: id, arrowScoreId, bowSetupSnapshot (JSON)</li>
+<li>Purpose: Historical equipment configuration snapshots</li>
+</ul>
+</li>
+</ol>
+<h3 id="settings-entity-1-total">Settings Entity (1 Total)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#settings-entity-1-total" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Settings</strong>
+<ul>
+<li>Fields: id, userName, preferredDistance, preferredTargetSize, theme, measurementSystem</li>
+<li>Purpose: User preferences and app configuration</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="relationships">Relationships<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#relationships" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="equipment--bowsetup">Equipment → BowSetup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment--bowsetup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Type:</strong> Many-to-One</li>
+<li><strong>Direction:</strong> Multiple equipment items → One setup can use multiple equipment</li>
+<li><strong>Foreign Keys:</strong> BowSetup.riserId → Riser.id, BowSetup.limbsId → Limbs.id, etc.</li>
+<li><strong>Cascade:</strong> ON DELETE SET NULL (preserve historical data)</li>
+</ul>
+<h3 id="bowsetup--round">BowSetup → Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#bowsetup--round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Type:</strong> One-to-Many</li>
+<li><strong>Direction:</strong> One setup → Multiple rounds</li>
+<li><strong>Foreign Key:</strong> Round.bowSetupId → BowSetup.id</li>
+<li><strong>Versioning:</strong> Round also stores bowSetupVersion to track exact configuration</li>
+</ul>
+<h3 id="round--endscore--arrowscore">Round → EndScore → ArrowScore<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#round--endscore--arrowscore" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Type:</strong> One-to-Many (cascading)</li>
+<li><strong>Direction:</strong> Round → Ends → Arrows</li>
+<li><strong>Foreign Keys:</strong>
+<ul>
+<li>EndScore.roundId → Round.id (CASCADE DELETE)</li>
+<li>ArrowScore.endScoreId → EndScore.id (CASCADE DELETE)</li>
+<li>ArrowScore.roundId → Round.id (CASCADE DELETE)</li>
+</ul>
+</li>
+<li><strong>Effect:</strong> Deleting a round deletes all associated ends and arrow scores</li>
+</ul>
+<h3 id="tournament--tournamentparticipant">Tournament → TournamentParticipant<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournament--tournamentparticipant" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Type:</strong> One-to-Many</li>
+<li><strong>Foreign Key:</strong> TournamentParticipant.tournamentId → TournamentEntity.id</li>
+<li><strong>Cascade:</strong> ON DELETE CASCADE</li>
+</ul>
+<h3 id="sight--sightmark">Sight → SightMark<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#sight--sightmark" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Type:</strong> One-to-Many</li>
+<li><strong>Foreign Key:</strong> SightMark.sightId → Sight.id</li>
+<li><strong>Cascade:</strong> ON DELETE CASCADE</li>
+</ul>
+<hr/>
+<h2 id="type-converters">Type Converters<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#type-converters" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>RoomKMP uses type converters to handle complex data types:</p>
+<p><strong>KmpConverters.kt:</strong></p>
+<ul>
+<li><code>Distance</code> ↔ String (e.g., “50 meters”, “30 yards”)</li>
+<li><code>TargetSize</code> ↔ String (e.g., “122cm”, “80cm”)</li>
+<li><code>ScoringSystem</code> ↔ String (e.g., “10-ring”, “6-ring”)</li>
+<li><code>SessionParticipant</code> List ↔ JSON String</li>
+<li><code>RingValues</code> Map ↔ JSON String</li>
+<li><code>ArrowPoint</code> ↔ JSON String (embedded object)</li>
+<li><code>ArrowNock</code> ↔ JSON String (embedded object)</li>
+<li><code>Timestamps</code> ↔ Long (epoch milliseconds)</li>
+</ul>
+<hr/>
+<h2 id="indexes--performance">Indexes &amp; Performance<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#indexes--performance" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="primary-indexes">Primary Indexes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#primary-indexes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Every table has a primary key (id) with auto-increment.</p>
+<h3 id="strategic-indexes">Strategic Indexes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#strategic-indexes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Round Table:</strong></p>
+<ul>
+<li>Index on <code>bowSetupId</code> (frequent JOINs for equipment performance)</li>
+<li>Index on <code>tournamentId</code> (tournament round lookups)</li>
+<li>Composite index on <code>status, createdAt</code> (active rounds queries)</li>
+</ul>
+<p><strong>ArrowScore Table:</strong></p>
+<ul>
+<li>Index on <code>roundId</code> (end-by-end retrieval)</li>
+<li>Index on <code>endScoreId</code> (arrow grouping)</li>
+<li>Index on <code>participantId</code> (multi-participant scoring)</li>
+</ul>
+<p><strong>BowSetup Table:</strong></p>
+<ul>
+<li>Index on <code>isActive</code> (active setup filtering)</li>
+<li>Index on <code>version</code> (version history queries)</li>
+</ul>
+<p><strong>TournamentParticipant Table:</strong></p>
+<ul>
+<li>Index on <code>tournamentId</code> (participant lists)</li>
+<li>Index on <code>userId</code> (user’s tournaments)</li>
+</ul>
+<hr/>
+<h2 id="migration-history">Migration History<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#migration-history" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="version-17--35-18-migrations">Version 17 → 35 (18 Migrations)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#version-17--35-18-migrations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>The database has evolved from version 17 to 35 during the KMP migration project.</p>
+<p><strong>Key Migrations:</strong></p>
+<p><strong>v17-19:</strong> Legacy Room database (pre-KMP)</p>
+<ul>
+<li>Equipment entities established</li>
+<li>Basic round scoring</li>
+</ul>
+<p><strong>v20-25:</strong> Round system enhancements</p>
+<ul>
+<li>Multi-participant support added</li>
+<li>Tournament integration</li>
+<li>Round status workflow</li>
+</ul>
+<p><strong>v26-30:</strong> Equipment analytics</p>
+<ul>
+<li>EquipmentStatsCache added</li>
+<li>BowSetup versioning introduced</li>
+<li>ArrowEquipmentSnapshot for history</li>
+</ul>
+<p><strong>v31-33:</strong> Tournament features</p>
+<ul>
+<li>TournamentEntity schema</li>
+<li>Participant management</li>
+<li>Offline sync support</li>
+</ul>
+<p><strong>v34-35:</strong> KMP Migration (Week 13-14)</p>
+<ul>
+<li>Database cutover to shared:database module</li>
+<li>Platform-specific builders</li>
+<li>Migration verification and data repair</li>
+</ul>
+<h3 id="migration-strategy">Migration Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#migration-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Approach:</strong></p>
+<ol>
+<li><strong>Incremental Migrations</strong> - Each version change is a separate migration</li>
+<li><strong>Data Preservation</strong> - No data loss during migrations</li>
+<li><strong>Forward-Only</strong> - No downgrades supported</li>
+<li><strong>Testing</strong> - Migration tests verify data integrity</li>
+</ol>
+<p><strong>Migration Files:</strong></p>
+<ul>
+<li>Located in <code>shared/database/src/commonMain/sqldelight/migrations/</code></li>
+<li>Named: <code>&lt;version>.sqm</code> (e.g., <code>35.sqm</code>)</li>
+<li>Applied automatically on app upgrade</li>
+</ul>
+<hr/>
+<h2 id="kmp-migration-status">KMP Migration Status<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#kmp-migration-status" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="big-bang-cutover-week-13-14">Big Bang Cutover (Week 13-14)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#big-bang-cutover-week-13-14" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>The database successfully migrated from Android-specific Room to cross-platform RoomKMP.</p>
+<p><strong>Migration Phases:</strong></p>
+<ol>
+<li><strong>Week 11:</strong> Equipment DAOs migrated to shared:database</li>
+<li><strong>Week 12:</strong> Tournament DAOs migrated</li>
+<li><strong>Week 13-14:</strong> Scoring entities migrated (Big Bang cutover)</li>
+</ol>
+<p><strong>Current State:</strong></p>
+<ul>
+<li>✅ All 26 entities in shared:database</li>
+<li>✅ All DAOs migrated to RoomKMP</li>
+<li>✅ Platform-specific builders (Android/iOS/JVM)</li>
+<li>✅ Type converters working cross-platform</li>
+<li>✅ Migration tests passing</li>
+<li>✅ Data integrity verified</li>
+</ul>
+<p><strong>Platform Support:</strong></p>
+<ul>
+<li><strong>Android:</strong> Room with SQLite</li>
+<li><strong>iOS:</strong> Room with SQLDelight wrapper</li>
+<li><strong>JVM:</strong> Room with SQLite JDBC</li>
+</ul>
+<hr/>
+<h2 id="developer-guidelines">Developer Guidelines<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#developer-guidelines" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="creating-new-entities">Creating New Entities<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#creating-new-entities" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>Define entity in <code>shared/database/src/commonMain/kotlin/entities/</code></li>
+<li>Add type converters if needed in <code>KmpConverters.kt</code></li>
+<li>Create DAO interface in <code>dao/</code> package</li>
+<li>Write migration SQL</li>
+<li>Increment database version</li>
+<li>Add migration tests</li>
+</ol>
+<h3 id="modifying-existing-entities">Modifying Existing Entities<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#modifying-existing-entities" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Don’t modify existing fields</strong> - Can break existing data</li>
+<li><strong>Add new fields with defaults</strong> - Safe addition</li>
+<li><strong>Create migration</strong> - Handle schema change</li>
+<li><strong>Test migration</strong> - Verify data preservation</li>
+<li><strong>Update DAO queries</strong> - Reflect schema changes</li>
+</ol>
+<h3 id="query-best-practices">Query Best Practices<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#query-best-practices" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Use indexes:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">@Query</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;SELECT * FROM Round WHERE status = :status ORDER BY createdAt DESC&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Index on (status, createdAt) makes this fast</span></span></code></pre></figure>
+<p><strong>Avoid N+1 queries:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Bad: Multiple queries</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">rounds.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">forEach</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { round </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getEndScores</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round.id)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Good: Single query with JOIN</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">dao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getRoundsWithEnds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span></code></pre></figure>
+<p><strong>Use transactions:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">database.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">withTransaction</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    roundDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">insert</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(round)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    endScoreDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">insertAll</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(ends)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    arrowScoreDao.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">insertAll</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(arrows)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Architecture:</strong></p>
+<ul>
+<li><a href="../.././../internal/kmp-migration/" class="internal alias" data-slug="internal/kmp-migration/index">Database Migration Plan</a> - KMP migration details</li>
+<li><a href="../.././../internal/kmp-migration/week-13-14/" class="internal alias" data-slug="internal/kmp-migration/week-13-14/index">Week 13-14 Cutover</a> - Big Bang cutover documentation</li>
+</ul>
+<p><strong>Technical Reference:</strong></p>
+<ul>
+<li><a href="../../Tables/" class="internal alias" data-slug="Tables/index">Database Tables</a> - Detailed table schemas</li>
+<li><a href="../.././Data-Models/" class="internal alias" data-slug="Data-Models/index">Data Models</a> - Entity class documentation</li>
+<li><a href="../.././api/daos/" class="internal alias" data-slug="api/daos/index">DAOs</a> - Data access object interfaces</li>
+</ul>
+<p><strong>Developer Guides:</strong></p>
+<ul>
+<li><a href="../.././../developer-guide/guides/best-practices/" class="internal alias" data-slug="developer-guide/guides/best-practices/index">Database Best Practices</a> - Query optimization</li>
+<li><a href="../.././../developer-guide/testing/" class="internal alias" data-slug="developer-guide/testing/index">Testing Database</a> - Database testing strategies</li>
+</ul>
+<hr/>
+<h2 id="quick-reference">Quick Reference<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quick-reference" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Entity Type</th><th>Count</th><th>Key Tables</th></tr></thead><tbody><tr><td><strong>Equipment</strong></td><td>13</td><td>Riser, Limbs, Sight, Stabilizer, Arrow, BowSetup</td></tr><tr><td><strong>Scoring</strong></td><td>3</td><td>Round, EndScore, ArrowScore</td></tr><tr><td><strong>Tournament</strong></td><td>3</td><td>TournamentEntity, TournamentParticipant, TournamentScoreCache</td></tr><tr><td><strong>Stats/Cache</strong></td><td>2</td><td>EquipmentStatsCache, ArrowEquipmentSnapshot</td></tr><tr><td><strong>Settings</strong></td><td>1</td><td>Settings</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>26</strong></td><td></td></tr></tbody></table></div>
+<p><strong>Current Version:</strong> 35
+<strong>Migrations:</strong> 17→35 (18 total)
+<strong>ORM:</strong> RoomKMP
+<strong>Platform:</strong> Android, iOS, JVM</p></article><div class="page-listing"><p>2 items under this folder.</p><div><ul class="section-ul"><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-05T02:41:19.000Z">Nov 05, 2025</time></p><div class="desc"><h3><a href="../../Technical-Reference/Database/Migrations/" class="internal">Database Migrations</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../tags/database">database</a></li><li><a class="internal tag-link" href="../../tags/migrations">migrations</a></li><li><a class="internal tag-link" href="../../tags/schema">schema</a></li><li><a class="internal tag-link" href="../../tags/versioning">versioning</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-05T02:41:19.000Z">Nov 05, 2025</time></p><div class="desc"><h3><a href="../../Technical-Reference/Database/Tables/" class="internal">Database Tables</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../tags/database">database</a></li><li><a class="internal tag-link" href="../../tags/tables">tables</a></li><li><a class="internal tag-link" href="../../tags/schema">schema</a></li><li><a class="internal tag-link" href="../../tags/sql">sql</a></li></ul></div></li></ul></div></div></div><hr/><div class="page-footer"></div></div><div class="right sidebar"></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

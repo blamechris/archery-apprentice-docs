@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>checkpoint-findings</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="checkpoint-findings"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="checkpoint-findings"/><meta name="twitter:description" content="Archery Apprentice - Checkpoint Investigation Findings Investigation Date: October 4, 2025 Current Project Status: 97% Complete Purpose: Pre-next-epoch architecture and documentation audit Note: This is a condensed version."/><meta property="og:description" content="Archery Apprentice - Checkpoint Investigation Findings Investigation Date: October 4, 2025 Current Project Status: 97% Complete Purpose: Pre-next-epoch architecture and documentation audit Note: This is a condensed version."/><meta property="og:image:alt" content="Archery Apprentice - Checkpoint Investigation Findings Investigation Date: October 4, 2025 Current Project Status: 97% Complete Purpose: Pre-next-epoch architecture and documentation audit Note: This is a condensed version."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/analysis/checkpoint-findings"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/analysis/checkpoint-findings"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="Archery Apprentice - Checkpoint Investigation Findings Investigation Date: October 4, 2025 Current Project Status: 97% Complete Purpose: Pre-next-epoch architecture and documentation audit Note: This is a condensed version."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/analysis/checkpoint-findings-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/analysis/checkpoint-findings-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/analysis/checkpoint-findings-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/analysis/checkpoint-findings"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-335"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-335" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/analysis/">analysis</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>checkpoint findings</a></div></nav><h1 class="article-title">checkpoint-findings</h1><p show-comma="true" class="content-meta"><time datetime="2025-10-04T00:00:00.000Z">Oct 04, 2025</time><span>9 min read</span></p><ul class="tags"><li><a href="../../tags/checkpoint" class="internal tag-link">checkpoint</a></li><li><a href="../../tags/investigation" class="internal tag-link">investigation</a></li><li><a href="../../tags/technical-debt" class="internal tag-link">technical-debt</a></li><li><a href="../../tags/god-class-analysis" class="internal tag-link">god-class-analysis</a></li><li><a href="../../tags/documentation-audit" class="internal tag-link">documentation-audit</a></li><li><a href="../../tags/architecture-assessment" class="internal tag-link">architecture-assessment</a></li></ul></div></div><article class="popover-hint"><h1 id="archery-apprentice---checkpoint-investigation-findings">Archery Apprentice - Checkpoint Investigation Findings<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#archery-apprentice---checkpoint-investigation-findings" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Investigation Date:</strong> October 4, 2025
+<strong>Current Project Status:</strong> 97% Complete
+<strong>Purpose:</strong> Pre-next-epoch architecture and documentation audit</p>
+<blockquote>
+<p><strong>Note</strong>: This is a condensed version. Full document: <code>docs/CHECKPOINT_FINDINGS.md</code> (962 lines)</p>
+<p><strong>Update (Oct 7, 2025)</strong>: Since this analysis, significant progress has been made. See <a href="../../Implementation-Status-10-07-25" class="internal" data-slug="Implementation-Status-10-07-25">Implementation-Status-10-07-25</a> for current status.</p>
+</blockquote>
+<hr/>
+<h2 id="executive-summary">Executive Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#executive-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Status:</strong> Investigation Phases 1-4 complete
+<strong>Critical Findings:</strong> 7 major architectural issues identified
+<strong>Recommendation:</strong> Address critical tech debt before next major features</p>
+<h3 id="critical-issues-summary">Critical Issues Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-issues-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p>🚨 <strong>LiveScoringViewModel</strong>: 2,808 lines (+60% growth) - URGENT extraction needed</p>
+<ul>
+<li><strong>Update</strong>: ✅ 60% complete (3/5 services extracted, 2,304 lines as of Oct 7)</li>
+</ul>
+</li>
+<li>
+<p>🚨 <strong>RoundViewModel refactoring</strong> created NEW god class (LiveScoringViewModel)</p>
+<ul>
+<li><strong>Discovery</strong>: Refactoring WAS executed - 7 ViewModels successfully extracted from 3,000-line monolith</li>
+<li><strong>Problem</strong>: LiveScoringViewModel became replacement god class</li>
+</ul>
+</li>
+<li>
+<p>🚨 <strong>Documentation severely outdated</strong> (10+ files claiming complete features are “planned”)</p>
+</li>
+<li>
+<p>🚨 <strong>N+1 query pattern confirmed</strong> (31 queries for 30-end round instead of 1)</p>
+<ul>
+<li><strong>Update</strong>: ✅ FIXED per <a href="../../Tech-Debt" class="internal" data-slug="Tech-Debt">Tech-Debt</a></li>
+</ul>
+</li>
+<li>
+<p>🚨 <strong>Repository god classes</strong> (5,959 total lines across TournamentRepository + RoundRepository)</p>
+</li>
+<li>
+<p>🚨 <strong>Tie-breaking NOT implemented</strong> (docs claim complete, but xCount/tenCount fields missing)</p>
+<ul>
+<li><strong>Update</strong>: ✅ FIXED per <a href="../../Tech-Debt" class="internal" data-slug="Tech-Debt">Tech-Debt</a></li>
+</ul>
+</li>
+<li>
+<p>🚨 <strong>Average score always 0.0</strong> (calculation never executed during scoring)</p>
+<ul>
+<li><strong>Update</strong>: ✅ FIXED per <a href="../../Tech-Debt" class="internal" data-slug="Tech-Debt">Tech-Debt</a></li>
+</ul>
+</li>
+</ol>
+<h3 id="phase-progress">Phase Progress<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-progress" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>✅ Phase 1: Documentation Audit - COMPLETE</li>
+<li>✅ Phase 2: Database Architecture - COMPLETE</li>
+<li>✅ Phase 3: God Class Analysis (LiveScoringViewModel) - COMPLETE</li>
+<li>✅ Phase 4: Feature Validation - COMPLETE</li>
+<li>✅ Phase 5: Tech Debt Consolidation - COMPLETE</li>
+</ul>
+<hr/>
+<h2 id="critical-finding-1-livescoringviewmodel-explosive-growth">Critical Finding #1: LiveScoringViewModel Explosive Growth<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-finding-1-livescoringviewmodel-explosive-growth" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Baseline:</strong> 1,753 lines (CLAUDE.md)
+<strong>Current (Oct 4):</strong> 2,808 lines (+1,055 lines, +60% growth)
+<strong>Current (Oct 7):</strong> 2,304 lines (504 lines extracted + 109 deduplication)</p>
+<h3 id="key-findings">Key Findings<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-findings" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>12 distinct architectural domains</strong> identified (should be 2-3!)</li>
+<li><strong>66 methods</strong> (should be &lt;30)</li>
+<li><strong>24 StateFlow properties</strong> (should be &lt;12)</li>
+<li><strong>Tournament Phases 2.2-4.1</strong> added ~1,300 lines without refactoring</li>
+<li><strong>Complexity Score:</strong> 9.5/10 (CRITICAL)</li>
+</ul>
+<h3 id="extraction-progress-per-implementation-status-10-07-25">Extraction Progress (Per <a href="../../Implementation-Status-10-07-25" class="internal" data-slug="Implementation-Status-10-07-25">Implementation-Status-10-07-25</a>)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#extraction-progress-per-implementation-status-10-07-25" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Completed Extractions (Oct 2025):</strong></p>
+<ul>
+<li>✅ TournamentSyncService (556 lines) - Oct 5</li>
+<li>✅ ScoreConflictResolutionService (262 lines)</li>
+<li>✅ EndCompletionService (400 lines) - Oct 6</li>
+<li>✅ Code Deduplication (109 lines removed) - Oct 7</li>
+</ul>
+<p><strong>Remaining Work:</strong></p>
+<ul>
+<li>⏳ TournamentRoundLifecycleService (~200 lines)</li>
+<li>⏳ StatisticsAggregationService (~150 lines)</li>
+</ul>
+<p><strong>Target:</strong> 1,200-1,400 lines (50-57% reduction)
+<strong>Current Progress:</strong> 62% complete (18% size reduction achieved)</p>
+<h3 id="pattern-analysis-why-it-grew">Pattern Analysis: Why It Grew<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-analysis-why-it-grew" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Incremental Addition:</strong> Each tournament phase added 200-400 lines directly</li>
+<li><strong>“Just One More Method” Syndrome:</strong> Small additions accumulated to +1,055 lines</li>
+<li><strong>State Proliferation:</strong> Each feature added its own StateFlow without consolidation</li>
+<li><strong>No Extraction Discipline:</strong> “Refactor later” → Never happens</li>
+</ol>
+<h3 id="key-lesson-vs-roundviewmodel">Key Lesson vs RoundViewModel<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-lesson-vs-roundviewmodel" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>RoundViewModel: 3 planning docs (1,302 lines), ZERO extraction work initially</li>
+<li>LiveScoringViewModel: <strong>MUST EXECUTE, NOT JUST PLAN!</strong></li>
+<li><strong>Proven Pattern</strong>: Copy-delegate-validate works (3/3 successful extractions)</li>
+</ul>
+<p>See <a href="../../LiveScoringVM-Analysis" class="internal" data-slug="LiveScoringVM-Analysis">LiveScoringVM-Analysis</a> for comprehensive 584-line analysis.</p>
+<hr/>
+<h2 id="critical-finding-2-roundviewmodel-refactoring-was-executed">Critical Finding #2: RoundViewModel Refactoring WAS Executed<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-finding-2-roundviewmodel-refactoring-was-executed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>MAJOR DISCOVERY:</strong> Refactoring actually happened - just undocumented!</p>
+<h3 id="what-actually-occurred">What Actually Occurred<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-actually-occurred" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Original RoundViewModel:</strong> ~3,000+ lines (single monolith god class)</p>
+<p><strong>Successfully extracted to 8 ViewModels:</strong> Total 5,987 lines distributed architecture</p>
+<ul>
+<li>RoundViewModel: 2,058 lines (core orchestration - legitimate coordination)</li>
+<li><strong>LiveScoringViewModel: 1,753 lines</strong> ← <strong>NEW GOD CLASS CREATED!</strong></li>
+<li>RoundAnalyticsViewModel: 605 lines ✅</li>
+<li>RoundManagementViewModel: 495 lines ✅</li>
+<li>RoundCreationViewModel: 480 lines ✅</li>
+<li>RoundDisplayViewModel: 216 lines ✅</li>
+<li>RoundNavigationViewModel: 192 lines ✅</li>
+<li>RoundScoringViewModel: 187 lines ✅</li>
+</ul>
+<h3 id="the-problem-shifted-not-solved">The Problem: Shifted, Not Solved<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#the-problem-shifted-not-solved" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>✅ Successfully extracted 7 specialized ViewModels</li>
+<li>❌ Created LiveScoringViewModel as replacement god class</li>
+<li>❌ LiveScoringViewModel grew from 1,753 → 2,808 lines (+60%)</li>
+<li>⚠️ RoundViewModel still 2,058 lines (but legitimate - cross-ViewModel coordination)</li>
+</ul>
+<h3 id="why-documentation-shows-zero-execution">Why Documentation Shows “Zero Execution”<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#why-documentation-shows-zero-execution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>September 22 planning docs were created AFTER initial extraction:</p>
+<ul>
+<li>Docs analyze 2,058-line RoundViewModel (post-extraction state)</li>
+<li>All recommend “further extraction” unaware major work already done</li>
+<li>No documentation of the ACTUAL extraction that created 7 ViewModels</li>
+<li>Planning docs conflict because they’re analyzing already-refactored code!</li>
+</ul>
+<p>See <a href="../../Refactoring-Reality-Check" class="internal" data-slug="Refactoring-Reality-Check">Refactoring-Reality-Check</a> for detailed analysis.</p>
+<hr/>
+<h2 id="critical-finding-3-readme-severely-outdated">Critical Finding #3: README Severely Outdated<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-finding-3-readme-severely-outdated" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Issue:</strong> README stops at July 2025, omits 3 months of major work</p>
+<p><strong>Missing Features:</strong></p>
+<ul>
+<li>Tournament system (Phases 1-5)</li>
+<li>Firebase real-time sync</li>
+<li>Multi-device scoring</li>
+<li>Cache system (5-10x performance)</li>
+<li>Guest participants</li>
+<li>Network status monitoring</li>
+<li>97% completion status</li>
+</ul>
+<p><strong>Impact:</strong> HIGH - New developers/users get wrong picture
+<strong>Recommendation:</strong> Major README rewrite to reflect current state</p>
+<hr/>
+<h2 id="critical-finding-4-n1-query-pattern-confirmed--fixed">Critical Finding #4: N+1 Query Pattern Confirmed ✅ FIXED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-finding-4-n1-query-pattern-confirmed--fixed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Status (Oct 4):</strong> CONFIRMED - Active performance issue
+<strong>Status (Oct 7):</strong> ✅ FIXED per <a href="../../Tech-Debt" class="internal" data-slug="Tech-Debt">Tech-Debt</a></p>
+<h3 id="original-issue">Original Issue<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#original-issue" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Location:</strong> <code>RoundRepository.kt:98-102, 138-143</code></p>
+<p><strong>Performance Impact:</strong></p>
+<ul>
+<li>30-end round: <strong>31 queries</strong> (1 + 30) instead of 1</li>
+<li>60-end round: <strong>61 queries</strong> (1 + 60) instead of 1</li>
+<li>Multiplied by number of participants in multi-participant rounds</li>
+</ul>
+<h3 id="fix-applied">Fix Applied<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#fix-applied" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Refactored <code>getRoundWithDetails()</code> to use optimized JOIN queries</li>
+<li>Created similar optimized query for <code>getEndsWithArrowsForParticipant()</code></li>
+<li><strong>Result:</strong> 30-60x query reduction for typical rounds</li>
+</ul>
+<hr/>
+<h2 id="critical-finding-5-repository-god-classes">Critical Finding #5: Repository God Classes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-finding-5-repository-god-classes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Total Repository Code:</strong> 5,959 lines</p>
+<h3 id="repository-size-analysis">Repository Size Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#repository-size-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Tournament Repositories:</strong></p>
+<pre><code>TournamentRepository.kt (interface): 395 lines, 51 methods 🚨
+├── OfflineTournamentRepository.kt: 908 lines
+├── FirebaseTournamentRepository.kt: 1,707 lines 🚨🚨
+└── HybridTournamentRepository.kt: 1,506 lines 🚨🚨
+Total: 4,516 lines
+</code></pre>
+<p><strong>Round Repository:</strong></p>
+<pre><code>RoundRepository.kt: 1,443 lines 🚨
+</code></pre>
+<h3 id="comparison-to-industry-standards">Comparison to Industry Standards<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#comparison-to-industry-standards" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Good repository: 200-400 lines, 10-15 methods</li>
+<li>TournamentRepository interface: 395 lines, <strong>51 methods</strong> (3.4x too many!)</li>
+<li>FirebaseTournamentRepository: <strong>1,707 lines</strong> (4.3x too large!)</li>
+<li>HybridTournamentRepository: <strong>1,506 lines</strong> (3.8x too large!)</li>
+<li>RoundRepository: <strong>1,443 lines</strong> (3.6x too large!)</li>
+</ul>
+<h3 id="recommended-refactoring">Recommended Refactoring<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#recommended-refactoring" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Split TournamentRepository into 4 focused repositories:</strong></p>
+<ol>
+<li><strong>TournamentCrudRepository</strong> (~300 lines)</li>
+<li><strong>TournamentSyncRepository</strong> (~400 lines)</li>
+<li><strong>TournamentScoreRepository</strong> (~500 lines)</li>
+<li><strong>TournamentAnalyticsRepository</strong> (~200 lines)</li>
+</ol>
+<p><strong>Split RoundRepository into 3 focused repositories:</strong></p>
+<ol>
+<li><strong>RoundCrudRepository</strong> (~400 lines)</li>
+<li><strong>RoundScoringRepository</strong> (~500 lines)</li>
+<li><strong>RoundStatisticsRepository</strong> (~400 lines)</li>
+</ol>
+<p><strong>Effort Estimate:</strong> 6-7 weeks
+<strong>Priority:</strong> HIGH (but lower than LiveScoringViewModel extraction)</p>
+<hr/>
+<h2 id="critical-finding-6-tie-breaking-not-actually-implemented--fixed">Critical Finding #6: Tie-Breaking Not Actually Implemented ✅ FIXED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-finding-6-tie-breaking-not-actually-implemented--fixed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Status (Oct 4):</strong> PLANNING DOCS CLAIM COMPLETE - ACTUALLY NOT IMPLEMENTED
+<strong>Status (Oct 7):</strong> ✅ FIXED per <a href="../../Tech-Debt" class="internal" data-slug="Tech-Debt">Tech-Debt</a></p>
+<h3 id="original-issue-1">Original Issue<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#original-issue-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Documentation Claims:</strong> “Tie-breaking logic: Score → X count → 10 count - COMPLETE”</p>
+<p><strong>Actual Reality:</strong></p>
+<ul>
+<li>TournamentParticipant had NO xCount or tenCount fields</li>
+<li>Firestore <code>orderBy(&quot;currentScore&quot;)</code> without secondary sort key</li>
+<li>When two participants have same score, order was <strong>NON-DETERMINISTIC</strong></li>
+<li>Different devices could see different order for tied participants</li>
+</ul>
+<h3 id="fix-applied-1">Fix Applied<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#fix-applied-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>Added <code>xCount: Int</code> and <code>tenCount: Int</code> to TournamentParticipant model</li>
+<li>Track X and 10 counts during score submission</li>
+<li>Updated Firestore query to use proper tie-breaking order</li>
+<li>Created Firestore composite indexes for multi-field sorting</li>
+</ol>
+<hr/>
+<h2 id="critical-finding-7-average-score-never-calculated--fixed">Critical Finding #7: Average Score Never Calculated ✅ FIXED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-finding-7-average-score-never-calculated--fixed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Status (Oct 4):</strong> BUG CONFIRMED - averageScore field never updated during scoring
+<strong>Status (Oct 7):</strong> ✅ FIXED per <a href="../../Tech-Debt" class="internal" data-slug="Tech-Debt">Tech-Debt</a></p>
+<h3 id="original-issue-2">Original Issue<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#original-issue-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>User Report:</strong> “Avg” field on LiveLeaderboardCard displays 0.0 for participants</p>
+<p><strong>Root Cause:</strong></p>
+<ul>
+<li>TournamentParticipant.averageScore defaults to 0.0</li>
+<li>Score submission never calculated or updated averageScore</li>
+<li>Leaderboard displayed default 0.0 value</li>
+</ul>
+<h3 id="fix-applied-2">Fix Applied<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#fix-applied-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Added averageScore calculation to score submission:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> newAverageScore </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (newArrowsShot </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">></span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    newTotal.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toDouble</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> newArrowsShot</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">} </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">else</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    0.0</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<hr/>
+<h2 id="database-index-analysis">Database Index Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#database-index-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="overall-status-good-coverage-2-missing-composite-indexes">Overall Status: GOOD coverage, 2 missing composite indexes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overall-status-good-coverage-2-missing-composite-indexes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Existing Indexes:</strong> 14 indexes implemented across 3 core entities ✅</p>
+<p><strong>Missing Indexes (Performance Opportunities):</strong></p>
+<ol>
+<li>
+<p><strong>Arrow Scores Equipment Performance</strong> (MEDIUM PRIORITY)</p>
+<ul>
+<li>Suggested: Composite index <code>(bowSetupId, scoredAt)</code></li>
+<li>Estimated improvement: 2-5x for equipment queries</li>
+</ul>
+</li>
+<li>
+<p><strong>Rounds Historical Queries</strong> (LOW PRIORITY)</p>
+<ul>
+<li>Suggested: Composite index <code>(status, createdAt DESC)</code></li>
+<li>Impact: Minor - most queries use fields separately</li>
+</ul>
+</li>
+</ol>
+<p><strong>Index Coverage Assessment:</strong> 90% ✅</p>
+<hr/>
+<h2 id="god-class-scorecard-oct-4-snapshot">God Class Scorecard (Oct 4 Snapshot)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#god-class-scorecard-oct-4-snapshot" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Class</th><th>Current Lines</th><th>Change from Baseline</th><th>Status</th></tr></thead><tbody><tr><td>LiveScoringViewModel</td><td>2,808</td><td>+1,055 (+60%)</td><td>🚨 CRITICAL</td></tr><tr><td>RoundViewModel</td><td>2,079</td><td>+21 (+1%) from 2,058*</td><td>🟡 STABLE*</td></tr><tr><td>ActiveScoringScreen</td><td>1,958</td><td>+62 (+3%)</td><td>🟠 HIGH</td></tr><tr><td><strong>TOTAL</strong></td><td><strong>6,845</strong></td><td><strong>+1,138 (+20%)</strong></td><td><strong>SEVERE</strong></td></tr></tbody></table></div>
+<p>*RoundViewModel baseline was 2,058 AFTER successful extraction of 7 ViewModels from original 3,000-line monolith</p>
+<p><strong>Update (Oct 7):</strong></p>
+<ul>
+<li>LiveScoringViewModel: 2,304 lines (down from 2,808)</li>
+<li>Progress: 18% reduction achieved, 62% of extraction plan complete</li>
+</ul>
+<hr/>
+<h2 id="documentation-audit-summary">Documentation Audit Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#documentation-audit-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="files-reviewed-4141-100-">Files Reviewed: 41/41 (100%) ✅<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#files-reviewed-4141-100-" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Severely Outdated Docs:</strong> 10+</p>
+<ul>
+<li>README (stops at July 2025)</li>
+<li>tournament/README.md (claims features “in progress” that are complete)</li>
+<li>TOURNAMENT_SYSTEM_DOCUMENTATION.md (8-9 months old)</li>
+<li>3 RoundViewModel planning docs analyzing already-refactored code</li>
+<li>Firebase/README.md (shows features as “planned” that are complete)</li>
+</ul>
+<p><strong>Historical Documents Needing Archival:</strong></p>
+<ul>
+<li>NETWORK_SCORING_SESSION_1_SUMMARY.md</li>
+<li>NETWORK_SCORING_SESSION_2_SUMMARY.md</li>
+<li>PHASE_2_TOURNAMENT_DISCOVERY.md</li>
+<li>Phase 2 cache docs (3 files)</li>
+</ul>
+<p><strong>Consolidation Needed:</strong></p>
+<ul>
+<li>3 RoundViewModel docs → 1 status doc documenting successful extraction</li>
+</ul>
+<hr/>
+<h2 id="key-discoveries">Key Discoveries<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-discoveries" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ol>
+<li>
+<p><strong>RoundViewModel refactoring WAS executed!</strong></p>
+<ul>
+<li>Successfully extracted 7 ViewModels from 3,000-line monolith</li>
+<li>Created distributed architecture: 8 ViewModels totaling 5,987 lines</li>
+<li>But created LiveScoringViewModel as replacement god class</li>
+</ul>
+</li>
+<li>
+<p><strong>LiveScoringViewModel explosive growth</strong></p>
+<ul>
+<li>Grew 60% (1,753 → 2,808) from tournament features</li>
+<li><strong>Now being addressed</strong>: 3/5 services extracted (60% complete)</li>
+</ul>
+</li>
+<li>
+<p><strong>Documentation crisis</strong></p>
+<ul>
+<li>10+ severely outdated docs</li>
+<li>Planning docs analyzing wrong state</li>
+<li>Major features undocumented in README</li>
+</ul>
+</li>
+<li>
+<p><strong>Critical bugs identified and fixed</strong></p>
+<ul>
+<li>N+1 query pattern → Fixed</li>
+<li>Tie-breaking missing → Implemented</li>
+<li>Average score calculation → Fixed</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="immediate-action-items">Immediate Action Items<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#immediate-action-items" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="priority-1-urgent-before-any-new-features----in-progress">Priority 1: URGENT (Before Any New Features) - ⏳ IN PROGRESS<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#priority-1-urgent-before-any-new-features----in-progress" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>LiveScoringViewModel Refactoring</strong></p>
+<ul>
+<li><strong>Status (Oct 4):</strong> 2,808 lines (60% growth)</li>
+<li><strong>Status (Oct 7):</strong> 2,304 lines (18% reduction, 62% complete)</li>
+<li><strong>Target:</strong> &lt;1,500 lines</li>
+<li><strong>Remaining:</strong> 2 services to extract (~350 lines)</li>
+<li><strong>Timeline:</strong> 1-2 weeks to completion</li>
+</ul>
+<h3 id="priority-2-high----partially-complete">Priority 2: HIGH - 🔄 PARTIALLY COMPLETE<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#priority-2-high----partially-complete" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>README Major Rewrite</strong> - ⏳ Pending</li>
+<li><strong>Bug Fixes</strong> - ✅ Complete (N+1, tie-breaking, averages)</li>
+<li><strong>Documentation Consolidation</strong> - ⏳ Pending</li>
+</ol>
+<h3 id="priority-3-medium----pending">Priority 3: MEDIUM - ⏳ PENDING<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#priority-3-medium----pending" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>Repository god class refactoring (6-7 weeks)</li>
+<li>Complete documentation audit updates</li>
+<li>Archive historical documents</li>
+</ol>
+<hr/>
+<h2 id="lessons-learned">Lessons Learned<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#lessons-learned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="pattern-documentation-debt">Pattern: Documentation Debt<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-documentation-debt" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Issue:</strong> Completed phases leave reference docs in root directory
+<strong>Solution:</strong> Create <code>docs/completed-phases/</code> or <code>docs/COLD_STORAGE/</code> structure</p>
+<h3 id="pattern-refactoring-planning-debt">Pattern: Refactoring Planning Debt<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-refactoring-planning-debt" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Issue:</strong> Extensive refactoring plans created but not executed
+<strong>Example:</strong> RoundViewModel (3 docs, 1,302 lines of planning analyzing wrong code)
+<strong>Success:</strong> LiveScoringViewModel EXECUTION pattern works (3/3 extractions successful)</p>
+<h3 id="pattern-god-class-migration">Pattern: God Class Migration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-god-class-migration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Issue:</strong> Extracting god class creates NEW god class
+<strong>Example:</strong> RoundViewModel → LiveScoringViewModel
+<strong>Solution:</strong> Be aware when creating “coordinator” ViewModels - they can become new bottlenecks</p>
+<hr/>
+<h2 id="investigation-phases-completed">Investigation Phases Completed<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#investigation-phases-completed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li>✅ <strong>Phase 1</strong>: Documentation Audit (41/41 files reviewed)</li>
+<li>✅ <strong>Phase 2</strong>: Database Architecture Assessment</li>
+<li>✅ <strong>Phase 3</strong>: God Class Analysis (LiveScoringViewModel deep dive)</li>
+<li>✅ <strong>Phase 4</strong>: Feature Validation (found 3 critical bugs)</li>
+<li>✅ <strong>Phase 5</strong>: Tech Debt Consolidation</li>
+</ul>
+<hr/>
+<h2 id="current-status-oct-7-2025">Current Status (Oct 7, 2025)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-status-oct-7-2025" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Since this checkpoint investigation:</p>
+<p><strong>Completed:</strong></p>
+<ul>
+<li>✅ 3 of 7 critical issues FIXED (N+1 queries, tie-breaking, average scores)</li>
+<li>✅ LiveScoringViewModel extraction 60% complete (3/5 services)</li>
+<li>✅ Code deduplication (109 lines removed via delegation pattern)</li>
+<li>✅ All 1,879 tests passing</li>
+</ul>
+<p><strong>In Progress:</strong></p>
+<ul>
+<li>🔄 LiveScoringViewModel extraction (2 services remaining)</li>
+<li>🔄 Documentation updates</li>
+</ul>
+<p><strong>Pending:</strong></p>
+<ul>
+<li>⏳ Repository god class refactoring</li>
+<li>⏳ README major rewrite</li>
+<li>⏳ Documentation consolidation</li>
+</ul>
+<p>See <a href="../../Implementation-Status-10-07-25" class="internal" data-slug="Implementation-Status-10-07-25">Implementation-Status-10-07-25</a> for detailed current status.</p>
+<hr/>
+<p><em>Investigation Date: October 4, 2025</em>
+<em>Last Updated: October 7, 2025 (Progress tracking)</em>
+<em>Status: Historical reference - Most critical issues addressed</em></p>
+<hr/>
+<p><strong>Full Source</strong>: <code>docs/CHECKPOINT_FINDINGS.md</code> (962 lines)</p>
+<p><strong>Related Documentation</strong>:</p>
+<ul>
+<li><a href="../../LiveScoringVM-Analysis" class="internal" data-slug="LiveScoringVM-Analysis">LiveScoringVM-Analysis</a> - Comprehensive 584-line analysis of god class</li>
+<li><a href="../../Implementation-Status-10-07-25" class="internal" data-slug="Implementation-Status-10-07-25">Implementation-Status-10-07-25</a> - Current progress (97.5% complete, 3/7 critical issues fixed)</li>
+<li><a href="../../Project-Journal-10-07-25" class="internal" data-slug="Project-Journal-10-07-25">Project-Journal-10-07-25</a> - Detailed session work (code deduplication, bug fixes)</li>
+<li><a href="../../RoundViewModel-Audit" class="internal" data-slug="RoundViewModel-Audit">RoundViewModel-Audit</a> - Similar god class audit</li>
+<li><a href="../../Refactoring-Reality-Check" class="internal" data-slug="Refactoring-Reality-Check">Refactoring-Reality-Check</a> - Documents successful 7-ViewModel extraction</li>
+<li><a href="../../Tech-Debt" class="internal" data-slug="Tech-Debt">Tech-Debt</a> - Technical debt tracking (shows N+1, tie-breaking, averages as FIXED)</li>
+<li><a href="../../Architecture" class="internal" data-slug="Architecture">Architecture</a> - Overall architecture documentation</li>
+</ul></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-120" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#archery-apprentice---checkpoint-investigation-findings" data-for="archery-apprentice---checkpoint-investigation-findings">Archery Apprentice - Checkpoint Investigation Findings</a></li><li class="depth-1"><a href="#executive-summary" data-for="executive-summary">Executive Summary</a></li><li class="depth-2"><a href="#critical-issues-summary" data-for="critical-issues-summary">Critical Issues Summary</a></li><li class="depth-2"><a href="#phase-progress" data-for="phase-progress">Phase Progress</a></li><li class="depth-1"><a href="#critical-finding-1-livescoringviewmodel-explosive-growth" data-for="critical-finding-1-livescoringviewmodel-explosive-growth">Critical Finding #1: LiveScoringViewModel Explosive Growth</a></li><li class="depth-2"><a href="#key-findings" data-for="key-findings">Key Findings</a></li><li class="depth-2"><a href="#extraction-progress-per-implementation-status-10-07-25" data-for="extraction-progress-per-implementation-status-10-07-25">Extraction Progress (Per Implementation-Status-10-07-25)</a></li><li class="depth-2"><a href="#pattern-analysis-why-it-grew" data-for="pattern-analysis-why-it-grew">Pattern Analysis: Why It Grew</a></li><li class="depth-2"><a href="#key-lesson-vs-roundviewmodel" data-for="key-lesson-vs-roundviewmodel">Key Lesson vs RoundViewModel</a></li><li class="depth-1"><a href="#critical-finding-2-roundviewmodel-refactoring-was-executed" data-for="critical-finding-2-roundviewmodel-refactoring-was-executed">Critical Finding #2: RoundViewModel Refactoring WAS Executed</a></li><li class="depth-2"><a href="#what-actually-occurred" data-for="what-actually-occurred">What Actually Occurred</a></li><li class="depth-2"><a href="#the-problem-shifted-not-solved" data-for="the-problem-shifted-not-solved">The Problem: Shifted, Not Solved</a></li><li class="depth-2"><a href="#why-documentation-shows-zero-execution" data-for="why-documentation-shows-zero-execution">Why Documentation Shows “Zero Execution”</a></li><li class="depth-1"><a href="#critical-finding-3-readme-severely-outdated" data-for="critical-finding-3-readme-severely-outdated">Critical Finding #3: README Severely Outdated</a></li><li class="depth-1"><a href="#critical-finding-4-n1-query-pattern-confirmed--fixed" data-for="critical-finding-4-n1-query-pattern-confirmed--fixed">Critical Finding #4: N+1 Query Pattern Confirmed ✅ FIXED</a></li><li class="depth-2"><a href="#original-issue" data-for="original-issue">Original Issue</a></li><li class="depth-2"><a href="#fix-applied" data-for="fix-applied">Fix Applied</a></li><li class="depth-1"><a href="#critical-finding-5-repository-god-classes" data-for="critical-finding-5-repository-god-classes">Critical Finding #5: Repository God Classes</a></li><li class="depth-2"><a href="#repository-size-analysis" data-for="repository-size-analysis">Repository Size Analysis</a></li><li class="depth-2"><a href="#comparison-to-industry-standards" data-for="comparison-to-industry-standards">Comparison to Industry Standards</a></li><li class="depth-2"><a href="#recommended-refactoring" data-for="recommended-refactoring">Recommended Refactoring</a></li><li class="depth-1"><a href="#critical-finding-6-tie-breaking-not-actually-implemented--fixed" data-for="critical-finding-6-tie-breaking-not-actually-implemented--fixed">Critical Finding #6: Tie-Breaking Not Actually Implemented ✅ FIXED</a></li><li class="depth-2"><a href="#original-issue-1" data-for="original-issue-1">Original Issue</a></li><li class="depth-2"><a href="#fix-applied-1" data-for="fix-applied-1">Fix Applied</a></li><li class="depth-1"><a href="#critical-finding-7-average-score-never-calculated--fixed" data-for="critical-finding-7-average-score-never-calculated--fixed">Critical Finding #7: Average Score Never Calculated ✅ FIXED</a></li><li class="depth-2"><a href="#original-issue-2" data-for="original-issue-2">Original Issue</a></li><li class="depth-2"><a href="#fix-applied-2" data-for="fix-applied-2">Fix Applied</a></li><li class="depth-1"><a href="#database-index-analysis" data-for="database-index-analysis">Database Index Analysis</a></li><li class="depth-2"><a href="#overall-status-good-coverage-2-missing-composite-indexes" data-for="overall-status-good-coverage-2-missing-composite-indexes">Overall Status: GOOD coverage, 2 missing composite indexes</a></li><li class="depth-1"><a href="#god-class-scorecard-oct-4-snapshot" data-for="god-class-scorecard-oct-4-snapshot">God Class Scorecard (Oct 4 Snapshot)</a></li><li class="depth-1"><a href="#documentation-audit-summary" data-for="documentation-audit-summary">Documentation Audit Summary</a></li><li class="depth-2"><a href="#files-reviewed-4141-100-" data-for="files-reviewed-4141-100-">Files Reviewed: 41/41 (100%) ✅</a></li><li class="depth-1"><a href="#key-discoveries" data-for="key-discoveries">Key Discoveries</a></li><li class="depth-1"><a href="#immediate-action-items" data-for="immediate-action-items">Immediate Action Items</a></li><li class="depth-2"><a href="#priority-1-urgent-before-any-new-features----in-progress" data-for="priority-1-urgent-before-any-new-features----in-progress">Priority 1: URGENT (Before Any New Features) - ⏳ IN PROGRESS</a></li><li class="depth-2"><a href="#priority-2-high----partially-complete" data-for="priority-2-high----partially-complete">Priority 2: HIGH - 🔄 PARTIALLY COMPLETE</a></li><li class="depth-2"><a href="#priority-3-medium----pending" data-for="priority-3-medium----pending">Priority 3: MEDIUM - ⏳ PENDING</a></li><li class="depth-1"><a href="#lessons-learned" data-for="lessons-learned">Lessons Learned</a></li><li class="depth-2"><a href="#pattern-documentation-debt" data-for="pattern-documentation-debt">Pattern: Documentation Debt</a></li><li class="depth-2"><a href="#pattern-refactoring-planning-debt" data-for="pattern-refactoring-planning-debt">Pattern: Refactoring Planning Debt</a></li><li class="depth-2"><a href="#pattern-god-class-migration" data-for="pattern-god-class-migration">Pattern: God Class Migration</a></li><li class="depth-1"><a href="#investigation-phases-completed" data-for="investigation-phases-completed">Investigation Phases Completed</a></li><li class="depth-1"><a href="#current-status-oct-7-2025" data-for="current-status-oct-7-2025">Current Status (Oct 7, 2025)</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

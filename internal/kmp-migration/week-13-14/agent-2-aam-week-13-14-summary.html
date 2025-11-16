@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>agent-2-aam-week-13-14-summary</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="agent-2-aam-week-13-14-summary"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="agent-2-aam-week-13-14-summary"/><meta name="twitter:description" content="Agent 2 (AAM) - Week 13-14 Summary Agent: Agent 2 (AAM - Modules &amp; Migration) Week: 13-14 Date: 2025-11-01 Status: ✅ COMPLETE Duration: ~7 hours (Phase 1a + Phase 1c) Role Overview Executed the Big Bang Database Cutover migration, implementing both Phase 1a (preparation) and Phase 1c (final enti..."/><meta property="og:description" content="Agent 2 (AAM) - Week 13-14 Summary Agent: Agent 2 (AAM - Modules &amp; Migration) Week: 13-14 Date: 2025-11-01 Status: ✅ COMPLETE Duration: ~7 hours (Phase 1a + Phase 1c) Role Overview Executed the Big Bang Database Cutover migration, implementing both Phase 1a (preparation) and Phase 1c (final enti..."/><meta property="og:image:alt" content="Agent 2 (AAM) - Week 13-14 Summary Agent: Agent 2 (AAM - Modules &amp; Migration) Week: 13-14 Date: 2025-11-01 Status: ✅ COMPLETE Duration: ~7 hours (Phase 1a + Phase 1c) Role Overview Executed the Big Bang Database Cutover migration, implementing both Phase 1a (preparation) and Phase 1c (final enti..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-13-14/agent-2-aam-week-13-14-summary"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-13-14/agent-2-aam-week-13-14-summary"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="Agent 2 (AAM) - Week 13-14 Summary Agent: Agent 2 (AAM - Modules &amp; Migration) Week: 13-14 Date: 2025-11-01 Status: ✅ COMPLETE Duration: ~7 hours (Phase 1a + Phase 1c) Role Overview Executed the Big Bang Database Cutover migration, implementing both Phase 1a (preparation) and Phase 1c (final enti..."/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-13-14/agent-2-aam-week-13-14-summary-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-13-14/agent-2-aam-week-13-14-summary-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-13-14/agent-2-aam-week-13-14-summary-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/kmp-migration/week-13-14/agent-2-aam-week-13-14-summary"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-378"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-378" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/kmp-migration/">kmp migration</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/kmp-migration/week-13-14/">week 13 14</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>agent 2 aam week 13 14 summary</a></div></nav><h1 class="article-title">agent-2-aam-week-13-14-summary</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-02T06:43:48.000Z">Nov 02, 2025</time><span>9 min read</span></p></div></div><article class="popover-hint"><h1 id="agent-2-aam---week-13-14-summary">Agent 2 (AAM) - Week 13-14 Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-2-aam---week-13-14-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Agent:</strong> Agent 2 (AAM - Modules &amp; Migration)
+<strong>Week:</strong> 13-14
+<strong>Date:</strong> 2025-11-01
+<strong>Status:</strong> ✅ COMPLETE
+<strong>Duration:</strong> ~7 hours (Phase 1a + Phase 1c)</p>
+<h2 id="role-overview">Role Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#role-overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Executed the Big Bang Database Cutover migration, implementing both Phase 1a (preparation) and Phase 1c (final entity migration and database consolidation).</p>
+<h2 id="executive-summary">Executive Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#executive-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Successfully migrated all 23 entities, 13+ DAOs, and 18 migrations from Android-only <code>ArcheryDatabase</code> to KMP-compatible <code>ArcheryKmpDatabase</code>, establishing a single source of truth for the database layer.</p>
+<p><strong>Total Work:</strong></p>
+<ul>
+<li>8 commits across both phases</li>
+<li>~243 files changed</li>
+<li>~6,500 lines added, ~2,000 lines deleted</li>
+<li>81 test errors fixed</li>
+<li>0 runtime failures</li>
+<li>100% test pass rate achieved</li>
+</ul>
+<h2 id="phase-1a-version-sync--migration-move">Phase 1a: Version Sync &amp; Migration Move<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-1a-version-sync--migration-move" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="objective">Objective<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#objective" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Prepare <code>ArcheryKmpDatabase</code> for Big Bang cutover by synchronizing versions and resolving circular dependencies.</p>
+<h3 id="implementation">Implementation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#implementation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. Version Synchronization</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Before (mismatch risk)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">ArcheryDatabase: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">version</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> 35</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">ArcheryKmpDatabase: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">version</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> 1</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// After (synchronized)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">ArcheryDatabase: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">version</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> 35</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">ArcheryKmpDatabase: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">version</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> 35</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  // SYNCHRONIZED</span></span></code></pre></figure>
+<p><strong>2. Database Name Sync</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Critical fix (Agent 1 discovery)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> dbFile </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> context.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getDatabasePath</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;archery_database&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)  </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Matches legacy</span></span></code></pre></figure>
+<p><strong>Risk Prevented:</strong> Complete user data loss ✅</p>
+<p><strong>3. Migration Relocation</strong></p>
+<p><strong>Problem:</strong> Circular dependency</p>
+<ul>
+<li>app module cannot import from shared:database</li>
+<li>Migrations were in app module</li>
+<li>ArcheryKmpDatabase in shared:database needed migrations</li>
+</ul>
+<p><strong>Solution:</strong> Move migrations to shared:database</p>
+<pre><code>FROM: app/src/main/java/.../data/db/migrations/
+TO:   shared/database/src/androidMain/kotlin/.../database/migrations/
+</code></pre>
+<p><strong>Migrations Moved:</strong> 18 migrations (MIGRATION_17_18 through MIGRATION_34_35)</p>
+<p><strong>4. Import Updates</strong></p>
+<p>Updated ArcheryDatabase to use migrations from new location:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Old</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.data.db.migrations.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// New</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.database.migrations.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span></span></code></pre></figure>
+<h3 id="commits-phase-1a">Commits (Phase 1a)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#commits-phase-1a" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><code>28e5a92</code> - Update ArcheryDatabase to use migrations from shared:database</li>
+<li><code>8987be0</code> - Add Phase 1a validation report</li>
+<li><code>a2d033a</code> - Fix migration test imports after move</li>
+<li><code>234427d</code> - Phase 1a re-validation (APPROVED)</li>
+</ol>
+<h3 id="validation">Validation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#validation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 3 Result:</strong> 13/13 checks PASSED (100%) ✅</p>
+<p><strong>Status:</strong> APPROVED for Phase 1c ✅</p>
+<h2 id="phase-1c-entity-migration--database-consolidation">Phase 1c: Entity Migration &amp; Database Consolidation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-1c-entity-migration--database-consolidation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="objective-1">Objective<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#objective-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Migrate final 3 scoring entities and consolidate to single KMP database.</p>
+<h3 id="entities-migrated">Entities Migrated<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#entities-migrated" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Scoring Entities (Phase 1c):</strong></p>
+<ol>
+<li><code>Round.kt</code> - Scoring round entity</li>
+<li><code>EndScore.kt</code> - End-level score aggregation</li>
+<li><code>ArrowScore.kt</code> - Individual arrow score</li>
+</ol>
+<p><strong>All Other Entities (Pre-Phase 1c):</strong></p>
+<ul>
+<li>11 equipment entities (Riser, Limbs, Sight, Stabilizer, etc.)</li>
+<li>5 tournament entities</li>
+<li>4 stats/cache entities</li>
+</ul>
+<p><strong>Total:</strong> 23 entities fully migrated to KMP ✅</p>
+<h3 id="migration-pattern">Migration Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#migration-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// FROM (Android-only)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">app</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">src</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">main</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">java</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/..</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">domain</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">models</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Round.kt</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// TO (KMP-compatible)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">shared</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">database</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">src</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">commonMain</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">kotlin</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/..</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">database</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">entities</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Round.kt</span></span></code></pre></figure>
+<p><strong>Changes Required:</strong></p>
+<ul>
+<li>Remove Android-specific types (if any)</li>
+<li>Add Room annotations</li>
+<li>Ensure KMP compatibility</li>
+<li>Update package structure</li>
+</ul>
+<h3 id="import-path-updates">Import Path Updates<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#import-path-updates" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Scale:</strong> 151+ files updated across all modules</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// OLD import (Android-only)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.domain.models.Round</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.domain.models.EndScore</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.domain.models.ArrowScore</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// NEW import (KMP-compatible)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.database.entities.Round</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.database.entities.EndScore</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.database.entities.ArrowScore</span></span></code></pre></figure>
+<p><strong>Modules Affected:</strong></p>
+<ul>
+<li>app (ViewModels, Repositories, UI)</li>
+<li>shared:database (DAOs, Database)</li>
+<li>shared:domain (Domain services)</li>
+<li>Test files across all modules</li>
+</ul>
+<h3 id="database-consolidation">Database Consolidation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#database-consolidation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Deleted:</strong></p>
+<ul>
+<li><code>ArcheryDatabase.kt</code> (legacy Android-only database) ✅</li>
+<li>Legacy DAO interfaces (moved to shared:database earlier)</li>
+<li>Old type converters (Android-specific)</li>
+</ul>
+<p><strong>Centralized:</strong></p>
+<ul>
+<li>All entities in <code>shared/database/entities/</code> ✅</li>
+<li>All DAOs in <code>shared/database/dao/</code> ✅</li>
+<li>All converters in <code>shared/database/converters/KmpConverters.kt</code> ✅</li>
+<li>All migrations in <code>shared/database/src/androidMain/.../migrations/</code> ✅</li>
+</ul>
+<p><strong>Result:</strong> Single source of truth ✅</p>
+<h3 id="ksp-plugin-cleanup">KSP Plugin Cleanup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#ksp-plugin-cleanup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Removed from app module:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="gradle" data-theme="github-light github-dark"><code data-language="gradle" data-theme="github-light github-dark" style="display:grid;"><span data-line><span>// app/build.gradle.kts</span></span>
+<span data-line><span>plugins {</span></span>
+<span data-line><span>    id(&quot;com.google.devtools.ksp&quot;)  // REMOVED (no longer needed)</span></span>
+<span data-line><span>}</span></span></code></pre></figure>
+<p><strong>Reason:</strong> Room KSP processing now happens in shared:database module only</p>
+<h3 id="test-error-resolution">Test Error Resolution<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#test-error-resolution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Phase 1c Initial Status:</strong> 81 compilation errors after entity migration</p>
+<p><strong>Categories Fixed:</strong></p>
+<p><strong>1. Typo Blocker (P0) - 24 errors</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Error: nimport (typo)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">nimport com.archeryapprentice.database.entities.Round</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Fix: import</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.database.entities.Round</span></span></code></pre></figure>
+<p><strong>Files:</strong> 2 files, blocking ~24 downstream errors</p>
+<p><strong>2. Duplicate Imports - 2 errors</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Duplicate import caused by auto-import</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.database.entities.Round</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.database.entities.Round  </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// DUPLICATE</span></span></code></pre></figure>
+<p><strong>Files:</strong> 1 file</p>
+<p><strong>3. Missing Entity Imports - 38 errors</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Missing import after entity migration</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Error: Unresolved reference: Round</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Fix: Add import</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.database.entities.Round</span></span></code></pre></figure>
+<p><strong>Files:</strong> 15 files across multiple modules</p>
+<p><strong>4. legacyDatabase Parameters - 7 errors</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Old pattern: Two database instances</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    database: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ArcheryKmpDatabase</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    legacyDatabase: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ArcheryDatabase</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  // No longer exists</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Fix: Single database</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    database: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ArcheryKmpDatabase</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+<p><strong>Files:</strong> 2 test files</p>
+<p><strong>5. Qualified References - 10 errors</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Qualified reference to old package</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">com.archeryapprentice.domain.models.Round</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Fix: Update to new package</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> com.archeryapprentice.database.entities.Round</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Round  </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Now unqualified or use new package</span></span></code></pre></figure>
+<p><strong>Files:</strong> 4 files</p>
+<p><strong>Total Fixed:</strong> 81 errors in ~30 minutes ✅</p>
+<h3 id="commits-phase-1c">Commits (Phase 1c)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#commits-phase-1c" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><code>4be0e90</code> - Phase 1c test error fix guidance (Agent 3)</li>
+<li><code>41e3099</code> - Resolve 81 test compilation errors</li>
+<li><code>157b384</code> - Complete Phase 1c entity migration</li>
+<li><code>00618a1</code> - Fix hybrid database pattern in tests</li>
+</ol>
+<p><strong>Commit Structure:</strong></p>
+<ul>
+<li>Test fixes separate from production code ✅</li>
+<li>Clear commit messages ✅</li>
+<li>Logical separation for review ✅</li>
+</ul>
+<h3 id="post-migration-cleanup">Post-Migration Cleanup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#post-migration-cleanup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Hybrid Database Pattern Fix:</strong></p>
+<p><strong>Issue Found:</strong> <code>MultiParticipantRepairTest.kt</code> using two database instances</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// BEFORE (hybrid pattern - incorrect)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> kmpDatabase </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createDatabase</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> legacyDatabase </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createLegacyDatabase</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()  </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Should not exist</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">repairScores</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(kmpDatabase, legacyDatabase)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// AFTER (single database - correct)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> database </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createDatabase</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">repairScores</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(database)</span></span></code></pre></figure>
+<p><strong>Result:</strong> All 3 tests passing ✅</p>
+<h2 id="type-converter-migration">Type Converter Migration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#type-converter-migration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="centralized-in-kmpconverterskt">Centralized in KmpConverters.kt<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#centralized-in-kmpconverterskt" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Location:</strong> <code>shared/database/src/commonMain/kotlin/.../converters/KmpConverters.kt</code></p>
+<p><strong>Converters Implemented:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> KmpConverters</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Instant ↔ Long (kotlinx-datetime)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    @TypeConverter</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> fromTimestamp</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Instant</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">? </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        value</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">let</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { Instant.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">fromEpochMilliseconds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(it) }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    @TypeConverter</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> dateToTimestamp</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(date: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Instant</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">? </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        date?.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toEpochMilliseconds</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // UUID ↔ String</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Enums ↔ String</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Collections ↔ JSON</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Custom domain types</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>KMP-Safe:</strong> No Android-specific types ✅</p>
+<h2 id="architecture-quality">Architecture Quality<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#architecture-quality" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="module-dependencies">Module Dependencies<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#module-dependencies" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Final State:</strong></p>
+<pre><code>app → shared:database → shared:domain
+</code></pre>
+<p><strong>Verification:</strong></p>
+<ul>
+<li>No circular dependencies ✅</li>
+<li>Clean one-way flow ✅</li>
+<li>Proper layering ✅</li>
+</ul>
+<h3 id="kmp-compatibility">KMP Compatibility<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#kmp-compatibility" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>All Entities:</strong></p>
+<ul>
+<li>No <code>java.util.Date</code> (use Long timestamps) ✅</li>
+<li>No Android-specific types ✅</li>
+<li>No platform dependencies ✅</li>
+</ul>
+<p><strong>Database Implementation:</strong></p>
+<ul>
+<li>Expect/actual pattern for DatabaseBuilder ✅</li>
+<li>Platform-specific Room implementation in androidMain ✅</li>
+<li>iOS-ready structure (placeholder in iosMain) ✅</li>
+</ul>
+<h3 id="data-preservation">Data Preservation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#data-preservation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Zero Data Loss:</strong></p>
+<ul>
+<li>Database name synchronized ✅</li>
+<li>Version synchronized ✅</li>
+<li>All 18 migrations included ✅</li>
+<li>Migration order verified ✅</li>
+</ul>
+<p><strong>User Impact:</strong> NONE (seamless migration) ✅</p>
+<h2 id="testing--validation">Testing &amp; Validation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#testing--validation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="compilation">Compilation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#compilation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Before Fixes:</strong> 81 errors
+<strong>After Fixes:</strong> 0 errors ✅</p>
+<p><strong>Test Suite:</strong> ~4000+ tests
+<strong>Compilation Status:</strong> 100% success ✅</p>
+<h3 id="runtime">Runtime<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#runtime" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Test Pass Rate:</strong> 100% ✅
+<strong>Runtime Failures:</strong> 0 ✅</p>
+<h3 id="validation-protocol">Validation Protocol<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#validation-protocol" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 3 Enhanced 18-Check Protocol:</strong></p>
+<ol>
+<li>Database Architecture (4 checks)</li>
+<li>Entity Migration Verification (3 checks)</li>
+<li>Import Path Updates (3 checks)</li>
+<li>Build Verification (3 checks)</li>
+<li>Migration Integrity (2 checks)</li>
+<li>Type Converters (1 check)</li>
+<li>Dependency Verification (1 check)</li>
+<li>Smoke Test (1 check)</li>
+</ol>
+<p><strong>Expected Result:</strong> 18/18 checks PASS ✅</p>
+<h2 id="metrics">Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="phase-1a-metrics">Phase 1a Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-1a-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Files Changed:</strong> ~30 files
+<strong>Commits:</strong> 4 commits
+<strong>Duration:</strong> ~1-2 hours
+<strong>Validation:</strong> 13/13 checks PASSED</p>
+<h3 id="phase-1c-metrics">Phase 1c Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-1c-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Files Changed:</strong> ~213 files
+<strong>Import Updates:</strong> 151+ files
+<strong>Entities Migrated:</strong> 3 scoring entities (completing migration)
+<strong>Test Errors Fixed:</strong> 81 errors
+<strong>Commits:</strong> 4 commits
+<strong>Duration:</strong> ~5-6 hours</p>
+<h3 id="combined-metrics">Combined Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#combined-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Total Files Changed:</strong> ~243 files
+<strong>Total Commits:</strong> 8 commits
+<strong>Total Duration:</strong> ~7 hours (planning → PR creation)
+<strong>Lines Added:</strong> ~6,500 lines
+<strong>Lines Deleted:</strong> ~2,000 lines
+<strong>Net Addition:</strong> ~4,500 lines (includes documentation)</p>
+<h3 id="quality-metrics">Quality Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quality-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Compilation Errors:</strong> 0 ✅
+<strong>Runtime Failures:</strong> 0 ✅
+<strong>Test Pass Rate:</strong> 100% ✅
+<strong>Data Loss Risk:</strong> ZERO ✅
+<strong>Architecture Quality:</strong> CLEAN (Agent 1 approved) ✅
+<strong>Technical Debt:</strong> LOW ✅</p>
+<h2 id="collaboration--coordination">Collaboration &amp; Coordination<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#collaboration--coordination" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="with-agent-1-aap">With Agent 1 (AAP)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#with-agent-1-aap" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Planning Phase:</strong></p>
+<ul>
+<li>Reviewed comprehensive architecture documents</li>
+<li>Followed planning checklist</li>
+<li>Aligned with validation criteria</li>
+</ul>
+<p><strong>Phase 1a Critical Bug:</strong></p>
+<ul>
+<li>Agent 1 discovered database name mismatch</li>
+<li>Fixed immediately in Phase 1a</li>
+<li>Prevented user data loss</li>
+</ul>
+<p><strong>Phase 1c Review:</strong></p>
+<ul>
+<li>Parallel architecture review during implementation</li>
+<li>Received APPROVED status</li>
+<li>No blocking issues</li>
+</ul>
+<h3 id="with-agent-3-aaa">With Agent 3 (AAA)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#with-agent-3-aaa" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Phase 1a Validation:</strong></p>
+<ul>
+<li>Passed 13/13 checks on first attempt</li>
+<li>Clean implementation validated</li>
+</ul>
+<p><strong>Phase 1c Test Error Guidance:</strong></p>
+<ul>
+<li>Agent 3 created 699-line fix guidance</li>
+<li>Categorized all 81 errors systematically</li>
+<li>Fixed all errors in ~30 minutes using guidance</li>
+</ul>
+<p><strong>Validation:</strong></p>
+<ul>
+<li>Expected 18/18 checks PASS</li>
+<li>Clean handoff for final validation</li>
+</ul>
+<h3 id="with-agent-o">With Agent O<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#with-agent-o" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Coordination:</strong></p>
+<ul>
+<li>Clear progress updates throughout</li>
+<li>Parallel Agent 1 + Agent 3 reviews</li>
+<li>Efficient multi-agent workflow</li>
+</ul>
+<h2 id="challenges--solutions">Challenges &amp; Solutions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#challenges--solutions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="challenge-1-circular-dependency">Challenge 1: Circular Dependency<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#challenge-1-circular-dependency" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> app module cannot import from shared:database</p>
+<p><strong>Solution:</strong> Moved migrations from app to shared:database</p>
+<p><strong>Outcome:</strong> Clean module boundaries maintained ✅</p>
+<h3 id="challenge-2-81-test-compilation-errors">Challenge 2: 81 Test Compilation Errors<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#challenge-2-81-test-compilation-errors" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> Entity package changes broke 151+ import statements</p>
+<p><strong>Solution:</strong> Systematic categorization (Agent 3) + focused fixes</p>
+<p><strong>Outcome:</strong> All errors resolved in 30 minutes ✅</p>
+<h3 id="challenge-3-hybrid-database-pattern">Challenge 3: Hybrid Database Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#challenge-3-hybrid-database-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> One test using both old and new database</p>
+<p><strong>Solution:</strong> Identified and eliminated pattern, single database only</p>
+<p><strong>Outcome:</strong> 100% single-database architecture ✅</p>
+<h3 id="challenge-4-database-name-mismatch">Challenge 4: Database Name Mismatch<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#challenge-4-database-name-mismatch" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> Data loss risk from different database names</p>
+<p><strong>Solution:</strong> Agent 1 caught in Phase 1a, fixed immediately</p>
+<p><strong>Outcome:</strong> Zero data loss risk ✅</p>
+<h2 id="lessons-learned">Lessons Learned<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#lessons-learned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="what-went-well">What Went Well<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-went-well" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Big Bang Strategy</strong></p>
+<ul>
+<li>Complete cutover in one PR avoided hybrid complexity</li>
+<li>Cleaner than incremental approach would have been</li>
+<li>All-or-nothing approach prevented partial state issues</li>
+</ul>
+</li>
+<li>
+<p><strong>Systematic Test Fixes</strong></p>
+<ul>
+<li>Agent 3’s categorization enabled efficient fixes</li>
+<li>Fix guidance document was invaluable</li>
+<li>30-minute fix time for 81 errors (excellent)</li>
+</ul>
+</li>
+<li>
+<p><strong>Commit Separation</strong></p>
+<ul>
+<li>Test fixes separate from production code</li>
+<li>Improved PR reviewability</li>
+<li>Clear commit messages</li>
+</ul>
+</li>
+<li>
+<p><strong>Multi-Agent Coordination</strong></p>
+<ul>
+<li>Parallel Agent 1 + Agent 3 reviews saved time</li>
+<li>No blocking between architecture and test review</li>
+<li>Fast feedback loop</li>
+</ul>
+</li>
+<li>
+<p><strong>Zero Attribution Policy</strong></p>
+<ul>
+<li>All 8 commits followed policy ✅</li>
+<li>Clean git history</li>
+<li>Professional commit messages</li>
+</ul>
+</li>
+</ol>
+<h3 id="what-could-be-better">What Could Be Better<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-could-be-better" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Earlier Test Execution</strong></p>
+<ul>
+<li>Could have caught import errors sooner</li>
+<li>Run affected tests during implementation (not just after)</li>
+<li>Would reduce fix time</li>
+</ul>
+</li>
+<li>
+<p><strong>Grep Checks Before Commit</strong></p>
+<ul>
+<li>Could have caught <code>legacyDatabase</code> references</li>
+<li>Could have found hybrid database patterns</li>
+<li>Simple grep could prevent errors</li>
+</ul>
+</li>
+<li>
+<p><strong>Validation Timing</strong></p>
+<ul>
+<li>Could start Agent 3 validation earlier (parallel with last fixes)</li>
+<li>Overlap work more aggressively</li>
+</ul>
+</li>
+</ol>
+<h3 id="key-takeaways">Key Takeaways<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-takeaways" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Agent 3’s guidance is gold</strong> - 699-line document saved hours</li>
+<li><strong>Test systematically</strong> - Categorization makes fixes faster</li>
+<li><strong>Separate commits logically</strong> - Improves review quality</li>
+<li><strong>Big Bang can work</strong> - With proper planning and validation</li>
+<li><strong>Multi-agent parallelization</strong> - More efficient than sequential</li>
+</ol>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Implementation:</strong></p>
+<ul>
+<li>Week 13-14 Database Cutover Strategy (main repo)</li>
+<li>Week 13-14 Database Cutover Checklist (main repo)</li>
+</ul>
+<p><strong>Planning:</strong></p>
+<ul>
+<li><a href="../../../internal/kmp-migration/week-13-14/agent-1-aap-week-13-14-summary" class="internal alias" data-slug="internal/kmp-migration/week-13-14/agent-1-aap-week-13-14-summary">Agent 1 Architecture Summary</a></li>
+</ul>
+<p><strong>Validation:</strong></p>
+<ul>
+<li><a href="../../../internal/kmp-migration/week-13-14/agent-3-aaa-week-13-14-summary" class="internal alias" data-slug="internal/kmp-migration/week-13-14/agent-3-aaa-week-13-14-summary">Agent 3 Validation Summary</a></li>
+<li>Phase 1a Validation Report (Agent 3)</li>
+<li>Phase 1a Re-validation Report (Agent 3)</li>
+<li>Phase 1c Fix Guidance (Agent 3, 699 lines)</li>
+</ul>
+<p><strong>Orchestration:</strong></p>
+<ul>
+<li><a href="../../../internal/kmp-migration/week-13-14/agent-o-week-13-14-orchestration-summary" class="internal alias" data-slug="internal/kmp-migration/week-13-14/agent-o-week-13-14-orchestration-summary">Agent O Orchestration Summary</a></li>
+</ul>
+<p><strong>Technical:</strong></p>
+<ul>
+<li><a href="../../.././../developer-guide/architecture/week-13-14-database-cutover" class="internal alias" data-slug="developer-guide/architecture/week-13-14-database-cutover">Week 13-14 Database Cutover Documentation</a></li>
+</ul>
+<hr/>
+<p><strong>Last Updated:</strong> 2025-11-01
+<strong>Status:</strong> Implementation complete, PR created ✅
+<strong>Next:</strong> Monitor post-merge CI/CD and production rollout</p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-141" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#agent-2-aam---week-13-14-summary" data-for="agent-2-aam---week-13-14-summary">Agent 2 (AAM) - Week 13-14 Summary</a></li><li class="depth-1"><a href="#role-overview" data-for="role-overview">Role Overview</a></li><li class="depth-1"><a href="#executive-summary" data-for="executive-summary">Executive Summary</a></li><li class="depth-1"><a href="#phase-1a-version-sync--migration-move" data-for="phase-1a-version-sync--migration-move">Phase 1a: Version Sync &amp; Migration Move</a></li><li class="depth-2"><a href="#objective" data-for="objective">Objective</a></li><li class="depth-2"><a href="#implementation" data-for="implementation">Implementation</a></li><li class="depth-2"><a href="#commits-phase-1a" data-for="commits-phase-1a">Commits (Phase 1a)</a></li><li class="depth-2"><a href="#validation" data-for="validation">Validation</a></li><li class="depth-1"><a href="#phase-1c-entity-migration--database-consolidation" data-for="phase-1c-entity-migration--database-consolidation">Phase 1c: Entity Migration &amp; Database Consolidation</a></li><li class="depth-2"><a href="#objective-1" data-for="objective-1">Objective</a></li><li class="depth-2"><a href="#entities-migrated" data-for="entities-migrated">Entities Migrated</a></li><li class="depth-2"><a href="#migration-pattern" data-for="migration-pattern">Migration Pattern</a></li><li class="depth-2"><a href="#import-path-updates" data-for="import-path-updates">Import Path Updates</a></li><li class="depth-2"><a href="#database-consolidation" data-for="database-consolidation">Database Consolidation</a></li><li class="depth-2"><a href="#ksp-plugin-cleanup" data-for="ksp-plugin-cleanup">KSP Plugin Cleanup</a></li><li class="depth-2"><a href="#test-error-resolution" data-for="test-error-resolution">Test Error Resolution</a></li><li class="depth-2"><a href="#commits-phase-1c" data-for="commits-phase-1c">Commits (Phase 1c)</a></li><li class="depth-2"><a href="#post-migration-cleanup" data-for="post-migration-cleanup">Post-Migration Cleanup</a></li><li class="depth-1"><a href="#type-converter-migration" data-for="type-converter-migration">Type Converter Migration</a></li><li class="depth-2"><a href="#centralized-in-kmpconverterskt" data-for="centralized-in-kmpconverterskt">Centralized in KmpConverters.kt</a></li><li class="depth-1"><a href="#architecture-quality" data-for="architecture-quality">Architecture Quality</a></li><li class="depth-2"><a href="#module-dependencies" data-for="module-dependencies">Module Dependencies</a></li><li class="depth-2"><a href="#kmp-compatibility" data-for="kmp-compatibility">KMP Compatibility</a></li><li class="depth-2"><a href="#data-preservation" data-for="data-preservation">Data Preservation</a></li><li class="depth-1"><a href="#testing--validation" data-for="testing--validation">Testing &amp; Validation</a></li><li class="depth-2"><a href="#compilation" data-for="compilation">Compilation</a></li><li class="depth-2"><a href="#runtime" data-for="runtime">Runtime</a></li><li class="depth-2"><a href="#validation-protocol" data-for="validation-protocol">Validation Protocol</a></li><li class="depth-1"><a href="#metrics" data-for="metrics">Metrics</a></li><li class="depth-2"><a href="#phase-1a-metrics" data-for="phase-1a-metrics">Phase 1a Metrics</a></li><li class="depth-2"><a href="#phase-1c-metrics" data-for="phase-1c-metrics">Phase 1c Metrics</a></li><li class="depth-2"><a href="#combined-metrics" data-for="combined-metrics">Combined Metrics</a></li><li class="depth-2"><a href="#quality-metrics" data-for="quality-metrics">Quality Metrics</a></li><li class="depth-1"><a href="#collaboration--coordination" data-for="collaboration--coordination">Collaboration &amp; Coordination</a></li><li class="depth-2"><a href="#with-agent-1-aap" data-for="with-agent-1-aap">With Agent 1 (AAP)</a></li><li class="depth-2"><a href="#with-agent-3-aaa" data-for="with-agent-3-aaa">With Agent 3 (AAA)</a></li><li class="depth-2"><a href="#with-agent-o" data-for="with-agent-o">With Agent O</a></li><li class="depth-1"><a href="#challenges--solutions" data-for="challenges--solutions">Challenges &amp; Solutions</a></li><li class="depth-2"><a href="#challenge-1-circular-dependency" data-for="challenge-1-circular-dependency">Challenge 1: Circular Dependency</a></li><li class="depth-2"><a href="#challenge-2-81-test-compilation-errors" data-for="challenge-2-81-test-compilation-errors">Challenge 2: 81 Test Compilation Errors</a></li><li class="depth-2"><a href="#challenge-3-hybrid-database-pattern" data-for="challenge-3-hybrid-database-pattern">Challenge 3: Hybrid Database Pattern</a></li><li class="depth-2"><a href="#challenge-4-database-name-mismatch" data-for="challenge-4-database-name-mismatch">Challenge 4: Database Name Mismatch</a></li><li class="depth-1"><a href="#lessons-learned" data-for="lessons-learned">Lessons Learned</a></li><li class="depth-2"><a href="#what-went-well" data-for="what-went-well">What Went Well</a></li><li class="depth-2"><a href="#what-could-be-better" data-for="what-could-be-better">What Could Be Better</a></li><li class="depth-2"><a href="#key-takeaways" data-for="key-takeaways">Key Takeaways</a></li><li class="depth-1"><a href="#related-documentation" data-for="related-documentation">Related Documentation</a></li><li class="overflow-end"></li></ul></div><div class="backlinks"><h3>Backlinks</h3><ul id="list-2" class="overflow"><li><a href="../../../internal/kmp-migration/week-13-14/agent-1-aap-week-13-14-summary" class="internal">agent-1-aap-week-13-14-summary</a></li><li><a href="../../../internal/kmp-migration/week-13-14/agent-3-aaa-week-13-14-summary" class="internal">agent-3-aaa-week-13-14-summary</a></li><li><a href="../../../internal/kmp-migration/week-13-14/agent-o-week-13-14-orchestration-summary" class="internal">agent-o-week-13-14-orchestration-summary</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

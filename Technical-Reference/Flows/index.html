@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>System Flows</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="System Flows"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="System Flows"/><meta name="twitter:description" content="User flows, system flows, and integration patterns"/><meta property="og:description" content="User flows, system flows, and integration patterns"/><meta property="og:image:alt" content="User flows, system flows, and integration patterns"/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/index"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/index"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="User flows, system flows, and integration patterns"/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/index-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/index-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/index-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="Technical-Reference/Flows/index"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-98"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-98" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-3"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../Technical-Reference/">Technical Reference</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>System Flows</a></div></nav><h1 class="article-title">System Flows</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-05T02:41:19.000Z">Nov 05, 2025</time><span>11 min read</span></p></div></div><div class="popover-hint"><article class><p><a href="../../" class="internal alias" data-slug="index">Home</a> > <a href="../.././" class="internal alias" data-slug="index">Technical Reference</a> > Flows</p>
+<hr/>
+<h1 id="system-flows">System Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#system-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p>Complete reference for user workflows, system processes, and integration patterns in Archery Apprentice.</p>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Archery Apprentice implements complex workflows spanning user interactions, internal processes, and external integrations. This guide provides a comprehensive overview of all major flows in the application.</p>
+<p><strong>Flow Documentation Organization:</strong></p>
+<ul>
+<li><strong><a href="../../User-Flows/" class="internal alias" data-slug="User-Flows/index">User Flows</a></strong> - User interaction patterns and workflows</li>
+<li><strong><a href="../../System-Flows/" class="internal alias" data-slug="System-Flows/index">System Flows</a></strong> - Internal system processes and state machines</li>
+<li><strong><a href="../../Integration-Flows/" class="internal alias" data-slug="Integration-Flows/index">Integration Flows</a></strong> - External service integrations and data exchange</li>
+</ul>
+<p><strong>Related Documentation:</strong></p>
+<ul>
+<li><a href="../.././../developer-guide/architecture/system-architecture/" class="internal alias" data-slug="developer-guide/architecture/system-architecture/index">System Architecture</a> - Overall architecture patterns</li>
+<li><a href="../.././../developer-guide/architecture/mvvm-patterns/" class="internal alias" data-slug="developer-guide/architecture/mvvm-patterns/index">MVVM Patterns</a> - State management approach</li>
+<li><a href="../.././Database/" class="internal alias" data-slug="Database/index">Database Overview</a> - Data persistence layer</li>
+</ul>
+<hr/>
+<h2 id="documented-flows">Documented Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#documented-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Comprehensive flow documentation is maintained in the <a href="../.././../developer-guide/technical-reference/flows/" class="internal alias" data-slug="developer-guide/technical-reference/flows/index">Developer Guide Technical Reference</a>. The following flows are fully documented with sequence diagrams, code references, and implementation details:</p>
+<h3 id="1-scoring-flow">1. Scoring Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-scoring-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (565 lines)
+<strong>Documentation:</strong> <a href="../.././../developer-guide/technical-reference/flows/scoring-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/scoring-flow/index">Scoring Flow</a>
+<strong>Scope:</strong> Arrow input → End completion → Statistics calculation → Tournament sync</p>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>ActiveScoringScreen.kt - UI entry point for live scoring</li>
+<li>LiveScoringViewModel.kt (2,808 lines) - God class managing scoring state</li>
+<li>EndCompletionService.kt - Extracted service for end finalization</li>
+<li>TournamentSyncService.kt - Async Firebase synchronization</li>
+<li>RoundRepository.kt - Data persistence layer</li>
+</ul>
+<p><strong>Flow Highlights:</strong></p>
+<ul>
+<li>StateFlow-based reactive state management</li>
+<li>Multi-participant scoring support</li>
+<li>Validation and error handling at end completion</li>
+<li>Async tournament score submission with retry logic</li>
+<li>Score conflict detection and resolution</li>
+</ul>
+<p><strong>Typical Flow:</strong></p>
+<pre><code>User Input → ViewModel State Update → UI Recomposition → End Completion →
+Validation → Statistics Calculation → Local DB Save → Tournament Sync (Async)
+</code></pre>
+<hr/>
+<h3 id="2-round-lifecycle-flow">2. Round Lifecycle Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-round-lifecycle-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (1,168 lines)
+<strong>Documentation:</strong> <a href="../.././../developer-guide/technical-reference/flows/round-lifecycle-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/round-lifecycle-flow/index">Round Lifecycle Flow</a>
+<strong>Scope:</strong> Round creation → Active scoring → Pausing → Completion → Historical viewing</p>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>RoundViewModel.kt (2,177 lines) - God class undergoing refactoring</li>
+<li>RoundRepository.kt - Round CRUD operations</li>
+<li>RoundDao.kt - Database access layer</li>
+<li>HistoricalRoundsScreen.kt - Historical viewing with caching</li>
+<li>BowSetupRepository.kt - Equipment selection integration</li>
+</ul>
+<p><strong>State Machine:</strong></p>
+<pre><code>PLANNED → IN_PROGRESS ⇄ PAUSED → COMPLETED/CANCELLED
+</code></pre>
+<p><strong>Flow Highlights:</strong></p>
+<ul>
+<li>Multi-participant progress tracking</li>
+<li>Round status state machine with validation</li>
+<li>Equipment snapshot creation for historical accuracy</li>
+<li>Statistics aggregation across all ends</li>
+<li>Historical viewing with smart caching (1 week TTL)</li>
+<li>Ranking calculation with tie-breaking rules</li>
+<li>Round archival and deletion</li>
+</ul>
+<p><strong>Performance Considerations:</strong></p>
+<ul>
+<li>Lazy loading for historical rounds (cached for 1 week)</li>
+<li>Pagination for large round lists</li>
+<li>Indexed queries on <code>status</code> and <code>createdAt</code> columns</li>
+</ul>
+<hr/>
+<h3 id="3-equipment-management-end-to-end-flow">3. Equipment Management End-to-End Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-equipment-management-end-to-end-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (1,949 lines with Mermaid diagrams)
+<strong>Documentation:</strong> <a href="../.././../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/index">Equipment Management Flow</a>
+<strong>Scope:</strong> Bow setup creation → Component management → Versioning → Round selection → Performance tracking</p>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>BowSetupViewModel.kt - Bow setup orchestration</li>
+<li>BowSetupRepository.kt - Equipment CRUD with versioning</li>
+<li>EquipmentStatsDao.kt - Performance snapshot tracking</li>
+<li>BowSetupDetailScreen.kt - Equipment configuration UI</li>
+<li>10+ component-specific ViewModels (Arrow, Sight, Rest, etc.)</li>
+</ul>
+<p><strong>Flow Highlights:</strong></p>
+<ul>
+<li>10+ equipment component types (Arrow, Sight, Rest, Stabilizer, etc.)</li>
+<li>Equipment versioning for historical accuracy</li>
+<li>Guest participant auto-setup creation (duplicate with naming)</li>
+<li>Smart caching strategy (5 minutes TTL for stats)</li>
+<li>Equipment snapshots embedded in rounds</li>
+<li>Performance statistics aggregation by equipment ID</li>
+<li>CSV export for equipment data</li>
+</ul>
+<p><strong>Versioning Strategy:</strong></p>
+<pre><code>Bow Setup v1 → Component Added → Bow Setup v2 → Round References v2 →
+Historical Round Still Uses v2 Snapshot → Live Setup Continues to v3
+</code></pre>
+<p><strong>Multi-Participant Equipment:</strong></p>
+<ul>
+<li>Guests get auto-created equipment duplicates with naming (e.g., “Guest 1’s Bow”)</li>
+<li>Equipment ownership tracked per participant</li>
+<li>Independent equipment selection for each participant</li>
+</ul>
+<hr/>
+<h3 id="4-data-sync-flow">4. Data Sync Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-data-sync-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (1,399 lines)
+<strong>Documentation:</strong> <a href="../.././../developer-guide/technical-reference/flows/data-sync-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/data-sync-flow/index">Data Sync Flow</a>
+<strong>Scope:</strong> Offline-first architecture → Firebase sync → Conflict resolution → Caching</p>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>HybridTournamentRepository.kt (1,813 lines) - Offline-first hybrid pattern</li>
+<li>TournamentSyncService.kt (556 lines) - Score submission with retry</li>
+<li>ScoreConflictResolutionService.kt - Conflict detection and resolution</li>
+<li>TournamentScoreCacheService.kt - Smart caching with TTL</li>
+<li>NetworkCallback - Connectivity monitoring</li>
+</ul>
+<p><strong>Flow Highlights:</strong></p>
+<ul>
+<li>Offline-first architecture (local DB as source of truth)</li>
+<li>Real-time Firebase listeners for tournament updates</li>
+<li>Exponential backoff retry for score submissions (up to 5 attempts)</li>
+<li>Conflict detection (timestamp-based + latest-write-wins)</li>
+<li>Smart caching (5 minutes TTL for leaderboards)</li>
+<li>Batch operations for initial tournament data loading</li>
+<li>Network connectivity monitoring</li>
+</ul>
+<p><strong>Sync Patterns:</strong></p>
+<pre><code>Read Flow:  Cache → Local DB → Firebase → Cache Update
+Write Flow: Local DB → Firebase (Async) → Retry on Failure → Conflict Check
+</code></pre>
+<p><strong>Conflict Resolution:</strong></p>
+<ul>
+<li>Last-write-wins strategy for tournament scores</li>
+<li>Timestamp-based conflict detection</li>
+<li>Automatic merge for non-conflicting fields</li>
+<li>User notification on conflict resolution</li>
+</ul>
+<hr/>
+<h3 id="5-settings-architecture">5. Settings Architecture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-settings-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (493 lines)
+<strong>Documentation:</strong> <a href="../.././../developer-guide/technical-reference/flows/settings-architecture/" class="internal alias" data-slug="developer-guide/technical-reference/flows/settings-architecture/index">Settings Architecture</a>
+<strong>Scope:</strong> Device settings management → User preferences → StateFlow propagation</p>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>Settings.kt - Room entity (single-row singleton pattern)</li>
+<li>SettingsDao.kt - Settings persistence</li>
+<li>SettingsViewModel.kt - Settings state management</li>
+<li>SettingsPage.kt - Compose UI for settings</li>
+<li>UserIdentityResolver.kt - User identity resolution</li>
+</ul>
+<p><strong>Flow Highlights:</strong></p>
+<ul>
+<li>Single-row singleton pattern (only one Settings row per device)</li>
+<li>StateFlow-based reactive updates (settings changes propagate immediately)</li>
+<li>Measurement system preferences (metric vs imperial)</li>
+<li>User identity resolution (local vs Firebase user)</li>
+<li>Equipment default tracking (last used equipment)</li>
+<li>Target zoom behavior preferences</li>
+<li>Settings initialization on first launch</li>
+</ul>
+<p><strong>Settings Propagation:</strong></p>
+<pre><code>User Input → ViewModel Update → Repository Save → StateFlow Emission →
+UI Recomposition → All Consumers Updated
+</code></pre>
+<p><strong>Settings Categories:</strong></p>
+<ul>
+<li><strong>Display:</strong> Target zoom behavior, measurement units</li>
+<li><strong>User:</strong> Default user name, Firebase user ID</li>
+<li><strong>Equipment:</strong> Last used bow setup ID</li>
+<li><strong>App Behavior:</strong> First launch flag, onboarding completion</li>
+</ul>
+<hr/>
+<h2 id="missing-flow-documentation">Missing Flow Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#missing-flow-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>The following flows are referenced in the codebase but not yet comprehensively documented. These are prioritized based on architectural importance and user impact.</p>
+<h3 id="high-priority-next-1-2-weeks">High Priority (Next 1-2 Weeks)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#high-priority-next-1-2-weeks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="1-tournament-participation-flow">1. Tournament Participation Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-tournament-participation-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> ⚠️ Not Documented
+<strong>Planned Subsection:</strong> <a href="../../User-Flows/" class="internal alias" data-slug="User-Flows/index">User Flows</a></p>
+<p><strong>Should Cover:</strong></p>
+<ul>
+<li>Tournament discovery and browsing</li>
+<li>Join tournament flow (Firebase authentication required)</li>
+<li>Tournament registration approval</li>
+<li>Guest participant creation for tournaments</li>
+<li>Real-time leaderboard viewing</li>
+<li>Tournament score updates from other participants</li>
+<li>Tournament completion and final rankings</li>
+</ul>
+<p><strong>Key Files:</strong></p>
+<ul>
+<li>TournamentViewModel.kt</li>
+<li>TournamentDiscoveryScreen.kt</li>
+<li>TournamentLeaderboardScreen.kt</li>
+<li>FirebaseTournamentRepository.kt</li>
+<li>TournamentParticipant.kt model</li>
+</ul>
+<p><strong>Why High Priority:</strong> Critical for understanding multi-user features and Firebase integration patterns.</p>
+<hr/>
+<h4 id="2-analytics-viewing-flow">2. Analytics Viewing Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-analytics-viewing-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> ⚠️ Not Documented
+<strong>Planned Subsection:</strong> <a href="../../User-Flows/" class="internal alias" data-slug="User-Flows/index">User Flows</a></p>
+<p><strong>Should Cover:</strong></p>
+<ul>
+<li>Round analytics dashboard navigation</li>
+<li>Performance trends calculation and visualization</li>
+<li>Equipment performance comparison</li>
+<li>Distance-specific statistics aggregation</li>
+<li>Fatigue detection visualization</li>
+<li>Shot grouping analysis</li>
+<li>Export analytics data (CSV)</li>
+</ul>
+<p><strong>Key Files:</strong></p>
+<ul>
+<li>RoundAnalyticsViewModel.kt</li>
+<li>EquipmentAnalyticsHubScreen.kt</li>
+<li>EquipmentComparisonScreen.kt</li>
+<li>StatisticsCalculationService.kt</li>
+<li>EquipmentPerformanceStats.kt models</li>
+</ul>
+<p><strong>Why High Priority:</strong> Key user value proposition for improving archery performance.</p>
+<hr/>
+<h4 id="3-navigation-patterns">3. Navigation Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-navigation-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> ⚠️ Not Documented
+<strong>Planned Subsection:</strong> <a href="../../System-Flows/" class="internal alias" data-slug="System-Flows/index">System Flows</a></p>
+<p><strong>Should Cover:</strong></p>
+<ul>
+<li>Bottom navigation structure</li>
+<li>Screen transitions and navigation graph</li>
+<li>Deep linking support</li>
+<li>Back stack management</li>
+<li>Navigation state preservation across configuration changes</li>
+<li>Cross-feature navigation (e.g., equipment → rounds → scoring)</li>
+<li>Parameter passing between screens</li>
+</ul>
+<p><strong>Key Files:</strong></p>
+<ul>
+<li>Navigation graph setup files</li>
+<li>NavHost configuration</li>
+<li>Screen-specific navigation logic</li>
+<li>Deep link handlers</li>
+</ul>
+<p><strong>Why High Priority:</strong> Foundational for understanding application structure and developer onboarding.</p>
+<hr/>
+<h3 id="medium-priority-next-month">Medium Priority (Next Month)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#medium-priority-next-month" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="4-authenticationauthorization-flow">4. Authentication/Authorization Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-authenticationauthorization-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> ⚠️ Partially Documented (mentioned in Data Sync Flow)
+<strong>Planned Subsection:</strong> <a href="../../Integration-Flows/" class="internal alias" data-slug="Integration-Flows/index">Integration Flows</a></p>
+<p><strong>Should Cover:</strong></p>
+<ul>
+<li>Firebase anonymous sign-in flow</li>
+<li>User authentication state management</li>
+<li>Scoring permission checks (tournament owner, participant, guest)</li>
+<li>Tournament ownership verification</li>
+<li>Local vs network participant permission model</li>
+</ul>
+<p><strong>Key Files:</strong></p>
+<ul>
+<li>FirebaseAuth integration</li>
+<li>ScoringPermissionService.kt</li>
+<li>UserIdentityResolver.kt</li>
+<li>Participant ownership logic</li>
+</ul>
+<p><strong>Why Medium Priority:</strong> Important for security but limited user-facing impact (mostly Firebase anonymous auth).</p>
+<hr/>
+<h4 id="5-state-management-flow">5. State Management Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-state-management-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> ⚠️ Scattered Across Existing Docs
+<strong>Planned Subsection:</strong> <a href="../../System-Flows/" class="internal alias" data-slug="System-Flows/index">System Flows</a></p>
+<p><strong>Should Cover:</strong></p>
+<ul>
+<li>StateFlow vs LiveData usage patterns</li>
+<li>State derivation and composition (combining multiple StateFlows)</li>
+<li>State persistence across configuration changes</li>
+<li>Shared state between ViewModels (e.g., scoring state)</li>
+<li>State update optimization strategies (avoiding unnecessary recomposition)</li>
+</ul>
+<p><strong>Key Files:</strong></p>
+<ul>
+<li>ScoringSessionState management</li>
+<li>RoundInputState patterns</li>
+<li>Equipment state coordination</li>
+<li>Tournament state synchronization</li>
+</ul>
+<p><strong>Why Medium Priority:</strong> Essential for maintainability and developer onboarding, but patterns are already demonstrated in existing flow docs.</p>
+<hr/>
+<h4 id="6-error-handling-flow">6. Error Handling Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#6-error-handling-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> ⚠️ Mentioned in Individual Flows but Not Unified
+<strong>Planned Subsection:</strong> <a href="../../System-Flows/" class="internal alias" data-slug="System-Flows/index">System Flows</a></p>
+<p><strong>Should Cover:</strong></p>
+<ul>
+<li>Validation errors (UI-level input validation)</li>
+<li>Database operation failures</li>
+<li>Network/sync errors (Firebase timeouts, connectivity loss)</li>
+<li>Conflict resolution errors</li>
+<li>User-facing error messages and notifications</li>
+<li>Error recovery strategies (retry, fallback, rollback)</li>
+</ul>
+<p><strong>Key Files:</strong></p>
+<ul>
+<li>Error types and classification</li>
+<li>SaveResult pattern usage</li>
+<li>TournamentSyncStatus error states</li>
+<li>Retry mechanisms (exponential backoff)</li>
+</ul>
+<p><strong>Why Medium Priority:</strong> Important for quality and user experience, but patterns are already demonstrated in existing docs.</p>
+<hr/>
+<h3 id="low-priority-next-quarter">Low Priority (Next Quarter)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#low-priority-next-quarter" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="7-data-exportimport-flow">7. Data Export/Import Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#7-data-exportimport-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> ⚠️ Mentioned in Equipment Docs but Not Detailed
+<strong>Planned Subsection:</strong> <a href="../../Integration-Flows/" class="internal alias" data-slug="Integration-Flows/index">Integration Flows</a></p>
+<p><strong>Should Cover:</strong></p>
+<ul>
+<li>CSV export for rounds and statistics</li>
+<li>JSON export for equipment configurations</li>
+<li>Backup and restore functionality</li>
+<li>Share functionality (Android intents)</li>
+<li>Import validation and error handling</li>
+</ul>
+<p><strong>Key Files:</strong></p>
+<ul>
+<li>EquipmentExportScreen.kt</li>
+<li>Export service implementations</li>
+<li>Data format specifications (CSV schemas, JSON schemas)</li>
+</ul>
+<p><strong>Why Low Priority:</strong> User-requested features but limited developer impact.</p>
+<hr/>
+<h2 id="flow-documentation-standards">Flow Documentation Standards<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#flow-documentation-standards" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>All flow documentation in Archery Apprentice follows consistent standards for quality and maintainability:</p>
+<h3 id="required-sections">Required Sections<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#required-sections" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Overview</strong> - High-level description of the flow, key components, entry points</li>
+<li><strong>Mermaid Diagrams</strong> - Sequence diagrams, flow diagrams, state machines</li>
+<li><strong>Detailed Call Chains</strong> - Step-by-step code execution with file paths and line numbers</li>
+<li><strong>State Changes</strong> - StateFlow emissions, UI recomposition triggers</li>
+<li><strong>Key Classes and Methods</strong> - Primary code locations with file paths</li>
+<li><strong>Error Handling</strong> - Failure scenarios and recovery strategies</li>
+<li><strong>Performance Considerations</strong> - Optimization strategies, caching, pagination</li>
+<li><strong>Testing</strong> - Test files, test scenarios, instrumentation tests</li>
+<li><strong>Related Documentation</strong> - Cross-references to architecture, database, and API docs</li>
+</ol>
+<h3 id="diagram-standards">Diagram Standards<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#diagram-standards" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Mermaid Syntax</strong> - All diagrams use Mermaid for consistency and version control</li>
+<li><strong>Sequence Diagrams</strong> - For showing component interactions over time</li>
+<li><strong>Flow Diagrams</strong> - For showing decision trees and branching logic</li>
+<li><strong>State Diagrams</strong> - For showing state machines and lifecycle management</li>
+</ul>
+<h3 id="code-reference-standards">Code Reference Standards<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#code-reference-standards" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Absolute File Paths</strong> - Use absolute paths relative to repository root</li>
+<li><strong>Line Numbers</strong> - Include line numbers for large files (e.g., god classes)</li>
+<li><strong>Method Signatures</strong> - Include full method signatures with parameter types</li>
+<li><strong>Timestamps</strong> - Document file size and line counts for context</li>
+</ul>
+<h3 id="example-documentation-quality">Example Documentation Quality<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#example-documentation-quality" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>See <a href="../.././../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/index">Equipment Management End-to-End Flow</a> (1,949 lines) for an example of comprehensive flow documentation with:</p>
+<ul>
+<li>Multiple Mermaid sequence diagrams</li>
+<li>Detailed code call chains with file paths</li>
+<li>Performance considerations and caching strategies</li>
+<li>Testing examples with instrumentation tests</li>
+<li>Cross-references to related documentation</li>
+</ul>
+<hr/>
+<h2 id="flow-categories">Flow Categories<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#flow-categories" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="user-flows">User Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#user-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>User-facing workflows that span multiple screens and user interactions.</p>
+<p><strong>Documented:</strong></p>
+<ul>
+<li>✅ Scoring Flow (arrow input → end completion)</li>
+<li>✅ Round Lifecycle Flow (creation → completion)</li>
+<li>✅ Equipment Management Flow (setup → selection → tracking)</li>
+<li>✅ Settings Architecture (user preferences)</li>
+</ul>
+<p><strong>Missing:</strong></p>
+<ul>
+<li>⚠️ Tournament Participation Flow</li>
+<li>⚠️ Analytics Viewing Flow</li>
+</ul>
+<p><strong>See:</strong> <a href="../../User-Flows/" class="internal alias" data-slug="User-Flows/index">User Flows</a> for detailed user workflow documentation.</p>
+<hr/>
+<h3 id="system-flows-1">System Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#system-flows-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Internal system processes, state machines, and background operations.</p>
+<p><strong>Documented:</strong></p>
+<ul>
+<li>✅ Round Status State Machine (PLANNED → IN_PROGRESS → COMPLETED)</li>
+<li>✅ Equipment Versioning Flow (snapshot creation)</li>
+<li>✅ Statistics Calculation Flow (aggregation across ends)</li>
+<li>✅ Settings Propagation Flow (StateFlow updates)</li>
+</ul>
+<p><strong>Missing:</strong></p>
+<ul>
+<li>⚠️ Navigation Patterns</li>
+<li>⚠️ State Management Flow (unified patterns)</li>
+<li>⚠️ Error Handling Flow (unified error recovery)</li>
+</ul>
+<p><strong>See:</strong> <a href="../../System-Flows/" class="internal alias" data-slug="System-Flows/index">System Flows</a> for detailed system process documentation.</p>
+<hr/>
+<h3 id="integration-flows">Integration Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#integration-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>External service integrations, data exchange, and synchronization.</p>
+<p><strong>Documented:</strong></p>
+<ul>
+<li>✅ Data Sync Flow (offline-first → Firebase)</li>
+<li>✅ Tournament Sync Flow (score submission with retry)</li>
+<li>✅ Conflict Resolution Flow (timestamp-based)</li>
+<li>✅ Caching Strategy (TTL-based smart caching)</li>
+</ul>
+<p><strong>Missing:</strong></p>
+<ul>
+<li>⚠️ Authentication/Authorization Flow (Firebase auth details)</li>
+<li>⚠️ Data Export/Import Flow (CSV/JSON export)</li>
+</ul>
+<p><strong>See:</strong> <a href="../../Integration-Flows/" class="internal alias" data-slug="Integration-Flows/index">Integration Flows</a> for detailed integration patterns.</p>
+<hr/>
+<h2 id="architecture-context">Architecture Context<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#architecture-context" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Flow documentation is tightly integrated with the overall system architecture:</p>
+<h3 id="mvvm-architecture">MVVM Architecture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#mvvm-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>All flows follow MVVM patterns with Clean Architecture principles:</p>
+<ul>
+<li><strong>View Layer</strong> - Jetpack Compose UI, observes StateFlows</li>
+<li><strong>ViewModel Layer</strong> - State management, business logic orchestration</li>
+<li><strong>Repository Layer</strong> - Data source abstraction, caching</li>
+<li><strong>Data Layer</strong> - Room database, Firebase, SharedPreferences</li>
+</ul>
+<p>See <a href="../.././../developer-guide/architecture/mvvm-patterns/" class="internal alias" data-slug="developer-guide/architecture/mvvm-patterns/index">MVVM Patterns</a> for detailed architecture documentation.</p>
+<h3 id="kmp-migration">KMP Migration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#kmp-migration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Flows are impacted by ongoing Kotlin Multiplatform (KMP) migration:</p>
+<ul>
+<li><strong>Week 11 Status:</strong> Equipment DAO migration complete</li>
+<li><strong>Shared Modules:</strong> common, domain, database, data, presentation, di</li>
+<li><strong>Migration Patterns:</strong> 5 migration patterns for gradual transition</li>
+</ul>
+<p>See <a href="../.././../developer-guide/kmp-migration/" class="internal alias" data-slug="developer-guide/kmp-migration/index">KMP Migration Architecture</a> for migration status and patterns.</p>
+<h3 id="god-class-refactoring">God Class Refactoring<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#god-class-refactoring" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Several key flows are impacted by ongoing god class refactoring:</p>
+<ul>
+<li><strong>LiveScoringViewModel.kt</strong> (2,808 lines) → Extracting EndCompletionService, TournamentSyncService</li>
+<li><strong>RoundViewModel.kt</strong> (2,177 lines) → Extracting StatisticsCalculationService, RoundStatusService</li>
+<li><strong>HybridTournamentRepository.kt</strong> (1,813 lines) → Extracting CacheService, ConflictResolutionService</li>
+</ul>
+<p>See <a href="../.././../developer-guide/architecture/system-architecture/" class="internal alias" data-slug="developer-guide/architecture/system-architecture/index">System Architecture</a> for refactoring plans and technical debt tracking.</p>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><strong><a href="../.././Database/" class="internal alias" data-slug="Database/index">Database Overview</a></strong> - Database schema, migrations, and data models</li>
+<li><strong><a href="../.././Data-Models/" class="internal alias" data-slug="Data-Models/index">Data Models</a></strong> - Entity models, relationships, and constraints</li>
+<li><strong><a href="../.././../developer-guide/architecture/system-architecture/" class="internal alias" data-slug="developer-guide/architecture/system-architecture/index">System Architecture</a></strong> - Overall architecture patterns and principles</li>
+<li><strong><a href="../.././../developer-guide/architecture/mvvm-patterns/" class="internal alias" data-slug="developer-guide/architecture/mvvm-patterns/index">MVVM Patterns</a></strong> - State management and UI patterns</li>
+<li><strong><a href="../.././../developer-guide/kmp-migration/" class="internal alias" data-slug="developer-guide/kmp-migration/index">KMP Migration</a></strong> - Kotlin Multiplatform migration status</li>
+<li><strong><a href="../.././../api-reference/" class="internal alias" data-slug="api-reference/index">API Reference</a></strong> - ViewModels, Repositories, DAOs, Services</li>
+</ul>
+<hr/>
+<h2 id="contributing-flow-documentation">Contributing Flow Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#contributing-flow-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>To add new flow documentation:</p>
+<ol>
+<li><strong>Research the Flow</strong> - Trace code execution from entry point to completion</li>
+<li><strong>Create Mermaid Diagrams</strong> - Visualize sequence, flow, and state changes</li>
+<li><strong>Document Call Chains</strong> - Include file paths, line numbers, and method signatures</li>
+<li><strong>Add Code Examples</strong> - Show key code snippets with context</li>
+<li><strong>Document Error Handling</strong> - Cover failure scenarios and recovery strategies</li>
+<li><strong>Add Performance Notes</strong> - Document caching, pagination, optimization</li>
+<li><strong>Cross-Reference</strong> - Link to related architecture, database, and API docs</li>
+<li><strong>Test Examples</strong> - Include test files and test scenarios</li>
+</ol>
+<p><strong>New Flow Checklist:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Overview with key components and entry points</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Mermaid sequence/flow diagrams</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Detailed call chains with file paths and line numbers</li>
+<li class="task-list-item"><input type="checkbox" disabled/> State changes and StateFlow emissions</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Error handling and recovery strategies</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Performance considerations (caching, pagination, optimization)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Testing examples (unit, integration, instrumentation)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Related documentation cross-references</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Code examples with file paths</li>
+<li class="task-list-item"><input type="checkbox" disabled/> User-facing impact description</li>
+</ul>
+<hr/>
+<p><strong>Last Updated:</strong> 2025-11-04
+<strong>Documentation Coverage:</strong> 5 flows fully documented (5,574 total lines), 7 flows pending</p></article><div class="page-listing"><p>3 items under this folder.</p><div><ul class="section-ul"><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-05T04:48:52.000Z">Nov 05, 2025</time></p><div class="desc"><h3><a href="../../Technical-Reference/Flows/User-Flows/" class="internal">User Flows</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../tags/flows">flows</a></li><li><a class="internal tag-link" href="../../tags/user-experience">user-experience</a></li><li><a class="internal tag-link" href="../../tags/user-journey">user-journey</a></li><li><a class="internal tag-link" href="../../tags/workflows">workflows</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-05T02:41:19.000Z">Nov 05, 2025</time></p><div class="desc"><h3><a href="../../Technical-Reference/Flows/Integration-Flows/" class="internal">Integration Flows</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../tags/flows">flows</a></li><li><a class="internal tag-link" href="../../tags/integration">integration</a></li><li><a class="internal tag-link" href="../../tags/api">api</a></li><li><a class="internal tag-link" href="../../tags/firebase">firebase</a></li><li><a class="internal tag-link" href="../../tags/sync">sync</a></li></ul></div></li><li class="section-li"><div class="section"><p class="meta"><time datetime="2025-11-05T02:41:19.000Z">Nov 05, 2025</time></p><div class="desc"><h3><a href="../../Technical-Reference/Flows/System-Flows/" class="internal">System Flows</a></h3></div><ul class="tags"><li><a class="internal tag-link" href="../../tags/flows">flows</a></li><li><a class="internal tag-link" href="../../tags/architecture">architecture</a></li><li><a class="internal tag-link" href="../../tags/system-design">system-design</a></li><li><a class="internal tag-link" href="../../tags/internal-processes">internal-processes</a></li></ul></div></li></ul></div></div></div><hr/><div class="page-footer"></div></div><div class="right sidebar"></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

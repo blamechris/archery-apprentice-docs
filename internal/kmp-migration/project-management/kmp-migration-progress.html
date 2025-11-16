@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>kmp-migration-progress</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="kmp-migration-progress"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="kmp-migration-progress"/><meta name="twitter:description" content="KMP Migration Progress Last Updated: 2025-10-21 | Project: Archery Apprentice KMP Migration Tags: project-management kmp migration-tracking status Project Overview Goal: Migrate Archery Apprentice Android app to Kotlin Multiplatform to enable iOS and future platform support."/><meta property="og:description" content="KMP Migration Progress Last Updated: 2025-10-21 | Project: Archery Apprentice KMP Migration Tags: project-management kmp migration-tracking status Project Overview Goal: Migrate Archery Apprentice Android app to Kotlin Multiplatform to enable iOS and future platform support."/><meta property="og:image:alt" content="KMP Migration Progress Last Updated: 2025-10-21 | Project: Archery Apprentice KMP Migration Tags: project-management kmp migration-tracking status Project Overview Goal: Migrate Archery Apprentice Android app to Kotlin Multiplatform to enable iOS and future platform support."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/project-management/kmp-migration-progress"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/project-management/kmp-migration-progress"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="KMP Migration Progress Last Updated: 2025-10-21 | Project: Archery Apprentice KMP Migration Tags: project-management kmp migration-tracking status Project Overview Goal: Migrate Archery Apprentice Android app to Kotlin Multiplatform to enable iOS and future platform support."/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/project-management/kmp-migration-progress-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/project-management/kmp-migration-progress-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/project-management/kmp-migration-progress-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/kmp-migration/project-management/kmp-migration-progress"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-372"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-372" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/kmp-migration/">kmp migration</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/kmp-migration/project-management/">project management</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>kmp migration progress</a></div></nav><h1 class="article-title">kmp-migration-progress</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-04T05:49:57.000Z">Nov 04, 2025</time><span>13 min read</span></p><ul class="tags"><li><a href="../../../tags/project-management" class="internal tag-link">project-management</a></li><li><a href="../../../tags/kmp" class="internal tag-link">kmp</a></li><li><a href="../../../tags/migration-tracking" class="internal tag-link">migration-tracking</a></li><li><a href="../../../tags/status" class="internal tag-link">status</a></li></ul></div></div><article class="popover-hint"><h1 id="kmp-migration-progress">KMP Migration Progress<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#kmp-migration-progress" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Last Updated:</strong> 2025-10-21 | <strong>Project:</strong> Archery Apprentice KMP Migration
+<strong>Tags:</strong> <a href="../../.././../../tags/project-management" class="tag-link internal alias" data-slug="tags/project-management">project-management</a> <a href="../../.././../../tags/kmp" class="tag-link internal alias" data-slug="tags/kmp">kmp</a> <a href="../../.././../../tags/migration-tracking" class="tag-link internal alias" data-slug="tags/migration-tracking">migration-tracking</a> <a href="../../.././../../tags/status" class="tag-link internal alias" data-slug="tags/status">status</a></p>
+<hr/>
+<h2 id="project-overview">Project Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#project-overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Goal:</strong> Migrate Archery Apprentice Android app to Kotlin Multiplatform to enable iOS and future platform support.</p>
+<p><strong>Timeline:</strong> 24 weeks (6 months)
+<strong>Current Phase:</strong> Week 2 - Repository Migration
+<strong>Overall Progress:</strong> ~8% complete (Week 1 of 24 weeks)</p>
+<p><strong>Key Metrics:</strong></p>
+<ul>
+<li><strong>Lines of Code Migrated:</strong> ~3,277 lines (Week 1)</li>
+<li><strong>Modules Created:</strong> 6 KMP shared modules</li>
+<li><strong>Platform Abstractions:</strong> 3 (PreferenceStorage, NetworkMonitor, TournamentModeProvider)</li>
+<li><strong>Test Coverage:</strong> 60% patch / 80% project (enforced)</li>
+</ul>
+<hr/>
+<h2 id="timeline--phases">Timeline &amp; Phases<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#timeline--phases" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="phase-1-foundation-weeks-1-8">Phase 1: Foundation (Weeks 1-8)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-1-foundation-weeks-1-8" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="-week-1-module-setup--planning-complete">✅ Week 1: Module Setup &amp; Planning (COMPLETE)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#-week-1-module-setup--planning-complete" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> ✅ Complete (Oct 18-20, 2025)</p>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li>✅ 6 KMP shared modules created (common, domain, data, database, presentation, di)</li>
+<li>✅ Room KMP 2.8.1 configured with KSP</li>
+<li>✅ Platform abstractions created (Context removal from domain layer)</li>
+<li>✅ God class analysis complete (3 classes analyzed, extraction plans documented)</li>
+<li>✅ Manual DI strategy established (SharedModuleFactory pattern)</li>
+</ul>
+<p><strong>PRs Merged:</strong></p>
+<ul>
+<li>PR #127: Agent 3 (Code Analysis) - God class extraction plans</li>
+<li>PR #130: Agent 2 (Module Setup) - 6 KMP modules + Room KMP</li>
+<li>PR #128: Agent 1 (Platform Abstractions) - PreferenceStorage, NetworkMonitor, TournamentModeProvider</li>
+</ul>
+<p><strong>Agent Breakdown:</strong></p>
+<ul>
+<li><strong>Agent 3 (AAA):</strong> Analysis complete, documentation delivered</li>
+<li><strong>Agent 2 (AAM):</strong> Module setup complete, Room KMP configured</li>
+<li><strong>Agent 1 (AAP):</strong> Platform abstractions complete, Context removed from domain</li>
+</ul>
+<p><strong>Challenges:</strong></p>
+<ul>
+<li>Kotlin version conflict (Room KMP pulled 2.1.20-dev, fixed with forced resolution)</li>
+<li>Coverage enforcement not enabled (discovered and fixed)</li>
+<li>JaCoCo limitations (11 lines can’t be measured, documented)</li>
+</ul>
+<p><strong>Metrics:</strong></p>
+<ul>
+<li><strong>Files Changed:</strong> 76 files</li>
+<li><strong>Lines Added:</strong> 6,977 lines</li>
+<li><strong>Lines Removed:</strong> 420 lines</li>
+<li><strong>Net Impact:</strong> +6,557 lines</li>
+<li><strong>Test Coverage:</strong> 60% patch / 80% project (enforced)</li>
+</ul>
+<hr/>
+<h4 id="️-week-2-repository-migration-in-progress">⏸️ Week 2: Repository Migration (IN PROGRESS)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-2-repository-migration-in-progress" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Phase 1 - Preparation Complete, Waiting for Dependencies
+<strong>Current Date:</strong> 2025-10-21
+<strong>Estimated Completion:</strong> ~5-7 days after dependencies resolve</p>
+<p><strong>Agent Assignments:</strong></p>
+<ul>
+<li><strong>Agent 1 (AAP):</strong> Domain model migration (BLOCKING Agent 2)</li>
+<li><strong>Agent 2 (AAM):</strong> Repository migration (BLOCKED - waiting for Agent 1 &amp; Agent 3)</li>
+<li><strong>Agent 3 (AAA):</strong> HybridTournamentRepository split (BLOCKING Agent 2)</li>
+</ul>
+<p><strong>Agent 2 Progress (Preparation Phase):</strong></p>
+<ul>
+<li>✅ Created Week 2 Migration Plan (17 pages, 727 lines)</li>
+<li>✅ Created Room KMP Migration Guide (43 pages, 1,229 lines)</li>
+<li>✅ Created 4 Obsidian vault conceptual docs (2,000+ lines)</li>
+<li>⏸️ Waiting for Agent 1 (domain models) and Agent 3 (repo split) to merge</li>
+<li>⏸️ Ready to begin Phase 2 (repository interface migration) when dependencies resolve</li>
+</ul>
+<p><strong>Blocking Dependencies:</strong></p>
+<ol>
+<li>
+<p><strong>Agent 1 (Domain Models):</strong></p>
+<ul>
+<li>Status: In progress (~50% done)</li>
+<li>Blocking: Repository interfaces reference domain models</li>
+<li>Estimated: 2-3 days to completion</li>
+</ul>
+</li>
+<li>
+<p><strong>Agent 3 (Repository Split):</strong></p>
+<ul>
+<li>Status: In progress (ahead of schedule)</li>
+<li>Blocking: HybridTournamentRepository being split into 4 repos</li>
+<li>Estimated: 2-3 days to completion</li>
+</ul>
+</li>
+</ol>
+<p><strong>Repositories to Migrate (14 total):</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> TournamentRepository (4 interfaces from Agent 3’s split)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> RoundRepository (needs interface extraction)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Equipment Repositories (11 classes, need interface extraction)</li>
+</ul>
+<p><strong>Planned Deliverables:</strong></p>
+<ul>
+<li>Repository interfaces in <code>shared/domain</code> (~1,000 lines)</li>
+<li>Repository implementations in <code>shared/data</code> (~2,200 lines)</li>
+<li>Room database configuration in <code>shared/database</code></li>
+<li>SharedModuleFactory DI setup in <code>shared/di</code></li>
+</ul>
+<p><strong>Estimated Timeline:</strong></p>
+<ul>
+<li>Preparation: ✅ Complete (2-3 days)</li>
+<li>Waiting for dependencies: ⏸️ In progress (3-5 days)</li>
+<li>Phase 2 (Interfaces): 2-3 days</li>
+<li>Phase 3 (Implementations): 2-3 days</li>
+<li>Phase 4 (Database): 3-4 days</li>
+<li>Phase 5 (DI): 1-2 days</li>
+<li>Phase 6 (Testing): 2-3 days</li>
+<li><strong>Total:</strong> 15-20 days</li>
+</ul>
+<p><strong>Risks:</strong></p>
+<ul>
+<li>Room KMP compatibility issues (Low - already configured)</li>
+<li>Merge conflicts with Agent 3 (Low - strategic waiting)</li>
+<li>TypeConverter migration complexity (Medium - Gson → kotlinx.serialization)</li>
+</ul>
+<hr/>
+<h4 id="️-week-3-4-platform-abstractions-planned">⏹️ Week 3-4: Platform Abstractions (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-3-4-platform-abstractions-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started
+<strong>Dependencies:</strong> Week 2 completion</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Create additional platform abstractions as needed</li>
+<li>Refine existing abstractions (PreferenceStorage, NetworkMonitor)</li>
+<li>Add logging abstraction</li>
+<li>Firebase SDK abstraction (RemoteTournamentDataSource)</li>
+</ul>
+<hr/>
+<h4 id="️-week-5-6-proof-of-concept-presenter-planned">⏹️ Week 5-6: Proof-of-Concept Presenter (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-5-6-proof-of-concept-presenter-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started
+<strong>Dependencies:</strong> Week 2 completion (repository layer migrated)</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Extract first Presenter from ViewModel (PoC)</li>
+<li>Define Presenter pattern</li>
+<li>Test Presenter on both Android and iOS (simulator)</li>
+<li>Establish Presenter testing patterns</li>
+</ul>
+<p><strong>Target Presenter:</strong> RoundPresenter (simple, well-defined)</p>
+<hr/>
+<h4 id="️-week-7-8-database-migration-planned">⏹️ Week 7-8: Database Migration (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-7-8-database-migration-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started
+<strong>Dependencies:</strong> Week 2 completion</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Migrate remaining entities to <code>shared/domain</code></li>
+<li>Configure Room KMP database</li>
+<li>Test migrations on Android</li>
+<li>Prepare for iOS database initialization (Week 21+)</li>
+</ul>
+<p><strong>Note:</strong> Room KMP already configured in Week 1, this is final database migration</p>
+<hr/>
+<h3 id="phase-2-data-layer-migration-weeks-9-16">Phase 2: Data Layer Migration (Weeks 9-16)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-2-data-layer-migration-weeks-9-16" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="️-week-9-10-firebase-abstraction-layer-planned">⏹️ Week 9-10: Firebase Abstraction Layer (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-9-10-firebase-abstraction-layer-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Create RemoteTournamentDataSource interface</li>
+<li>Implement Android Firebase data source</li>
+<li>Abstract all Firebase SDK calls</li>
+<li>Prepare for iOS Firebase SDK (Week 21+)</li>
+</ul>
+<hr/>
+<h4 id="️-week-11-12-repository-refactoring-part-1-planned">⏹️ Week 11-12: Repository Refactoring (Part 1) (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-11-12-repository-refactoring-part-1-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Extract services from HybridTournamentRepository</li>
+<li>Apply Agent 3’s extraction plans</li>
+<li>Test split repositories</li>
+</ul>
+<hr/>
+<h4 id="️-week-13-14-repository-refactoring-part-2-planned">⏹️ Week 13-14: Repository Refactoring (Part 2) (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-13-14-repository-refactoring-part-2-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Complete repository split</li>
+<li>Extract business logic into services</li>
+<li>Improve testability</li>
+</ul>
+<hr/>
+<h4 id="️-week-15-16-hilt--manual-di-refinement-planned">⏹️ Week 15-16: Hilt → Manual DI Refinement (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-15-16-hilt--manual-di-refinement-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Refine SharedModuleFactory pattern</li>
+<li>Optimize DI performance</li>
+<li>Document DI best practices</li>
+</ul>
+<p><strong>Note:</strong> Project uses manual DI (no Hilt/Koin), this is refinement week</p>
+<hr/>
+<h3 id="phase-3-presentation-layer-migration-weeks-17-20">Phase 3: Presentation Layer Migration (Weeks 17-20)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-3-presentation-layer-migration-weeks-17-20" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="️-week-17-simple-viewmodels-batch-1-planned">⏹️ Week 17: Simple ViewModels (Batch 1) (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-17-simple-viewmodels-batch-1-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Migrate simple ViewModels to Presenters</li>
+<li>Establish Presenter patterns</li>
+<li>Create ViewModel wrappers</li>
+</ul>
+<hr/>
+<h4 id="️-week-18-medium-viewmodels-batch-2-planned">⏹️ Week 18: Medium ViewModels (Batch 2) (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-18-medium-viewmodels-batch-2-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Migrate medium complexity ViewModels</li>
+<li>Extract business logic to Presenters</li>
+</ul>
+<hr/>
+<h4 id="️-week-19-complex-viewmodels-batch-3-planned">⏹️ Week 19: Complex ViewModels (Batch 3) (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-19-complex-viewmodels-batch-3-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Migrate complex ViewModels</li>
+<li>Significant business logic extraction</li>
+</ul>
+<hr/>
+<h4 id="️-week-20-god-class-viewmodels-final-planned">⏹️ Week 20: God Class ViewModels (Final) (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-20-god-class-viewmodels-final-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Migrate RoundViewModel</li>
+<li>Migrate LiveScoringViewModel</li>
+<li>Extract remaining services per Agent 3’s plans</li>
+</ul>
+<hr/>
+<h3 id="phase-4-ios-app-development-weeks-21-24">Phase 4: iOS App Development (Weeks 21-24)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-4-ios-app-development-weeks-21-24" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="️-week-21-ios-project-setup-planned">⏹️ Week 21: iOS Project Setup (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-21-ios-project-setup-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Create iOS app project</li>
+<li>Configure iOS build</li>
+<li>Wire up shared modules</li>
+<li>Test iOS database initialization</li>
+</ul>
+<hr/>
+<h4 id="️-week-22-24-ios-core-features-planned">⏹️ Week 22-24: iOS Core Features (PLANNED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#️-week-22-24-ios-core-features-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Status:</strong> Not started</p>
+<p><strong>Planned Work:</strong></p>
+<ul>
+<li>Build iOS UI (SwiftUI)</li>
+<li>Implement iOS-specific platform code</li>
+<li>Test iOS app features</li>
+<li>iOS alpha release (Week 24)</li>
+</ul>
+<hr/>
+<h2 id="current-week-2-status-detailed">Current Week 2 Status (Detailed)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-week-2-status-detailed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="agent-1-aap---domain-model-migration">Agent 1 (AAP) - Domain Model Migration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-1-aap---domain-model-migration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Mission:</strong> Migrate domain models to <code>shared/domain</code></p>
+<p><strong>Status:</strong> ⏸️ In Progress (~50% complete)</p>
+<p><strong>Completed:</strong></p>
+<ul>
+<li>Platform abstractions (Week 1)</li>
+<li>Context removal from domain layer</li>
+<li>Documentation of platform abstractions</li>
+</ul>
+<p><strong>In Progress:</strong></p>
+<ul>
+<li>Migrating domain models (Round, Tournament, Equipment)</li>
+<li>Removing Android-specific code (java.util.Date, System.currentTimeMillis)</li>
+<li>Ensuring Room annotations preserved</li>
+</ul>
+<p><strong>Blocking:</strong> Agent 2 (repository interfaces need these models)</p>
+<p><strong>Estimated Completion:</strong> 2-3 days</p>
+<hr/>
+<h3 id="agent-2-aam---repository-migration">Agent 2 (AAM) - Repository Migration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-2-aam---repository-migration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Mission:</strong> Migrate repository layer to shared code</p>
+<p><strong>Status:</strong> ⏸️ Phase 1 Complete - Waiting for Dependencies</p>
+<p><strong>Phase 1 (Preparation) - ✅ COMPLETE:</strong></p>
+<ul>
+<li>Created Week 2 Migration Plan (17 pages)</li>
+<li>Created Room KMP Migration Guide (43 pages)</li>
+<li>Created 4 Obsidian vault docs:
+<ul>
+<li>KMP Data Layer Architecture (500+ lines)</li>
+<li>Repository Migration Strategy (700+ lines)</li>
+<li>Room KMP Architecture (800+ lines)</li>
+<li>KMP Migration Progress (this document)</li>
+</ul>
+</li>
+<li>Total conceptual documentation: 2,000+ lines</li>
+</ul>
+<p><strong>Phase 2-6 (Execution) - ⏸️ WAITING:</strong></p>
+<ul>
+<li>Blocked by Agent 1 (domain models)</li>
+<li>Blocked by Agent 3 (repository split)</li>
+<li>Ready to begin Phase 2 when dependencies merge</li>
+<li>Estimated: 12-17 days active work after dependencies</li>
+</ul>
+<p><strong>Deliverables Created:</strong></p>
+<ul>
+<li><code>docs/AGENT_CONTEXTS/AGENT_2_WEEK_2_MIGRATION_PLAN.md</code> (727 lines)</li>
+<li><code>docs/kmp-migration/ROOM_KMP_MIGRATION_GUIDE.md</code> (1,229 lines)</li>
+<li><code>Note Vault/Archery Apprentice KMP/Architecture/</code> (4 conceptual docs)</li>
+</ul>
+<p><strong>Blocking:</strong> Agent 3 (repository split must complete first)</p>
+<p><strong>Estimated Completion:</strong> 5-7 days after dependencies (12-17 days active work total)</p>
+<hr/>
+<h3 id="agent-3-aaa---repository-split--service-extraction">Agent 3 (AAA) - Repository Split &amp; Service Extraction<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-3-aaa---repository-split--service-extraction" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Mission:</strong> Split HybridTournamentRepository into 4 specialized repositories</p>
+<p><strong>Status:</strong> ⏸️ In Progress (ahead of schedule)</p>
+<p><strong>Week 1 Deliverables:</strong></p>
+<ul>
+<li>GOD_CLASS_EXTRACTION_PLANS.md (35K, detailed extraction plans)</li>
+<li>VIEWMODEL_INVENTORY.md (16K, complete ViewModel catalog)</li>
+<li>WEEK_5_8_PLAN.md (33K, day-by-day implementation guide)</li>
+</ul>
+<p><strong>Week 2 Work:</strong></p>
+<ul>
+<li>Splitting HybridTournamentRepository (1,809 lines → 4 specialized repos)</li>
+<li>Target: TournamentDiscoveryRepository, TournamentCrudRepository, TournamentParticipantRepository, TournamentScoringRepository</li>
+<li>HybridTournamentRepository becomes coordinator (~600-700 lines)</li>
+</ul>
+<p><strong>Blocking:</strong> Agent 2 (repository migration waits for clean split)</p>
+<p><strong>Estimated Completion:</strong> 2-3 days</p>
+<hr/>
+<h2 id="dependencies--coordination">Dependencies &amp; Coordination<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#dependencies--coordination" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="critical-path">Critical Path<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-path" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>Week 2:
+  Agent 1 (Domain Models)
+    ↓
+  Agent 3 (Repository Split)
+    ↓
+  Agent 2 (Repository Migration)
+</code></pre>
+<p><strong>Why This Order:</strong></p>
+<ol>
+<li><strong>Agent 1 first:</strong> Domain models must be in <code>shared/domain</code> before repository interfaces can reference them</li>
+<li><strong>Agent 3 second:</strong> Repository split creates clean architecture for Agent 2 to migrate</li>
+<li><strong>Agent 2 third:</strong> Migrates clean, split repositories (avoids merge conflicts)</li>
+</ol>
+<h3 id="strategic-waiting-agent-2">Strategic Waiting (Agent 2)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#strategic-waiting-agent-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Productive Waiting Strategy:</strong></p>
+<ul>
+<li>✅ Created comprehensive technical documentation (2 docs, 60 pages)</li>
+<li>✅ Created comprehensive conceptual documentation (4 docs, 60+ pages)</li>
+<li>✅ Analyzed current database (23 entities, 14 DAOs, 19 migrations)</li>
+<li>✅ Documented migration patterns and strategies</li>
+<li>⏸️ Standing by for Phase 2 execution</li>
+</ul>
+<p><strong>Time Saved by Waiting:</strong></p>
+<ul>
+<li>Avoided: 2-3 days merge conflict resolution</li>
+<li>Avoided: 1-2 days re-migration work</li>
+<li>Gained: 5-7 hours faster Phase 4 execution (Room guide)</li>
+<li><strong>Net Benefit:</strong> 3-5 days saved</li>
+</ul>
+<hr/>
+<h2 id="metrics--progress">Metrics &amp; Progress<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#metrics--progress" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="code-migration-week-1">Code Migration (Week 1)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#code-migration-week-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Lines Migrated:</strong></p>
+<ul>
+<li>Agent 1: ~3,277 lines (platform abstractions + tests)</li>
+<li>Agent 2: ~2,500 lines (modules + configuration)</li>
+<li>Agent 3: ~1,200 lines (documentation)</li>
+<li><strong>Total:</strong> ~6,977 lines added</li>
+</ul>
+<p><strong>Modules Created:</strong></p>
+<ul>
+<li><code>shared/common</code> - Foundation utilities</li>
+<li><code>shared/domain</code> - Business logic interfaces</li>
+<li><code>shared/data</code> - Repository implementations</li>
+<li><code>shared/database</code> - Room KMP database</li>
+<li><code>shared/presentation</code> - Presenters</li>
+<li><code>shared/di</code> - Manual DI</li>
+</ul>
+<p><strong>Platform Abstractions:</strong></p>
+<ul>
+<li>PreferenceStorage (9 methods)</li>
+<li>NetworkMonitor (connectivity monitoring)</li>
+<li>TournamentModeProvider (online/offline detection)</li>
+</ul>
+<h3 id="documentation-created">Documentation Created<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#documentation-created" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Code Repository:</strong></p>
+<ul>
+<li>Agent contexts (3 files)</li>
+<li>God class extraction plans (3 files, 84K)</li>
+<li>Module architecture docs (2 files)</li>
+<li>DI strategy (1 file)</li>
+<li>Week 1 retrospective (1 file)</li>
+<li>Week 2 migration plan (1 file, 727 lines)</li>
+<li>Room KMP migration guide (1 file, 1,229 lines)</li>
+<li><strong>Total:</strong> 12+ documentation files</li>
+</ul>
+<p><strong>Obsidian Vault:</strong></p>
+<ul>
+<li>KMP Data Layer Architecture (500+ lines)</li>
+<li>Repository Migration Strategy (700+ lines)</li>
+<li>Room KMP Architecture (800+ lines)</li>
+<li>KMP Migration Progress (this document)</li>
+<li><strong>Total:</strong> 4 conceptual docs, 2,000+ lines</li>
+</ul>
+<h3 id="test-coverage">Test Coverage<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#test-coverage" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Before Week 1:</strong></p>
+<ul>
+<li>Unit tests: ~2,000 tests</li>
+<li>Coverage: ~70% (not enforced)</li>
+</ul>
+<p><strong>After Week 1:</strong></p>
+<ul>
+<li>Unit tests: 238 tests (updated after extraction work)</li>
+<li>Coverage: ~70% (realistic for JaCoCo limitations)</li>
+<li>Coverage enforcement: ENABLED (60% patch / 80% project)</li>
+<li>Platform abstraction tests: 4 new test files</li>
+</ul>
+<hr/>
+<h2 id="risks--issues">Risks &amp; Issues<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#risks--issues" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-1-issues-resolved">Week 1 Issues (Resolved)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-1-issues-resolved" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p>✅ <strong>Issue #2:</strong> Kotlin version conflict (Room KMP → 2.1.20-dev)</p>
+<ul>
+<li><strong>Resolution:</strong> Forced to 2.0.21 in shared:di</li>
+<li><strong>Status:</strong> Fixed</li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>Issue #3:</strong> PlatformProvider.isInitialized() test failures (21+ tests)</p>
+<ul>
+<li><strong>Resolution:</strong> Created MockPlatformProviders.kt</li>
+<li><strong>Status:</strong> Fixed</li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>Issue #7:</strong> Coverage enforcement not enabled</p>
+<ul>
+<li><strong>Resolution:</strong> Enabled strict enforcement (60% patch / 80% project)</li>
+<li><strong>Status:</strong> Fixed</li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>Issue #9:</strong> JaCoCo coverage tool limitations (11 lines unmeasurable)</p>
+<ul>
+<li><strong>Resolution:</strong> Documented limitations, hybrid coverage approach</li>
+<li><strong>Status:</strong> Accepted limitation</li>
+</ul>
+</li>
+</ol>
+<h3 id="week-2-risks-active">Week 2 Risks (Active)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-2-risks-active" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Risk:</strong> Room KMP 2.8.1 stability (Medium impact)</p>
+<ul>
+<li><strong>Mitigation:</strong> Already configured in Week 1, tested successfully</li>
+<li><strong>Fallback:</strong> Keep database in app module if blocking issues</li>
+<li><strong>Status:</strong> Low risk (Week 1 configuration successful)</li>
+</ul>
+</li>
+<li>
+<p><strong>Risk:</strong> Merge conflicts with Agent 3 (Medium impact)</p>
+<ul>
+<li><strong>Mitigation:</strong> Strategic waiting for Agent 3 to complete</li>
+<li><strong>Coordination:</strong> Pull main after Agent 3’s PR merges</li>
+<li><strong>Status:</strong> Low risk (proactive coordination)</li>
+</ul>
+</li>
+<li>
+<p><strong>Risk:</strong> TypeConverter migration complexity (Medium impact)</p>
+<ul>
+<li><strong>Mitigation:</strong> Keep Gson short-term, migrate to kotlinx.serialization post-Week 2</li>
+<li><strong>Status:</strong> Medium risk (manageable with phased approach)</li>
+</ul>
+</li>
+<li>
+<p><strong>Risk:</strong> Repository interface changes break call sites (Low impact)</p>
+<ul>
+<li><strong>Mitigation:</strong> IDE refactoring tools, comprehensive test suite</li>
+<li><strong>Status:</strong> Low risk (well-planned migration)</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="success-metrics">Success Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-1-success-metrics-achieved">Week 1 Success Metrics (Achieved)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-1-success-metrics-achieved" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>✅ All 6 KMP modules build successfully</li>
+<li>✅ Room KMP configured (no version conflicts)</li>
+<li>✅ Platform abstractions created and tested</li>
+<li>✅ All existing tests pass (238 tests)</li>
+<li>✅ Coverage maintained (60% patch / 80% project)</li>
+<li>✅ 3 PRs merged to main</li>
+<li>✅ Comprehensive documentation created</li>
+</ul>
+<h3 id="week-2-success-metrics-pending">Week 2 Success Metrics (Pending)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-2-success-metrics-pending" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> All repository interfaces in <code>shared/domain</code> (~1,000 lines)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All repository implementations in <code>shared/data</code> (~2,200 lines)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Room database configured in <code>shared/database</code></li>
+<li class="task-list-item"><input type="checkbox" disabled/> SharedModuleFactory fully implemented</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All existing tests pass (3,400+ tests)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Coverage maintained (60% patch / 80% project)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> E2E tests pass (5 test suites)</li>
+</ul>
+<h3 id="overall-project-success-metrics">Overall Project Success Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overall-project-success-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> iOS app alpha release (Week 24)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> All business logic shared (Android + iOS)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Database shared (Room KMP on both platforms)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Presentation logic shared (Presenters)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Test coverage maintained across migration</li>
+<li class="task-list-item"><input type="checkbox" disabled/> No regressions in Android app</li>
+</ul>
+<hr/>
+<h2 id="key-architectural-decisions">Key Architectural Decisions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-architectural-decisions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="1-manual-di-no-hiltkoin">1. Manual DI (No Hilt/Koin)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-manual-di-no-hiltkoin" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Decision:</strong> Continue manual DI with SharedModuleFactory pattern</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li>Matches existing app architecture (RepositoryFactory)</li>
+<li>Simple, explicit, debuggable</li>
+<li>No third-party framework learning curve</li>
+<li>Can add Koin later if needed</li>
+</ul>
+<p><strong>Status:</strong> ✅ Established in Week 1</p>
+<hr/>
+<h3 id="2-room-kmp-281-for-database">2. Room KMP 2.8.1 for Database<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-room-kmp-281-for-database" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Decision:</strong> Use Room KMP (not SQLDelight)</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li>Keep existing Room code (zero migration effort)</li>
+<li>Team expertise with Room API</li>
+<li>Official Google/JetBrains support</li>
+<li>Maturing rapidly (Alpha → Beta expected)</li>
+</ul>
+<p><strong>Status:</strong> ✅ Configured in Week 1</p>
+<hr/>
+<h3 id="3-offline-first-architecture">3. Offline-First Architecture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-offline-first-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Decision:</strong> Local Room database as source of truth, Firebase syncs in background</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li>Users score rounds offline (field, competition venues with poor connectivity)</li>
+<li>Instant user experience (no loading states)</li>
+<li>Proven pattern (existing app uses this)</li>
+</ul>
+<p><strong>Status:</strong> ✅ Maintained in migration</p>
+<hr/>
+<h3 id="4-hybrid-repository-pattern">4. Hybrid Repository Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-hybrid-repository-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Decision:</strong> Combine local + remote data sources in single repository</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li>Simplifies ViewModels/Presenters</li>
+<li>Encapsulates sync complexity</li>
+<li>Proven pattern (existing HybridTournamentRepository)</li>
+</ul>
+<p><strong>Status:</strong> ⏸️ Being refined by Agent 3 (split into specialized repos)</p>
+<hr/>
+<h3 id="5-incremental-migration-not-big-bang">5. Incremental Migration (Not Big Bang)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-incremental-migration-not-big-bang" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Decision:</strong> Migrate one layer at a time, keep app working</p>
+<p><strong>Rationale:</strong></p>
+<ul>
+<li>Lower risk (app continues to work)</li>
+<li>Easier to test (smaller changes)</li>
+<li>Continuous delivery (merge weekly)</li>
+</ul>
+<p><strong>Status:</strong> ✅ Active (Week 2 in progress)</p>
+<hr/>
+<h2 id="next-steps-immediate">Next Steps (Immediate)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#next-steps-immediate" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="for-agent-1-domain-models">For Agent 1 (Domain Models)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#for-agent-1-domain-models" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>⏸️ Continue migrating domain models to <code>shared/domain</code></li>
+<li>⏸️ Remove Android-specific code (java.util.Date, System.currentTimeMillis)</li>
+<li>⏸️ Ensure Room annotations preserved</li>
+<li>⏸️ Test all models compile in shared/domain</li>
+<li>⏸️ Merge PR to main</li>
+</ol>
+<p><strong>Estimated Completion:</strong> 2-3 days</p>
+<hr/>
+<h3 id="for-agent-3-repository-split">For Agent 3 (Repository Split)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#for-agent-3-repository-split" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>⏸️ Complete HybridTournamentRepository split (4 specialized repos)</li>
+<li>⏸️ Test all tournament flows (create, join, score, sync)</li>
+<li>⏸️ Update call sites to use split repos</li>
+<li>⏸️ Merge PR to main</li>
+</ol>
+<p><strong>Estimated Completion:</strong> 2-3 days</p>
+<hr/>
+<h3 id="for-agent-2-repository-migration">For Agent 2 (Repository Migration)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#for-agent-2-repository-migration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>⏸️ Wait for Agent 1 &amp; Agent 3 PRs to merge</li>
+<li>⏸️ Pull latest main (get domain models + split repos)</li>
+<li>⏸️ Begin Phase 2: Repository interface migration</li>
+<li>⏸️ Use Room KMP Migration Guide for Phase 4</li>
+</ol>
+<p><strong>Estimated Start:</strong> 2-3 days (when dependencies merge)
+<strong>Estimated Duration:</strong> 12-17 days active work</p>
+<hr/>
+<h2 id="weekly-retrospectives">Weekly Retrospectives<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#weekly-retrospectives" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-1-retrospective">Week 1 Retrospective<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-1-retrospective" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>✅ What Went Well:</strong></p>
+<ul>
+<li>Git worktrees enabled true parallel development</li>
+<li>Strategic merge order minimized conflicts</li>
+<li>Agent context handoff protocol worked well</li>
+<li>Coverage enforcement established (hybrid approach)</li>
+</ul>
+<p><strong>⚠️ What Was Harder Than Expected:</strong></p>
+<ul>
+<li>Coverage work is discovery-heavy (not just writing tests)</li>
+<li>Tooling claims needed verification (coverage, detekt not configured)</li>
+<li>Platform abstractions required comprehensive test mocking</li>
+<li>Time estimates were overly optimistic (7x → 2-3x speedup)</li>
+</ul>
+<p><strong>📋 Lessons Learned:</strong></p>
+<ul>
+<li>Factor coverage work into estimates upfront</li>
+<li>Verify all tooling claims before starting</li>
+<li>Plan test infrastructure changes when adding abstractions</li>
+<li>Use conservative multipliers for parallel work (2-3x, not 5-7x)</li>
+</ul>
+<p><strong>📈 Process Improvements:</strong></p>
+<ul>
+<li>Verify tooling claims upfront (before starting work)</li>
+<li>Factor coverage work into estimates</li>
+<li>Plan test infrastructure changes proactively</li>
+<li>Use conservative time estimates (2-3x multiplier)</li>
+</ul>
+<p><strong>Status:</strong> Retrospective complete, documented in <code>docs/retrospectives-kmp-migration/week-1-retrospective.md</code></p>
+<hr/>
+<h3 id="week-2-retrospective-pending">Week 2 Retrospective (Pending)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-2-retrospective-pending" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> Week 2 in progress
+<strong>Retrospective Date:</strong> After Week 2 completion (~5-7 days)</p>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Code Repository:</strong></p>
+<ul>
+<li><a href="../../.././../docs/AGENT_CONTEXTS/AGENT_2_WEEK_2_MIGRATION_PLAN" class="internal alias" data-slug="docs/AGENT_CONTEXTS/AGENT_2_WEEK_2_MIGRATION_PLAN">Week 2 Migration Plan</a></li>
+<li><a href="../../.././../docs/kmp-migration/ROOM_KMP_MIGRATION_GUIDE" class="internal alias" data-slug="docs/kmp-migration/ROOM_KMP_MIGRATION_GUIDE">Room KMP Migration Guide</a></li>
+<li><a href="../../.././../docs/kmp-migration/MODULE_ARCHITECTURE" class="internal alias" data-slug="docs/kmp-migration/MODULE_ARCHITECTURE">Module Architecture</a></li>
+<li><a href="../../.././../docs/kmp-migration/KMP_MIGRATION_ROADMAP" class="internal alias" data-slug="docs/kmp-migration/KMP_MIGRATION_ROADMAP">24-Week Migration Roadmap</a></li>
+<li><a href="../../.././../docs/GOD_CLASS_EXTRACTION_PLANS" class="internal alias" data-slug="docs/GOD_CLASS_EXTRACTION_PLANS">God Class Extraction Plans</a></li>
+<li><a href="../../.././../docs/retrospectives-kmp-migration/week-1-retrospective" class="internal alias" data-slug="docs/retrospectives-kmp-migration/week-1-retrospective">Week 1 Retrospective</a></li>
+</ul>
+<p><strong>Obsidian Vault:</strong></p>
+<ul>
+<li><a href="../../.././Architecture/KMP-Data-Layer-Architecture" class="internal alias" data-slug="Architecture/KMP-Data-Layer-Architecture">KMP Data Layer Architecture</a></li>
+<li><a href="../../.././Architecture/Repository-Migration-Strategy" class="internal alias" data-slug="Architecture/Repository-Migration-Strategy">Repository Migration Strategy</a></li>
+<li><a href="../../.././Architecture/Room-KMP-Architecture" class="internal alias" data-slug="Architecture/Room-KMP-Architecture">Room KMP Architecture</a></li>
+</ul>
+<hr/>
+<p><strong>Last Updated:</strong> 2025-10-21
+<strong>Status:</strong> Week 2 Day 1 - Phase 1 (Preparation) Complete
+<strong>Next Update:</strong> When Agent 1 &amp; Agent 3 merge (estimated 2-3 days)</p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-138" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#kmp-migration-progress" data-for="kmp-migration-progress">KMP Migration Progress</a></li><li class="depth-1"><a href="#project-overview" data-for="project-overview">Project Overview</a></li><li class="depth-1"><a href="#timeline--phases" data-for="timeline--phases">Timeline &amp; Phases</a></li><li class="depth-2"><a href="#phase-1-foundation-weeks-1-8" data-for="phase-1-foundation-weeks-1-8">Phase 1: Foundation (Weeks 1-8)</a></li><li class="depth-2"><a href="#phase-2-data-layer-migration-weeks-9-16" data-for="phase-2-data-layer-migration-weeks-9-16">Phase 2: Data Layer Migration (Weeks 9-16)</a></li><li class="depth-2"><a href="#phase-3-presentation-layer-migration-weeks-17-20" data-for="phase-3-presentation-layer-migration-weeks-17-20">Phase 3: Presentation Layer Migration (Weeks 17-20)</a></li><li class="depth-2"><a href="#phase-4-ios-app-development-weeks-21-24" data-for="phase-4-ios-app-development-weeks-21-24">Phase 4: iOS App Development (Weeks 21-24)</a></li><li class="depth-1"><a href="#current-week-2-status-detailed" data-for="current-week-2-status-detailed">Current Week 2 Status (Detailed)</a></li><li class="depth-2"><a href="#agent-1-aap---domain-model-migration" data-for="agent-1-aap---domain-model-migration">Agent 1 (AAP) - Domain Model Migration</a></li><li class="depth-2"><a href="#agent-2-aam---repository-migration" data-for="agent-2-aam---repository-migration">Agent 2 (AAM) - Repository Migration</a></li><li class="depth-2"><a href="#agent-3-aaa---repository-split--service-extraction" data-for="agent-3-aaa---repository-split--service-extraction">Agent 3 (AAA) - Repository Split &amp; Service Extraction</a></li><li class="depth-1"><a href="#dependencies--coordination" data-for="dependencies--coordination">Dependencies &amp; Coordination</a></li><li class="depth-2"><a href="#critical-path" data-for="critical-path">Critical Path</a></li><li class="depth-2"><a href="#strategic-waiting-agent-2" data-for="strategic-waiting-agent-2">Strategic Waiting (Agent 2)</a></li><li class="depth-1"><a href="#metrics--progress" data-for="metrics--progress">Metrics &amp; Progress</a></li><li class="depth-2"><a href="#code-migration-week-1" data-for="code-migration-week-1">Code Migration (Week 1)</a></li><li class="depth-2"><a href="#documentation-created" data-for="documentation-created">Documentation Created</a></li><li class="depth-2"><a href="#test-coverage" data-for="test-coverage">Test Coverage</a></li><li class="depth-1"><a href="#risks--issues" data-for="risks--issues">Risks &amp; Issues</a></li><li class="depth-2"><a href="#week-1-issues-resolved" data-for="week-1-issues-resolved">Week 1 Issues (Resolved)</a></li><li class="depth-2"><a href="#week-2-risks-active" data-for="week-2-risks-active">Week 2 Risks (Active)</a></li><li class="depth-1"><a href="#success-metrics" data-for="success-metrics">Success Metrics</a></li><li class="depth-2"><a href="#week-1-success-metrics-achieved" data-for="week-1-success-metrics-achieved">Week 1 Success Metrics (Achieved)</a></li><li class="depth-2"><a href="#week-2-success-metrics-pending" data-for="week-2-success-metrics-pending">Week 2 Success Metrics (Pending)</a></li><li class="depth-2"><a href="#overall-project-success-metrics" data-for="overall-project-success-metrics">Overall Project Success Metrics</a></li><li class="depth-1"><a href="#key-architectural-decisions" data-for="key-architectural-decisions">Key Architectural Decisions</a></li><li class="depth-2"><a href="#1-manual-di-no-hiltkoin" data-for="1-manual-di-no-hiltkoin">1. Manual DI (No Hilt/Koin)</a></li><li class="depth-2"><a href="#2-room-kmp-281-for-database" data-for="2-room-kmp-281-for-database">2. Room KMP 2.8.1 for Database</a></li><li class="depth-2"><a href="#3-offline-first-architecture" data-for="3-offline-first-architecture">3. Offline-First Architecture</a></li><li class="depth-2"><a href="#4-hybrid-repository-pattern" data-for="4-hybrid-repository-pattern">4. Hybrid Repository Pattern</a></li><li class="depth-2"><a href="#5-incremental-migration-not-big-bang" data-for="5-incremental-migration-not-big-bang">5. Incremental Migration (Not Big Bang)</a></li><li class="depth-1"><a href="#next-steps-immediate" data-for="next-steps-immediate">Next Steps (Immediate)</a></li><li class="depth-2"><a href="#for-agent-1-domain-models" data-for="for-agent-1-domain-models">For Agent 1 (Domain Models)</a></li><li class="depth-2"><a href="#for-agent-3-repository-split" data-for="for-agent-3-repository-split">For Agent 3 (Repository Split)</a></li><li class="depth-2"><a href="#for-agent-2-repository-migration" data-for="for-agent-2-repository-migration">For Agent 2 (Repository Migration)</a></li><li class="depth-1"><a href="#weekly-retrospectives" data-for="weekly-retrospectives">Weekly Retrospectives</a></li><li class="depth-2"><a href="#week-1-retrospective" data-for="week-1-retrospective">Week 1 Retrospective</a></li><li class="depth-2"><a href="#week-2-retrospective-pending" data-for="week-2-retrospective-pending">Week 2 Retrospective (Pending)</a></li><li class="depth-1"><a href="#related-documentation" data-for="related-documentation">Related Documentation</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

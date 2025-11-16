@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>agent-1-ios-investigation</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="agent-1-ios-investigation"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="agent-1-ios-investigation"/><meta name="twitter:description" content="Agent 1 (AAP): iOS Investigation &amp; GitLive Firebase Evaluation Agent: Agent 1 (AAP - Platform Abstractions, Patterns, Architecture) Weeks: 15-19 (October 2025 - November 2025) Mission: Firebase abstraction design + iOS investigation Status: ⏸️ PAUSED at 60% (awaiting macOS hardware) Executive Su..."/><meta property="og:description" content="Agent 1 (AAP): iOS Investigation &amp; GitLive Firebase Evaluation Agent: Agent 1 (AAP - Platform Abstractions, Patterns, Architecture) Weeks: 15-19 (October 2025 - November 2025) Mission: Firebase abstraction design + iOS investigation Status: ⏸️ PAUSED at 60% (awaiting macOS hardware) Executive Su..."/><meta property="og:image:alt" content="Agent 1 (AAP): iOS Investigation &amp; GitLive Firebase Evaluation Agent: Agent 1 (AAP - Platform Abstractions, Patterns, Architecture) Weeks: 15-19 (October 2025 - November 2025) Mission: Firebase abstraction design + iOS investigation Status: ⏸️ PAUSED at 60% (awaiting macOS hardware) Executive Su..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/agents/agent-1-ios-investigation"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/agents/agent-1-ios-investigation"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="Agent 1 (AAP): iOS Investigation &amp; GitLive Firebase Evaluation Agent: Agent 1 (AAP - Platform Abstractions, Patterns, Architecture) Weeks: 15-19 (October 2025 - November 2025) Mission: Firebase abstraction design + iOS investigation Status: ⏸️ PAUSED at 60% (awaiting macOS hardware) Executive Su..."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/agents/agent-1-ios-investigation-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/agents/agent-1-ios-investigation-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/agents/agent-1-ios-investigation-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/agents/agent-1-ios-investigation"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-327"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-327" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/agents/">agents</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>agent 1 ios investigation</a></div></nav><h1 class="article-title">agent-1-ios-investigation</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-09T18:58:46.000Z">Nov 09, 2025</time><span>9 min read</span></p><ul class="tags"><li><a href="../../tags/agent-1" class="internal tag-link">agent-1</a></li><li><a href="../../tags/aap" class="internal tag-link">aap</a></li><li><a href="../../tags/ios-investigation" class="internal tag-link">ios-investigation</a></li><li><a href="../../tags/firebase-abstraction" class="internal tag-link">firebase-abstraction</a></li><li><a href="../../tags/gitlive-sdk" class="internal tag-link">gitlive-sdk</a></li><li><a href="../../tags/runtime-validation" class="internal tag-link">runtime-validation</a></li><li><a href="../../tags/platform-abstractions" class="internal tag-link">platform-abstractions</a></li><li><a href="../../tags/architectural-design" class="internal tag-link">architectural-design</a></li><li><a href="../../tags/paused" class="internal tag-link">paused</a></li></ul></div></div><article class="popover-hint"><h1 id="agent-1-aap-ios-investigation--gitlive-firebase-evaluation">Agent 1 (AAP): iOS Investigation &amp; GitLive Firebase Evaluation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-1-aap-ios-investigation--gitlive-firebase-evaluation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Agent</strong>: Agent 1 (AAP - Platform Abstractions, Patterns, Architecture)
+<strong>Weeks</strong>: 15-19 (October 2025 - November 2025)
+<strong>Mission</strong>: Firebase abstraction design + iOS investigation
+<strong>Status</strong>: ⏸️ PAUSED at 60% (awaiting macOS hardware)</p>
+<h2 id="executive-summary">Executive Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#executive-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Agent 1 conducted comprehensive Firebase abstraction investigation and iOS feasibility analysis, completing <strong>60% of planned iOS work</strong> before pausing for macOS hardware arrival. Delivered critical architectural designs and validated GitLive Firebase SDK approach through static analysis.</p>
+<p><strong>Key Recommendation</strong>: GitLive Firebase SDK is viable for iOS (static validation complete), runtime validation pending macOS availability.</p>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Agent 1’s work spanned two major initiatives:</p>
+<ol>
+<li><strong>Firebase Abstraction Design</strong>: Architectural design for removing Firebase coupling from domain layer</li>
+<li><strong>iOS Investigation</strong>: Feasibility analysis for iOS app development using GitLive Firebase SDK</li>
+</ol>
+<p>Both initiatives are critical blockers for KMP migration completion and iOS app development.</p>
+<h2 id="work-completed">Work Completed<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#work-completed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="1-firebase-abstraction-design--complete">1. Firebase Abstraction Design (✅ COMPLETE)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-firebase-abstraction-design--complete" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Timeline</strong>: Week 15-16
+<strong>Document</strong>: <code>docs/kmp-migration/FIREBASE_ABSTRACTION_DESIGN.md</code>
+<strong>Status</strong>: Design complete, implementation pending</p>
+<p><strong>Objectives</strong>:</p>
+<ul>
+<li>Design platform-agnostic interfaces for Firebase operations</li>
+<li>Plan migration strategy for 4 domain files with Firebase imports</li>
+<li>Estimate effort for Firebase abstraction implementation</li>
+<li>Validate KMP compatibility approach</li>
+</ul>
+<p><strong>Deliverables</strong>:</p>
+<ol>
+<li>
+<p>✅ <strong>RemoteDataSource Interface Hierarchy</strong></p>
+<ul>
+<li><code>RemoteTournamentDataSource</code> (queries, observers, mutations)</li>
+<li><code>RemoteAuthDataSource</code> (authentication, auth state)</li>
+<li><code>RemoteStorageDataSource</code> (file uploads, downloads)</li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>Implementation Examples</strong></p>
+<ul>
+<li><code>FirebaseRemoteTournamentDataSource</code> (Android implementation)</li>
+<li>Flow abstractions for real-time listeners</li>
+<li>Result types for error handling</li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>Migration Strategy</strong></p>
+<ul>
+<li>Step-by-step plan for 4 domain files</li>
+<li>Repository refactoring approach</li>
+<li>Testing strategy (unit, integration, E2E)</li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>Effort Estimate</strong></p>
+<ul>
+<li>Realistic: 3-4 weeks</li>
+<li>Breakdown by Firebase pattern (queries, listeners, transactions)</li>
+<li>Risk assessment and mitigations</li>
+</ul>
+</li>
+</ol>
+<p><strong>Key Findings</strong>:</p>
+<ul>
+<li><strong>10 Firebase imports in domain layer</strong> (BLOCKER for KMP migration)</li>
+<li><strong>FirebaseTournamentRepository</strong>: 1,912 lines, 42 Firebase-dependent methods</li>
+<li><strong>Complex patterns</strong>: Real-time listeners, transactions, batch operations</li>
+<li><strong>Abstraction approach</strong>: Interface-based abstraction with platform-specific implementations</li>
+</ul>
+<p><strong>Pattern Designed</strong>:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// shared:data - Platform-agnostic interface</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> RemoteTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Simple queries</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Reactive observers (Flow abstraction)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> observeTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Flow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">?></span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Mutations</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> createTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournament: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Transactions (abstracted as high-level operations)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> joinTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        tournamentId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        participant: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentParticipant</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Result</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Unit</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// app:data:remote - Android implementation</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> FirebaseRemoteTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> firestore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">FirebaseFirestore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> auth: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">FirebaseAuth</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">RemoteTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> observeTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> callbackFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> listener </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> firestore.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">collection</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;tournaments&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">document</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">addSnapshotListener</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { snapshot, error </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">                if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (error </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">!=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> null</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">close</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(error)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">                else</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> trySend</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(snapshot?.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toObject</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(Tournament::</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">class</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.java))</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            }</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">        awaitClose</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { listener.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">remove</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Impact</strong>: Unblocks Week 17-19 ViewModel migrations (services can move to shared:domain after abstraction)</p>
+<h3 id="2-ios-investigation-️-60-complete---paused">2. iOS Investigation (⏸️ 60% COMPLETE - PAUSED)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-ios-investigation-️-60-complete---paused" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Timeline</strong>: Week 17-19
+<strong>Status</strong>: Paused awaiting macOS hardware
+<strong>Completion</strong>: ~60% (design + static validation)</p>
+<p><strong>Completed Work</strong>:</p>
+<p><strong>Phase 1: GitLive SDK Evaluation (✅ COMPLETE)</strong></p>
+<ul>
+<li>Investigated GitLive Firebase KMP SDK as Firebase abstraction</li>
+<li>Evaluated API compatibility with Firebase SDK</li>
+<li>Identified supported Firebase features (Firestore, Auth, Storage)</li>
+<li>Documented API differences and migration requirements</li>
+</ul>
+<p><strong>Phase 2: Static Validation (✅ COMPLETE)</strong></p>
+<ul>
+<li>Created iOS build configuration</li>
+<li>Added GitLive SDK dependencies</li>
+<li>Verified iOS compilation succeeds</li>
+<li>Validated zero Android imports in shared code</li>
+<li><strong>Result</strong>: 4.5/5 static validation rating (compilation successful)</li>
+</ul>
+<p><strong>Phase 3: ViewModel Pattern Validation (✅ COMPLETE)</strong></p>
+<ul>
+<li>Designed Presenter → SwiftUI ViewModel bridging pattern</li>
+<li>Validated StateFlow → ObservableObject conversion approach</li>
+<li>Documented Swift interop patterns</li>
+<li><strong>Approach</strong>: Kotlin Presenters wrapped in Swift ViewModels</li>
+</ul>
+<p><strong>Pattern Validated (Static)</strong>:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Kotlin Presenter (shared:presentation)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> EquipmentPresenter</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">EquipmentRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> scope: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">CoroutineScope</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> items </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getAll</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">stateIn</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(scope, SharingStarted.Eagerly, </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">emptyList</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> deleteItem</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> scope.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">launch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">delete</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(id)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="swift" data-theme="github-light github-dark"><code data-language="swift" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Swift ViewModel wrapper (iOS app)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> EquipmentViewModel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ObservableObject </span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">{</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> let</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> presenter: EquipmentPresenter</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    @Published</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> var</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> items: [Equipment] </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> []</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    init</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">presenter</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: EquipmentPresenter) {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">        self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.presenter </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> presenter</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">        observeItems</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    func</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> observeItems</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        presenter.items.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">watch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> { [</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">weak</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> self</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">] items </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">in</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">            self</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">?</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.items </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> items</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    func</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> deleteItem</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">id</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Int64</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        presenter.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">deleteItem</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">id</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: id)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Paused Work</strong>:</p>
+<p><strong>Phase 4: Runtime Validation (⏸️ PENDING - Requires macOS)</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> iOS app creation (Xcode project setup)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> GitLive Firebase runtime initialization</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Presenter integration testing</li>
+<li class="task-list-item"><input type="checkbox" disabled/> StateFlow observation from Swift</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Firebase CRUD operations testing</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Performance validation</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Memory management validation (ARC vs JVM GC)</li>
+</ul>
+<p><strong>Phase 5: GO/NO-GO Decision (⏸️ PENDING - Requires Phase 4)</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> 5 critical tests (Firebase auth, Firestore read/write, real-time listeners, offline sync)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Performance benchmarking</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Memory leak testing</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Final recommendation: GO (continue GitLive) or NO-GO (pivot to native Swift Firebase)</li>
+</ul>
+<p><strong>Completion Estimate</strong>: 60% complete</p>
+<ul>
+<li>✅ Design: 100%</li>
+<li>✅ Static validation: 100%</li>
+<li>⏸️ Runtime validation: 0%</li>
+<li>⏸️ GO/NO-GO decision: 0%</li>
+</ul>
+<h2 id="key-findings">Key Findings<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-findings" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="firebase-abstraction">Firebase Abstraction<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#firebase-abstraction" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Finding 1: Firebase Coupling is Critical Blocker</strong></p>
+<ul>
+<li><strong>Impact</strong>: Cannot migrate ANY services to shared:domain with Firebase imports</li>
+<li><strong>Scope</strong>: 4 domain files, 10 Firebase imports, 1,912-line repository</li>
+<li><strong>Priority</strong>: CRITICAL PATH for KMP migration</li>
+<li><strong>Effort</strong>: 3-4 weeks realistic estimate</li>
+</ul>
+<p><strong>Finding 2: Complex Patterns Require Careful Abstraction</strong></p>
+<ul>
+<li><strong>Real-time listeners</strong>: <code>.snapshots()</code> → <code>Flow&lt;T></code> conversion</li>
+<li><strong>Transactions</strong>: <code>.runTransaction()</code> → High-level operation interfaces</li>
+<li><strong>Batch operations</strong>: <code>.batch()</code> → Abstracted batch APIs</li>
+<li><strong>Authentication</strong>: <code>FirebaseAuth.currentUser</code> → <code>RemoteAuthDataSource.getCurrentUserId()</code></li>
+</ul>
+<p><strong>Finding 3: Abstraction Enables iOS Support</strong></p>
+<ul>
+<li>Interface-based design allows multiple implementations:
+<ul>
+<li>Android: Firebase SDK</li>
+<li>iOS: GitLive Firebase SDK (or native Swift Firebase)</li>
+</ul>
+</li>
+<li>KMP-compatible patterns (Flow, suspend functions, Result types)</li>
+</ul>
+<h3 id="ios-investigation">iOS Investigation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#ios-investigation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Finding 1: GitLive SDK Statically Compatible (4.5/5)</strong></p>
+<ul>
+<li>✅ iOS compilation succeeds</li>
+<li>✅ API surface matches Firebase SDK closely</li>
+<li>✅ Supports core features (Firestore, Auth, Storage)</li>
+<li>⏸️ Runtime behavior UNKNOWN (awaiting macOS)</li>
+</ul>
+<p><strong>Finding 2: Presenter Pattern Works on iOS (Static Validation)</strong></p>
+<ul>
+<li>✅ StateFlow observable from Swift</li>
+<li>✅ Kotlin coroutines bridgeable to Swift async/await</li>
+<li>✅ Zero Android imports in Presenters</li>
+<li>⏸️ Performance UNKNOWN (awaiting runtime tests)</li>
+</ul>
+<p><strong>Finding 3: iOS Runtime Validation is Critical</strong></p>
+<ul>
+<li><strong>Risk</strong>: GitLive SDK may have runtime issues despite static compatibility</li>
+<li><strong>Unknowns</strong>: Performance, memory management, offline sync, real-time listeners</li>
+<li><strong>Mitigation</strong>: 5 critical tests planned for runtime validation</li>
+<li><strong>Decision</strong>: GO/NO-GO based on runtime results</li>
+</ul>
+<h3 id="week-17-19-contribution">Week 17-19 Contribution<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-17-19-contribution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 1 Status</strong>: PAUSED (awaiting macOS)
+<strong>Contribution</strong>: iOS PoC merged earlier (PR #207)
+<strong>Impact</strong>: Validated static compilation, unblocked Agent 2 ViewModel migrations</p>
+<p><strong>Decision Made</strong>: Continue ViewModel migrations (Agent 2) while waiting for macOS</p>
+<ul>
+<li>Path chosen: Path A (continue ViewModels, Agent 1 idle)</li>
+<li>Outcome: Week 17-19 completed successfully (10 ViewModels migrated)</li>
+<li>Agent 1 resumes when macOS arrives</li>
+</ul>
+<h2 id="technical-debt-addressed">Technical Debt Addressed<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#technical-debt-addressed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="firebase-coupling-investigation">Firebase Coupling Investigation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#firebase-coupling-investigation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Before Investigation</strong>:</p>
+<ul>
+<li>Firebase usage scattered throughout codebase</li>
+<li>No clear understanding of Firebase dependency scope</li>
+<li>Unknown effort to abstract Firebase</li>
+</ul>
+<p><strong>After Investigation</strong>:</p>
+<ul>
+<li>10 Firebase imports catalogued</li>
+<li>42 Firebase-dependent methods identified</li>
+<li>Clear abstraction strategy designed</li>
+<li>Realistic 3-4 week effort estimate</li>
+</ul>
+<h3 id="ios-feasibility">iOS Feasibility<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#ios-feasibility" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Before Investigation</strong>:</p>
+<ul>
+<li>Unknown if iOS app is viable with KMP</li>
+<li>Unknown if GitLive SDK works</li>
+<li>Unknown effort to build iOS app</li>
+</ul>
+<p><strong>After Investigation</strong>:</p>
+<ul>
+<li>iOS app is viable (static validation passed)</li>
+<li>GitLive SDK compiles successfully (4.5/5)</li>
+<li>Runtime validation required for final decision</li>
+<li>Presenter pattern validated for iOS</li>
+</ul>
+<h2 id="recommendations">Recommendations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#recommendations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="immediate-week-20">Immediate (Week 20)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#immediate-week-20" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>If macOS NOT arrived</strong>:</p>
+<ul>
+<li>Continue Path A (Agent 2 ViewModel migrations)</li>
+<li>Agent 1 remains idle</li>
+<li>Resume iOS work when macOS arrives</li>
+</ul>
+<p><strong>If macOS arrived</strong>:</p>
+<ul>
+<li>Execute Path B (Agent 1 iOS runtime validation) OR</li>
+<li>Execute Path C (Agent 1 iOS + Agent 2 ViewModels in parallel)</li>
+<li>Complete Phase 4 runtime validation (2-3 days)</li>
+<li>Make GO/NO-GO decision on GitLive SDK</li>
+</ul>
+<h3 id="short-term-week-20-22">Short-Term (Week 20-22)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#short-term-week-20-22" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Firebase Abstraction</strong> (CRITICAL PATH):</p>
+<ul>
+<li>Priority: Implement Firebase abstraction design (3-4 weeks)</li>
+<li>Unblocks: Service migration to shared:domain</li>
+<li>Enables: iOS Firebase support (via GitLive SDK)</li>
+</ul>
+<p><strong>iOS Runtime Validation</strong> (HIGH PRIORITY):</p>
+<ul>
+<li>Timing: When macOS arrives</li>
+<li>Duration: 2-3 days</li>
+<li>Outcome: GO (GitLive SDK) or NO-GO (pivot to native Swift Firebase)</li>
+</ul>
+<h3 id="long-term-week-23">Long-Term (Week 23+)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#long-term-week-23" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>If GO (GitLive SDK)</strong>:</p>
+<ul>
+<li>Implement remaining 22 GitLive Firebase methods</li>
+<li>Build iOS app with shared Presenters</li>
+<li>Test multi-platform Firebase integration</li>
+</ul>
+<p><strong>If NO-GO (Native Swift Firebase)</strong>:</p>
+<ul>
+<li>Implement Swift-specific Firebase layer</li>
+<li>Build iOS app with shared Presenters (Firebase separate)</li>
+<li>Accept dual Firebase implementations (Android + iOS)</li>
+</ul>
+<h2 id="blockers--dependencies">Blockers &amp; Dependencies<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#blockers--dependencies" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="current-blockers">Current Blockers<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-blockers" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Blocker 1: macOS Hardware Unavailable</strong></p>
+<ul>
+<li><strong>Blocks</strong>: iOS runtime validation (Phase 4)</li>
+<li><strong>Blocks</strong>: GO/NO-GO decision (Phase 5)</li>
+<li><strong>ETA</strong>: ~1 week (ordered, arriving soon)</li>
+<li><strong>Impact</strong>: Agent 1 idle, iOS work paused</li>
+</ul>
+<p><strong>Blocker 2: Firebase Abstraction Not Implemented</strong></p>
+<ul>
+<li><strong>Blocks</strong>: Service migration to shared:domain</li>
+<li><strong>Blocks</strong>: iOS Firebase support</li>
+<li><strong>Timeline</strong>: 3-4 weeks implementation</li>
+<li><strong>Dependency</strong>: Agent 1 design complete (ready to implement)</li>
+</ul>
+<h3 id="dependencies">Dependencies<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#dependencies" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>ViewModel Migrations depend on</strong>:</p>
+<ul>
+<li>✅ Presenter pattern established (Week 17-19 complete)</li>
+<li>⏸️ Firebase abstraction (not blocking current work, blocks future services)</li>
+</ul>
+<p><strong>iOS Development depends on</strong>:</p>
+<ul>
+<li>⏸️ macOS hardware (critical blocker)</li>
+<li>⏸️ Runtime validation (GO/NO-GO decision)</li>
+<li>✅ Presenter pattern (10 Presenters ready for iOS)</li>
+<li>⏸️ Firebase abstraction (enables iOS Firebase support)</li>
+</ul>
+<h2 id="work-remaining">Work Remaining<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#work-remaining" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="firebase-abstraction-implementation">Firebase Abstraction Implementation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#firebase-abstraction-implementation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Effort</strong>: 3-4 weeks
+<strong>Agent</strong>: TBD (Agent 1 design, Agent 2 could implement)</p>
+<p><strong>Tasks</strong>:</p>
+<ol>
+<li>Create RemoteDataSource interfaces (2-3 days)</li>
+<li>Implement FirebaseRemoteDataSource (5-7 days)</li>
+<li>Remove Firebase from domain layer (3-4 days)</li>
+<li>Update repositories (3-4 days)</li>
+<li>Test Firebase abstraction (2-3 days)</li>
+</ol>
+<h3 id="ios-runtime-validation">iOS Runtime Validation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#ios-runtime-validation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Effort</strong>: 2-3 days (when macOS arrives)
+<strong>Agent</strong>: Agent 1 (AAP)</p>
+<p><strong>Tasks</strong>:</p>
+<ol>
+<li>iOS app creation (4-6 hours)</li>
+<li>GitLive Firebase setup (2-3 hours)</li>
+<li>Runtime tests (5 critical tests, 4-8 hours)</li>
+<li>GO/NO-GO decision (1-2 hours analysis)</li>
+</ol>
+<p><strong>5 Critical Tests</strong>:</p>
+<ol>
+<li><strong>Firebase Auth</strong>: Sign in, sign out, auth state observation</li>
+<li><strong>Firestore Read</strong>: Query tournaments, observe real-time updates</li>
+<li><strong>Firestore Write</strong>: Create, update, delete operations</li>
+<li><strong>Offline Sync</strong>: Offline writes, sync on reconnect</li>
+<li><strong>Performance</strong>: Measure Presenter response time, memory usage</li>
+</ol>
+<h3 id="ios-app-development-if-go">iOS App Development (if GO)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#ios-app-development-if-go" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Effort</strong>: 4-6 weeks (after runtime validation)
+<strong>Agent</strong>: Agent 1 (AAP) + potential iOS specialist</p>
+<p><strong>Tasks</strong>:</p>
+<ol>
+<li>iOS UI implementation (SwiftUI screens)</li>
+<li>Presenter integration (all 10 Presenters + future)</li>
+<li>GitLive Firebase integration (22 remaining methods)</li>
+<li>iOS-specific platform abstractions</li>
+<li>Testing (unit, integration, E2E)</li>
+</ol>
+<h2 id="related-work">Related Work<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-work" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Weeks 17-19 ViewModel Migrations</strong>:</p>
+<ul>
+<li>Agent 2 migrated 10 ViewModels while Agent 1 paused</li>
+<li>All 10 Presenters are iOS-ready (zero Android imports)</li>
+<li>Runtime validation will test these 10 Presenters on iOS</li>
+</ul>
+<p><strong>Firebase Abstraction Design</strong>:</p>
+<ul>
+<li>Unblocks service migration to shared:domain</li>
+<li>Enables iOS Firebase support (GitLive or native)</li>
+<li>Critical path for KMP migration completion</li>
+</ul>
+<h2 id="recognition">Recognition<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#recognition" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Agent 1 delivered critical architectural work despite macOS blocker:</p>
+<ul>
+<li>⭐ <strong>Architectural Design</strong>: Firebase abstraction design complete</li>
+<li>⭐ <strong>iOS Feasibility</strong>: Static validation passed (4.5/5)</li>
+<li>⭐ <strong>Pattern Validation</strong>: Presenter → SwiftUI ViewModel pattern designed</li>
+<li>⭐ <strong>Risk Assessment</strong>: Identified unknowns, planned mitigation (5 critical tests)</li>
+<li>⭐ <strong>Pragmatic Approach</strong>: Paused at 60% (appropriate given macOS unavailability)</li>
+</ul>
+<p><strong>Overall Assessment</strong>: 60% complete, on hold for macOS, ready to resume runtime validation</p>
+<h2 id="next-steps">Next Steps<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#next-steps" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Immediate (When macOS Arrives)</strong>:</p>
+<ol>
+<li>Complete Phase 4: iOS runtime validation (2-3 days)</li>
+<li>Run 5 critical tests (Firebase, Presenters, performance)</li>
+<li>Complete Phase 5: GO/NO-GO decision</li>
+<li>Resume full iOS development OR pivot to native Swift Firebase</li>
+</ol>
+<p><strong>Short-Term (Week 20-22)</strong>:</p>
+<ul>
+<li>Option A: Wait for macOS, continue ViewModel migrations (Agent 2)</li>
+<li>Option B: Start Firebase abstraction implementation (Agent 1 design → Agent 2 implementation)</li>
+<li>Option C: Parallel work when macOS arrives (Agent 1 iOS + Agent 2 ViewModels)</li>
+</ul>
+<p><strong>Long-Term (Week 23+)</strong>:</p>
+<ul>
+<li>iOS app development (if GO on GitLive SDK)</li>
+<li>Dual Firebase implementation (if NO-GO, use native Swift Firebase)</li>
+<li>Multi-platform testing and validation</li>
+</ul>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><a href="../../internal/kmp-migration/week-17-19-summary" class="internal alias" data-slug="internal/kmp-migration/week-17-19-summary">Weeks 17-19 Overview</a></li>
+<li><code>docs/kmp-migration/FIREBASE_ABSTRACTION_DESIGN.md</code> (Agent 1 deliverable)</li>
+<li><code>docs/kmp-migration/WEEK_15_20_INVESTIGATION_FINDINGS.md</code> (Firebase coupling analysis)</li>
+</ul>
+<h2 id="tags">Tags<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tags" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><a href="../.././../tags/agent-1" class="tag-link internal alias" data-slug="tags/agent-1">agent-1</a> <a href="../.././../tags/aap" class="tag-link internal alias" data-slug="tags/aap">aap</a> <a href="../.././../tags/ios-investigation" class="tag-link internal alias" data-slug="tags/ios-investigation">ios-investigation</a> <a href="../.././../tags/firebase-abstraction" class="tag-link internal alias" data-slug="tags/firebase-abstraction">firebase-abstraction</a> <a href="../.././../tags/gitlive-sdk" class="tag-link internal alias" data-slug="tags/gitlive-sdk">gitlive-sdk</a> <a href="../.././../tags/runtime-validation" class="tag-link internal alias" data-slug="tags/runtime-validation">runtime-validation</a> <a href="../.././../tags/platform-abstractions" class="tag-link internal alias" data-slug="tags/platform-abstractions">platform-abstractions</a> <a href="../.././../tags/architectural-design" class="tag-link internal alias" data-slug="tags/architectural-design">architectural-design</a> <a href="../.././../tags/paused" class="tag-link internal alias" data-slug="tags/paused">paused</a></p>
+<h2 id="status">Status<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#status" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>⏸️ <strong>PAUSED AT 60%</strong></p>
+<ul>
+<li>Design work: 100% complete</li>
+<li>Static validation: 100% complete (4.5/5)</li>
+<li>Runtime validation: 0% complete (blocked by macOS)</li>
+<li>GO/NO-GO decision: Pending runtime validation</li>
+<li>Ready to resume when macOS arrives</li>
+</ul></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-116" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#agent-1-aap-ios-investigation--gitlive-firebase-evaluation" data-for="agent-1-aap-ios-investigation--gitlive-firebase-evaluation">Agent 1 (AAP): iOS Investigation &amp; GitLive Firebase Evaluation</a></li><li class="depth-1"><a href="#executive-summary" data-for="executive-summary">Executive Summary</a></li><li class="depth-1"><a href="#overview" data-for="overview">Overview</a></li><li class="depth-1"><a href="#work-completed" data-for="work-completed">Work Completed</a></li><li class="depth-2"><a href="#1-firebase-abstraction-design--complete" data-for="1-firebase-abstraction-design--complete">1. Firebase Abstraction Design (✅ COMPLETE)</a></li><li class="depth-2"><a href="#2-ios-investigation-️-60-complete---paused" data-for="2-ios-investigation-️-60-complete---paused">2. iOS Investigation (⏸️ 60% COMPLETE - PAUSED)</a></li><li class="depth-1"><a href="#key-findings" data-for="key-findings">Key Findings</a></li><li class="depth-2"><a href="#firebase-abstraction" data-for="firebase-abstraction">Firebase Abstraction</a></li><li class="depth-2"><a href="#ios-investigation" data-for="ios-investigation">iOS Investigation</a></li><li class="depth-2"><a href="#week-17-19-contribution" data-for="week-17-19-contribution">Week 17-19 Contribution</a></li><li class="depth-1"><a href="#technical-debt-addressed" data-for="technical-debt-addressed">Technical Debt Addressed</a></li><li class="depth-2"><a href="#firebase-coupling-investigation" data-for="firebase-coupling-investigation">Firebase Coupling Investigation</a></li><li class="depth-2"><a href="#ios-feasibility" data-for="ios-feasibility">iOS Feasibility</a></li><li class="depth-1"><a href="#recommendations" data-for="recommendations">Recommendations</a></li><li class="depth-2"><a href="#immediate-week-20" data-for="immediate-week-20">Immediate (Week 20)</a></li><li class="depth-2"><a href="#short-term-week-20-22" data-for="short-term-week-20-22">Short-Term (Week 20-22)</a></li><li class="depth-2"><a href="#long-term-week-23" data-for="long-term-week-23">Long-Term (Week 23+)</a></li><li class="depth-1"><a href="#blockers--dependencies" data-for="blockers--dependencies">Blockers &amp; Dependencies</a></li><li class="depth-2"><a href="#current-blockers" data-for="current-blockers">Current Blockers</a></li><li class="depth-2"><a href="#dependencies" data-for="dependencies">Dependencies</a></li><li class="depth-1"><a href="#work-remaining" data-for="work-remaining">Work Remaining</a></li><li class="depth-2"><a href="#firebase-abstraction-implementation" data-for="firebase-abstraction-implementation">Firebase Abstraction Implementation</a></li><li class="depth-2"><a href="#ios-runtime-validation" data-for="ios-runtime-validation">iOS Runtime Validation</a></li><li class="depth-2"><a href="#ios-app-development-if-go" data-for="ios-app-development-if-go">iOS App Development (if GO)</a></li><li class="depth-1"><a href="#related-work" data-for="related-work">Related Work</a></li><li class="depth-1"><a href="#recognition" data-for="recognition">Recognition</a></li><li class="depth-1"><a href="#next-steps" data-for="next-steps">Next Steps</a></li><li class="depth-1"><a href="#related-documentation" data-for="related-documentation">Related Documentation</a></li><li class="depth-1"><a href="#tags" data-for="tags">Tags</a></li><li class="depth-1"><a href="#status" data-for="status">Status</a></li><li class="overflow-end"></li></ul></div><div class="backlinks"><h3>Backlinks</h3><ul id="list-2" class="overflow"><li><a href="../../internal/kmp-migration/week-17-19-summary" class="internal">week-17-19-summary</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

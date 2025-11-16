@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>User Flows</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="User Flows"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="User Flows"/><meta name="twitter:description" content="User interaction flows and workflows"/><meta property="og:description" content="User interaction flows and workflows"/><meta property="og:image:alt" content="User interaction flows and workflows"/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/User-Flows/index"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/User-Flows/index"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="User interaction flows and workflows"/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/User-Flows/index-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/User-Flows/index-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/Technical-Reference/Flows/User-Flows/index-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="Technical-Reference/Flows/User-Flows/index"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-104"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-104" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-3"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../Technical-Reference/">Technical Reference</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../Technical-Reference/Flows/">System Flows</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>User Flows</a></div></nav><h1 class="article-title">User Flows</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-05T04:48:52.000Z">Nov 05, 2025</time><span>23 min read</span></p></div></div><div class="popover-hint"><article class><p><a href="../../../" class="internal alias" data-slug="index">Home</a> > <a href="../../.././../" class="internal alias" data-slug="index">Technical Reference</a> > <a href="../../.././" class="internal alias" data-slug="index">Flows</a> > User Flows</p>
+<hr/>
+<h1 id="user-flows">User Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#user-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p>Complete reference for user-facing workflows and interaction patterns in Archery Apprentice.</p>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>User flows describe the complete journey users take through the application, from initial setup to advanced features like tournament participation and performance analytics. This guide documents all major user-facing workflows.</p>
+<p><strong>Flow Organization:</strong></p>
+<p>Flows are organized by user journey stage, from initial setup through advanced features:</p>
+<ol>
+<li><strong>Setup &amp; Configuration</strong> - Onboarding, equipment setup, preferences</li>
+<li><strong>Core Activities</strong> - Scoring rounds, viewing history</li>
+<li><strong>Advanced Features</strong> - Tournaments, analytics, exports</li>
+</ol>
+<p><strong>Related Documentation:</strong></p>
+<ul>
+<li><a href="../../.././System-Flows/" class="internal alias" data-slug="System-Flows/index">System Flows</a> - Internal system processes</li>
+<li><a href="../../.././Integration-Flows/" class="internal alias" data-slug="Integration-Flows/index">Integration Flows</a> - External service integrations</li>
+<li><a href="../../.././../../user-guide/" class="internal alias" data-slug="user-guide/index">User Guide</a> - User-facing documentation</li>
+</ul>
+<hr/>
+<h2 id="user-journey-map">User Journey Map<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#user-journey-map" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<pre><code>First Launch → Onboarding → Equipment Setup → Settings Configuration
+     ↓
+Create Round → Select Equipment → Start Scoring → Complete Round
+     ↓
+View History → View Analytics → Compare Equipment → Export Data
+     ↓
+(Optional) Join Tournament → Score in Tournament → View Leaderboard
+</code></pre>
+<hr/>
+<h2 id="setup--configuration-flows">Setup &amp; Configuration Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#setup--configuration-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Flows related to initial setup and configuration of the application.</p>
+<h3 id="1-onboarding-flow">1. Onboarding Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-onboarding-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ⚠️ Not Fully Documented
+<strong>Documentation:</strong> See <a href="../../.././../../user-guide/getting-started/" class="internal alias" data-slug="user-guide/getting-started/index">User Guide - Getting Started</a></p>
+<p><strong>Overview:</strong></p>
+<p>First-time user experience introducing core features and guiding initial setup.</p>
+<p><strong>Flow Steps:</strong></p>
+<ol>
+<li>
+<p><strong>First Launch Detection</strong></p>
+<ul>
+<li>Settings entity checked for <code>isFirstLaunch</code> flag</li>
+<li>If true, show onboarding screens</li>
+<li>Skip if user has already completed onboarding</li>
+</ul>
+</li>
+<li>
+<p><strong>Feature Introduction</strong></p>
+<ul>
+<li>Welcome screen</li>
+<li>Core feature highlights (scoring, equipment, analytics)</li>
+<li>Permission requests (if any)</li>
+</ul>
+</li>
+<li>
+<p><strong>Optional Setup</strong></p>
+<ul>
+<li>Create first bow setup (optional, can skip)</li>
+<li>Set default preferences (measurement system)</li>
+<li>Set user display name</li>
+</ul>
+</li>
+<li>
+<p><strong>Onboarding Completion</strong></p>
+<ul>
+<li>Update Settings entity: <code>isFirstLaunch = false</code></li>
+<li>Persist onboarding completion</li>
+<li>Navigate to main screen (Dashboard or Rounds list)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>OnboardingScreen.kt (Compose UI screens)</li>
+<li>SettingsRepository.kt (persist onboarding completion)</li>
+<li>Settings entity (first launch flag)</li>
+</ul>
+<p><strong>User Can:</strong></p>
+<ul>
+<li>Skip onboarding (return to onboarding from Settings)</li>
+<li>Complete minimal setup and configure later</li>
+<li>Return to feature introductions via Settings > Help</li>
+</ul>
+<p><strong>Exit Points:</strong></p>
+<ul>
+<li>Main Dashboard screen</li>
+<li>Rounds list screen</li>
+<li>Equipment setup screen (if user chooses to set up equipment first)</li>
+</ul>
+<hr/>
+<h3 id="2-equipment-setup-flow">2. Equipment Setup Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-equipment-setup-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (1,949 lines)
+<strong>Documentation:</strong> <a href="../../.././../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/index">Equipment Management End-to-End Flow</a></p>
+<p><strong>Overview:</strong></p>
+<p>Complete workflow for creating, managing, and versioning bow setups with 10+ component types.</p>
+<p><strong>Flow Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Navigate to Equipment</strong></p>
+<ul>
+<li>Bottom navigation → Equipment tab</li>
+<li>Or: Create Round → “Create new setup” link</li>
+</ul>
+</li>
+<li>
+<p><strong>Create Bow Setup</strong></p>
+<ul>
+<li>Enter bow setup name (e.g., “Competition Recurve”)</li>
+<li>Optionally add description</li>
+<li>Select bow type (Recurve, Compound, Longbow, Barebow)</li>
+</ul>
+</li>
+<li>
+<p><strong>Add Equipment Components</strong></p>
+<ul>
+<li>Add Arrows (shaft type, length, weight, fletching)</li>
+<li>Add Sight (type, model, manufacturer)</li>
+<li>Add Rest (type, model)</li>
+<li>Add Stabilizer (length, weight, configuration)</li>
+<li>Add Plunger, Clicker, Tab, String, Nocking Point, Kisser Button (all optional)</li>
+</ul>
+</li>
+<li>
+<p><strong>Save Bow Setup</strong></p>
+<ul>
+<li>Validation (bow setup name required)</li>
+<li>Initial version created (v1)</li>
+<li>Snapshot saved to database</li>
+</ul>
+</li>
+<li>
+<p><strong>Select for Round</strong></p>
+<ul>
+<li>During round creation, select this bow setup</li>
+<li>Bow setup snapshot embedded in round</li>
+<li>Historical accuracy preserved even if equipment changes later</li>
+</ul>
+</li>
+</ol>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>BowSetupViewModel.kt - Orchestration</li>
+<li>BowSetupRepository.kt - CRUD and versioning</li>
+<li>Equipment component ViewModels (10+ specialized)</li>
+<li>BowSetupDetailScreen.kt - Configuration UI</li>
+</ul>
+<p><strong>User Can:</strong></p>
+<ul>
+<li>Create multiple bow setups</li>
+<li>Edit equipment (creates new version)</li>
+<li>View equipment performance statistics</li>
+<li>Export equipment data to CSV</li>
+<li>Delete unused equipment</li>
+<li>Duplicate equipment for guests (multi-participant)</li>
+</ul>
+<p><strong>Equipment Versioning:</strong></p>
+<p>Every equipment modification creates a new version. Historical rounds reference specific versions via snapshots, ensuring accuracy even after equipment changes.</p>
+<pre><code>Bow Setup v1 (Original) → Add Sight → Bow Setup v2 → Change Arrows → Bow Setup v3
+         ↓                              ↓                              ↓
+   Round 1 (uses v1)            Round 2 (uses v2)            Round 3 (uses v3)
+</code></pre>
+<p><strong>See Full Documentation:</strong> <a href="../../.././../../developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/equipment-management-end-to-end-flow/index">Equipment Management End-to-End Flow</a></p>
+<hr/>
+<h3 id="3-settings-configuration-flow">3. Settings Configuration Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-settings-configuration-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (493 lines)
+<strong>Documentation:</strong> <a href="../../.././../../developer-guide/technical-reference/flows/settings-architecture/" class="internal alias" data-slug="developer-guide/technical-reference/flows/settings-architecture/index">Settings Architecture</a></p>
+<p><strong>Overview:</strong></p>
+<p>Device settings management with reactive StateFlow propagation for user preferences.</p>
+<p><strong>Flow Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Navigate to Settings</strong></p>
+<ul>
+<li>Bottom navigation → Settings tab</li>
+<li>Or: Hamburger menu → Settings</li>
+</ul>
+</li>
+<li>
+<p><strong>Configure Display Preferences</strong></p>
+<ul>
+<li>Measurement system (Metric vs Imperial)</li>
+<li>Target zoom behavior (Auto-zoom vs Manual)</li>
+<li>Theme preferences (Light/Dark/System) - if implemented</li>
+</ul>
+</li>
+<li>
+<p><strong>Configure User Identity</strong></p>
+<ul>
+<li>Set display name (used for local rounds)</li>
+<li>View Firebase user ID (if authenticated)</li>
+<li>Manage account settings</li>
+</ul>
+</li>
+<li>
+<p><strong>Configure Equipment Defaults</strong></p>
+<ul>
+<li>View last used bow setup</li>
+<li>Set default bow setup (if desired)</li>
+</ul>
+</li>
+<li>
+<p><strong>Save Settings</strong></p>
+<ul>
+<li>Settings saved immediately on change (reactive)</li>
+<li>StateFlow propagates changes to all consumers</li>
+<li>UI recomposition triggered across app</li>
+</ul>
+</li>
+</ol>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>SettingsViewModel.kt - State management</li>
+<li>SettingsRepository.kt - Persistence</li>
+<li>Settings entity (single-row singleton)</li>
+<li>SettingsPage.kt - Compose UI</li>
+</ul>
+<p><strong>Settings Propagation:</strong></p>
+<pre><code>User Input → ViewModel Update → Repository Save → StateFlow Emission →
+UI Recomposition → All Consumers Updated (Live)
+</code></pre>
+<p><strong>User Can:</strong></p>
+<ul>
+<li>Change measurement system (affects distance, target size display)</li>
+<li>Set default user name</li>
+<li>Reset onboarding (return to first-time experience)</li>
+<li>Manage account (if authenticated)</li>
+</ul>
+<p><strong>See Full Documentation:</strong> <a href="../../.././../../developer-guide/technical-reference/flows/settings-architecture/" class="internal alias" data-slug="developer-guide/technical-reference/flows/settings-architecture/index">Settings Architecture</a></p>
+<hr/>
+<h2 id="core-activity-flows">Core Activity Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#core-activity-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Primary user activities for archery practice and record-keeping.</p>
+<h3 id="4-round-creation-and-scoring-flow">4. Round Creation and Scoring Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-round-creation-and-scoring-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented (1,733 lines combined)
+<strong>Documentation:</strong></p>
+<ul>
+<li><a href="../../.././../../developer-guide/technical-reference/flows/round-lifecycle-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/round-lifecycle-flow/index">Round Lifecycle Flow</a> (1,168 lines)</li>
+<li><a href="../../.././../../developer-guide/technical-reference/flows/scoring-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/scoring-flow/index">Scoring Flow</a> (565 lines)</li>
+</ul>
+<p><strong>Overview:</strong></p>
+<p>Complete workflow from round creation through active scoring to completion and historical viewing.</p>
+<p><strong>Flow Steps:</strong></p>
+<h4 id="round-creation">Round Creation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#round-creation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li>
+<p><strong>Navigate to Rounds</strong></p>
+<ul>
+<li>Bottom navigation → Rounds tab</li>
+<li>Or: Dashboard → “Create Round” button</li>
+</ul>
+</li>
+<li>
+<p><strong>Configure Round Parameters</strong></p>
+<ul>
+<li>Select round name (York, Portsmouth, or Custom)</li>
+<li>Set distance (e.g., 70m, 50yd)</li>
+<li>Set target size (e.g., 122cm, 40cm)</li>
+<li>Set number of ends (e.g., 12 ends)</li>
+<li>Set number of arrows per end (e.g., 6 arrows)</li>
+<li>Select scoring system (10-zone, 5-zone, etc.)</li>
+</ul>
+</li>
+<li>
+<p><strong>Select Equipment</strong></p>
+<ul>
+<li>Choose from existing bow setups</li>
+<li>Or: Create new bow setup inline</li>
+<li>Equipment snapshot embedded in round</li>
+</ul>
+</li>
+<li>
+<p><strong>Add Participants (Optional)</strong></p>
+<ul>
+<li>Default: Single participant (self)</li>
+<li>Or: Add guest participants (names only)</li>
+<li>Guest equipment auto-created (duplicates with naming)</li>
+</ul>
+</li>
+<li>
+<p><strong>Create Round</strong></p>
+<ul>
+<li>Validation (all required fields present)</li>
+<li>Round saved with status: PLANNED</li>
+<li>Navigate to round detail screen</li>
+</ul>
+</li>
+<li>
+<p><strong>Start Round</strong></p>
+<ul>
+<li>User clicks “Start Scoring”</li>
+<li>Round status: PLANNED → IN_PROGRESS</li>
+<li>Navigate to ActiveScoringScreen</li>
+</ul>
+</li>
+</ol>
+<h4 id="active-scoring">Active Scoring<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#active-scoring" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li>
+<p><strong>Score Arrows</strong></p>
+<ul>
+<li>Select arrow score (X, 10, 9, 8, …, M for miss)</li>
+<li>StateFlow updates UI reactively</li>
+<li>Multi-participant: Rotate between participants</li>
+</ul>
+</li>
+<li>
+<p><strong>Complete End</strong></p>
+<ul>
+<li>After all arrows scored (e.g., 6/6 arrows)</li>
+<li>Validation (all arrows entered)</li>
+<li>Calculate end statistics (total, average)</li>
+<li>Save end to database</li>
+</ul>
+</li>
+<li>
+<p><strong>Continue Scoring</strong></p>
+<ul>
+<li>Navigate to next end automatically</li>
+<li>Progress tracker updates (e.g., “End 2/12”)</li>
+<li>Running total displayed</li>
+</ul>
+</li>
+<li>
+<p><strong>Pause Round (Optional)</strong></p>
+<ul>
+<li>User can pause mid-round</li>
+<li>Round status: IN_PROGRESS → PAUSED</li>
+<li>Resume later from same position</li>
+</ul>
+</li>
+<li>
+<p><strong>Complete Round</strong></p>
+<ul>
+<li>After all ends completed</li>
+<li>Final statistics calculated (total score, average, highs/lows)</li>
+<li>Round status: IN_PROGRESS → COMPLETED</li>
+<li>Navigate to round summary screen</li>
+</ul>
+</li>
+</ol>
+<h4 id="tournament-sync-if-applicable">Tournament Sync (If Applicable)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournament-sync-if-applicable" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>If round is associated with a tournament:</p>
+<ol>
+<li>
+<p><strong>Async Score Submission</strong></p>
+<ul>
+<li>Score submitted to Firebase after each end</li>
+<li>Exponential backoff retry (up to 5 attempts)</li>
+<li>Background sync with TournamentSyncService</li>
+</ul>
+</li>
+<li>
+<p><strong>Conflict Detection</strong></p>
+<ul>
+<li>Timestamp-based conflict detection</li>
+<li>Last-write-wins resolution strategy</li>
+<li>User notification on conflict</li>
+</ul>
+</li>
+<li>
+<p><strong>Real-Time Updates</strong></p>
+<ul>
+<li>Firebase listener for leaderboard changes</li>
+<li>Other participants’ scores updated live</li>
+<li>Ranking recalculated dynamically</li>
+</ul>
+</li>
+</ol>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>RoundViewModel.kt (2,177 lines) - Round lifecycle orchestration</li>
+<li>LiveScoringViewModel.kt (2,808 lines) - Active scoring state management</li>
+<li>EndCompletionService.kt - End finalization logic</li>
+<li>TournamentSyncService.kt - Firebase sync with retry</li>
+<li>RoundRepository.kt - Persistence layer</li>
+<li>ActiveScoringScreen.kt - Live scoring UI</li>
+</ul>
+<p><strong>Round Status State Machine:</strong></p>
+<pre><code>PLANNED → IN_PROGRESS ⇄ PAUSED → COMPLETED/CANCELLED
+</code></pre>
+<p><strong>User Can:</strong></p>
+<ul>
+<li>Pause and resume rounds</li>
+<li>Edit round parameters before starting</li>
+<li>View real-time statistics during scoring</li>
+<li>Complete partial rounds (mark as CANCELLED)</li>
+<li>Delete draft rounds (PLANNED status)</li>
+<li>View completed rounds in history</li>
+</ul>
+<p><strong>Performance Considerations:</strong></p>
+<ul>
+<li>StateFlow for reactive UI updates (minimal recomposition)</li>
+<li>End completion validation prevents invalid data</li>
+<li>Tournament sync is async (doesn’t block UI)</li>
+<li>Retry mechanism handles network failures gracefully</li>
+</ul>
+<p><strong>See Full Documentation:</strong></p>
+<ul>
+<li><a href="../../.././../../developer-guide/technical-reference/flows/round-lifecycle-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/round-lifecycle-flow/index">Round Lifecycle Flow</a> - Round creation → completion</li>
+<li><a href="../../.././../../developer-guide/technical-reference/flows/scoring-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/scoring-flow/index">Scoring Flow</a> - Arrow input → end completion</li>
+</ul>
+<hr/>
+<h3 id="5-historical-rounds-viewing-flow">5. Historical Rounds Viewing Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-historical-rounds-viewing-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Documented (part of Round Lifecycle Flow)
+<strong>Documentation:</strong> <a href="../../.././../../developer-guide/technical-reference/flows/round-lifecycle-flow/#historical-viewing" class="internal alias" data-slug="developer-guide/technical-reference/flows/round-lifecycle-flow/index">Round Lifecycle Flow - Historical Viewing</a></p>
+<p><strong>Overview:</strong></p>
+<p>View and analyze past rounds with smart caching and filtering.</p>
+<p><strong>Flow Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Navigate to Historical Rounds</strong></p>
+<ul>
+<li>Bottom navigation → Rounds tab</li>
+<li>Default view: “Active Rounds” (IN_PROGRESS, PAUSED)</li>
+<li>Toggle to “Historical Rounds” (COMPLETED, CANCELLED)</li>
+</ul>
+</li>
+<li>
+<p><strong>Filter Rounds</strong></p>
+<ul>
+<li>By status (COMPLETED, CANCELLED, ALL)</li>
+<li>By date range (Last 7 days, Last 30 days, All time)</li>
+<li>By equipment (filter by bow setup)</li>
+<li>By scoring system (10-zone, 5-zone, etc.)</li>
+</ul>
+</li>
+<li>
+<p><strong>View Round Details</strong></p>
+<ul>
+<li>Select round from list</li>
+<li>View round summary (total score, average, date, equipment)</li>
+<li>View end-by-end breakdown</li>
+<li>View participant statistics (if multi-participant)</li>
+</ul>
+</li>
+<li>
+<p><strong>View Round Analytics</strong></p>
+<ul>
+<li>Navigate to Analytics tab from round detail</li>
+<li>See performance trends, shot grouping, fatigue detection</li>
+<li>Compare with other rounds (same distance/equipment)</li>
+</ul>
+</li>
+<li>
+<p><strong>Export Round Data</strong></p>
+<ul>
+<li>Export to CSV (round details, end scores, arrow scores)</li>
+<li>Share via Android intents (email, cloud storage)</li>
+</ul>
+</li>
+</ol>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>HistoricalRoundsScreen.kt - Historical viewing UI</li>
+<li>RoundViewModel.kt - Round data loading</li>
+<li>RoundRepository.kt - Filtering and querying</li>
+<li>RoundDao.kt - Database queries with indexes</li>
+</ul>
+<p><strong>Caching Strategy:</strong></p>
+<ul>
+<li>Historical rounds cached for 1 week (TTL)</li>
+<li>Lazy loading with pagination (50 rounds per page)</li>
+<li>Indexed queries on <code>status</code>, <code>createdAt</code> columns for performance</li>
+</ul>
+<p><strong>User Can:</strong></p>
+<ul>
+<li>View all completed rounds</li>
+<li>Filter by various criteria (date, equipment, status)</li>
+<li>View detailed statistics for any round</li>
+<li>Compare multiple rounds side-by-side</li>
+<li>Export round data for external analysis</li>
+<li>Delete old rounds (confirmation required)</li>
+</ul>
+<p><strong>See Full Documentation:</strong> <a href="../../.././../../developer-guide/technical-reference/flows/round-lifecycle-flow/#historical-viewing" class="internal alias" data-slug="developer-guide/technical-reference/flows/round-lifecycle-flow/index">Round Lifecycle Flow - Historical Viewing</a></p>
+<hr/>
+<h2 id="advanced-feature-flows">Advanced Feature Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#advanced-feature-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Advanced user features for tournaments, analytics, and data management.</p>
+<h3 id="6-tournament-participation-flow">6. Tournament Participation Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#6-tournament-participation-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented
+<strong>Documentation:</strong> Comprehensive multi-user tournament workflow from discovery to completion</p>
+<p><strong>Overview:</strong></p>
+<p>Complete workflow for discovering, joining, scoring in, and viewing results of multi-user tournaments with offline-first architecture, real-time Firebase synchronization, and intelligent conflict resolution.</p>
+<p><strong>Flow Steps:</strong></p>
+<h4 id="61-tournament-discovery">6.1 Tournament Discovery<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#61-tournament-discovery" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li>
+<p><strong>Navigate to Tournaments Tab</strong></p>
+<ul>
+<li>Bottom navigation → Tournaments</li>
+<li>Or: Dashboard → “Browse Tournaments” card</li>
+</ul>
+</li>
+<li>
+<p><strong>Browse Available Tournaments</strong></p>
+<ul>
+<li>View list of public tournaments</li>
+<li>Filter by status (OPEN, IN_PROGRESS, COMPLETED)</li>
+<li>Filter by format (WA_720, INDOOR_18M, FITA_OUTDOOR, etc.)</li>
+<li>Search by location or date range</li>
+</ul>
+</li>
+<li>
+<p><strong>View Tournament Details</strong></p>
+<ul>
+<li>Tap tournament card to view details</li>
+<li>View format, distance, target size, dates</li>
+<li>See participant count and capacity</li>
+<li>Check registration deadline</li>
+<li>View tournament creator and description</li>
+</ul>
+</li>
+</ol>
+<p><strong>UI Screens:</strong></p>
+<ul>
+<li>TournamentDiscoveryScreen.kt - Browse and search</li>
+<li>TournamentDetailsScreen.kt - Full tournament information</li>
+</ul>
+<p><strong>Data Sources:</strong></p>
+<ul>
+<li>Local cache: Immediate display from Room database</li>
+<li>Background sync: Firebase updates flow in real-time</li>
+<li>Network indicator: Shows sync status</li>
+</ul>
+<h4 id="62-joining-a-tournament">6.2 Joining a Tournament<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#62-joining-a-tournament" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Authentication Flow:</strong></p>
+<p>User identity resolved in priority order:</p>
+<ol>
+<li>Firebase authenticated user → <code>firebaseUser.id</code></li>
+<li>Settings username → <code>settings.userName</code> (mapped to “local_user”)</li>
+<li>Anonymous user → Generated anonymous ID (if allowed by tournament)</li>
+</ol>
+<p><strong>Join Process:</strong></p>
+<ol>
+<li>
+<p><strong>Pre-Join Validation</strong></p>
+<pre><code>Check: User not already participant
+Check: Tournament has available space
+Check: Tournament status is OPEN
+Check: Registration deadline not passed
+</code></pre>
+</li>
+<li>
+<p><strong>Tap “Join Tournament” Button</strong></p>
+<ul>
+<li>Button disabled if validation fails</li>
+<li>Shows “View Details” if already joined</li>
+<li>Shows capacity message if full</li>
+</ul>
+</li>
+<li>
+<p><strong>Local Join (Immediate)</strong></p>
+<ul>
+<li>Creates TournamentParticipant record in Room database</li>
+<li>Updates local participant count</li>
+<li>UI updates immediately (offline-first)</li>
+</ul>
+</li>
+<li>
+<p><strong>Firebase Sync (Synchronous)</strong></p>
+<ul>
+<li>Writes participant to Firestore <code>tournaments/{id}/participants/{participantId}</code></li>
+<li>Uses ID mapping table to translate local UUID → Firebase document ID</li>
+<li>Synchronous execution ensures reliable cross-device sync</li>
+<li>Failure shows error, allows retry</li>
+</ul>
+</li>
+</ol>
+<p><strong>Join Status States:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">LocalOnly → Joining → Synced</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                 ↓</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">              Error</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (retryable)</span></span></code></pre></figure>
+<p><strong>Error Handling:</strong></p>
+<ul>
+<li>Already joined: Show “View Details” instead</li>
+<li>Tournament full: Disable join, show capacity</li>
+<li>Not authenticated: Allow if <code>allowAnonymousParticipants == true</code></li>
+<li>Firebase sync failure: Retry option, score saved locally</li>
+</ul>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>TournamentDetailsViewModel.kt - Join orchestration</li>
+<li>HybridTournamentRepository.kt - Offline-first data layer</li>
+<li>UserIdentityResolver.kt - Authentication resolution</li>
+</ul>
+<h4 id="63-creating-tournament-round">6.3 Creating Tournament Round<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#63-creating-tournament-round" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ol>
+<li>
+<p><strong>Navigate to “Start Scoring”</strong></p>
+<ul>
+<li>From tournament details screen</li>
+<li>Or: Create Round → Select tournament from dropdown</li>
+</ul>
+</li>
+<li>
+<p><strong>Participant Conversion</strong></p>
+<ul>
+<li>Tournament participants → Session participants</li>
+<li>Local user → <code>SessionParticipant.LocalUser</code></li>
+<li>Other participants → <code>SessionParticipant.GuestArcher</code> (for multi-participant)</li>
+<li>Auto-creates equipment for guests (duplicates with naming)</li>
+</ul>
+</li>
+<li>
+<p><strong>Round Creation with Tournament Linkage</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Round</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  roundName </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;${tournament.name} - Round ${nextRoundNumber}&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  numEnds </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> tournament.roundFormat.numEnds,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  numArrows </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> tournament.roundFormat.numArrows,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  tournamentId </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> tournament.id, </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Links to tournament</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  tournamentRoundNumber </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> nextRoundNumber,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  syncStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> SyncStatus.SYNCING,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  participants </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> sessionParticipants,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  bowSetupId </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> validBowSetupId </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Required</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+</li>
+<li>
+<p><strong>Parameter Validation</strong></p>
+<ul>
+<li>Distance must match tournament format</li>
+<li>Target size must match tournament format</li>
+<li>Scoring system must match tournament format</li>
+<li>All participants must have equipment</li>
+</ul>
+</li>
+</ol>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>TournamentDetailsViewModel.kt - Round creation trigger</li>
+<li>TournamentManagementService.kt - Tournament-specific round setup</li>
+<li>RoundViewModel.kt - Standard round creation flow</li>
+</ul>
+<h4 id="64-scoring-in-tournament">6.4 Scoring in Tournament<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#64-scoring-in-tournament" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Scoring Process:</strong></p>
+<ol>
+<li>
+<p><strong>Standard Scoring Flow</strong></p>
+<ul>
+<li>User enters arrows normally (see Round Creation and Scoring Flow)</li>
+<li>Local database updated immediately</li>
+<li>UI continues without blocking</li>
+</ul>
+</li>
+<li>
+<p><strong>End Completion Triggers Sync</strong></p>
+<pre><code>User completes end →
+EndCompletionService validates →
+Save to local Round table (immediate) →
+Background: Submit to Firebase (async with retry)
+</code></pre>
+</li>
+<li>
+<p><strong>Background Firebase Sync</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">TournamentSyncService.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">submitTournamentScoreWithRetry</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  tournamentId,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  participantId,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  roundNumber,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  endNumber,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  arrowScores,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  maxRetries </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 3</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+</li>
+</ol>
+<p><strong>Retry Logic (Exponential Backoff):</strong></p>
+<pre><code>Attempt 1: Immediate
+Attempt 2: Wait 100ms → retry
+Attempt 3: Wait 200ms → retry
+Attempt 4: Wait 400ms → final attempt
+Failure: Mark for background sync, show error
+</code></pre>
+<p><strong>Sync Status Indicators:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Idle → Syncing → </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (shows participant count)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">           ↓</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">        Error</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (retryable, shows retry count)</span></span></code></pre></figure>
+<p><strong>Offline Behavior:</strong></p>
+<ul>
+<li>All scores save locally immediately (offline-first)</li>
+<li>Queued for sync when network available</li>
+<li>Sync queue persists across app restarts</li>
+<li>Network monitoring triggers automatic sync on reconnection</li>
+</ul>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>ActiveScoringScreen.kt - Arrow entry UI</li>
+<li>LiveScoringViewModel.kt - Scoring state management</li>
+<li>EndCompletionService.kt - Tournament score submission trigger</li>
+<li>TournamentSyncService.kt - Firebase sync with retry logic</li>
+</ul>
+<h4 id="65-viewing-tournament-leaderboard">6.5 Viewing Tournament Leaderboard<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#65-viewing-tournament-leaderboard" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Setup Process:</strong></p>
+<p>Navigate to tournament details → Leaderboard tab</p>
+<p><strong>Real-Time Listeners:</strong></p>
+<p>Three concurrent Firebase listeners provide live updates:</p>
+<ol>
+<li><strong>Leaderboard Listener</strong> - Overall standings</li>
+<li><strong>Participants Listener</strong> - Participant list updates</li>
+<li><strong>Detailed Scores Listener</strong> - End-by-end score updates</li>
+</ol>
+<p><strong>Leaderboard Features:</strong></p>
+<ul>
+<li><strong>Real-Time Updates</strong>: Firebase listeners push updates as participants score</li>
+<li><strong>Ranking Calculation</strong>:
+<ul>
+<li>Primary: Total score (descending)</li>
+<li>Tie-breaker #1: X-count (descending)</li>
+<li>Tie-breaker #2: Timestamp (earliest)</li>
+</ul>
+</li>
+<li><strong>Division Filtering</strong>: View standings by division/category</li>
+<li><strong>Round-by-Round</strong>: Track score progression across tournament</li>
+<li><strong>Participant Highlighting</strong>: Current user highlighted in standings</li>
+</ul>
+<p><strong>Conflict Detection &amp; Resolution:</strong></p>
+<p><strong>Trigger:</strong> Incoming Firebase score differs from local score</p>
+<p><strong>Detection:</strong></p>
+<pre><code>Compare remote total vs local total →
+Check version numbers →
+Check timestamp recency →
+Determine resolution strategy
+</code></pre>
+<p><strong>Resolution Strategies:</strong></p>
+<ul>
+<li><code>LOCAL_WINS</code>: Local has authority (default for offline-first)</li>
+<li><code>REMOTE_WINS</code>: Remote version is newer</li>
+<li><code>HIGHEST_WINS</code>: Use highest score</li>
+<li><code>LATEST_WINS</code>: Use most recent timestamp</li>
+<li><code>MANUAL</code>: Show conflict UI for user decision (if recent update &lt;5min)</li>
+</ul>
+<p><strong>Conflict UI:</strong></p>
+<ul>
+<li>Notification for affected end</li>
+<li>Shows both local and remote scores</li>
+<li>Displays recommended resolution</li>
+<li>Allows user override</li>
+<li>Option to dismiss (keep local)</li>
+</ul>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>TournamentLeaderboardScreen.kt - Real-time standings UI</li>
+<li>TournamentLeaderboardViewModel.kt - Leaderboard state management</li>
+<li>TournamentSyncService.kt - Firebase listeners setup</li>
+<li>ScoreConflictResolutionService.kt - Conflict detection and resolution</li>
+</ul>
+<h4 id="66-tournament-completion">6.6 Tournament Completion<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#66-tournament-completion" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Completion Process:</strong></p>
+<p><em>Permission: Tournament creator only</em></p>
+<ol>
+<li>
+<p><strong>Navigate to Tournament Management</strong></p>
+<ul>
+<li>Tournament details → “Manage Tournament” (creator only)</li>
+<li>Or: Settings menu → “Complete Tournament”</li>
+</ul>
+</li>
+<li>
+<p><strong>Complete Tournament</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">tournamentService.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">completeTournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(tournamentId)</span></span></code></pre></figure>
+<ul>
+<li>Sets status to <code>COMPLETED</code></li>
+<li>Freezes leaderboard rankings</li>
+<li>Disables further scoring</li>
+<li>Triggers final results calculation</li>
+</ul>
+</li>
+<li>
+<p><strong>Final Rankings Calculation</strong></p>
+<ul>
+<li>Aggregate all participant scores across all rounds</li>
+<li>Apply tie-breaking rules (X-count, timestamp)</li>
+<li>Generate final standings by division</li>
+<li>Store immutable results</li>
+</ul>
+</li>
+<li>
+<p><strong>Participant Notifications</strong> (if implemented)</p>
+<ul>
+<li>Top 3 finishers notified</li>
+<li>Achievement badges awarded</li>
+<li>Results available for viewing</li>
+</ul>
+</li>
+<li>
+<p><strong>Historical Viewing</strong></p>
+<ul>
+<li>Tournament marked as completed</li>
+<li>Results viewable by all participants</li>
+<li>Leaderboard frozen in final state</li>
+<li>Export options available</li>
+</ul>
+</li>
+</ol>
+<p><strong>Tournament Status State Machine:</strong></p>
+<pre><code>OPEN → IN_PROGRESS → COMPLETED
+  ↓
+CANCELLED (from any state)
+</code></pre>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>TournamentManagementViewModel.kt - Management controls</li>
+<li>TournamentManagementService.kt - Lifecycle orchestration</li>
+<li>FirebaseTournamentRepository.kt - Firebase state updates</li>
+</ul>
+<hr/>
+<p><strong>Tournament Participation Summary:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Phase</th><th>User Action</th><th>System Response</th><th>Offline Behavior</th></tr></thead><tbody><tr><td>Discovery</td><td>Browse tournaments</td><td>Load from cache + Firebase sync</td><td>Show cached, sync when online</td></tr><tr><td>Join</td><td>Tap “Join Tournament”</td><td>Local DB update + Firebase sync</td><td>Queued for sync</td></tr><tr><td>Create Round</td><td>Start scoring</td><td>Validate format, create round</td><td>Local only until sync</td></tr><tr><td>Scoring</td><td>Enter arrows</td><td>Save local + async Firebase sync</td><td>Queue for sync</td></tr><tr><td>Leaderboard</td><td>View standings</td><td>Real-time Firebase listeners</td><td>Show local, sync when online</td></tr><tr><td>Completion</td><td>Creator completes</td><td>Freeze rankings, notify participants</td><td>N/A (creator action)</td></tr></tbody></table></div>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Offline-First</strong>: All operations complete locally immediately</li>
+<li><strong>Real-Time Sync</strong>: Firebase listeners provide live leaderboard updates</li>
+<li><strong>Conflict Resolution</strong>: Automatic detection and resolution with user override</li>
+<li><strong>Exponential Backoff</strong>: Intelligent retry for transient network failures</li>
+<li><strong>Multi-Device Sync</strong>: Consistent state across all devices</li>
+<li><strong>Anonymous Participation</strong>: Optional anonymous user support</li>
+</ul>
+<p><strong>Performance Optimizations:</strong></p>
+<ul>
+<li>Smart caching with TTL (5min for IN_PROGRESS, indefinite for COMPLETED)</li>
+<li>Batch operations for participant scores (1-2 queries vs 10+)</li>
+<li>Debounced sync triggers (avoid rapid-fire syncs)</li>
+<li>Network monitoring (single callback, automatic sync on reconnect)</li>
+</ul>
+<p><strong>Key Components Reference:</strong></p>
+<p><strong>ViewModels:</strong></p>
+<ul>
+<li>TournamentDiscoveryViewModel.kt - Browse tournaments</li>
+<li>TournamentDetailsViewModel.kt - View/manage tournament</li>
+<li>TournamentLeaderboardViewModel.kt - View standings</li>
+<li>TournamentManagementViewModel.kt - Host controls</li>
+</ul>
+<p><strong>UI Screens:</strong></p>
+<ul>
+<li>TournamentDiscoveryScreen.kt - Browse/search</li>
+<li>TournamentDetailsScreen.kt - Tournament info, join/leave</li>
+<li>TournamentLeaderboardScreen.kt - Real-time standings</li>
+<li>ActiveScoringScreen.kt - Score arrows in tournament round</li>
+</ul>
+<p><strong>Data Layer:</strong></p>
+<ul>
+<li>HybridTournamentRepository.kt (1,506 lines) - Offline-first with Firebase sync</li>
+<li>FirebaseTournamentRepository.kt (1,707 lines) - Firebase Firestore operations</li>
+<li>OfflineTournamentRepository.kt (908 lines) - Local Room database</li>
+<li>TournamentDao.kt - Tournament metadata queries</li>
+<li>TournamentScoreDao.kt - Score and leaderboard queries</li>
+</ul>
+<p><strong>Services:</strong></p>
+<ul>
+<li>TournamentManagementService.kt (~850 lines) - Complete lifecycle management</li>
+<li>TournamentSyncService.kt - Real-time Firebase listeners and sync</li>
+<li>ScoreConflictResolutionService.kt - Conflict detection/resolution</li>
+<li>EndCompletionService.kt - Score submission trigger</li>
+</ul>
+<p><strong>Models:</strong></p>
+<ul>
+<li>Tournament - Main entity (name, dates, format, status, capacity)</li>
+<li>TournamentParticipant - Participant registration</li>
+<li>TournamentScore - Score data (end scores, total, X-count)</li>
+<li>TournamentStatus - Enum: OPEN, IN_PROGRESS, COMPLETED, CANCELLED</li>
+</ul>
+<p><strong>Firebase Collections:</strong></p>
+<pre><code>tournaments/{tournamentId}
+├── participants/{participantId} → TournamentParticipant
+├── scores/{scoreId} → TournamentScore (end-level detail)
+└── settings → TournamentSettings (rules, format, privacy)
+</code></pre>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="../../.././../../developer-guide/technical-reference/flows/data-sync-flow/" class="internal alias" data-slug="developer-guide/technical-reference/flows/data-sync-flow/index">Data Sync Flow</a> - Complete sync architecture</li>
+<li><a href="../../.././Integration-Flows/" class="internal alias" data-slug="Integration-Flows/index">Integration Flows</a> - Firebase integration patterns</li>
+<li><a href="../../.././../../developer-guide/technical-reference/tournament/tournament-system-documentation/" class="internal alias" data-slug="developer-guide/technical-reference/tournament/tournament-system-documentation/index">Tournament System Documentation</a> - Complete technical documentation (1,165 lines)</li>
+</ul>
+<hr/>
+<h3 id="7-analytics-viewing-flow">7. Analytics Viewing Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#7-analytics-viewing-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Status:</strong> ✅ Fully Documented
+<strong>Documentation:</strong> Comprehensive performance analysis workflow from basic statistics to advanced grouping metrics</p>
+<p><strong>Overview:</strong></p>
+<p>Complete workflow for viewing and analyzing performance data through round analytics, equipment comparisons, distance-specific statistics, fatigue detection, and advanced shot grouping analysis. The analytics system provides actionable insights to improve archery performance.</p>
+<p><strong>Flow Steps:</strong></p>
+<h4 id="71-accessing-analytics">7.1 Accessing Analytics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#71-accessing-analytics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Entry Points:</strong></p>
+<ol>
+<li>
+<p><strong>Bottom Navigation → Analytics Tab</strong></p>
+<ul>
+<li>Main analytics dashboard</li>
+<li>Overview of all analytics types</li>
+</ul>
+</li>
+<li>
+<p><strong>Round Detail → “View Analytics” Button</strong></p>
+<ul>
+<li>Round-specific analytics</li>
+<li>Immediate access to performance data</li>
+</ul>
+</li>
+<li>
+<p><strong>Equipment Page → “Analytics Hub” Button</strong></p>
+<ul>
+<li>Equipment performance comparison</li>
+<li>Cross-equipment analysis</li>
+</ul>
+</li>
+</ol>
+<h4 id="72-round-analytics-dashboard">7.2 Round Analytics Dashboard<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#72-round-analytics-dashboard" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Navigation:</strong></p>
+<ul>
+<li>From Analytics tab → Select round → View round analytics</li>
+<li>Or: Round detail screen → “View Analytics” button</li>
+</ul>
+<p><strong>Performance Summary Display:</strong></p>
+<pre><code>Total Score: 580/600
+Average per End: 48.3
+Average per Arrow: 8.1
+X-Count: 24 (13.3%)
+10-Count: 58 (32.2%)
+Accuracy: 96.7%
+</code></pre>
+<p><strong>End-by-End Performance Chart:</strong></p>
+<ul>
+<li><strong>Visual:</strong> Line chart with connected points for each end score</li>
+<li><strong>Features:</strong>
+<ul>
+<li>Average reference line (horizontal)</li>
+<li>Best/worst end highlighting</li>
+<li>Hover tooltips showing end details</li>
+<li>Trend line overlay (linear regression)</li>
+<li>Performance trend indicator: IMPROVING, DECLINING, STABLE</li>
+</ul>
+</li>
+</ul>
+<p><strong>Shot Distribution Visualization:</strong></p>
+<ul>
+<li><strong>Bar Chart:</strong> Arrow value frequency (M, 1, 2, …, 9, 10, X)</li>
+<li><strong>Ring Distribution:</strong> Percentage in each ring zone</li>
+<li><strong>X-Ring %:</strong> Highlighted metric for precision</li>
+</ul>
+<p><strong>Score Trends Across Ends:</strong></p>
+<pre><code>Early Ends (1-4):   Average: 50.2
+Middle Ends (5-8):  Average: 48.1
+Late Ends (9-12):   Average: 46.5
+Trend: DECLINING (-7.4%)
+</code></pre>
+<p><strong>Comparison with Other Rounds:</strong></p>
+<ul>
+<li><strong>Personal Best:</strong> 590 (2025-10-15)</li>
+<li><strong>Average Comparison:</strong> +5.3% above user average</li>
+<li><strong>Equipment Performance:</strong> +2.1% above equipment average</li>
+</ul>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>RoundAnalyticsViewModel.kt (605 lines) - Analytics state management</li>
+<li>RoundAnalyticsScreen.kt - Dashboard UI</li>
+<li>StatisticsCalculationService.kt - Statistical algorithms</li>
+</ul>
+<h4 id="73-equipment-performance-comparison">7.3 Equipment Performance Comparison<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#73-equipment-performance-comparison" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Navigation:</strong></p>
+<ul>
+<li>Equipment page → “Analytics Hub” button</li>
+<li>Analytics tab → “Equipment Comparison”</li>
+</ul>
+<p><strong>Equipment Analytics Hub UI:</strong></p>
+<p>Analysis type selection:</p>
+<ol>
+<li><strong>Performance by Setup</strong> - Individual bow setup analytics</li>
+<li><strong>Performance by Distance</strong> - Distance-specific comparisons</li>
+<li><strong>Equipment Comparison</strong> - Side-by-side analysis (up to 4 setups)</li>
+<li><strong>Usage Statistics</strong> - Frequency and recency</li>
+</ol>
+<p><strong>Side-by-Side Bow Setup Comparison:</strong></p>
+<p><strong>Setup Process:</strong></p>
+<ol>
+<li>Multi-select up to 4 bow setups</li>
+<li>Apply filters:
+<ul>
+<li>Distance: 70m, 50m, 18m, or custom</li>
+<li>Date range: Last 7/30/90 days, or custom</li>
+<li>Scoring system: 10-zone, 5-zone, etc.</li>
+</ul>
+</li>
+<li>Tap “Compare” button</li>
+<li>View parallel column display</li>
+</ol>
+<p><strong>Comparison Metrics:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Metric</th><th>Competition Bow</th><th>Practice Bow</th><th>Backup Bow</th></tr></thead><tbody><tr><td>Average Score</td><td>580 (Best)</td><td>565</td><td>545</td></tr><tr><td>Accuracy %</td><td>96.7%</td><td>94.2%</td><td>90.8%</td></tr><tr><td>X-Count Avg</td><td>24</td><td>19</td><td>14</td></tr><tr><td>Rounds Shot</td><td>45</td><td>78</td><td>12</td></tr><tr><td>Best Score</td><td>598</td><td>582</td><td>568</td></tr><tr><td>Consistency</td><td>0.92</td><td>0.85</td><td>0.78</td></tr><tr><td>Last Used</td><td>Yesterday</td><td>2 days ago</td><td>2 weeks ago</td></tr></tbody></table></div>
+<p><strong>Visual Indicators:</strong></p>
+<ul>
+<li>Green highlight for best performer</li>
+<li>Performance trend arrows (↑↓→)</li>
+<li>Warning icons for equipment needing attention</li>
+</ul>
+<p><strong>Equipment Ranking/Leaderboard:</strong></p>
+<ul>
+<li>Setups ranked by average score</li>
+<li>Sorting options: score, usage, consistency</li>
+<li>Equipment usage frequency</li>
+</ul>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>EquipmentAnalyticsHubScreen.kt - Analytics hub UI</li>
+<li>EquipmentComparisonScreen.kt - Side-by-side comparison</li>
+<li>EquipmentPerformanceService.kt - Performance calculation</li>
+</ul>
+<h4 id="74-distance-specific-statistics">7.4 Distance-Specific Statistics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#74-distance-specific-statistics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Filter Analytics by Distance:</strong></p>
+<ol>
+<li>
+<p><strong>Select Specific Distance</strong></p>
+<ul>
+<li>Dropdown: 70m, 50m, 30m, 18m, custom</li>
+<li>View all rounds shot at selected distance</li>
+<li>Auto-updates charts and statistics</li>
+</ul>
+</li>
+<li>
+<p><strong>Performance Trends at Specific Distance</strong></p>
+<ul>
+<li>Chronological line chart</li>
+<li>Score progression over time</li>
+<li>Improvement tracking with trend line</li>
+</ul>
+</li>
+<li>
+<p><strong>Equipment Comparison at Same Distance</strong></p>
+<ul>
+<li>Filter multiple setups by distance</li>
+<li>Side-by-side comparison for apples-to-apples analysis</li>
+<li>Identify best-performing setup for specific range</li>
+</ul>
+</li>
+<li>
+<p><strong>Distance-Specific Personal Bests</strong></p>
+</li>
+</ol>
+<pre><code>70m: 598 (2025-10-15) with Competition Bow
+50m: 612 (2025-09-20) with Competition Bow
+30m: 658 (2025-08-10) with Practice Bow
+18m: 682 (2025-07-05) with Practice Bow
+</code></pre>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li>Distance-based filtering throughout analytics</li>
+<li>Historical trends at specific distances</li>
+<li>Equipment effectiveness by distance</li>
+<li>Personal best tracking</li>
+</ul>
+<h4 id="75-fatigue-detection-analysis">7.5 Fatigue Detection Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#75-fatigue-detection-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Algorithm:</strong></p>
+<pre><code>Shot Segmentation:
+- Recent shots: Last 20% of arrows (minimum 5)
+- Earlier shots: First 80% of arrows
+
+Performance Drop:
+- avgRecent = mean(recent shot scores)
+- avgEarlier = mean(earlier shot scores)
+- performanceDrop = avgEarlier - avgRecent
+
+Fatigue Score (0.0-1.0):
+- scoreFactor = (performanceDrop / 2.0).clamp(0.0, 1.0)
+- groupingFactor = (groupingDeterioration / 0.2).clamp(0.0, 1.0)
+- fatigueScore = (scoreFactor + groupingFactor) / 2.0
+</code></pre>
+<p><strong>Score Trends Visualization:</strong></p>
+<pre><code>End-by-End Comparison:
+┌────────────────────────────────────┐
+│ Early Ends (1-4):  ████████ 50.2   │
+│ Middle Ends (5-8): ███████  48.1   │
+│ Late Ends (9-12):  ██████   46.5   │
+└────────────────────────────────────┘
+Performance Drop: -7.4% (Moderate Fatigue)
+</code></pre>
+<p><strong>Fatigue Score Interpretation:</strong></p>
+<ul>
+<li><strong>0.0-0.2:</strong> No fatigue detected - Consistent performance</li>
+<li><strong>0.2-0.4:</strong> Mild fatigue - Minor performance drop</li>
+<li><strong>0.4-0.6:</strong> Moderate fatigue - Consider rest or technique check</li>
+<li><strong>0.6-0.8:</strong> Significant fatigue - Rest recommended</li>
+<li><strong>0.8-1.0:</strong> High fatigue - End session, avoid injury risk</li>
+</ul>
+<p><strong>End-by-End Consistency Metrics:</strong></p>
+<pre><code>Standard Deviation: 2.3 points
+Range (Best - Worst): 12 points (56 - 44)
+Coefficient of Variation: 4.8%
+</code></pre>
+<p><strong>Recommendations Based on Patterns:</strong></p>
+<ul>
+<li>Fatigue > 0.6: “Consider shorter sessions or more breaks”</li>
+<li>Consistency &lt; 0.7: “Focus on form consistency”</li>
+<li>Performance drop > 10%: “Check equipment or fatigue”</li>
+</ul>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>FatigueAnalysisService.kt - Fatigue calculation</li>
+<li>Equipment Statistics data model - Fatigue metrics</li>
+<li>Chart components - Visual trend display</li>
+</ul>
+<h4 id="76-shot-grouping-analysis">7.6 Shot Grouping Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#76-shot-grouping-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Requirements:</strong></p>
+<ul>
+<li>Target Face Scoring method (with coordinates)</li>
+<li>ArrowScore.targetX and targetY populated</li>
+<li>Minimum 5+ arrows with coordinates</li>
+</ul>
+<p><strong>Grouping Metrics:</strong></p>
+<p><strong>1. Eccentricity (Covariance Matrix Method)</strong></p>
+<pre><code>Algorithm:
+1. Calculate covariance matrix (varX, varY, covXY)
+2. Compute eigenvalues
+3. eccentricity = eigenvalue1 / eigenvalue2 (capped at 10.0)
+
+Interpretation:
+- 1.0-1.2: Circular grouping (ideal form)
+- 1.2-2.0: Slightly elliptical (good)
+- 2.0-3.0: Moderately elliptical (needs work)
+- 3.0+:    Highly directional (systematic issue)
+</code></pre>
+<p><strong>2. Radial Standard Deviation</strong></p>
+<pre><code>Algorithm:
+distances = sqrt((x - centerX)² + (y - centerY)²) for each shot
+groupTightness = sqrt(variance of distances)
+
+Purpose: Measures shot group tightness
+Lower = Better (tighter group)
+</code></pre>
+<p><strong>3. Aiming Bias Calculation</strong></p>
+<pre><code>horizontalBias = centerX (positive = right, negative = left)
+verticalBias = centerY (positive = up, negative = down)
+biasDirection = atan2(verticalBias, horizontalBias) * 180/π
+
+Display: Clock position (e.g., &quot;2 o'clock&quot;, &quot;9 o'clock&quot;)
+</code></pre>
+<p><strong>4. Radial Consistency Index</strong></p>
+<pre><code>radialDistances = sqrt(x² + y²) from target center
+radialConsistency = 1 / (stdDev / mean) (capped at 10.0)
+
+Higher = Better (more consistent)
+</code></pre>
+<p><strong>Shot Distribution on Target Diagram:</strong></p>
+<pre><code>Visual Components:
+- Concentric ring overlay (10, 9, 8, ..., M)
+- Arrow coordinates plotted as dots
+- Group center marker (crosshair)
+- Dispersion ellipse overlay
+- Bias direction indicator (arrow)
+</code></pre>
+<p><strong>Grouping Tightness Display:</strong></p>
+<pre><code>Group Statistics:
+Center: (X: +0.8cm, Y: -1.2cm)
+Radial SD: 3.2cm
+Eccentricity: 1.4 (Slightly elliptical)
+Radial Consistency: 7.8 (Good)
+</code></pre>
+<p><strong>Aiming Bias Detection:</strong></p>
+<pre><code>Bias Analysis:
+Direction: 4 o'clock (Right-Low)
+Magnitude: 1.5cm
+Recommendation: Adjust sight 2 clicks left, 1 click up
+</code></pre>
+<p><strong>Comparison with Ideal Grouping:</strong></p>
+<ul>
+<li>Overlay of ideal circular pattern (same radius)</li>
+<li>Deviation percentage from ideal</li>
+<li>Equipment tuning indicators</li>
+<li>Form analysis insights</li>
+</ul>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>ShotGroupingAnalysisService.kt - Grouping calculations</li>
+<li>TargetDiagramComponent.kt - Visual plot</li>
+<li>BiasCalculationService.kt - Aiming bias detection</li>
+</ul>
+<h4 id="77-export-analytics-data">7.7 Export Analytics Data<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#77-export-analytics-data" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Export Process:</strong></p>
+<ol>
+<li>
+<p><strong>Navigate to Export</strong></p>
+<ul>
+<li>Analytics screen → Menu → “Export Data”</li>
+<li>Or: Round detail → “Export Analytics”</li>
+</ul>
+</li>
+<li>
+<p><strong>Select Export Format</strong></p>
+<ul>
+<li>CSV (Comma-Separated Values) - For spreadsheets</li>
+<li>JSON (JavaScript Object Notation) - For programmatic access</li>
+</ul>
+</li>
+<li>
+<p><strong>Choose Data Type</strong></p>
+<ul>
+<li>Rounds export (all rounds data)</li>
+<li>Equipment performance (aggregated stats)</li>
+<li>Analytics data (calculated metrics: fatigue, grouping, trends)</li>
+<li>Full backup (complete data model)</li>
+</ul>
+</li>
+<li>
+<p><strong>Apply Filters</strong></p>
+<ul>
+<li>Equipment: Select specific bow setups</li>
+<li>Distance: Filter by distance (70m, 50yd, etc.)</li>
+<li>Date range: Last 7/30/90 days, custom range</li>
+<li>Scoring system: 10-zone, 5-zone, etc.</li>
+</ul>
+</li>
+<li>
+<p><strong>Generate and Share</strong></p>
+<ul>
+<li>Tap “Generate Export”</li>
+<li>Choose sharing method:
+<ul>
+<li>Email attachment</li>
+<li>Cloud storage (Google Drive, Dropbox)</li>
+<li>Download to device</li>
+<li>Share with external apps</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>CSV Export Schema:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="csv" data-theme="github-light github-dark"><code data-language="csv" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Date,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Round Name,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Distance,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">Target Size,</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">Total Score,</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">Avg per End,</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Avg per Arrow,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Num Ends,</span><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">Equipment,</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">X-Count,10-Count,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Accuracy %,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Consistency,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">Fatigue Score</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">2025-11-04,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Indoor 18m,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">18m,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">40cm,</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">680,</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">56.7,</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">9.4,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">12,</span><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">Competition Bow,</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">48,112,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">94.4%,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">0.91,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">0.15</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">2025-11-03,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">Outdoor 70m,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">70m,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">122cm,</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">598,</span><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">49.8,</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">8.3,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">12,</span><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">Competition Bow,</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">32,87,</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">83.1%,</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">0.88,</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">0.32</span></span></code></pre></figure>
+<p><strong>JSON Export Structure:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="json" data-theme="github-light github-dark"><code data-language="json" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">{</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">  &quot;export_metadata&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;exported_at&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;2025-11-04T14:30:00Z&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;version&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;2.0&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;filters&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">      &quot;equipment&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;Competition Bow&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">],</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">      &quot;distance&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;70m&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">      &quot;date_range&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;2025-10-01 to 2025-11-04&quot;</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  },</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">  &quot;rounds&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [{</span><span style="--shiki-light:#B31D28;--shiki-light-font-style:italic;--shiki-dark:#FDAEB7;--shiki-dark-font-style:italic;">...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}],</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">  &quot;equipment_stats&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;average_score&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">580</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;consistency&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.92</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;rounds_count&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">45</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  },</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">  &quot;analytics&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;fatigue_analysis&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">      &quot;avg_fatigue_score&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">0.28</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">      &quot;rounds_with_fatigue&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">12</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    },</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">    &quot;grouping_metrics&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: {</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">      &quot;avg_eccentricity&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">1.6</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">      &quot;avg_radial_sd&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">3.8</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Key Components:</strong></p>
+<ul>
+<li>ExportService.kt - Export generation</li>
+<li>CSVFormatter.kt - CSV schema formatting</li>
+<li>ShareHelper.kt - Android intent sharing</li>
+</ul>
+<hr/>
+<p><strong>Analytics Viewing Summary:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Analytics Type</th><th>Entry Point</th><th>Key Metrics</th><th>Visualization</th></tr></thead><tbody><tr><td>Round Analytics</td><td>Round detail</td><td>Score, avg, X-count, trend</td><td>Line chart, bar chart</td></tr><tr><td>Equipment Comparison</td><td>Analytics hub</td><td>Avg score, consistency, usage</td><td>Side-by-side columns</td></tr><tr><td>Distance Statistics</td><td>Filter by distance</td><td>PBs, trends, improvement</td><td>Line chart, history</td></tr><tr><td>Fatigue Detection</td><td>Round analytics</td><td>Score drop, fatigue score</td><td>Split chart, trend</td></tr><tr><td>Shot Grouping</td><td>Round analytics (with coords)</td><td>Eccentricity, bias, radial SD</td><td>Target diagram, plot</td></tr><tr><td>Export</td><td>Any analytics screen</td><td>All calculated metrics</td><td>CSV/JSON files</td></tr></tbody></table></div>
+<p><strong>Key Features:</strong></p>
+<ul>
+<li><strong>Comprehensive Statistics</strong>: Total score, averages, consistency, trends</li>
+<li><strong>Advanced Metrics</strong>: Fatigue detection, shot grouping, aiming bias</li>
+<li><strong>Visual Analytics</strong>: Charts, target diagrams, trend lines</li>
+<li><strong>Equipment Insights</strong>: Performance comparison, effectiveness by distance</li>
+<li><strong>Data Export</strong>: CSV/JSON with filtering and sharing</li>
+</ul>
+<p><strong>Performance Optimizations:</strong></p>
+<ul>
+<li>Cached statistics (5 minutes TTL for frequently changing data)</li>
+<li>Pre-calculated metrics stored in database</li>
+<li>Lazy loading for historical data</li>
+<li>Efficient aggregation queries with database indexes</li>
+</ul>
+<p><strong>Key Components Reference:</strong></p>
+<p><strong>ViewModels:</strong></p>
+<ul>
+<li>RoundAnalyticsViewModel.kt (605 lines) - Analytics state management</li>
+<li>EquipmentAnalyticsViewModel.kt - Equipment analytics orchestration</li>
+<li>EquipmentComparisonViewModel.kt - Side-by-side comparison state</li>
+</ul>
+<p><strong>UI Screens:</strong></p>
+<ul>
+<li>RoundAnalyticsScreen.kt - Complete analytics dashboard</li>
+<li>EquipmentAnalyticsHubScreen.kt - Equipment analytics central hub</li>
+<li>EquipmentComparisonScreen.kt - Side-by-side comparison UI</li>
+<li>Target diagram components - Shot grouping visualization</li>
+</ul>
+<p><strong>Services:</strong></p>
+<ul>
+<li>StatisticsCalculationService.kt - Statistical algorithms and calculations</li>
+<li>EquipmentPerformanceService.kt - Equipment effectiveness analysis</li>
+<li>FatigueAnalysisService.kt - Fatigue detection algorithms</li>
+<li>ShotGroupingAnalysisService.kt - Grouping metrics calculations</li>
+<li>ExportService.kt - CSV/JSON export generation</li>
+</ul>
+<p><strong>Data Models:</strong></p>
+<ul>
+<li>EquipmentPerformanceStats - Equipment analytics metrics</li>
+<li>RoundStatistics - Round analytics data</li>
+<li>ShotGroupingMetrics - Grouping and bias metrics</li>
+<li>FatigueAnalysisData - Fatigue detection results</li>
+</ul>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="../../.././../Data-Models/Analytics/" class="internal alias" data-slug="Data-Models/Analytics/index">Data Models - Analytics</a> - Complete analytics entity documentation</li>
+<li><a href="../../.././../Performance/" class="internal alias" data-slug="Performance/index">Performance Guidelines</a> - Caching and optimization strategies</li>
+<li><a href="../../.././../Code-Examples/" class="internal alias" data-slug="Code-Examples/index">Code Examples</a> - Statistics calculation examples</li>
+</ul>
+<hr/>
+<h2 id="user-flow-patterns">User Flow Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#user-flow-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Common patterns across user flows:</p>
+<h3 id="navigation-patterns">Navigation Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#navigation-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Bottom Navigation</strong> - Primary navigation for main sections (Rounds, Equipment, Analytics, Tournaments, Settings)</li>
+<li><strong>Back Stack</strong> - Standard Android back button behavior, state preserved</li>
+<li><strong>Deep Linking</strong> - Support for direct navigation to specific rounds, equipment, or tournaments</li>
+<li><strong>Cross-Feature Navigation</strong> - Equipment → Rounds, Rounds → Analytics, etc.</li>
+</ul>
+<p><strong>See:</strong> <a href="../../.././System-Flows/" class="internal alias" data-slug="System-Flows/index">System Flows - Navigation Patterns</a> (planned) for detailed navigation documentation.</p>
+<hr/>
+<h3 id="state-management-patterns">State Management Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#state-management-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>StateFlow</strong> - Reactive state management for UI updates</li>
+<li><strong>State Persistence</strong> - ViewModel state survives configuration changes</li>
+<li><strong>Shared State</strong> - Multi-participant scoring shares state across participants</li>
+<li><strong>State Validation</strong> - Input validation before state changes (e.g., end completion)</li>
+</ul>
+<p><strong>See:</strong> <a href="../../.././System-Flows/" class="internal alias" data-slug="System-Flows/index">System Flows - State Management</a> (planned) for detailed state management documentation.</p>
+<hr/>
+<h3 id="error-handling-patterns">Error Handling Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#error-handling-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Input Validation</strong> - UI-level validation with user-friendly error messages</li>
+<li><strong>Network Errors</strong> - Graceful degradation for Firebase sync failures (offline-first)</li>
+<li><strong>Conflict Resolution</strong> - Automatic conflict resolution for tournament scores</li>
+<li><strong>Retry Logic</strong> - Exponential backoff for transient failures</li>
+</ul>
+<p><strong>See:</strong> <a href="../../.././System-Flows/" class="internal alias" data-slug="System-Flows/index">System Flows - Error Handling</a> (planned) for detailed error handling documentation.</p>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><strong><a href="../../.././System-Flows/" class="internal alias" data-slug="System-Flows/index">System Flows</a></strong> - Internal system processes and state machines</li>
+<li><strong><a href="../../.././Integration-Flows/" class="internal alias" data-slug="Integration-Flows/index">Integration Flows</a></strong> - External service integrations (Firebase, exports)</li>
+<li><strong><a href="../../.././../../user-guide/" class="internal alias" data-slug="user-guide/index">User Guide</a></strong> - User-facing documentation and tutorials</li>
+<li><strong><a href="../../.././../../user-guide/features/" class="internal alias" data-slug="user-guide/features/index">Features Documentation</a></strong> - Detailed feature guides</li>
+<li><strong><a href="../../.././../Database/" class="internal alias" data-slug="Database/index">Database Overview</a></strong> - Data persistence and schemas</li>
+<li><strong><a href="../../.././../Data-Models/" class="internal alias" data-slug="Data-Models/index">Data Models</a></strong> - Entity models and relationships</li>
+</ul>
+<hr/>
+<h2 id="contributing-user-flow-documentation">Contributing User Flow Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#contributing-user-flow-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>To add or improve user flow documentation:</p>
+<ol>
+<li><strong>Map the User Journey</strong> - Trace user interactions from entry to exit</li>
+<li><strong>Document Each Step</strong> - Include screenshots, UI states, and decision points</li>
+<li><strong>Identify Exit Points</strong> - Where can users leave this flow?</li>
+<li><strong>Document Alternatives</strong> - What if user skips a step or takes a different path?</li>
+<li><strong>Add Error Scenarios</strong> - What happens when things go wrong?</li>
+<li><strong>Cross-Reference</strong> - Link to related flows, features, and technical docs</li>
+<li><strong>Include User Goals</strong> - Why is the user performing this flow?</li>
+</ol>
+<p><strong>User Flow Checklist:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> User journey map (entry → exit)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Step-by-step walkthrough with screenshots</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Decision points and branching paths</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Error scenarios and recovery strategies</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Exit points and alternative paths</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Related flows and features</li>
+<li class="task-list-item"><input type="checkbox" disabled/> User goals and motivations</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Success criteria (how do we know user completed flow?)</li>
+</ul>
+<hr/>
+<p><strong>Last Updated:</strong> 2025-11-04
+<strong>Documentation Coverage:</strong> 5 flows fully documented (4,045 total lines), 2 flows planned</p></article><div class="page-listing"><p>0 items under this folder.</p><div><ul class="section-ul"></ul></div></div></div><hr/><div class="page-footer"></div></div><div class="right sidebar"></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>live-scoring-vm-analysis</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="live-scoring-vm-analysis"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="live-scoring-vm-analysis"/><meta name="twitter:description" content="LiveScoringViewModel Critical Analysis File: app/src/main/java/com/archeryapprentice/ui/roundScoring/LiveScoringViewModel.kt Original Size: 2,808 lines (Oct 2025) Current Size: 1,481 lines (Oct 25, 2025) Total Reduction: 1,327 lines (47.3% reduction) Baseline (CLAUDE.md): 1,753 lines Analysis Date: ..."/><meta property="og:description" content="LiveScoringViewModel Critical Analysis File: app/src/main/java/com/archeryapprentice/ui/roundScoring/LiveScoringViewModel.kt Original Size: 2,808 lines (Oct 2025) Current Size: 1,481 lines (Oct 25, 2025) Total Reduction: 1,327 lines (47.3% reduction) Baseline (CLAUDE.md): 1,753 lines Analysis Date: ..."/><meta property="og:image:alt" content="LiveScoringViewModel Critical Analysis File: app/src/main/java/com/archeryapprentice/ui/roundScoring/LiveScoringViewModel.kt Original Size: 2,808 lines (Oct 2025) Current Size: 1,481 lines (Oct 25, 2025) Total Reduction: 1,327 lines (47.3% reduction) Baseline (CLAUDE.md): 1,753 lines Analysis Date: ..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/analysis/live-scoring-vm-analysis"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/analysis/live-scoring-vm-analysis"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="LiveScoringViewModel Critical Analysis File: app/src/main/java/com/archeryapprentice/ui/roundScoring/LiveScoringViewModel.kt Original Size: 2,808 lines (Oct 2025) Current Size: 1,481 lines (Oct 25, 2025) Total Reduction: 1,327 lines (47.3% reduction) Baseline (CLAUDE.md): 1,753 lines Analysis Date: ..."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/analysis/live-scoring-vm-analysis-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/analysis/live-scoring-vm-analysis-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/analysis/live-scoring-vm-analysis-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/analysis/live-scoring-vm-analysis"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-339"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-339" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/analysis/">analysis</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>live scoring vm analysis</a></div></nav><h1 class="article-title">live-scoring-vm-analysis</h1><p show-comma="true" class="content-meta"><time datetime="2025-10-04T00:00:00.000Z">Oct 04, 2025</time><span>15 min read</span></p><ul class="tags"><li><a href="../../tags/analysis" class="internal tag-link">analysis</a></li><li><a href="../../tags/god-class" class="internal tag-link">god-class</a></li><li><a href="../../tags/viewmodel-refactoring" class="internal tag-link">viewmodel-refactoring</a></li><li><a href="../../tags/technical-debt" class="internal tag-link">technical-debt</a></li><li><a href="../../tags/architecture" class="internal tag-link">architecture</a></li><li><a href="../../tags/live-scoring" class="internal tag-link">live-scoring</a></li><li><a href="../../tags/week-3-complete" class="internal tag-link">week-3-complete</a></li></ul></div></div><article class="popover-hint"><h1 id="livescoringviewmodel-critical-analysis">LiveScoringViewModel Critical Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#livescoringviewmodel-critical-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>File:</strong> <code>app/src/main/java/com/archeryapprentice/ui/roundScoring/LiveScoringViewModel.kt</code>
+<strong>Original Size:</strong> 2,808 lines (Oct 2025)
+<strong>Current Size:</strong> 1,481 lines (Oct 25, 2025)
+<strong>Total Reduction:</strong> 1,327 lines (47.3% reduction)
+<strong>Baseline (CLAUDE.md):</strong> 1,753 lines
+<strong>Analysis Date:</strong> October 4, 2025
+<strong>Status:</strong> ✅ <strong>WEEK 3 COMPLETE - &lt;1,500 LINE GOAL ACHIEVED</strong></p>
+<blockquote>
+<p><strong>Week 3 Completion (Oct 25, 2025)</strong>:</p>
+<ul>
+<li>✅ LiveScoringViewModel: 1,691 → 1,481 lines (210 line reduction, 12.4%)</li>
+<li>✅ EXCEEDED &lt;1,500 line goal by 19 lines</li>
+<li>✅ Services extracted: EndStateTransitionService + ProgressUpdateService</li>
+<li>✅ 37 new tests, 100% pass rate, zero regressions</li>
+<li>✅ 1 critical bug fixed (negative index)</li>
+</ul>
+<p><strong>Cumulative Progress (Weeks 2-3)</strong>:</p>
+<ul>
+<li>Starting Point: 2,015 lines</li>
+<li>Week 2 End: 1,677 lines (338 line reduction)</li>
+<li>Week 3 End: 1,481 lines (210 line reduction)</li>
+<li><strong>Total: 534 lines removed (26.5% reduction)</strong></li>
+</ul>
+</blockquote>
+<hr/>
+<h2 id="executive-summary">Executive Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#executive-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>LiveScoringViewModel has experienced explosive 60% growth (1,753 → 2,808 lines) due to extensive tournament feature additions without architectural refactoring. The class now handles <strong>12 distinct architectural domains</strong> across tournament synchronization, conflict resolution, real-time updates, and multi-device coordination.</p>
+<p><strong>Verdict:</strong> CONFIRMED GOD CLASS ANTIPATTERN with URGENT refactoring required.</p>
+<hr/>
+<h2 id="complexity-metrics">Complexity Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#complexity-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="file-statistics">File Statistics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#file-statistics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Total Lines:</strong> 2,808</li>
+<li><strong>Public Methods:</strong> 66 methods</li>
+<li><strong>Private Fields:</strong> 24 StateFlow properties, vars, and listeners</li>
+<li><strong>Data Classes Embedded:</strong> 6 (EndCompletionResult, SessionStateEvent, TournamentSyncStatus, ScoreConflict, etc.)</li>
+<li><strong>Enum Classes:</strong> 3 (SessionEventType, SyncErrorType, ConflictResolutionStrategy)</li>
+<li><strong>Coroutine Jobs:</strong> 3 listener cleanup jobs</li>
+<li><strong>Dependencies:</strong> 5 injected services + RepositoryFactory</li>
+</ul>
+<h3 id="complexity-score-9510-critical">Complexity Score: <strong>9.5/10 (CRITICAL)</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#complexity-score-9510-critical" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Maintainability:</strong> 1/10 (Poor)</li>
+<li><strong>Testability:</strong> 2/10 (Very Poor)</li>
+<li><strong>Refactoring Priority:</strong> IMMEDIATE</li>
+</ul>
+<hr/>
+<h2 id="root-cause-analysis-why-60-growth">Root Cause Analysis: Why 60% Growth?<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#root-cause-analysis-why-60-growth" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="tournament-feature-phases-added-aug-oct-2025">Tournament Feature Phases Added (Aug-Oct 2025)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournament-feature-phases-added-aug-oct-2025" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="phase-22-real-time-tournament-scoring"><strong>PHASE 2.2: Real-Time Tournament Scoring</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-22-real-time-tournament-scoring" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Lines Added:</strong> ~400 lines
+<strong>Features:</strong></p>
+<ul>
+<li><code>setupTournamentSync()</code> - Firebase real-time listeners</li>
+<li><code>syncTournamentScoresManually()</code> - Manual sync on-demand</li>
+<li><code>syncDetailedTournamentScores()</code> - End-by-end sync</li>
+<li><code>_incomingTournamentScores</code> StateFlow</li>
+<li>Score conflict detection system</li>
+<li><code>_scoreConflicts</code> StateFlow</li>
+</ul>
+<h4 id="phase-31-live-leaderboard-integration"><strong>PHASE 3.1: Live Leaderboard Integration</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-31-live-leaderboard-integration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Lines Added:</strong> ~250 lines
+<strong>Features:</strong></p>
+<ul>
+<li><code>_liveLeaderboard</code> StateFlow</li>
+<li><code>leaderboardListenerJob</code> cleanup</li>
+<li><code>observeTournamentRoundState()</code> - Round status tracking</li>
+<li><code>_tournamentRoundState</code> StateFlow</li>
+<li>Leaderboard real-time updates</li>
+</ul>
+<h4 id="phase-41-score-conflict-resolution"><strong>PHASE 4.1: Score Conflict Resolution</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-41-score-conflict-resolution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Lines Added:</strong> ~300 lines
+<strong>Features:</strong></p>
+<ul>
+<li><code>ScoreConflict</code> data class with version tracking</li>
+<li><code>ConflictResolutionStrategy</code> enum</li>
+<li><code>determineConflictResolution()</code> - Strategy selection</li>
+<li><code>resolveConflict()</code> - Manual conflict resolution</li>
+<li><code>dismissConflict()</code> - Conflict dismissal</li>
+<li>Enhanced error types with <code>SyncErrorType</code> enum</li>
+<li>Retry mechanism with retry counts</li>
+</ul>
+<h4 id="phase-4-tournament-round-lifecycle"><strong>PHASE 4+: Tournament Round Lifecycle</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-4-tournament-round-lifecycle" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Lines Added:</strong> ~200 lines
+<strong>Features:</strong></p>
+<ul>
+<li><code>startTournamentRound()</code> - Round start state management</li>
+<li><code>pauseTournamentRound()</code> - Round pause handling</li>
+<li><code>completeTournamentRound()</code> - Round completion sync</li>
+<li><code>updateTournamentRoundStatus()</code> - Status updates</li>
+<li><code>roundStateListenerJob</code> cleanup</li>
+</ul>
+<h4 id="guest-ownership--participant-tracking"><strong>Guest Ownership &amp; Participant Tracking</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#guest-ownership--participant-tracking" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Lines Added:</strong> ~150 lines
+<strong>Features:</strong></p>
+<ul>
+<li><code>_tournamentParticipants</code> StateFlow</li>
+<li><code>participantsListenerJob</code> cleanup</li>
+<li>Guest ownership indicators</li>
+<li>Participant management sync</li>
+</ul>
+<p><strong>Total Tournament Features:</strong> ~1,300 lines (123% of baseline!)</p>
+<h3 id="additional-growth-factors">Additional Growth Factors<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#additional-growth-factors" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="1-score-submission-with-retry-logic"><strong>1. Score Submission with Retry Logic</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-score-submission-with-retry-logic" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Lines:</strong> ~100 lines</p>
+<ul>
+<li><code>submitTournamentScoreWithRetry()</code> - Resilient Firebase writes</li>
+<li>Exponential backoff retry mechanism</li>
+<li>Transaction-based atomic updates</li>
+</ul>
+<h4 id="2-multi-participant-state-management-fixes"><strong>2. Multi-Participant State Management Fixes</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-multi-participant-state-management-fixes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Lines:</strong> ~80 lines</p>
+<ul>
+<li>Critical fixes to <code>participantArrows</code> map updates</li>
+<li>Participant switching coordination</li>
+<li><code>switchParticipantWithEvents()</code> enhancement</li>
+</ul>
+<h4 id="3-enhanced-logging--debugging"><strong>3. Enhanced Logging &amp; Debugging</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-enhanced-logging--debugging" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Lines:</strong> ~50 lines</p>
+<ul>
+<li>Extensive MP_DEBUG logging throughout</li>
+<li>TournamentSync diagnostic logs</li>
+<li>RecordEndCompletion markers</li>
+</ul>
+<hr/>
+<h2 id="12-architectural-domains-identified">12 Architectural Domains Identified<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#12-architectural-domains-identified" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="domain-breakdown-estimated-lines-per-domain">Domain Breakdown (Estimated Lines per Domain)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#domain-breakdown-estimated-lines-per-domain" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Domain</th><th>Lines</th><th>Methods</th><th>Responsibilities</th><th>Should Be</th></tr></thead><tbody><tr><td><strong>1. Session State Management</strong></td><td>~350</td><td>8</td><td>Session initialization, state updates, current round tracking</td><td>✅ Legitimate ViewModel</td></tr><tr><td><strong>2. Arrow Input &amp; Scoring</strong></td><td>~450</td><td>7</td><td>Arrow score input, coordinate tracking, validation, editing</td><td>⚠️ Extract: ArrowInputService</td></tr><tr><td><strong>3. End Completion &amp; Finalization</strong></td><td>~400</td><td>5</td><td>End submission, completion detection, round advancement</td><td>⚠️ Extract: EndCompletionService</td></tr><tr><td><strong>4. Multi-Participant Switching</strong></td><td>~200</td><td>4</td><td>Participant switching, state coordination, progress tracking</td><td>⚠️ Extract: ParticipantSwitchingService</td></tr><tr><td><strong>5. Tournament Sync Setup</strong></td><td>~200</td><td>3</td><td>Firebase listener setup, repository initialization, cleanup</td><td>🚨 Extract: TournamentSyncService</td></tr><tr><td><strong>6. Real-Time Score Sync</strong></td><td>~400</td><td>4</td><td>Leaderboard sync, detailed score sync, incoming score handling</td><td>🚨 Extract: TournamentSyncService</td></tr><tr><td><strong>7. Score Conflict Detection</strong></td><td>~250</td><td>3</td><td>Conflict detection, version comparison, strategy determination</td><td>🚨 Extract: ConflictResolutionService</td></tr><tr><td><strong>8. Conflict Resolution</strong></td><td>~150</td><td>2</td><td>Manual resolution, dismissal, state updates</td><td>🚨 Extract: ConflictResolutionService</td></tr><tr><td><strong>9. Round Lifecycle Management</strong></td><td>~200</td><td>4</td><td>Round start/pause/complete, status updates, state observation</td><td>🚨 Extract: TournamentRoundLifecycleService</td></tr><tr><td><strong>10. Statistics &amp; Progress</strong></td><td>~150</td><td>6</td><td>Live statistics, progress calculation, leaderboard totals</td><td>⚠️ Extract: StatisticsAggregationService</td></tr><tr><td><strong>11. Permissions &amp; Validation</strong></td><td>~80</td><td>3</td><td>Scoring permissions, validation, error messages</td><td>✅ Uses ScoringPermissionService (good!)</td></tr><tr><td><strong>12. Testing &amp; Debug Support</strong></td><td>~80</td><td>3</td><td>Test setters, debug logging, diagnostics</td><td>✅ Acceptable for ViewModel</td></tr></tbody></table></div>
+<p><strong>Legend:</strong></p>
+<ul>
+<li>✅ Legitimate ViewModel responsibility</li>
+<li>⚠️ Should be extracted (medium priority)</li>
+<li>🚨 Must be extracted (high priority)</li>
+</ul>
+<hr/>
+<h2 id="critical-violations">Critical Violations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-violations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="1-single-responsibility-principle--severe"><strong>1. Single Responsibility Principle</strong> 🚨 <strong>SEVERE</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-single-responsibility-principle--severe" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Evidence:</strong> 12 distinct architectural domains in one class</p>
+<p>The class manages:</p>
+<ul>
+<li>Session state (✅ legitimate)</li>
+<li>Arrow input mechanics (should be service)</li>
+<li>End completion logic (should be service)</li>
+<li>Participant switching (should be service)</li>
+<li>Firebase listener lifecycle (should be service)</li>
+<li>Real-time synchronization (should be service)</li>
+<li>Conflict detection (should be service)</li>
+<li>Conflict resolution (should be service)</li>
+<li>Round lifecycle (should be service)</li>
+<li>Statistics aggregation (should be service)</li>
+</ul>
+<h3 id="2-state-explosion--severe"><strong>2. State Explosion</strong> 🚨 <strong>SEVERE</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-state-explosion--severe" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>24 StateFlow/private properties:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">_scoringSession</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">_isProcessingScore</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">_errorMessage</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">_syncStatus                       </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// PHASE 4.1</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">_tournamentRoundState             </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// PHASE 3.1</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">_incomingTournamentScores         </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// PHASE 2.2</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">_scoreConflicts                   </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// PHASE 2.2</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">_liveLeaderboard                  </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// PHASE 3.1</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">_tournamentParticipants           </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// FIX for guest ownership</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">leaderboardListenerJob            </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Cleanup</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">participantsListenerJob           </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Cleanup</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">roundStateListenerJob             </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Cleanup</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">currentRound</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">statisticsCache</span></span></code></pre></figure>
+<h3 id="3-method-explosion--severe"><strong>3. Method Explosion</strong> 🚨 <strong>SEVERE</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-method-explosion--severe" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>66 public/private methods</strong> handling unrelated concerns:</p>
+<ul>
+<li>Arrow input: <code>addArrowScore()</code>, <code>editArrowScore()</code>, <code>removeLastArrowScore()</code>, <code>updateArrowScore()</code></li>
+<li>End completion: <code>finalizeEnd()</code>, <code>completeCurrentEnd()</code>, <code>recordEndCompletion()</code></li>
+<li>Participant: <code>switchParticipant()</code>, <code>switchParticipantWithEvents()</code></li>
+<li>Tournament sync: <code>setupTournamentSync()</code>, <code>syncTournamentScoresManually()</code>, <code>syncDetailedTournamentScores()</code></li>
+<li>Conflicts: <code>determineConflictResolution()</code>, <code>resolveConflict()</code>, <code>dismissConflict()</code></li>
+<li>Round lifecycle: <code>observeTournamentRoundState()</code>, <code>startTournamentRound()</code>, <code>pauseTournamentRound()</code>, <code>completeTournamentRound()</code></li>
+<li>Statistics: <code>getCurrentLiveStatistics()</code>, <code>getParticipantStatistics()</code>, <code>leaderboardTotals()</code></li>
+</ul>
+<h3 id="4-ui-framework-coupling--critical-violation"><strong>4. UI Framework Coupling</strong> 🚨 <strong>CRITICAL VIOLATION</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-ui-framework-coupling--critical-violation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">import</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> androidx.compose.ui.geometry.Offset (Line 4)</span></span></code></pre></figure>
+<p><strong>Issue:</strong> ViewModel directly depends on Compose UI types
+<strong>Impact:</strong> Tight coupling to UI framework</p>
+<h3 id="5-listener-management-complexity--high-risk"><strong>5. Listener Management Complexity</strong> 🚨 <strong>HIGH RISK</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-listener-management-complexity--high-risk" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>3 coroutine listener jobs</strong> requiring careful cleanup:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">leaderboardListenerJob?.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cancel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">participantsListenerJob?.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cancel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">roundStateListenerJob?.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cancel</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span></code></pre></figure>
+<p><strong>Risk:</strong> Memory leaks if cleanup fails</p>
+<hr/>
+<h2 id="why-this-happened-development-pattern-analysis">Why This Happened: Development Pattern Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#why-this-happened-development-pattern-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="pattern-1-incremental-feature-addition">Pattern 1: Incremental Feature Addition<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-1-incremental-feature-addition" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Each tournament phase added features directly to LiveScoringViewModel:</p>
+<ol>
+<li><strong>PHASE 2.2:</strong> Added sync methods → +400 lines</li>
+<li><strong>PHASE 3.1:</strong> Added leaderboard → +250 lines</li>
+<li><strong>PHASE 4.1:</strong> Added conflicts → +300 lines</li>
+<li><strong>PHASE 4+:</strong> Added lifecycle → +200 lines</li>
+</ol>
+<p><strong>No refactoring between phases!</strong></p>
+<h3 id="pattern-2-just-one-more-method-syndrome">Pattern 2: “Just One More Method” Syndrome<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-2-just-one-more-method-syndrome" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Each new requirement seemed small in isolation:</p>
+<ul>
+<li>“Just add tournament sync” → +50 lines</li>
+<li>“Just add conflict detection” → +80 lines</li>
+<li>“Just add retry logic” → +100 lines</li>
+</ul>
+<p>But cumulatively: +1,055 lines!</p>
+<h3 id="pattern-3-copy-paste-state-management">Pattern 3: Copy-Paste State Management<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-3-copy-paste-state-management" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Each tournament feature added its own StateFlow:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _incomingTournamentScores </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MutableStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">..</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _scoreConflicts </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MutableStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">..</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _liveLeaderboard </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MutableStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">..</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _tournamentRoundState </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MutableStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">..</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _tournamentParticipants </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MutableStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">..</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.)</span></span></code></pre></figure>
+<p><strong>Problem:</strong> State proliferation without consolidation</p>
+<h3 id="pattern-4-no-extraction-discipline">Pattern 4: No Extraction Discipline<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pattern-4-no-extraction-discipline" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>RoundViewModel refactoring was planned but never executed.
+LiveScoringViewModel followed same path: <strong>Plan to refactor “later”</strong> → Never happens!</p>
+<hr/>
+<h2 id="extraction-opportunities-priority-order">Extraction Opportunities (Priority Order)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#extraction-opportunities-priority-order" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="priority-1-critical---extract-tournament-sync-domain--completed"><strong>Priority 1: CRITICAL - Extract Tournament Sync Domain</strong> ✅ COMPLETED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#priority-1-critical---extract-tournament-sync-domain--completed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Target:</strong> <code>TournamentSyncService</code>
+<strong>Lines to Extract:</strong> ~600 lines</p>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><code>setupTournamentSync()</code> (48 lines)</li>
+<li><code>syncTournamentScoresManually()</code> (43 lines)</li>
+<li><code>syncTournamentScores()</code> (18 lines)</li>
+<li><code>syncDetailedTournamentScores()</code> (140 lines)</li>
+<li><code>submitTournamentScoreWithRetry()</code> (129 lines)</li>
+<li><code>updateParticipantTournamentScore()</code> (42 lines)</li>
+<li><code>observeTournamentRoundState()</code> (77 lines)</li>
+<li><code>updateTournamentRoundStatus()</code> (30 lines)</li>
+<li><code>updateTournamentParticipantProgressWithValues()</code> (63 lines)</li>
+</ul>
+<p><strong>StateFlows to Move:</strong></p>
+<ul>
+<li><code>_syncStatus</code></li>
+<li><code>_tournamentRoundState</code></li>
+<li><code>_incomingTournamentScores</code></li>
+<li><code>_liveLeaderboard</code></li>
+<li><code>_tournamentParticipants</code></li>
+</ul>
+<p><strong>Listener Jobs:</strong></p>
+<ul>
+<li><code>leaderboardListenerJob</code></li>
+<li><code>participantsListenerJob</code></li>
+<li><code>roundStateListenerJob</code></li>
+</ul>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>Removes ~600 lines (21% reduction)</li>
+<li>Isolates Firebase dependencies</li>
+<li>Simplifies testing</li>
+<li>Clear service boundary</li>
+</ul>
+<p><strong>Status:</strong> ✅ COMPLETED Oct 5, 2025 (556 lines extracted)</p>
+<hr/>
+<h3 id="priority-2-high---extract-conflict-resolution-domain--completed"><strong>Priority 2: HIGH - Extract Conflict Resolution Domain</strong> ✅ COMPLETED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#priority-2-high---extract-conflict-resolution-domain--completed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Target:</strong> <code>ScoreConflictResolutionService</code>
+<strong>Lines to Extract:</strong> ~400 lines</p>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><code>determineConflictResolution()</code> (38 lines)</li>
+<li><code>resolveConflict()</code> (61 lines)</li>
+<li><code>dismissConflict()</code> (25 lines)</li>
+<li>Conflict detection logic from <code>syncDetailedTournamentScores()</code> (~200 lines)</li>
+</ul>
+<p><strong>Data Classes:</strong></p>
+<ul>
+<li><code>ScoreConflict</code></li>
+<li><code>ConflictResolutionStrategy</code> enum</li>
+</ul>
+<p><strong>StateFlows:</strong></p>
+<ul>
+<li><code>_scoreConflicts</code></li>
+</ul>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>Removes ~400 lines (14% reduction)</li>
+<li>Separates complex conflict logic</li>
+<li>Enables independent testing of conflict strategies</li>
+</ul>
+<p><strong>Status:</strong> ✅ COMPLETED Oct 2025 (262 lines extracted)</p>
+<hr/>
+<h3 id="priority-3-medium---extract-end-completion-domain--completed"><strong>Priority 3: MEDIUM - Extract End Completion Domain</strong> ✅ COMPLETED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#priority-3-medium---extract-end-completion-domain--completed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Target:</strong> <code>EndCompletionService</code>
+<strong>Lines to Extract:</strong> ~400 lines</p>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><code>finalizeEnd()</code> (73 lines)</li>
+<li><code>completeCurrentEnd()</code> (284 lines!)</li>
+<li><code>recordEndCompletion()</code> (95 lines)</li>
+<li><code>fixEndFinalizedState()</code> (22 lines)</li>
+</ul>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>Removes ~400 lines (14% reduction)</li>
+<li>Simplifies critical scoring path</li>
+<li>Clearer separation of concerns</li>
+</ul>
+<p><strong>Status:</strong> ✅ COMPLETED Oct 6, 2025 (400 lines extracted)</p>
+<p><strong>Additional Work (Oct 7):</strong></p>
+<ul>
+<li>Code deduplication: 109 lines removed from duplicate retry logic</li>
+<li>Delegation pattern: EndCompletionService delegates to TournamentSyncService</li>
+</ul>
+<hr/>
+<h3 id="priority-4-medium---extract-round-lifecycle-domain--pending"><strong>Priority 4: MEDIUM - Extract Round Lifecycle Domain</strong> ⏳ PENDING<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#priority-4-medium---extract-round-lifecycle-domain--pending" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Target:</strong> <code>TournamentRoundLifecycleService</code>
+<strong>Lines to Extract:</strong> ~200 lines</p>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><code>startTournamentRound()</code> (19 lines)</li>
+<li><code>pauseTournamentRound()</code> (10 lines)</li>
+<li><code>completeTournamentRound()</code> (20 lines)</li>
+<li>Round state observation integration (~150 lines across various methods)</li>
+</ul>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>Removes ~200 lines (7% reduction)</li>
+<li>Clear lifecycle management boundary</li>
+</ul>
+<p><strong>Status:</strong> ⏳ TODO (per <a href="../../Implementation-Status-10-07-25" class="internal" data-slug="Implementation-Status-10-07-25">Implementation-Status-10-07-25</a>)</p>
+<hr/>
+<h3 id="priority-5-low---extract-statistics-aggregation--pending"><strong>Priority 5: LOW - Extract Statistics Aggregation</strong> ⏳ PENDING<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#priority-5-low---extract-statistics-aggregation--pending" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Target:</strong> <code>StatisticsAggregationService</code> (may already exist!)
+<strong>Lines to Extract:</strong> ~150 lines</p>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><code>getCurrentLiveStatistics()</code> (8 lines)</li>
+<li><code>getParticipantStatistics()</code> (68 lines)</li>
+<li><code>leaderboardTotals()</code> (30 lines)</li>
+<li>Statistics calculation helpers</li>
+</ul>
+<p><strong>Note:</strong> <code>StatisticsCalculationService</code> already injected - may just need to use it more!</p>
+<p><strong>Status:</strong> ⏳ TODO (per <a href="../../Implementation-Status-10-07-25" class="internal" data-slug="Implementation-Status-10-07-25">Implementation-Status-10-07-25</a>)</p>
+<hr/>
+<h2 id="proposed-target-architecture">Proposed Target Architecture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#proposed-target-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="after-extraction-1200-1400-lines-50-reduction">After Extraction: ~1,200-1,400 lines (50% reduction!)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#after-extraction-1200-1400-lines-50-reduction" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>LiveScoringViewModel (~1,200 lines) - Core coordination only
+├── TournamentSyncService (~400 lines) ✅ COMPLETED
+│   ├── Firebase listener management
+│   ├── Real-time sync coordination
+│   ├── Leaderboard updates
+│   └── Participant tracking
+├── ScoreConflictResolutionService (~250 lines) ✅ COMPLETED
+│   ├── Conflict detection
+│   ├── Resolution strategies
+│   └── Conflict state management
+├── EndCompletionService (~400 lines) ✅ COMPLETED
+│   ├── End finalization logic
+│   ├── Round advancement
+│   └── Completion detection
+├── TournamentRoundLifecycleService (~200 lines) ⏳ TODO
+│   ├── Round start/pause/complete
+│   ├── Status tracking
+│   └── State observation
+└── StatisticsAggregationService (~150 lines) ⏳ TODO
+    ├── Live statistics
+    ├── Progress calculation
+    └── Leaderboard totals
+</code></pre>
+<h3 id="benefits">Benefits:<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#benefits" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Maintainability:</strong> 9/10 (from 1/10)</li>
+<li><strong>Testability:</strong> 9/10 (from 2/10)</li>
+<li><strong>Line Count:</strong> 1,200 (from 2,808, -57%)</li>
+<li><strong>Method Count:</strong> ~25 (from 66, -62%)</li>
+<li><strong>StateFlow Count:</strong> ~10 (from 24, -58%)</li>
+<li><strong>Complexity Score:</strong> 3/10 (from 9.5/10)</li>
+</ul>
+<h3 id="current-progress-oct-7-2025">Current Progress (Oct 7, 2025):<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-progress-oct-7-2025" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Line Count:</strong> 2,304 (from 2,808, -18%)</li>
+<li><strong>Services Extracted:</strong> 3/5 (60%)</li>
+<li><strong>Lines Extracted:</strong> 1,218 (78% of target)</li>
+<li><strong>Code Deduplication:</strong> 109 lines removed</li>
+<li><strong>Remaining Work:</strong> 2 services (~350 lines)</li>
+</ul>
+<hr/>
+<h2 id="risk-assessment">Risk Assessment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#risk-assessment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="refactoring-risks">Refactoring Risks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#refactoring-risks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="high-risk-tournament-sync-extraction--mitigated"><strong>HIGH RISK: Tournament Sync Extraction</strong> ✅ MITIGATED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#high-risk-tournament-sync-extraction--mitigated" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ul>
+<li><strong>Risk:</strong> Breaking real-time Firebase listeners</li>
+<li><strong>Mitigation:</strong>
+<ul>
+<li>Extract service interface first</li>
+<li>Implement with existing logic</li>
+<li>Test multi-device sync thoroughly</li>
+<li>Use feature flags for rollback</li>
+</ul>
+</li>
+<li><strong>Status:</strong> ✅ COMPLETED Oct 5 - All tests passing</li>
+</ul>
+<h4 id="medium-risk-conflict-resolution-extraction--mitigated"><strong>MEDIUM RISK: Conflict Resolution Extraction</strong> ✅ MITIGATED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#medium-risk-conflict-resolution-extraction--mitigated" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ul>
+<li><strong>Risk:</strong> Breaking conflict detection logic</li>
+<li><strong>Mitigation:</strong>
+<ul>
+<li>Preserve existing strategy logic</li>
+<li>Add comprehensive conflict scenario tests</li>
+<li>Validate version-based resolution</li>
+</ul>
+</li>
+<li><strong>Status:</strong> ✅ COMPLETED Oct 2025 - All tests passing</li>
+</ul>
+<h4 id="medium-risk-end-completion-extraction--mitigated"><strong>MEDIUM RISK: End Completion Extraction</strong> ✅ MITIGATED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#medium-risk-end-completion-extraction--mitigated" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ul>
+<li><strong>Risk:</strong> Breaking critical scoring path</li>
+<li><strong>Mitigation:</strong>
+<ul>
+<li><code>completeCurrentEnd()</code> is 284 lines - extract carefully</li>
+<li>Maintain transaction boundaries</li>
+<li>Extensive unit testing</li>
+</ul>
+</li>
+<li><strong>Status:</strong> ✅ COMPLETED Oct 6 - All tests passing</li>
+</ul>
+<h4 id="low-risk-statistics-extraction"><strong>LOW RISK: Statistics Extraction</strong><a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#low-risk-statistics-extraction" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<ul>
+<li><strong>Risk:</strong> Minimal - mostly calculation</li>
+<li><strong>Mitigation:</strong> Leverage existing StatisticsCalculationService</li>
+</ul>
+<h3 id="rollback-strategy">Rollback Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#rollback-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Interface-First:</strong> Define service interfaces before extraction ✅</li>
+<li><strong>Feature Flags:</strong> Control service usage</li>
+<li><strong>Parallel Implementation:</strong> Keep old methods as fallback during migration</li>
+<li><strong>Incremental:</strong> Extract one service at a time ✅</li>
+<li><strong>Testing:</strong> Full integration test suite before each extraction ✅</li>
+</ol>
+<hr/>
+<h2 id="execution-roadmap">Execution Roadmap<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#execution-roadmap" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="phase-1-planning--setup-week-1--completed"><strong>Phase 1: Planning &amp; Setup (Week 1)</strong> ✅ COMPLETED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-1-planning--setup-week-1--completed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h3 id="phase-2-critical-extraction-week-2--completed"><strong>Phase 2: Critical Extraction (Week 2)</strong> ✅ COMPLETED<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-2-critical-extraction-week-2--completed" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Priority 1: TournamentSyncService</strong> ✅</p>
+<ul>
+<li>Extract ~600 lines ✅ (556 lines)</li>
+<li>Move listener management ✅</li>
+<li>Test real-time sync ✅</li>
+<li>Validate Firebase integration ✅</li>
+</ul>
+<p><strong>Priority 2: ScoreConflictResolutionService</strong> ✅</p>
+<ul>
+<li>Extract ~400 lines ✅ (262 lines)</li>
+<li>Move conflict detection ✅</li>
+<li>Test resolution strategies ✅</li>
+<li>Validate version tracking ✅</li>
+</ul>
+<p><strong>Goal:</strong> Remove 1,000 lines (35% reduction) ✅ ACHIEVED</p>
+<hr/>
+<h3 id="phase-3-secondary-extraction-week-3--in-progress"><strong>Phase 3: Secondary Extraction (Week 3)</strong> 🔄 IN PROGRESS<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-3-secondary-extraction-week-3--in-progress" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Priority 3: EndCompletionService</strong> ✅</p>
+<ul>
+<li>Extract ~400 lines ✅ (400 lines)</li>
+<li>Move completion logic ✅</li>
+<li>Test scoring paths ✅</li>
+<li>Validate round advancement ✅</li>
+<li>Code deduplication: 109 lines removed ✅</li>
+</ul>
+<p><strong>Priority 4: RoundLifecycleService</strong> ⏳</p>
+<ul>
+<li>Extract ~200 lines</li>
+<li>Move lifecycle methods</li>
+<li>Test state transitions</li>
+</ul>
+<p><strong>Goal:</strong> Remove additional 600 lines (21% reduction) - 400 complete, 200 pending</p>
+<hr/>
+<h3 id="phase-4-cleanup--optimization-week-4--pending"><strong>Phase 4: Cleanup &amp; Optimization (Week 4)</strong> ⏳ PENDING<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#phase-4-cleanup--optimization-week-4--pending" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Enhance StatisticsAggregationService usage</li>
+<li>Remove UI framework coupling (Offset → domain type)</li>
+<li>Consolidate remaining StateFlows</li>
+<li>Final integration testing</li>
+<li>Performance validation</li>
+</ul>
+<p><strong>Final Goal:</strong> LiveScoringViewModel reduced to 1,200-1,400 lines (50-57% reduction)</p>
+<hr/>
+<h2 id="success-criteria">Success Criteria<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-criteria" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="quantitative-metrics">Quantitative Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quantitative-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> LiveScoringViewModel reduced from 2,808 to &lt;1,500 lines (Current: 2,304, 82% to goal)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Public methods reduced from 66 to &lt;30</li>
+<li class="task-list-item"><input type="checkbox" disabled/> StateFlow properties reduced from 24 to &lt;12</li>
+<li class="task-list-item"><input type="checkbox" checked disabled/> All 1,000+ existing tests pass ✅ (1,879 tests passing)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled/> Test coverage maintained >75% ✅</li>
+<li class="task-list-item"><input type="checkbox" checked disabled/> Performance within 5% of baseline ✅</li>
+</ul>
+<h3 id="qualitative-goals">Qualitative Goals<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#qualitative-goals" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled/> Clear service boundaries ✅</li>
+<li class="task-list-item"><input type="checkbox" disabled/> UI framework dependencies removed</li>
+<li class="task-list-item"><input type="checkbox" checked disabled/> Listener management simplified ✅</li>
+<li class="task-list-item"><input type="checkbox" checked disabled/> Tournament features isolated ✅</li>
+<li class="task-list-item"><input type="checkbox" checked disabled/> Conflict resolution testable independently ✅</li>
+<li class="task-list-item"><input type="checkbox" checked disabled/> Code complexity dramatically reduced ✅ (partial)</li>
+</ul>
+<h3 id="architecture-validation">Architecture Validation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#architecture-validation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled/> Each service &lt;400 lines ✅</li>
+<li class="task-list-item"><input type="checkbox" checked disabled/> Single responsibility per service ✅</li>
+<li class="task-list-item"><input type="checkbox" checked disabled/> Clear dependency injection ✅</li>
+<li class="task-list-item"><input type="checkbox" disabled/> No god class antipattern (In progress: 2,304 → &lt;1,500 target)</li>
+<li class="task-list-item"><input type="checkbox" checked disabled/> Testability score >8/10 ✅</li>
+</ul>
+<hr/>
+<h2 id="comparison-to-roundviewmodel-situation">Comparison to RoundViewModel Situation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#comparison-to-roundviewmodel-situation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="similarities">Similarities:<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#similarities" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>✅ Both are god classes (2,808 and 2,079 lines)</li>
+<li>✅ Both have extensive refactoring plans created</li>
+<li>✅ Both grew organically with feature additions</li>
+<li>✅ Both have clear extraction opportunities documented</li>
+</ol>
+<h3 id="differences">Differences:<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#differences" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>❌ RoundViewModel: <strong>3 planning docs, ZERO work done</strong></li>
+<li>✅ LiveScoringViewModel: <strong>Analysis complete, 3/5 services extracted (60% complete)!</strong></li>
+</ol>
+<h3 id="critical-lesson">Critical Lesson:<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-lesson" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>PLANNING ≠ EXECUTION</strong></p>
+<p>RoundViewModel has 1,302 lines of planning documents with zero extraction.
+LiveScoringViewModel proved the approach works - <strong>execute incrementally, one service at a time</strong>.</p>
+<h3 id="proven-pattern-oct-2025">Proven Pattern (Oct 2025):<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#proven-pattern-oct-2025" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>✅ <strong>Copy-Delegate-Validate Pattern</strong> works:</p>
+<ol>
+<li>Copy methods to new service</li>
+<li>Delegate from ViewModel to service</li>
+<li>Validate with comprehensive tests</li>
+<li>Success rate: 100% (3/3 extractions successful)</li>
+</ol>
+<p>✅ <strong>Delegation Pattern</strong> for shared logic:</p>
+<ul>
+<li>Eliminate duplicate code through service-to-service delegation</li>
+<li>Example: EndCompletionService → TournamentSyncService (109 lines removed)</li>
+</ul>
+<hr/>
+<h2 id="immediate-next-steps">Immediate Next Steps<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#immediate-next-steps" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="current-status-oct-7-2025">Current Status (Oct 7, 2025):<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-status-oct-7-2025" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>✅ <strong>3/5 Services Extracted</strong> - TournamentSync, ConflictResolution, EndCompletion</li>
+<li>✅ <strong>Code Deduplication</strong> - 109 lines removed through delegation</li>
+<li>✅ <strong>All Tests Passing</strong> - 1,879 tests, BUILD SUCCESSFUL</li>
+<li>⏳ <strong>2 Services Remaining</strong> - RoundLifecycle (~200 lines), Statistics (~150 lines)</li>
+</ol>
+<hr/>
+<h2 id="week-3-service-extraction-oct-22-25-2025">Week 3 Service Extraction (Oct 22-25, 2025)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-3-service-extraction-oct-22-25-2025" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="services-extracted-kmp-migration-focus">Services Extracted (KMP Migration Focus)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#services-extracted-kmp-migration-focus" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. EndStateTransitionService</strong> (230 lines, 21 tests)</p>
+<ul>
+<li><strong>Purpose:</strong> Manages end state transitions when completing ends</li>
+<li><strong>Extracted From:</strong> LiveScoringViewModel lines 509-621 (normal completion) + lines 1057-1119 (final completion)</li>
+<li><strong>KMP Status:</strong> ⚠️ Partial (uses Compose UI Offset - see Technical Debt #5)</li>
+<li><strong>Test Coverage:</strong> 21 comprehensive tests (100% pass rate)</li>
+<li><strong>Responsibilities:</strong>
+<ul>
+<li>Update participant progress and mark complete</li>
+<li>Calculate and update completed totals (score, arrow count, X count)</li>
+<li>Build EndScoreWithArrows with unique IDs for LazyColumn keys</li>
+<li>Clear participant state when appropriate</li>
+<li>Advance to next end or mark participant complete</li>
+</ul>
+</li>
+<li><strong>Key Feature:</strong> Single service handles both normal and final end completion with <code>markComplete</code> flag</li>
+</ul>
+<p><strong>2. ProgressUpdateService</strong> (85 lines, 13 tests)</p>
+<ul>
+<li><strong>Purpose:</strong> Handles real-time progress tracking and UI state updates</li>
+<li><strong>Extracted From:</strong> LiveScoringViewModel <code>updateProgressImmediate()</code> method (lines 722-770)</li>
+<li><strong>KMP Status:</strong> ✅ Fully compatible (zero Android dependencies)</li>
+<li><strong>Test Coverage:</strong> 13 comprehensive tests (100% pass rate)</li>
+<li><strong>Responsibilities:</strong>
+<ul>
+<li>Calculate current end progress and overall progress</li>
+<li>Create live statistics</li>
+<li>Determine animation duration based on UpdateSource</li>
+<li>Build updated session with RealTimeProgress</li>
+</ul>
+</li>
+<li><strong>Delegation Pattern:</strong> Delegates to ProgressCalculationService and StatisticsAggregationService</li>
+</ul>
+<h3 id="metrics">Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Line Reduction:</strong> 1,691 → 1,481 lines (210 lines, 12.4% reduction)</li>
+<li><strong>Goal Achievement:</strong> 101.3% (EXCEEDED &lt;1,500 target by 19 lines)</li>
+<li><strong>Tests Added:</strong> 37 tests (21 service + 13 service + 3 error case tests)</li>
+<li><strong>Bug Fixes:</strong> 1 critical (negative index in updateArrowScore)</li>
+<li><strong>Quality:</strong> Zero regressions, 100% test pass rate</li>
+<li><strong>Additional Improvements:</strong> Removed 4 debug/error logs, simplified null checks</li>
+</ul>
+<h3 id="cumulative-progress-weeks-2-3">Cumulative Progress (Weeks 2-3)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cumulative-progress-weeks-2-3" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Starting Point (Week 2):</strong> 2,015 lines</li>
+<li><strong>Week 2 End:</strong> 1,677 lines (338 line reduction)</li>
+<li><strong>Week 3 Start:</strong> 1,691 lines (git branch baseline)</li>
+<li><strong>Week 3 End:</strong> 1,481 lines (210 line reduction)</li>
+<li><strong>Total Reduction:</strong> 534 lines (26.5% from Week 2 start)</li>
+<li><strong>Services Extracted:</strong> 6 services (Weeks 2-3)</li>
+<li><strong>Tests Added:</strong> 120 tests (83 Week 2 + 37 Week 3)</li>
+</ul>
+<h3 id="technical-debt-discovered">Technical Debt Discovered<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#technical-debt-discovered" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Issue #5:</strong> EndStateTransitionService uses <code>androidx.compose.ui.geometry.Offset</code> (Android-only)</p>
+<ul>
+<li><strong>Impact:</strong> Prevents full KMP compatibility for this service</li>
+<li><strong>Root Cause:</strong> Inherited from ScoringSessionState coordinate model</li>
+<li><strong>Solution:</strong> Create <code>DomainCoordinate</code> model in shared:domain (Week 4 priority)</li>
+<li><strong>Documentation:</strong> Updated service to acknowledge dependency with TODO</li>
+<li><strong>Tracking:</strong> <a href="https://github.com/blamechris/archery-apprentice/blob/main/docs/TECH_DEBT.md#5-endstatetransitionservice-compose-ui-dependency" class="external">Technical Debt Item #5<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+</ul>
+<h3 id="coverage-improvements--bug-fixes">Coverage Improvements &amp; Bug Fixes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#coverage-improvements--bug-fixes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>LiveScoringViewModel.kt</strong> (1,493 → 1,481 lines, 12 additional lines removed)</p>
+<ul>
+<li>✅ Removed 4 debug/error logs from defensive null checks</li>
+<li>✅ Fixed negative index bug in <code>updateArrowScore</code> (L357)
+<ul>
+<li>Changed: <code>if (arrowIndex &lt; arrows.size)</code></li>
+<li>To: <code>if (arrowIndex >= 0 &amp;&amp; arrowIndex &lt; arrows.size)</code></li>
+<li>Prevents IndexOutOfBoundsException on negative indices</li>
+</ul>
+</li>
+<li>✅ Added LiveScoringViewModelErrorCasesTest.kt (75 lines, 3 tests)
+<ul>
+<li>Test invalid score validation</li>
+<li>Test bounds checking (out of bounds and negative index)</li>
+<li>All tests passing</li>
+</ul>
+</li>
+</ul>
+<p><strong>EndStateTransitionService.kt</strong> (226 → 230 lines)</p>
+<ul>
+<li>✅ Updated documentation to acknowledge Compose UI Offset dependency</li>
+<li>✅ Added TODO for KMP-compatible coordinate model</li>
+<li>✅ Simplified coordinate extraction (removed reflection, restored direct access)</li>
+<li>✅ Added test for L127 coverage (participantEndsWithArrows initialization)</li>
+</ul>
+<h3 id="lessons-learned">Lessons Learned<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#lessons-learned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Coverage-Driven Improvements:</strong> Reviewing partial coverage revealed real bugs (negative index) and unnecessary complexity (debug logs)</li>
+<li><strong>Honest Documentation:</strong> Better to acknowledge platform dependencies with TODO than claim “zero dependencies” incorrectly</li>
+<li><strong>Simplicity Over Cleverness:</strong> Direct property access (<code>coordinate?.x</code>) is clearer than reflection-based extraction</li>
+<li><strong>Going for Goals:</strong> When 34 lines away from &lt;1,500 target, extracting ProgressUpdateService (41 line reduction) achieved the goal with room to spare</li>
+</ol>
+<h3 id="documentation">Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><a href="https://github.com/blamechris/archery-apprentice/blob/main/docs/kmp-migration/WEEK_3_COMPLETION_SUMMARY.md" class="external">Week 3 Completion Summary<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+<li><a href="https://github.com/blamechris/archery-apprentice/blob/main/docs/AGENT_CONTEXTS/AGENT_3_AAA.md" class="external">Agent 3 Context<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+</ul>
+<h3 id="decision-point">Decision Point:<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#decision-point" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>✅ <strong>&lt;1,500 Line Goal ACHIEVED:</strong> 1,481 lines (19 lines under target)</li>
+<li>✅ <strong>Week 3 COMPLETE:</strong> 2 services extracted, 37 tests added, 1 bug fixed</li>
+<li>⚠️ <strong>Tech Debt #5 Identified:</strong> DomainCoordinate model needed for full KMP compatibility</li>
+<li>✅ <strong>Pattern Proven:</strong> Copy-delegate-validate works consistently (5/5 successful extractions)</li>
+</ul>
+<hr/>
+<h2 id="conclusion">Conclusion<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#conclusion" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>LiveScoringViewModel’s refactoring journey from 2,808 → 1,481 lines (47.3% reduction) demonstrates the <strong>effectiveness of incremental service extraction</strong> for god class refactoring.</p>
+<p><strong>Week 3 Achievement:</strong></p>
+<ul>
+<li>✅ <strong>&lt;1,500 Line Goal EXCEEDED:</strong> 1,481 lines (19 lines under target)</li>
+<li>✅ <strong>Services Extracted:</strong> 2 services (EndStateTransitionService + ProgressUpdateService)</li>
+<li>✅ <strong>Test Coverage:</strong> 37 new tests, 100% pass rate, zero regressions</li>
+<li>✅ <strong>Bug Fixes:</strong> 1 critical bug (negative index in updateArrowScore)</li>
+<li>✅ <strong>Quality:</strong> Zero test failures throughout entire extraction</li>
+</ul>
+<p><strong>Cumulative Progress (Weeks 2-3):</strong></p>
+<ul>
+<li>✅ Starting Point: 2,015 lines</li>
+<li>✅ Week 2: 4 services extracted (338 line reduction)</li>
+<li>✅ Week 3: 2 services extracted (210 line reduction)</li>
+<li>✅ <strong>Total: 6 services, 534 lines removed (26.5% reduction)</strong></li>
+<li>✅ <strong>120 new tests</strong> added across all services</li>
+</ul>
+<p><strong>Critical Difference from RoundViewModel:</strong></p>
+<ul>
+<li>RoundViewModel: <strong>Planned but never executed</strong></li>
+<li>LiveScoringViewModel: ✅ <strong>WEEK 3 GOAL ACHIEVED - PROVEN PATTERN</strong></li>
+</ul>
+<p><strong>Technical Debt Identified:</strong></p>
+<ul>
+<li>⚠️ <strong>Issue #5:</strong> EndStateTransitionService uses Compose UI Offset (Android-only)</li>
+<li>📋 <strong>Solution:</strong> Create DomainCoordinate model in shared:domain (Week 4 priority)</li>
+<li>🔗 <strong>Tracking:</strong> <a href="https://github.com/blamechris/archery-apprentice/blob/main/docs/TECH_DEBT.md#5-endstatetransitionservice-compose-ui-dependency" class="external">Technical Debt #5<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+</ul>
+<p><strong>Pattern Proven:</strong> Copy-Delegate-Validate works consistently (6/6 successful extractions)</p>
+<p><strong>Risk Level:</strong> LOW - All extractions successful with zero regressions</p>
+<p><strong>Business Impact:</strong> HIGH - Enables continued KMP migration and prevents technical debt from blocking future features.</p>
+<p><strong>Next Steps:</strong></p>
+<ol>
+<li>Resolve Technical Debt #5 (DomainCoordinate model)</li>
+<li>Continue KMP migration with remaining services</li>
+<li>Target: &lt;1,400 lines (another 81 line reduction)</li>
+</ol>
+<hr/>
+<p><em>Analysis Date: October 4, 2025</em>
+<em>Week 3 Completion: October 25, 2025</em>
+<em>Analyst: Claude Code (Agent 3 - AAA)</em>
+<em>Status: ✅ WEEK 3 COMPLETE - &lt;1,500 LINE GOAL ACHIEVED</em></p>
+<hr/>
+<p><strong>Source</strong>: <code>docs/LIVESCORINGVM_ANALYSIS.md</code> (584 lines)</p>
+<p><strong>Related Documentation</strong>:</p>
+<ul>
+<li><a href="../../Implementation-Status-10-07-25" class="internal" data-slug="Implementation-Status-10-07-25">Implementation-Status-10-07-25</a> - Shows current extraction progress (3/5 services complete)</li>
+<li><a href="../../Project-Journal-10-07-25" class="internal" data-slug="Project-Journal-10-07-25">Project-Journal-10-07-25</a> - Detailed code deduplication and bug fix session</li>
+<li><a href="../../RoundViewModel-Audit" class="internal" data-slug="RoundViewModel-Audit">RoundViewModel-Audit</a> - Similar god class analysis for RoundViewModel</li>
+<li><a href="../../RoundViewModel-Refactoring-Plan" class="internal" data-slug="RoundViewModel-Refactoring-Plan">RoundViewModel-Refactoring-Plan</a> - Planned but not executed (contrast with LiveScoringVM)</li>
+<li><a href="../../Tech-Debt" class="internal" data-slug="Tech-Debt">Tech-Debt</a> - Technical debt tracking</li>
+<li><a href="../../Architecture" class="internal" data-slug="Architecture">Architecture</a> - Overall architecture documentation</li>
+<li><a href="../../TournamentSyncService-Extraction-Plan" class="internal" data-slug="TournamentSyncService-Extraction-Plan">TournamentSyncService-Extraction-Plan</a> - Detailed extraction plan for TournamentSyncService</li>
+</ul></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-122" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#livescoringviewmodel-critical-analysis" data-for="livescoringviewmodel-critical-analysis">LiveScoringViewModel Critical Analysis</a></li><li class="depth-1"><a href="#executive-summary" data-for="executive-summary">Executive Summary</a></li><li class="depth-1"><a href="#complexity-metrics" data-for="complexity-metrics">Complexity Metrics</a></li><li class="depth-2"><a href="#file-statistics" data-for="file-statistics">File Statistics</a></li><li class="depth-2"><a href="#complexity-score-9510-critical" data-for="complexity-score-9510-critical">Complexity Score: 9.5/10 (CRITICAL)</a></li><li class="depth-1"><a href="#root-cause-analysis-why-60-growth" data-for="root-cause-analysis-why-60-growth">Root Cause Analysis: Why 60% Growth?</a></li><li class="depth-2"><a href="#tournament-feature-phases-added-aug-oct-2025" data-for="tournament-feature-phases-added-aug-oct-2025">Tournament Feature Phases Added (Aug-Oct 2025)</a></li><li class="depth-2"><a href="#additional-growth-factors" data-for="additional-growth-factors">Additional Growth Factors</a></li><li class="depth-1"><a href="#12-architectural-domains-identified" data-for="12-architectural-domains-identified">12 Architectural Domains Identified</a></li><li class="depth-2"><a href="#domain-breakdown-estimated-lines-per-domain" data-for="domain-breakdown-estimated-lines-per-domain">Domain Breakdown (Estimated Lines per Domain)</a></li><li class="depth-1"><a href="#critical-violations" data-for="critical-violations">Critical Violations</a></li><li class="depth-2"><a href="#1-single-responsibility-principle--severe" data-for="1-single-responsibility-principle--severe">1. Single Responsibility Principle 🚨 SEVERE</a></li><li class="depth-2"><a href="#2-state-explosion--severe" data-for="2-state-explosion--severe">2. State Explosion 🚨 SEVERE</a></li><li class="depth-2"><a href="#3-method-explosion--severe" data-for="3-method-explosion--severe">3. Method Explosion 🚨 SEVERE</a></li><li class="depth-2"><a href="#4-ui-framework-coupling--critical-violation" data-for="4-ui-framework-coupling--critical-violation">4. UI Framework Coupling 🚨 CRITICAL VIOLATION</a></li><li class="depth-2"><a href="#5-listener-management-complexity--high-risk" data-for="5-listener-management-complexity--high-risk">5. Listener Management Complexity 🚨 HIGH RISK</a></li><li class="depth-1"><a href="#why-this-happened-development-pattern-analysis" data-for="why-this-happened-development-pattern-analysis">Why This Happened: Development Pattern Analysis</a></li><li class="depth-2"><a href="#pattern-1-incremental-feature-addition" data-for="pattern-1-incremental-feature-addition">Pattern 1: Incremental Feature Addition</a></li><li class="depth-2"><a href="#pattern-2-just-one-more-method-syndrome" data-for="pattern-2-just-one-more-method-syndrome">Pattern 2: “Just One More Method” Syndrome</a></li><li class="depth-2"><a href="#pattern-3-copy-paste-state-management" data-for="pattern-3-copy-paste-state-management">Pattern 3: Copy-Paste State Management</a></li><li class="depth-2"><a href="#pattern-4-no-extraction-discipline" data-for="pattern-4-no-extraction-discipline">Pattern 4: No Extraction Discipline</a></li><li class="depth-1"><a href="#extraction-opportunities-priority-order" data-for="extraction-opportunities-priority-order">Extraction Opportunities (Priority Order)</a></li><li class="depth-2"><a href="#priority-1-critical---extract-tournament-sync-domain--completed" data-for="priority-1-critical---extract-tournament-sync-domain--completed">Priority 1: CRITICAL - Extract Tournament Sync Domain ✅ COMPLETED</a></li><li class="depth-2"><a href="#priority-2-high---extract-conflict-resolution-domain--completed" data-for="priority-2-high---extract-conflict-resolution-domain--completed">Priority 2: HIGH - Extract Conflict Resolution Domain ✅ COMPLETED</a></li><li class="depth-2"><a href="#priority-3-medium---extract-end-completion-domain--completed" data-for="priority-3-medium---extract-end-completion-domain--completed">Priority 3: MEDIUM - Extract End Completion Domain ✅ COMPLETED</a></li><li class="depth-2"><a href="#priority-4-medium---extract-round-lifecycle-domain--pending" data-for="priority-4-medium---extract-round-lifecycle-domain--pending">Priority 4: MEDIUM - Extract Round Lifecycle Domain ⏳ PENDING</a></li><li class="depth-2"><a href="#priority-5-low---extract-statistics-aggregation--pending" data-for="priority-5-low---extract-statistics-aggregation--pending">Priority 5: LOW - Extract Statistics Aggregation ⏳ PENDING</a></li><li class="depth-1"><a href="#proposed-target-architecture" data-for="proposed-target-architecture">Proposed Target Architecture</a></li><li class="depth-2"><a href="#after-extraction-1200-1400-lines-50-reduction" data-for="after-extraction-1200-1400-lines-50-reduction">After Extraction: ~1,200-1,400 lines (50% reduction!)</a></li><li class="depth-2"><a href="#benefits" data-for="benefits">Benefits:</a></li><li class="depth-2"><a href="#current-progress-oct-7-2025" data-for="current-progress-oct-7-2025">Current Progress (Oct 7, 2025):</a></li><li class="depth-1"><a href="#risk-assessment" data-for="risk-assessment">Risk Assessment</a></li><li class="depth-2"><a href="#refactoring-risks" data-for="refactoring-risks">Refactoring Risks</a></li><li class="depth-2"><a href="#rollback-strategy" data-for="rollback-strategy">Rollback Strategy</a></li><li class="depth-1"><a href="#execution-roadmap" data-for="execution-roadmap">Execution Roadmap</a></li><li class="depth-2"><a href="#phase-1-planning--setup-week-1--completed" data-for="phase-1-planning--setup-week-1--completed">Phase 1: Planning &amp; Setup (Week 1) ✅ COMPLETED</a></li><li class="depth-2"><a href="#phase-2-critical-extraction-week-2--completed" data-for="phase-2-critical-extraction-week-2--completed">Phase 2: Critical Extraction (Week 2) ✅ COMPLETED</a></li><li class="depth-2"><a href="#phase-3-secondary-extraction-week-3--in-progress" data-for="phase-3-secondary-extraction-week-3--in-progress">Phase 3: Secondary Extraction (Week 3) 🔄 IN PROGRESS</a></li><li class="depth-2"><a href="#phase-4-cleanup--optimization-week-4--pending" data-for="phase-4-cleanup--optimization-week-4--pending">Phase 4: Cleanup &amp; Optimization (Week 4) ⏳ PENDING</a></li><li class="depth-1"><a href="#success-criteria" data-for="success-criteria">Success Criteria</a></li><li class="depth-2"><a href="#quantitative-metrics" data-for="quantitative-metrics">Quantitative Metrics</a></li><li class="depth-2"><a href="#qualitative-goals" data-for="qualitative-goals">Qualitative Goals</a></li><li class="depth-2"><a href="#architecture-validation" data-for="architecture-validation">Architecture Validation</a></li><li class="depth-1"><a href="#comparison-to-roundviewmodel-situation" data-for="comparison-to-roundviewmodel-situation">Comparison to RoundViewModel Situation</a></li><li class="depth-2"><a href="#similarities" data-for="similarities">Similarities:</a></li><li class="depth-2"><a href="#differences" data-for="differences">Differences:</a></li><li class="depth-2"><a href="#critical-lesson" data-for="critical-lesson">Critical Lesson:</a></li><li class="depth-2"><a href="#proven-pattern-oct-2025" data-for="proven-pattern-oct-2025">Proven Pattern (Oct 2025):</a></li><li class="depth-1"><a href="#immediate-next-steps" data-for="immediate-next-steps">Immediate Next Steps</a></li><li class="depth-2"><a href="#current-status-oct-7-2025" data-for="current-status-oct-7-2025">Current Status (Oct 7, 2025):</a></li><li class="depth-1"><a href="#week-3-service-extraction-oct-22-25-2025" data-for="week-3-service-extraction-oct-22-25-2025">Week 3 Service Extraction (Oct 22-25, 2025)</a></li><li class="depth-2"><a href="#services-extracted-kmp-migration-focus" data-for="services-extracted-kmp-migration-focus">Services Extracted (KMP Migration Focus)</a></li><li class="depth-2"><a href="#metrics" data-for="metrics">Metrics</a></li><li class="depth-2"><a href="#cumulative-progress-weeks-2-3" data-for="cumulative-progress-weeks-2-3">Cumulative Progress (Weeks 2-3)</a></li><li class="depth-2"><a href="#technical-debt-discovered" data-for="technical-debt-discovered">Technical Debt Discovered</a></li><li class="depth-2"><a href="#coverage-improvements--bug-fixes" data-for="coverage-improvements--bug-fixes">Coverage Improvements &amp; Bug Fixes</a></li><li class="depth-2"><a href="#lessons-learned" data-for="lessons-learned">Lessons Learned</a></li><li class="depth-2"><a href="#documentation" data-for="documentation">Documentation</a></li><li class="depth-2"><a href="#decision-point" data-for="decision-point">Decision Point:</a></li><li class="depth-1"><a href="#conclusion" data-for="conclusion">Conclusion</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Data Sync Flow</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Data Sync Flow"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Data Sync Flow"/><meta name="twitter:description" content="data synchronization flow documentation"/><meta property="og:description" content="data synchronization flow documentation"/><meta property="og:image:alt" content="data synchronization flow documentation"/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/data-sync-flow"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/data-sync-flow"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="data synchronization flow documentation"/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/data-sync-flow-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/data-sync-flow-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/technical-reference/flows/data-sync-flow-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="developer-guide/technical-reference/flows/data-sync-flow"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-284"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-284" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../developer-guide/">developer guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../developer-guide/technical-reference/">technical reference</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../developer-guide/technical-reference/flows/">flows</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Data Sync Flow</a></div></nav><h1 class="article-title">Data Sync Flow</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-04T05:49:57.000Z">Nov 04, 2025</time><span>19 min read</span></p><ul class="tags"><li><a href="../../../tags/flow" class="internal tag-link">flow</a></li><li><a href="../../../tags/architecture" class="internal tag-link">architecture</a></li><li><a href="../../../tags/system" class="internal tag-link">system</a></li><li><a href="../../../tags/data-sync" class="internal tag-link">data-sync</a></li><li><a href="../../../tags/firebase" class="internal tag-link">firebase</a></li><li><a href="../../../tags/offline-first" class="internal tag-link">offline-first</a></li><li><a href="../../../tags/conflict-resolution" class="internal tag-link">conflict-resolution</a></li><li><a href="../../../tags/real-time" class="internal tag-link">real-time</a></li></ul></div></div><article class="popover-hint"><p><a href="../../../" class="internal alias" data-slug="index">Home</a> > <a href="../../../Technical-Reference/" class="internal alias" data-slug="Technical-Reference/index">Technical Reference</a> > <a href="../../../Technical-Reference/Flows/" class="internal alias" data-slug="Technical-Reference/Flows/index">Flows</a> > <a href="../../../Technical-Reference/Flows/System-Flows/" class="internal alias" data-slug="Technical-Reference/Flows/System-Flows/index">System Flows</a> > Data Sync Flow</p>
+<hr/>
+<h1 id="data-sync-flow">Data Sync Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#data-sync-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<hr/>
+<p>tags: <a href="../../.././../../tags/flow" class="tag-link internal alias" data-slug="tags/flow">flow</a> <a href="../../.././../../tags/data-sync" class="tag-link internal alias" data-slug="tags/data-sync">data-sync</a> <a href="../../.././../../tags/firebase" class="tag-link internal alias" data-slug="tags/firebase">firebase</a> <a href="../../.././../../tags/offline-first" class="tag-link internal alias" data-slug="tags/offline-first">offline-first</a> <a href="../../.././../../tags/conflict-resolution" class="tag-link internal alias" data-slug="tags/conflict-resolution">conflict-resolution</a> <a href="../../.././../../tags/real-time" class="tag-link internal alias" data-slug="tags/real-time">real-time</a>
+created: 2025-10-08
+related:</p>
+<ul>
+<li>“<a href="../../../Flows/Tournament-Flow" class="internal" data-slug="Flows/Tournament-Flow">Tournament-Flow</a>”</li>
+<li>“<a href="../../../Flows/Scoring-Flow" class="internal" data-slug="Flows/Scoring-Flow">Scoring-Flow</a>”</li>
+<li>“<a href="../../../Architecture/MVVM-Architecture" class="internal" data-slug="Architecture/MVVM-Architecture">MVVM-Architecture</a>”</li>
+<li>“<a href="../../../Architecture/Hybrid-Tournament-Architecture" class="internal" data-slug="Architecture/Hybrid-Tournament-Architecture">Hybrid-Tournament-Architecture</a>”</li>
+</ul>
+<hr/>
+<h2 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>The Data Sync Flow describes how tournament data synchronizes between local storage and Firebase for real-time collaboration and offline support. This flow implements an offline-first architecture with automatic sync, conflict resolution, and network monitoring.</p>
+<h3 id="architecture-components">Architecture Components<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#architecture-components" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Sync Layer:</strong></p>
+<ul>
+<li>Hybrid repository pattern (offline-first with Firebase sync)</li>
+<li>TournamentSyncService for real-time Firebase listeners</li>
+<li>ScoreConflictResolutionService for conflict detection</li>
+<li>Network connectivity monitoring</li>
+<li>Exponential backoff retry logic</li>
+<li>Smart caching with TTL</li>
+</ul>
+<h3 id="offline-first-strategy">Offline-First Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#offline-first-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>User Action → Local Storage (Immediate) → Background Sync → Firebase
+                    ↓
+               UI Update
+</code></pre>
+<p><strong>Key Principles:</strong></p>
+<ol>
+<li><strong>Local First</strong>: All operations complete locally immediately</li>
+<li><strong>Background Sync</strong>: Firebase sync happens asynchronously</li>
+<li><strong>Network Independent</strong>: App fully functional offline</li>
+<li><strong>Automatic Recovery</strong>: Sync retries when network available</li>
+<li><strong>Conflict Resolution</strong>: Handle simultaneous edits gracefully</li>
+</ol>
+<hr/>
+<h2 id="tournament-sync-architecture">Tournament Sync Architecture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournament-sync-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="entry-point-hybridtournamentrepository">Entry Point: HybridTournamentRepository<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#entry-point-hybridtournamentrepository" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Seamless offline/online tournament functionality</p>
+<p><strong>Call Chain:</strong></p>
+<ol>
+<li><code>HybridTournamentRepository.kt:58</code> - Primary sync coordinator</li>
+<li><code>OfflineTournamentRepository</code> - Local Room database</li>
+<li><code>FirebaseTournamentRepository</code> - Firebase Firestore operations</li>
+<li><code>TournamentScoreCacheService</code> - Smart caching layer</li>
+</ol>
+<h3 id="hybrid-repository-pattern">Hybrid Repository Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#hybrid-repository-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><button class="expand-button" aria-label="Expand mermaid diagram" data-view-component="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 1.06L2.56 7h10.88l-2.22-2.22a.75.75 0 011.06-1.06l3.5 3.5a.75.75 0 010 1.06l-3.5 3.5a.75.75 0 11-1.06-1.06l2.22-2.22H2.56l2.22 2.22a.75.75 0 11-1.06 1.06l-3.5-3.5a.75.75 0 010-1.06l3.5-3.5z"></path></svg></button><code class="mermaid" data-clipboard="&quot;sequenceDiagram\r\n    participant User\r\n    participant UI as TournamentUI\r\n    participant Hybrid as HybridTournamentRepository\r\n    participant Local as OfflineTournamentRepository\r\n    participant Firebase as FirebaseTournamentRepository\r\n    participant Network as NetworkMonitor\r\n    participant Cache as ScoreCacheService\r\n\r\n    User->>UI: Create tournament\r\n    UI->>Hybrid: createTournament()\r\n    \r\n    Hybrid->>Local: createTournament() [IMMEDIATE]\r\n    Local-->>Hybrid: Success + Local ID\r\n    Hybrid-->>UI: Return success [FAST RESPONSE]\r\n    UI-->>User: Tournament created ✓\r\n    \r\n    alt Network Available\r\n        Hybrid->>Network: Check connectivity\r\n        Network-->>Hybrid: Online\r\n        \r\n        Hybrid->>Firebase: createTournament() [BACKGROUND]\r\n        Firebase-->>Hybrid: Firebase ID\r\n        \r\n        Hybrid->>Local: Update with Firebase ID\r\n        Hybrid->>Hybrid: Mark as synced\r\n    else Network Unavailable\r\n        Hybrid->>Hybrid: Mark for sync later\r\n        Note over Hybrid: Will sync when network returns\r\n    end\r\n&quot;">sequenceDiagram
+    participant User
+    participant UI as TournamentUI
+    participant Hybrid as HybridTournamentRepository
+    participant Local as OfflineTournamentRepository
+    participant Firebase as FirebaseTournamentRepository
+    participant Network as NetworkMonitor
+    participant Cache as ScoreCacheService
+
+    User->>UI: Create tournament
+    UI->>Hybrid: createTournament()
+    
+    Hybrid->>Local: createTournament() [IMMEDIATE]
+    Local-->>Hybrid: Success + Local ID
+    Hybrid-->>UI: Return success [FAST RESPONSE]
+    UI-->>User: Tournament created ✓
+    
+    alt Network Available
+        Hybrid->>Network: Check connectivity
+        Network-->>Hybrid: Online
+        
+        Hybrid->>Firebase: createTournament() [BACKGROUND]
+        Firebase-->>Hybrid: Firebase ID
+        
+        Hybrid->>Local: Update with Firebase ID
+        Hybrid->>Hybrid: Mark as synced
+    else Network Unavailable
+        Hybrid->>Hybrid: Mark for sync later
+        Note over Hybrid: Will sync when network returns
+    end
+
+</code><div id="mermaid-container" role="dialog"><div id="mermaid-space"><div class="mermaid-content"></div></div></div></pre>
+<h3 id="network-connectivity-monitoring">Network Connectivity Monitoring<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#network-connectivity-monitoring" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Code:</strong> <code>HybridTournamentRepository.kt:70</code></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> networkCallback </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> object</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ConnectivityManager</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">NetworkCallback</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">() {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> onAvailable</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(network: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Network</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        isNetworkAvailable </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> true</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">        // Trigger background sync when network becomes available</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        syncScope.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">launch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">            syncPendingTournaments</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    override</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> onLost</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(network: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Network</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        isNetworkAvailable </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> false</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">init</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Register network monitoring</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> networkRequest </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> NetworkRequest.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Builder</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">addCapability</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(NetworkCapabilities.NET_CAPABILITY_INTERNET)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">build</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    connectivityManager.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">registerNetworkCallback</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(networkRequest, networkCallback)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    </span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Check initial network state</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    isNetworkAvailable </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> connectivityManager.activeNetwork </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">!=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> null</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Network Detection:</strong></p>
+<ul>
+<li>Continuous monitoring via <code>NetworkCallback</code></li>
+<li>Automatic sync trigger on connectivity restoration</li>
+<li>Initial state check on repository creation</li>
+<li>Graceful degradation when offline</li>
+</ul>
+<hr/>
+<h2 id="tournament-creation-sync-flow">Tournament Creation Sync Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournament-creation-sync-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="offline-first-tournament-creation">Offline-First Tournament Creation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#offline-first-tournament-creation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Entry Point:</strong> User creates tournament</p>
+<p><strong>Call Chain:</strong></p>
+<ol>
+<li><code>HybridTournamentRepository.kt:218</code> - <code>createTournament()</code> - Hybrid logic</li>
+<li><code>OfflineTournamentRepository.createTournament()</code> - Immediate local storage</li>
+<li><code>FirebaseTournamentRepository.createTournament()</code> - Background Firebase sync</li>
+</ol>
+<h3 id="tournament-creation-process">Tournament Creation Process<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tournament-creation-process" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><button class="expand-button" aria-label="Expand mermaid diagram" data-view-component="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 1.06L2.56 7h10.88l-2.22-2.22a.75.75 0 011.06-1.06l3.5 3.5a.75.75 0 010 1.06l-3.5 3.5a.75.75 0 11-1.06-1.06l2.22-2.22H2.56l2.22 2.22a.75.75 0 11-1.06 1.06l-3.5-3.5a.75.75 0 010-1.06l3.5-3.5z"></path></svg></button><code class="mermaid" data-clipboard="&quot;sequenceDiagram\r\n    participant User\r\n    participant UI\r\n    participant Hybrid as HybridTournamentRepository\r\n    participant Local as OfflineTournamentRepository\r\n    participant Firebase as FirebaseTournamentRepository\r\n    participant DB as Room Database\r\n\r\n    User->>UI: Fill tournament details, tap Create\r\n    UI->>Hybrid: createTournament(tournament)\r\n    \r\n    Hybrid->>Local: createTournament(tournament)\r\n    Local->>DB: INSERT INTO tournaments\r\n    DB-->>Local: Tournament ID (local_123)\r\n    Local-->>Hybrid: Success(local_123)\r\n    \r\n    Hybrid-->>UI: Success(local_123) [IMMEDIATE RESPONSE]\r\n    UI-->>User: Tournament created! (local_123)\r\n    \r\n    Note over Hybrid,Firebase: Background sync starts\r\n    \r\n    alt Online &amp; Authenticated\r\n        Hybrid->>Firebase: createTournament(tournament)\r\n        Firebase->>Firebase: Anonymous sign-in if needed\r\n        Firebase->>Firebase: Create Firestore document\r\n        Firebase->>Firebase: Set security subcollections\r\n        Firebase-->>Hybrid: Success(firebase_abc123)\r\n        \r\n        Hybrid->>Local: Update tournament with Firebase ID\r\n        Hybrid->>Hybrid: handleTournamentIdMapping(local_123, firebase_abc123)\r\n        \r\n        Hybrid->>Local: Delete old local ID record\r\n        Hybrid->>Local: Create new record with Firebase ID\r\n    else Offline or Anonymous\r\n        Hybrid->>Hybrid: markTournamentForSync(local_123)\r\n        Note over Hybrid: Will sync when network available\r\n    end\r\n&lt;/mermaid>\r\n\r\n### Creation Sync Logic\r\n\r\n**Code:** `HybridTournamentRepository.kt:218`\r\n\r\n```kotlin\r\noverride suspend fun createTournament(tournament: Tournament): Result&lt;TournamentId> {\r\n    LogConfig.tournamentSync(\&quot;HybridTournamentRepository\&quot;, \r\n        \&quot;🏆 Creating tournament: '${tournament.name}', isLocal: ${tournament.isLocal}\&quot;)\r\n\r\n    // Always create locally first for immediate response\r\n    val localResult = offlineRepository.createTournament(tournament)\r\n    LogConfig.tournamentSync(\&quot;HybridTournamentRepository\&quot;, \r\n        \&quot;📱 Local creation: ${localResult.isSuccess}, ID=${localResult.getOrNull()}\&quot;)\r\n\r\n    if (localResult.isSuccess &amp;&amp; isNetworkAvailable) {\r\n        // Sync to Firebase in background\r\n        syncScope.launch {\r\n            try {\r\n                val tournamentId = localResult.getOrNull()!!\r\n                val localTournament = offlineRepository.getTournament(tournamentId)\r\n                    .getOrNull()\r\n                \r\n                if (localTournament != null) {\r\n                    val currentUser = FirebaseAuth.getInstance().currentUser\r\n                    val isAnonymousUser = currentUser == null || currentUser.isAnonymous\r\n\r\n                    if (!localTournament.isLocal &amp;&amp; !isAnonymousUser) {\r\n                        LogConfig.tournamentSync(\&quot;HybridTournamentRepository\&quot;, \r\n                            \&quot;🔄 Syncing to Firebase...\&quot;)\r\n                        \r\n                        val firebaseResult = firebaseRepository\r\n                            .createTournament(localTournament)\r\n                        \r\n                        if (firebaseResult.isSuccess) {\r\n                            val firebaseId = firebaseResult.getOrNull()!!\r\n                            LogConfig.tournamentSync(\&quot;HybridTournamentRepository\&quot;, \r\n                                \&quot;✅ Synced to Firebase: $firebaseId\&quot;)\r\n                            \r\n                            if (firebaseId != tournamentId) {\r\n                                handleTournamentIdMapping(tournamentId, firebaseId)\r\n                            }\r\n                        }\r\n                    }\r\n                }\r\n            } catch (e: Exception) {\r\n                LogConfig.e(\&quot;HybridTournamentRepository\&quot;, \r\n                    \&quot;💥 Firebase sync failed\&quot;, e)\r\n            }\r\n        }\r\n    } else if (localResult.isSuccess) {\r\n        LogConfig.tournamentSync(\&quot;HybridTournamentRepository\&quot;, \r\n            \&quot;🌐 Network unavailable, created locally only\&quot;)\r\n    }\r\n\r\n    return localResult\r\n}&quot;">sequenceDiagram
+    participant User
+    participant UI
+    participant Hybrid as HybridTournamentRepository
+    participant Local as OfflineTournamentRepository
+    participant Firebase as FirebaseTournamentRepository
+    participant DB as Room Database
+
+    User->>UI: Fill tournament details, tap Create
+    UI->>Hybrid: createTournament(tournament)
+    
+    Hybrid->>Local: createTournament(tournament)
+    Local->>DB: INSERT INTO tournaments
+    DB-->>Local: Tournament ID (local_123)
+    Local-->>Hybrid: Success(local_123)
+    
+    Hybrid-->>UI: Success(local_123) [IMMEDIATE RESPONSE]
+    UI-->>User: Tournament created! (local_123)
+    
+    Note over Hybrid,Firebase: Background sync starts
+    
+    alt Online &amp; Authenticated
+        Hybrid->>Firebase: createTournament(tournament)
+        Firebase->>Firebase: Anonymous sign-in if needed
+        Firebase->>Firebase: Create Firestore document
+        Firebase->>Firebase: Set security subcollections
+        Firebase-->>Hybrid: Success(firebase_abc123)
+        
+        Hybrid->>Local: Update tournament with Firebase ID
+        Hybrid->>Hybrid: handleTournamentIdMapping(local_123, firebase_abc123)
+        
+        Hybrid->>Local: Delete old local ID record
+        Hybrid->>Local: Create new record with Firebase ID
+    else Offline or Anonymous
+        Hybrid->>Hybrid: markTournamentForSync(local_123)
+        Note over Hybrid: Will sync when network available
+    end
+&lt;/mermaid>
+
+### Creation Sync Logic
+
+**Code:** `HybridTournamentRepository.kt:218`
+
+```kotlin
+override suspend fun createTournament(tournament: Tournament): Result&lt;TournamentId> {
+    LogConfig.tournamentSync(&quot;HybridTournamentRepository&quot;, 
+        &quot;🏆 Creating tournament: '${tournament.name}', isLocal: ${tournament.isLocal}&quot;)
+
+    // Always create locally first for immediate response
+    val localResult = offlineRepository.createTournament(tournament)
+    LogConfig.tournamentSync(&quot;HybridTournamentRepository&quot;, 
+        &quot;📱 Local creation: ${localResult.isSuccess}, ID=${localResult.getOrNull()}&quot;)
+
+    if (localResult.isSuccess &amp;&amp; isNetworkAvailable) {
+        // Sync to Firebase in background
+        syncScope.launch {
+            try {
+                val tournamentId = localResult.getOrNull()!!
+                val localTournament = offlineRepository.getTournament(tournamentId)
+                    .getOrNull()
+                
+                if (localTournament != null) {
+                    val currentUser = FirebaseAuth.getInstance().currentUser
+                    val isAnonymousUser = currentUser == null || currentUser.isAnonymous
+
+                    if (!localTournament.isLocal &amp;&amp; !isAnonymousUser) {
+                        LogConfig.tournamentSync(&quot;HybridTournamentRepository&quot;, 
+                            &quot;🔄 Syncing to Firebase...&quot;)
+                        
+                        val firebaseResult = firebaseRepository
+                            .createTournament(localTournament)
+                        
+                        if (firebaseResult.isSuccess) {
+                            val firebaseId = firebaseResult.getOrNull()!!
+                            LogConfig.tournamentSync(&quot;HybridTournamentRepository&quot;, 
+                                &quot;✅ Synced to Firebase: $firebaseId&quot;)
+                            
+                            if (firebaseId != tournamentId) {
+                                handleTournamentIdMapping(tournamentId, firebaseId)
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                LogConfig.e(&quot;HybridTournamentRepository&quot;, 
+                    &quot;💥 Firebase sync failed&quot;, e)
+            }
+        }
+    } else if (localResult.isSuccess) {
+        LogConfig.tournamentSync(&quot;HybridTournamentRepository&quot;, 
+            &quot;🌐 Network unavailable, created locally only&quot;)
+    }
+
+    return localResult
+}
+</code><div id="mermaid-container" role="dialog"><div id="mermaid-space"><div class="mermaid-content"></div></div></div></pre>
+<hr/>
+<h2 id="real-time-score-sync-flow">Real-Time Score Sync Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#real-time-score-sync-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="entry-point-tournamentsyncservice">Entry Point: TournamentSyncService<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#entry-point-tournamentsyncservice" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Real-time Firebase listeners for tournament updates</p>
+<p><strong>Call Chain:</strong></p>
+<ol>
+<li><code>TournamentSyncService.kt:142</code> - <code>setupTournamentSync()</code> - Establish listeners</li>
+<li><code>FirebaseTournamentRepository.getTournamentLeaderboard()</code> - Leaderboard Flow</li>
+<li><code>FirebaseTournamentRepository.observeTournamentScores()</code> - Detailed scores Flow</li>
+</ol>
+<h3 id="real-time-sync-setup">Real-Time Sync Setup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#real-time-sync-setup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><button class="expand-button" aria-label="Expand mermaid diagram" data-view-component="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 1.06L2.56 7h10.88l-2.22-2.22a.75.75 0 011.06-1.06l3.5 3.5a.75.75 0 010 1.06l-3.5 3.5a.75.75 0 11-1.06-1.06l2.22-2.22H2.56l2.22 2.22a.75.75 0 11-1.06 1.06l-3.5-3.5a.75.75 0 010-1.06l3.5-3.5z"></path></svg></button><code class="mermaid" data-clipboard="&quot;sequenceDiagram\r\n    participant ViewModel as LiveScoringViewModel\r\n    participant SyncSvc as TournamentSyncService\r\n    participant Firebase as FirebaseTournamentRepository\r\n    participant Firestore as Firebase Firestore\r\n    participant Conflict as ScoreConflictResolutionService\r\n\r\n    ViewModel->>SyncSvc: setupTournamentSync(tournamentId, roundNumber)\r\n    \r\n    Note over SyncSvc: Launch 3 concurrent listeners\r\n    \r\n    par Leaderboard Listener\r\n        SyncSvc->>Firebase: getTournamentLeaderboard(tournamentId)\r\n        Firebase->>Firestore: Observe leaderboard collection\r\n        Firestore-->>Firebase: Flow&lt;List&lt;LeaderboardEntry>>\r\n        Firebase-->>SyncSvc: Leaderboard updates\r\n        SyncSvc->>SyncSvc: _liveLeaderboard.value = entries\r\n        SyncSvc-->>ViewModel: Observe liveLeaderboard StateFlow\r\n    and Participants Listener\r\n        SyncSvc->>Firebase: getTournamentParticipants(tournamentId)\r\n        Firebase->>Firestore: Observe participants collection\r\n        Firestore-->>Firebase: Flow&lt;List&lt;TournamentParticipant>>\r\n        Firebase-->>SyncSvc: Participant updates\r\n        SyncSvc->>SyncSvc: _tournamentParticipants.value = participants\r\n    and Detailed Scores Listener\r\n        SyncSvc->>Firebase: observeTournamentScores(tournamentId, roundNumber)\r\n        Firebase->>Firestore: Observe scores subcollection\r\n        Firestore-->>Firebase: Flow&lt;List&lt;TournamentScore>>\r\n        Firebase-->>SyncSvc: Score updates\r\n        SyncSvc->>SyncSvc: _incomingTournamentScores.value = scores\r\n        \r\n        ViewModel->>ViewModel: Observe incomingTournamentScores\r\n        ViewModel->>Conflict: detectConflicts(scores, localEnds)\r\n        Conflict-->>ViewModel: Map of conflicts\r\n        \r\n        alt Conflicts Detected\r\n            Conflict->>Conflict: determineConflictResolution()\r\n            Conflict-->>ViewModel: Resolution strategy\r\n            ViewModel->>UI: Show conflict UI\r\n        else No Conflicts\r\n            ViewModel->>ViewModel: Update remote participant scores\r\n        end\r\n    end\r\n&lt;/mermaid>\r\n\r\n### Sync Service Setup\r\n\r\n**Code:** `TournamentSyncService.kt:142`\r\n\r\n```kotlin\r\nfun setupTournamentSync(tournamentId: String, currentRoundNumber: Int = 1) {\r\n    scope.launch {\r\n        try {\r\n            android.util.Log.d(\&quot;TournamentSync\&quot;, \r\n                \&quot;🏆 Setting up real-time sync for tournament $tournamentId\&quot;)\r\n            val tournamentRepository = getTournamentRepository()\r\n\r\n            // Setup leaderboard observation for overall standings\r\n            leaderboardListenerJob = launch {\r\n                tournamentRepository.getTournamentLeaderboard(tournamentId)\r\n                    .collect { leaderboardEntries ->\r\n                        android.util.Log.d(\&quot;TournamentSync\&quot;, \r\n                            \&quot;📊 Received ${leaderboardEntries.size} leaderboard updates\&quot;)\r\n                        \r\n                        // Store leaderboard data for UI consumption\r\n                        _liveLeaderboard.value = leaderboardEntries\r\n                        syncTournamentScores(leaderboardEntries)\r\n                    }\r\n            }\r\n\r\n            // Setup tournament participants observation\r\n            participantsListenerJob = launch {\r\n                tournamentRepository.getTournamentParticipants(tournamentId)\r\n                    .collect { participants ->\r\n                        android.util.Log.d(\&quot;TournamentSync\&quot;, \r\n                            \&quot;👥 Received ${participants.size} participant updates\&quot;)\r\n                        _tournamentParticipants.value = participants\r\n                    }\r\n            }\r\n\r\n            // Setup detailed score observation\r\n            launch {\r\n                tournamentRepository.observeTournamentScores(\r\n                    tournamentId, \r\n                    currentRoundNumber\r\n                ).collect { tournamentScores ->\r\n                    android.util.Log.d(\&quot;TournamentSync\&quot;, \r\n                        \&quot;🎯 Received ${tournamentScores.size} detailed score updates\&quot;)\r\n                    syncDetailedTournamentScores(tournamentScores)\r\n                }\r\n            }\r\n\r\n        } catch (e: Exception) {\r\n            android.util.Log.e(\&quot;TournamentSync\&quot;, \r\n                \&quot;❌ Failed to setup tournament sync\&quot;, e)\r\n            _syncStatus.value = TournamentSyncStatus.Error(\r\n                \&quot;Failed to sync tournament scores: ${e.message}\&quot;\r\n            )\r\n        }\r\n    }\r\n}&quot;">sequenceDiagram
+    participant ViewModel as LiveScoringViewModel
+    participant SyncSvc as TournamentSyncService
+    participant Firebase as FirebaseTournamentRepository
+    participant Firestore as Firebase Firestore
+    participant Conflict as ScoreConflictResolutionService
+
+    ViewModel->>SyncSvc: setupTournamentSync(tournamentId, roundNumber)
+    
+    Note over SyncSvc: Launch 3 concurrent listeners
+    
+    par Leaderboard Listener
+        SyncSvc->>Firebase: getTournamentLeaderboard(tournamentId)
+        Firebase->>Firestore: Observe leaderboard collection
+        Firestore-->>Firebase: Flow&lt;List&lt;LeaderboardEntry>>
+        Firebase-->>SyncSvc: Leaderboard updates
+        SyncSvc->>SyncSvc: _liveLeaderboard.value = entries
+        SyncSvc-->>ViewModel: Observe liveLeaderboard StateFlow
+    and Participants Listener
+        SyncSvc->>Firebase: getTournamentParticipants(tournamentId)
+        Firebase->>Firestore: Observe participants collection
+        Firestore-->>Firebase: Flow&lt;List&lt;TournamentParticipant>>
+        Firebase-->>SyncSvc: Participant updates
+        SyncSvc->>SyncSvc: _tournamentParticipants.value = participants
+    and Detailed Scores Listener
+        SyncSvc->>Firebase: observeTournamentScores(tournamentId, roundNumber)
+        Firebase->>Firestore: Observe scores subcollection
+        Firestore-->>Firebase: Flow&lt;List&lt;TournamentScore>>
+        Firebase-->>SyncSvc: Score updates
+        SyncSvc->>SyncSvc: _incomingTournamentScores.value = scores
+        
+        ViewModel->>ViewModel: Observe incomingTournamentScores
+        ViewModel->>Conflict: detectConflicts(scores, localEnds)
+        Conflict-->>ViewModel: Map of conflicts
+        
+        alt Conflicts Detected
+            Conflict->>Conflict: determineConflictResolution()
+            Conflict-->>ViewModel: Resolution strategy
+            ViewModel->>UI: Show conflict UI
+        else No Conflicts
+            ViewModel->>ViewModel: Update remote participant scores
+        end
+    end
+&lt;/mermaid>
+
+### Sync Service Setup
+
+**Code:** `TournamentSyncService.kt:142`
+
+```kotlin
+fun setupTournamentSync(tournamentId: String, currentRoundNumber: Int = 1) {
+    scope.launch {
+        try {
+            android.util.Log.d(&quot;TournamentSync&quot;, 
+                &quot;🏆 Setting up real-time sync for tournament $tournamentId&quot;)
+            val tournamentRepository = getTournamentRepository()
+
+            // Setup leaderboard observation for overall standings
+            leaderboardListenerJob = launch {
+                tournamentRepository.getTournamentLeaderboard(tournamentId)
+                    .collect { leaderboardEntries ->
+                        android.util.Log.d(&quot;TournamentSync&quot;, 
+                            &quot;📊 Received ${leaderboardEntries.size} leaderboard updates&quot;)
+                        
+                        // Store leaderboard data for UI consumption
+                        _liveLeaderboard.value = leaderboardEntries
+                        syncTournamentScores(leaderboardEntries)
+                    }
+            }
+
+            // Setup tournament participants observation
+            participantsListenerJob = launch {
+                tournamentRepository.getTournamentParticipants(tournamentId)
+                    .collect { participants ->
+                        android.util.Log.d(&quot;TournamentSync&quot;, 
+                            &quot;👥 Received ${participants.size} participant updates&quot;)
+                        _tournamentParticipants.value = participants
+                    }
+            }
+
+            // Setup detailed score observation
+            launch {
+                tournamentRepository.observeTournamentScores(
+                    tournamentId, 
+                    currentRoundNumber
+                ).collect { tournamentScores ->
+                    android.util.Log.d(&quot;TournamentSync&quot;, 
+                        &quot;🎯 Received ${tournamentScores.size} detailed score updates&quot;)
+                    syncDetailedTournamentScores(tournamentScores)
+                }
+            }
+
+        } catch (e: Exception) {
+            android.util.Log.e(&quot;TournamentSync&quot;, 
+                &quot;❌ Failed to setup tournament sync&quot;, e)
+            _syncStatus.value = TournamentSyncStatus.Error(
+                &quot;Failed to sync tournament scores: ${e.message}&quot;
+            )
+        }
+    }
+}
+</code><div id="mermaid-container" role="dialog"><div id="mermaid-space"><div class="mermaid-content"></div></div></div></pre>
+<hr/>
+<h2 id="score-submission-with-retry-logic">Score Submission with Retry Logic<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#score-submission-with-retry-logic" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="entry-point-submit-tournament-score">Entry Point: Submit Tournament Score<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#entry-point-submit-tournament-score" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>User Action:</strong> Complete an end in tournament round</p>
+<p><strong>Call Chain:</strong></p>
+<ol>
+<li><code>EndCompletionService.kt:296</code> - <code>submitTournamentEnd()</code> - Initiate async submission</li>
+<li><code>TournamentSyncService.kt:240</code> - <code>submitTournamentScoreWithRetry()</code> - Retry logic</li>
+<li><code>FirebaseTournamentRepository.submitScore()</code> - Firebase write</li>
+</ol>
+<h3 id="score-submission-process">Score Submission Process<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#score-submission-process" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><button class="expand-button" aria-label="Expand mermaid diagram" data-view-component="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 1.06L2.56 7h10.88l-2.22-2.22a.75.75 0 011.06-1.06l3.5 3.5a.75.75 0 010 1.06l-3.5 3.5a.75.75 0 11-1.06-1.06l2.22-2.22H2.56l2.22 2.22a.75.75 0 11-1.06 1.06l-3.5-3.5a.75.75 0 010-1.06l3.5-3.5z"></path></svg></button><code class="mermaid" data-clipboard="&quot;sequenceDiagram\r\n    participant User\r\n    participant EndSvc as EndCompletionService\r\n    participant SyncSvc as TournamentSyncService\r\n    participant Firebase as FirebaseTournamentRepository\r\n    participant Firestore as Firebase Firestore\r\n\r\n    User->>EndSvc: Complete end\r\n    EndSvc->>EndSvc: Validate and save locally\r\n    \r\n    EndSvc->>SyncSvc: submitTournamentScoreWithRetry() [ASYNC]\r\n    Note over EndSvc,User: User continues immediately\r\n    \r\n    SyncSvc->>SyncSvc: Update status: Syncing\r\n    \r\n    loop Max 3 attempts\r\n        SyncSvc->>Firebase: submitScore(tournamentId, scores)\r\n        Firebase->>Firestore: Write to scores subcollection\r\n        \r\n        alt Success\r\n            Firestore-->>Firebase: Success\r\n            Firebase-->>SyncSvc: Result.success\r\n            SyncSvc->>SyncSvc: Update status: Success\r\n            Note over SyncSvc: Exit retry loop\r\n        else Failure\r\n            Firestore-->>Firebase: Error (network/timeout/etc)\r\n            Firebase-->>SyncSvc: Result.failure\r\n            \r\n            alt Attempt &lt; Max\r\n                SyncSvc->>SyncSvc: Exponential backoff delay\r\n                Note over SyncSvc: Wait 100ms, 200ms, 400ms...\r\n            else Max attempts reached\r\n                SyncSvc->>SyncSvc: Classify error type\r\n                SyncSvc->>SyncSvc: Update status: Error(type, message)\r\n                SyncSvc-->>EndSvc: false (score saved locally)\r\n            end\r\n        end\r\n    end\r\n&lt;/mermaid>\r\n\r\n### Retry Logic with Exponential Backoff\r\n\r\n**Code:** `TournamentSyncService.kt:240`\r\n\r\n```kotlin\r\nsuspend fun submitTournamentScoreWithRetry(\r\n    tournamentId: String,\r\n    participantId: String,\r\n    roundNumber: Int,\r\n    endNumber: Int,\r\n    arrowScores: List&lt;Int>,\r\n    isXFlags: List&lt;Boolean> = emptyList(),\r\n    deviceId: String,\r\n    maxRetries: Int = 3,\r\n    onSyncStatusUpdate: ((TournamentSyncStatus) -> Unit)? = null\r\n): Boolean {\r\n    // Validation\r\n    if (arrowScores.isEmpty()) {\r\n        android.util.Log.w(\&quot;TournamentScoreSync\&quot;, \r\n            \&quot;⚠️ Cannot submit empty arrow scores\&quot;)\r\n        return false\r\n    }\r\n\r\n    val tournamentRepository = getTournamentRepository()\r\n\r\n    // Update sync status\r\n    val syncingStatus = TournamentSyncStatus.Syncing\r\n    _syncStatus.value = syncingStatus\r\n    onSyncStatusUpdate?.invoke(syncingStatus)\r\n    \r\n    android.util.Log.d(\&quot;TournamentScoreSync\&quot;, \r\n        \&quot;🔄 Starting score submission: End $endNumber, ${arrowScores.size} arrows\&quot;)\r\n\r\n    var attempt = 0\r\n    var lastException: Exception? = null\r\n\r\n    while (attempt &lt; maxRetries) {\r\n        try {\r\n            android.util.Log.d(\&quot;TournamentScoreSync\&quot;, \r\n                \&quot;🏆 Attempt ${attempt + 1}/$maxRetries\&quot;)\r\n\r\n            val result = tournamentRepository.submitScore(\r\n                tournamentId = tournamentId,\r\n                participantId = participantId,\r\n                roundNumber = roundNumber,\r\n                arrowScores = arrowScores,\r\n                isXFlags = isXFlags, // CRITICAL: X-ring flags for tie-breaking\r\n                endNumber = endNumber,\r\n                deviceId = deviceId\r\n            )\r\n\r\n            if (result.isSuccess) {\r\n                android.util.Log.d(\&quot;TournamentScoreSync\&quot;, \r\n                    \&quot;✅ Score submitted successfully on attempt ${attempt + 1}\&quot;)\r\n\r\n                val successStatus = TournamentSyncStatus.Success(\r\n                    participantCount = 1,\r\n                    message = \&quot;End $endNumber synced\&quot;\r\n                )\r\n                _syncStatus.value = successStatus\r\n                onSyncStatusUpdate?.invoke(successStatus)\r\n\r\n                return true\r\n            } else {\r\n                lastException = result.exceptionOrNull() as? Exception \r\n                    ?: Exception(\&quot;Unknown error\&quot;)\r\n                android.util.Log.w(\&quot;TournamentScoreSync\&quot;, \r\n                    \&quot;⚠️ Attempt ${attempt + 1} failed: ${lastException.message}\&quot;)\r\n            }\r\n        } catch (e: Exception) {\r\n            lastException = e\r\n            android.util.Log.w(\&quot;TournamentScoreSync\&quot;, \r\n                \&quot;⚠️ Attempt ${attempt + 1} exception: ${e.message}\&quot;)\r\n        }\r\n\r\n        attempt++\r\n        if (attempt &lt; maxRetries) {\r\n            // Exponential backoff: 100ms, 200ms, 400ms...\r\n            val delayMs = 100L * (1 shl (attempt - 1))\r\n            android.util.Log.d(\&quot;TournamentScoreSync\&quot;, \r\n                \&quot;🕒 Waiting ${delayMs}ms before retry...\&quot;)\r\n            kotlinx.coroutines.delay(delayMs)\r\n        }\r\n    }\r\n\r\n    android.util.Log.e(\&quot;TournamentScoreSync\&quot;, \r\n        \&quot;❌ Failed after $maxRetries attempts: ${lastException?.message}\&quot;, \r\n        lastException)\r\n\r\n    // Enhanced error reporting with error types\r\n    val errorType = when {\r\n        lastException?.message?.contains(\&quot;network\&quot;, ignoreCase = true) == true -> \r\n            SyncErrorType.NETWORK_ERROR\r\n        lastException?.message?.contains(\&quot;timeout\&quot;, ignoreCase = true) == true -> \r\n            SyncErrorType.TIMEOUT\r\n        lastException?.message?.contains(\&quot;permission\&quot;, ignoreCase = true) == true -> \r\n            SyncErrorType.PERMISSION_DENIED\r\n        lastException?.message?.contains(\&quot;validation\&quot;, ignoreCase = true) == true -> \r\n            SyncErrorType.VALIDATION_ERROR\r\n        else -> SyncErrorType.UNKNOWN\r\n    }\r\n\r\n    val errorMessage = when (errorType) {\r\n        SyncErrorType.NETWORK_ERROR -> \r\n            \&quot;No internet connection. Score saved locally.\&quot;\r\n        SyncErrorType.TIMEOUT -> \r\n            \&quot;Request timed out. Score saved locally.\&quot;\r\n        SyncErrorType.PERMISSION_DENIED -> \r\n            \&quot;Permission denied. Check tournament settings.\&quot;\r\n        SyncErrorType.VALIDATION_ERROR -> \r\n            \&quot;Invalid score data. Please check your scores.\&quot;\r\n        else -> \r\n            \&quot;Failed to sync end $endNumber. Score saved locally.\&quot;\r\n    }\r\n\r\n    val errorStatus = TournamentSyncStatus.Error(\r\n        message = errorMessage,\r\n        errorType = errorType,\r\n        retryable = errorType != SyncErrorType.PERMISSION_DENIED,\r\n        retryCount = maxRetries\r\n    )\r\n    _syncStatus.value = errorStatus\r\n    onSyncStatusUpdate?.invoke(errorStatus)\r\n\r\n    // Score is saved locally - don't fail the entire operation\r\n    return false\r\n}&quot;">sequenceDiagram
+    participant User
+    participant EndSvc as EndCompletionService
+    participant SyncSvc as TournamentSyncService
+    participant Firebase as FirebaseTournamentRepository
+    participant Firestore as Firebase Firestore
+
+    User->>EndSvc: Complete end
+    EndSvc->>EndSvc: Validate and save locally
+    
+    EndSvc->>SyncSvc: submitTournamentScoreWithRetry() [ASYNC]
+    Note over EndSvc,User: User continues immediately
+    
+    SyncSvc->>SyncSvc: Update status: Syncing
+    
+    loop Max 3 attempts
+        SyncSvc->>Firebase: submitScore(tournamentId, scores)
+        Firebase->>Firestore: Write to scores subcollection
+        
+        alt Success
+            Firestore-->>Firebase: Success
+            Firebase-->>SyncSvc: Result.success
+            SyncSvc->>SyncSvc: Update status: Success
+            Note over SyncSvc: Exit retry loop
+        else Failure
+            Firestore-->>Firebase: Error (network/timeout/etc)
+            Firebase-->>SyncSvc: Result.failure
+            
+            alt Attempt &lt; Max
+                SyncSvc->>SyncSvc: Exponential backoff delay
+                Note over SyncSvc: Wait 100ms, 200ms, 400ms...
+            else Max attempts reached
+                SyncSvc->>SyncSvc: Classify error type
+                SyncSvc->>SyncSvc: Update status: Error(type, message)
+                SyncSvc-->>EndSvc: false (score saved locally)
+            end
+        end
+    end
+&lt;/mermaid>
+
+### Retry Logic with Exponential Backoff
+
+**Code:** `TournamentSyncService.kt:240`
+
+```kotlin
+suspend fun submitTournamentScoreWithRetry(
+    tournamentId: String,
+    participantId: String,
+    roundNumber: Int,
+    endNumber: Int,
+    arrowScores: List&lt;Int>,
+    isXFlags: List&lt;Boolean> = emptyList(),
+    deviceId: String,
+    maxRetries: Int = 3,
+    onSyncStatusUpdate: ((TournamentSyncStatus) -> Unit)? = null
+): Boolean {
+    // Validation
+    if (arrowScores.isEmpty()) {
+        android.util.Log.w(&quot;TournamentScoreSync&quot;, 
+            &quot;⚠️ Cannot submit empty arrow scores&quot;)
+        return false
+    }
+
+    val tournamentRepository = getTournamentRepository()
+
+    // Update sync status
+    val syncingStatus = TournamentSyncStatus.Syncing
+    _syncStatus.value = syncingStatus
+    onSyncStatusUpdate?.invoke(syncingStatus)
+    
+    android.util.Log.d(&quot;TournamentScoreSync&quot;, 
+        &quot;🔄 Starting score submission: End $endNumber, ${arrowScores.size} arrows&quot;)
+
+    var attempt = 0
+    var lastException: Exception? = null
+
+    while (attempt &lt; maxRetries) {
+        try {
+            android.util.Log.d(&quot;TournamentScoreSync&quot;, 
+                &quot;🏆 Attempt ${attempt + 1}/$maxRetries&quot;)
+
+            val result = tournamentRepository.submitScore(
+                tournamentId = tournamentId,
+                participantId = participantId,
+                roundNumber = roundNumber,
+                arrowScores = arrowScores,
+                isXFlags = isXFlags, // CRITICAL: X-ring flags for tie-breaking
+                endNumber = endNumber,
+                deviceId = deviceId
+            )
+
+            if (result.isSuccess) {
+                android.util.Log.d(&quot;TournamentScoreSync&quot;, 
+                    &quot;✅ Score submitted successfully on attempt ${attempt + 1}&quot;)
+
+                val successStatus = TournamentSyncStatus.Success(
+                    participantCount = 1,
+                    message = &quot;End $endNumber synced&quot;
+                )
+                _syncStatus.value = successStatus
+                onSyncStatusUpdate?.invoke(successStatus)
+
+                return true
+            } else {
+                lastException = result.exceptionOrNull() as? Exception 
+                    ?: Exception(&quot;Unknown error&quot;)
+                android.util.Log.w(&quot;TournamentScoreSync&quot;, 
+                    &quot;⚠️ Attempt ${attempt + 1} failed: ${lastException.message}&quot;)
+            }
+        } catch (e: Exception) {
+            lastException = e
+            android.util.Log.w(&quot;TournamentScoreSync&quot;, 
+                &quot;⚠️ Attempt ${attempt + 1} exception: ${e.message}&quot;)
+        }
+
+        attempt++
+        if (attempt &lt; maxRetries) {
+            // Exponential backoff: 100ms, 200ms, 400ms...
+            val delayMs = 100L * (1 shl (attempt - 1))
+            android.util.Log.d(&quot;TournamentScoreSync&quot;, 
+                &quot;🕒 Waiting ${delayMs}ms before retry...&quot;)
+            kotlinx.coroutines.delay(delayMs)
+        }
+    }
+
+    android.util.Log.e(&quot;TournamentScoreSync&quot;, 
+        &quot;❌ Failed after $maxRetries attempts: ${lastException?.message}&quot;, 
+        lastException)
+
+    // Enhanced error reporting with error types
+    val errorType = when {
+        lastException?.message?.contains(&quot;network&quot;, ignoreCase = true) == true -> 
+            SyncErrorType.NETWORK_ERROR
+        lastException?.message?.contains(&quot;timeout&quot;, ignoreCase = true) == true -> 
+            SyncErrorType.TIMEOUT
+        lastException?.message?.contains(&quot;permission&quot;, ignoreCase = true) == true -> 
+            SyncErrorType.PERMISSION_DENIED
+        lastException?.message?.contains(&quot;validation&quot;, ignoreCase = true) == true -> 
+            SyncErrorType.VALIDATION_ERROR
+        else -> SyncErrorType.UNKNOWN
+    }
+
+    val errorMessage = when (errorType) {
+        SyncErrorType.NETWORK_ERROR -> 
+            &quot;No internet connection. Score saved locally.&quot;
+        SyncErrorType.TIMEOUT -> 
+            &quot;Request timed out. Score saved locally.&quot;
+        SyncErrorType.PERMISSION_DENIED -> 
+            &quot;Permission denied. Check tournament settings.&quot;
+        SyncErrorType.VALIDATION_ERROR -> 
+            &quot;Invalid score data. Please check your scores.&quot;
+        else -> 
+            &quot;Failed to sync end $endNumber. Score saved locally.&quot;
+    }
+
+    val errorStatus = TournamentSyncStatus.Error(
+        message = errorMessage,
+        errorType = errorType,
+        retryable = errorType != SyncErrorType.PERMISSION_DENIED,
+        retryCount = maxRetries
+    )
+    _syncStatus.value = errorStatus
+    onSyncStatusUpdate?.invoke(errorStatus)
+
+    // Score is saved locally - don't fail the entire operation
+    return false
+}
+</code><div id="mermaid-container" role="dialog"><div id="mermaid-space"><div class="mermaid-content"></div></div></div></pre>
+<h3 id="error-classification">Error Classification<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#error-classification" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Code:</strong> <code>TournamentSyncService.kt:36</code></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">enum</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> SyncErrorType</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    NETWORK_ERROR,       </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// No internet connection</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    TIMEOUT,             </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Request timed out</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    PERMISSION_DENIED,   </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// User doesn't have permission</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    VALIDATION_ERROR,    </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Score validation failed</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    CONFLICT,            </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Score conflict detected</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    SERVER_ERROR,        </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Firebase server error</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    UNKNOWN              </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Unknown error</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<hr/>
+<h2 id="conflict-resolution-flow">Conflict Resolution Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#conflict-resolution-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="entry-point-detect-score-conflicts">Entry Point: Detect Score Conflicts<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#entry-point-detect-score-conflicts" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Trigger:</strong> Incoming Firebase score differs from local score</p>
+<p><strong>Call Chain:</strong></p>
+<ol>
+<li><code>TournamentSyncService._incomingTournamentScores</code> - StateFlow updates</li>
+<li><code>LiveScoringViewModel</code> - Observes incoming scores</li>
+<li><code>ScoreConflictResolutionService.kt:69</code> - <code>detectConflicts()</code> - Conflict detection</li>
+<li><code>ScoreConflictResolutionService.kt:178</code> - <code>resolveConflict()</code> - Apply resolution</li>
+</ol>
+<h3 id="conflict-detection-process">Conflict Detection Process<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#conflict-detection-process" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><button class="expand-button" aria-label="Expand mermaid diagram" data-view-component="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 1.06L2.56 7h10.88l-2.22-2.22a.75.75 0 011.06-1.06l3.5 3.5a.75.75 0 010 1.06l-3.5 3.5a.75.75 0 11-1.06-1.06l2.22-2.22H2.56l2.22 2.22a.75.75 0 11-1.06 1.06l-3.5-3.5a.75.75 0 010-1.06l3.5-3.5z"></path></svg></button><code class="mermaid" data-clipboard="&quot;sequenceDiagram\r\n    participant Firebase\r\n    participant SyncSvc as TournamentSyncService\r\n    participant ViewModel as LiveScoringViewModel\r\n    participant Conflict as ScoreConflictResolutionService\r\n    participant UI as ConflictDialog\r\n\r\n    Firebase->>SyncSvc: Score update (remote=25, version=2)\r\n    SyncSvc->>SyncSvc: _incomingTournamentScores.value = [scores]\r\n    \r\n    ViewModel->>ViewModel: Observe incomingTournamentScores\r\n    ViewModel->>ViewModel: Get local editable IDs\r\n    ViewModel->>ViewModel: Get local ends map\r\n    \r\n    ViewModel->>Conflict: detectConflicts(scores, editableIds, localEnds)\r\n    \r\n    loop For each remote score\r\n        Conflict->>Conflict: Find corresponding local end\r\n        \r\n        alt Local end exists\r\n            Conflict->>Conflict: Compare local vs remote total\r\n            \r\n            alt Scores differ\r\n                Conflict->>Conflict: determineConflictResolution()\r\n                \r\n                alt Remote version > Local version\r\n                    Conflict-->>Conflict: Strategy: REMOTE_WINS\r\n                else Local version > Remote version\r\n                    Conflict-->>Conflict: Strategy: LOCAL_WINS\r\n                else Same version, recent update (&lt;5min)\r\n                    Conflict-->>Conflict: Strategy: MANUAL\r\n                else Same version, old update (>5min)\r\n                    Conflict-->>Conflict: Strategy: LOCAL_WINS\r\n                end\r\n                \r\n                Conflict->>Conflict: Create ScoreConflict object\r\n                Conflict->>Conflict: Add to conflicts map\r\n            end\r\n        end\r\n    end\r\n    \r\n    Conflict->>Conflict: Update _scoreConflicts StateFlow\r\n    Conflict-->>ViewModel: Map of conflicts\r\n    \r\n    alt Conflicts detected\r\n        ViewModel->>UI: Show conflict notification\r\n        UI-->>User: \&quot;Score conflict detected for End 3\&quot;\r\n        \r\n        User->>UI: Review conflict\r\n        UI->>Conflict: resolveConflict(participantId, endNumber, strategy)\r\n        \r\n        alt Strategy = LOCAL_WINS\r\n            Conflict->>Conflict: Keep local score\r\n        else Strategy = REMOTE_WINS\r\n            Conflict->>Conflict: Accept remote score\r\n            Conflict->>ViewModel: Update local end with remote data\r\n        else Strategy = HIGHEST_WINS\r\n            Conflict->>Conflict: Use max(local, remote)\r\n        else Strategy = MANUAL\r\n            Conflict->>UI: Require user selection\r\n        end\r\n        \r\n        Conflict->>Conflict: Mark conflict as resolved\r\n        Conflict-->>ViewModel: Resolved score\r\n    end\r\n&lt;/mermaid>\r\n\r\n### Conflict Detection Logic\r\n\r\n**Code:** `ScoreConflictResolutionService.kt:69`\r\n\r\n```kotlin\r\nfun detectConflicts(\r\n    tournamentScores: List&lt;TournamentScore>,\r\n    localEditableIds: Set&lt;String>,\r\n    localEndsMap: Map&lt;String, List&lt;EndScoreWithArrows>>\r\n): Map&lt;String, ScoreConflict> {\r\n    val conflicts = mutableMapOf&lt;String, ScoreConflict>()\r\n\r\n    // Group scores by participant\r\n    val scoresByParticipant = tournamentScores.groupBy { it.participantId }\r\n\r\n    scoresByParticipant.forEach { (participantId, scores) ->\r\n        // Check for conflicts on locally editable participants only\r\n        if (participantId in localEditableIds) {\r\n            val localEnds = localEndsMap[participantId] ?: emptyList()\r\n\r\n            scores.forEach { remoteScore ->\r\n                val localEnd = localEnds.find { \r\n                    it.endScore.endNumber == remoteScore.endNumber \r\n                }\r\n\r\n                if (localEnd != null &amp;&amp; \r\n                    localEnd.endScore.totalScore != remoteScore.endTotal) {\r\n                    \r\n                    val conflictKey = \&quot;${participantId}_${remoteScore.endNumber}\&quot;\r\n\r\n                    // Determine resolution strategy\r\n                    val strategy = determineConflictResolution(\r\n                        localScore = localEnd.endScore.totalScore,\r\n                        remoteScore = remoteScore.endTotal,\r\n                        localVersion = 1, // TODO: Add version tracking\r\n                        remoteVersion = remoteScore.version,\r\n                        remoteTimestamp = remoteScore.timestamp\r\n                    )\r\n\r\n                    conflicts[conflictKey] = ScoreConflict(\r\n                        participantId = participantId,\r\n                        endNumber = remoteScore.endNumber,\r\n                        localScore = localEnd.endScore.totalScore,\r\n                        remoteScore = remoteScore.endTotal,\r\n                        localVersion = 1,\r\n                        remoteVersion = remoteScore.version,\r\n                        remoteTimestamp = remoteScore.timestamp,\r\n                        localTimestamp = localEnd.endScore.scoredAt,\r\n                        resolutionStrategy = strategy\r\n                    )\r\n\r\n                    android.util.Log.w(\&quot;ConflictDetection\&quot;,\r\n                        \&quot;⚠️ Conflict detected: $participantId end ${remoteScore.endNumber} \&quot; +\r\n                        \&quot;(local: ${localEnd.endScore.totalScore}, \&quot; +\r\n                        \&quot;remote: ${remoteScore.endTotal}, strategy: $strategy)\&quot;)\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n    // Update state\r\n    if (conflicts.isNotEmpty()) {\r\n        _scoreConflicts.value = conflicts\r\n        android.util.Log.w(\&quot;ConflictResolution\&quot;, \r\n            \&quot;⚠️ ${conflicts.size} score conflicts detected\&quot;)\r\n    } else if (_scoreConflicts.value.isNotEmpty()) {\r\n        _scoreConflicts.value = emptyMap()\r\n    }\r\n\r\n    return conflicts\r\n}&quot;">sequenceDiagram
+    participant Firebase
+    participant SyncSvc as TournamentSyncService
+    participant ViewModel as LiveScoringViewModel
+    participant Conflict as ScoreConflictResolutionService
+    participant UI as ConflictDialog
+
+    Firebase->>SyncSvc: Score update (remote=25, version=2)
+    SyncSvc->>SyncSvc: _incomingTournamentScores.value = [scores]
+    
+    ViewModel->>ViewModel: Observe incomingTournamentScores
+    ViewModel->>ViewModel: Get local editable IDs
+    ViewModel->>ViewModel: Get local ends map
+    
+    ViewModel->>Conflict: detectConflicts(scores, editableIds, localEnds)
+    
+    loop For each remote score
+        Conflict->>Conflict: Find corresponding local end
+        
+        alt Local end exists
+            Conflict->>Conflict: Compare local vs remote total
+            
+            alt Scores differ
+                Conflict->>Conflict: determineConflictResolution()
+                
+                alt Remote version > Local version
+                    Conflict-->>Conflict: Strategy: REMOTE_WINS
+                else Local version > Remote version
+                    Conflict-->>Conflict: Strategy: LOCAL_WINS
+                else Same version, recent update (&lt;5min)
+                    Conflict-->>Conflict: Strategy: MANUAL
+                else Same version, old update (>5min)
+                    Conflict-->>Conflict: Strategy: LOCAL_WINS
+                end
+                
+                Conflict->>Conflict: Create ScoreConflict object
+                Conflict->>Conflict: Add to conflicts map
+            end
+        end
+    end
+    
+    Conflict->>Conflict: Update _scoreConflicts StateFlow
+    Conflict-->>ViewModel: Map of conflicts
+    
+    alt Conflicts detected
+        ViewModel->>UI: Show conflict notification
+        UI-->>User: &quot;Score conflict detected for End 3&quot;
+        
+        User->>UI: Review conflict
+        UI->>Conflict: resolveConflict(participantId, endNumber, strategy)
+        
+        alt Strategy = LOCAL_WINS
+            Conflict->>Conflict: Keep local score
+        else Strategy = REMOTE_WINS
+            Conflict->>Conflict: Accept remote score
+            Conflict->>ViewModel: Update local end with remote data
+        else Strategy = HIGHEST_WINS
+            Conflict->>Conflict: Use max(local, remote)
+        else Strategy = MANUAL
+            Conflict->>UI: Require user selection
+        end
+        
+        Conflict->>Conflict: Mark conflict as resolved
+        Conflict-->>ViewModel: Resolved score
+    end
+&lt;/mermaid>
+
+### Conflict Detection Logic
+
+**Code:** `ScoreConflictResolutionService.kt:69`
+
+```kotlin
+fun detectConflicts(
+    tournamentScores: List&lt;TournamentScore>,
+    localEditableIds: Set&lt;String>,
+    localEndsMap: Map&lt;String, List&lt;EndScoreWithArrows>>
+): Map&lt;String, ScoreConflict> {
+    val conflicts = mutableMapOf&lt;String, ScoreConflict>()
+
+    // Group scores by participant
+    val scoresByParticipant = tournamentScores.groupBy { it.participantId }
+
+    scoresByParticipant.forEach { (participantId, scores) ->
+        // Check for conflicts on locally editable participants only
+        if (participantId in localEditableIds) {
+            val localEnds = localEndsMap[participantId] ?: emptyList()
+
+            scores.forEach { remoteScore ->
+                val localEnd = localEnds.find { 
+                    it.endScore.endNumber == remoteScore.endNumber 
+                }
+
+                if (localEnd != null &amp;&amp; 
+                    localEnd.endScore.totalScore != remoteScore.endTotal) {
+                    
+                    val conflictKey = &quot;${participantId}_${remoteScore.endNumber}&quot;
+
+                    // Determine resolution strategy
+                    val strategy = determineConflictResolution(
+                        localScore = localEnd.endScore.totalScore,
+                        remoteScore = remoteScore.endTotal,
+                        localVersion = 1, // TODO: Add version tracking
+                        remoteVersion = remoteScore.version,
+                        remoteTimestamp = remoteScore.timestamp
+                    )
+
+                    conflicts[conflictKey] = ScoreConflict(
+                        participantId = participantId,
+                        endNumber = remoteScore.endNumber,
+                        localScore = localEnd.endScore.totalScore,
+                        remoteScore = remoteScore.endTotal,
+                        localVersion = 1,
+                        remoteVersion = remoteScore.version,
+                        remoteTimestamp = remoteScore.timestamp,
+                        localTimestamp = localEnd.endScore.scoredAt,
+                        resolutionStrategy = strategy
+                    )
+
+                    android.util.Log.w(&quot;ConflictDetection&quot;,
+                        &quot;⚠️ Conflict detected: $participantId end ${remoteScore.endNumber} &quot; +
+                        &quot;(local: ${localEnd.endScore.totalScore}, &quot; +
+                        &quot;remote: ${remoteScore.endTotal}, strategy: $strategy)&quot;)
+                }
+            }
+        }
+    }
+
+    // Update state
+    if (conflicts.isNotEmpty()) {
+        _scoreConflicts.value = conflicts
+        android.util.Log.w(&quot;ConflictResolution&quot;, 
+            &quot;⚠️ ${conflicts.size} score conflicts detected&quot;)
+    } else if (_scoreConflicts.value.isNotEmpty()) {
+        _scoreConflicts.value = emptyMap()
+    }
+
+    return conflicts
+}
+</code><div id="mermaid-container" role="dialog"><div id="mermaid-space"><div class="mermaid-content"></div></div></div></pre>
+<h3 id="conflict-resolution-strategies">Conflict Resolution Strategies<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#conflict-resolution-strategies" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Code:</strong> <code>ScoreConflictResolutionService.kt:138</code></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> determineConflictResolution</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    localScore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    remoteScore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    localVersion: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    remoteVersion: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    remoteTimestamp: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ConflictResolutionStrategy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // Version-based resolution: Higher version wins</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    return</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> when</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        remoteVersion </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">></span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> localVersion </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-></span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            android.util.Log.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">d</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;ConflictResolution&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">                &quot;Remote version newer (remote v</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">$remoteVersion</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> > local v</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">$localVersion</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">)&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            ConflictResolutionStrategy.REMOTE_WINS</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">        remoteVersion</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> &lt; </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">localVersion</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> -> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            android.util.Log.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">d</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;ConflictResolution&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">                &quot;Local version newer (local v</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">$localVersion</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> > remote v</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">$remoteVersion</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">)&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            ConflictResolutionStrategy.LOCAL_WINS</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        else</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> -></span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">            // Same version - use timestamp-based resolution</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> now </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> System.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">currentTimeMillis</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ageMinutes </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (now </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> remoteTimestamp) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">1000</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> *</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 60</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">            // If remote update is recent (&lt;5 minutes), suggest manual resolution</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">            if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> (ageMinutes </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">&lt;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 5</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                android.util.Log.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">d</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;ConflictResolution&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">                    &quot;Recent remote update (${ageMinutes}min ago) - suggest MANUAL&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                ConflictResolutionStrategy.MANUAL</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            } </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">else</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">                // Remote update is old - local has authority</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                android.util.Log.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">d</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;ConflictResolution&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">                    &quot;Old remote update (${ageMinutes}min ago) - suggest LOCAL_WINS&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">                ConflictResolutionStrategy.LOCAL_WINS</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>Resolution Strategies:</strong> <code>ScoreConflictResolutionService.kt:34</code></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">enum</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> ConflictResolutionStrategy</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    LOCAL_WINS,      </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Keep local score (default - local authority)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    REMOTE_WINS,     </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Accept remote score</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    HIGHEST_WINS,    </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Use highest score</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    LATEST_WINS,     </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Use most recently updated score</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    MANUAL           </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Requires user intervention</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<hr/>
+<h2 id="smart-caching-strategy">Smart Caching Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#smart-caching-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="entry-point-participant-score-fetch">Entry Point: Participant Score Fetch<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#entry-point-participant-score-fetch" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Reduce Firebase reads with intelligent caching</p>
+<p><strong>Call Chain:</strong></p>
+<ol>
+<li><code>HybridTournamentRepository.kt:742</code> - <code>getParticipantRoundArrows()</code> - Check cache</li>
+<li><code>TournamentScoreCacheService.hasFreshCache()</code> - Cache freshness check</li>
+<li><code>TournamentScoreCacheService.getCachedScores()</code> - Retrieve from cache</li>
+<li><code>FirebaseTournamentRepository.getParticipantRoundArrows()</code> - Fetch from Firebase</li>
+</ol>
+<h3 id="smart-cache-process">Smart Cache Process<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#smart-cache-process" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><button class="expand-button" aria-label="Expand mermaid diagram" data-view-component="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 1.06L2.56 7h10.88l-2.22-2.22a.75.75 0 011.06-1.06l3.5 3.5a.75.75 0 010 1.06l-3.5 3.5a.75.75 0 11-1.06-1.06l2.22-2.22H2.56l2.22 2.22a.75.75 0 11-1.06 1.06l-3.5-3.5a.75.75 0 010-1.06l3.5-3.5z"></path></svg></button><code class="mermaid" data-clipboard="&quot;sequenceDiagram\r\n    participant UI\r\n    participant Hybrid as HybridTournamentRepository\r\n    participant Cache as ScoreCacheService\r\n    participant Firebase as FirebaseTournamentRepository\r\n    participant Firestore\r\n\r\n    UI->>Hybrid: getParticipantRoundArrows(tournamentId, participantId, round)\r\n    \r\n    alt Feature flag enabled\r\n        Hybrid->>Hybrid: Get tournament status\r\n        \r\n        alt Tournament COMPLETED\r\n            Hybrid->>Cache: hasFreshCache(id, round, participant, COMPLETED)\r\n            Cache-->>Hybrid: true (indefinite TTL for completed)\r\n            \r\n            Hybrid->>Cache: getCachedScores()\r\n            Cache-->>Hybrid: Cached EndScoreWithArrows\r\n            Hybrid-->>UI: Return cached data [NO FIREBASE READ]\r\n            Note over UI: Cache hit - instant response\r\n        else Tournament IN_PROGRESS\r\n            Hybrid->>Cache: hasFreshCache(id, round, participant, IN_PROGRESS)\r\n            \r\n            alt Cache fresh (&lt; 5 minutes)\r\n                Cache-->>Hybrid: true\r\n                Hybrid->>Cache: getCachedScores()\r\n                Cache-->>Hybrid: Cached data\r\n                Hybrid-->>UI: Return cached data [INITIAL]\r\n                \r\n                Note over Hybrid,Firebase: Set up real-time listener for updates\r\n                Hybrid->>Firebase: getParticipantRoundArrows() [Flow]\r\n                Firebase->>Firestore: Real-time listener\r\n                Firestore-->>Firebase: Updates\r\n                Firebase-->>Hybrid: New scores\r\n                Hybrid->>Cache: Update cache\r\n                Hybrid-->>UI: Emit updates\r\n            else Cache stale or miss\r\n                Cache-->>Hybrid: false\r\n                Hybrid->>Firebase: getParticipantRoundArrows() [Flow]\r\n                Firebase->>Firestore: Fetch from Firebase\r\n                Firestore-->>Firebase: EndScoreWithArrows\r\n                Firebase-->>Hybrid: Scores\r\n                \r\n                Hybrid->>Cache: cacheScores(scores, status)\r\n                Hybrid-->>UI: Return scores\r\n            end\r\n        end\r\n    else Feature flag disabled\r\n        Hybrid->>Firebase: getParticipantRoundArrows() [Always real-time]\r\n        Firebase-->>Hybrid: Scores\r\n        Hybrid-->>UI: Return scores\r\n    end\r\n&lt;/mermaid>\r\n\r\n### Cache Implementation\r\n\r\n**Code:** `HybridTournamentRepository.kt:742`\r\n\r\n```kotlin\r\noverride fun getParticipantRoundArrows(\r\n    tournamentId: TournamentId,\r\n    participantId: String,\r\n    roundNumber: Int\r\n): Flow&lt;List&lt;EndScoreWithArrows>> {\r\n    return if (isNetworkAvailable) {\r\n        kotlinx.coroutines.flow.flow {\r\n            // Smart caching - check feature flag\r\n            if (CacheFeatureFlags.enableTournamentScoreCache &amp;&amp; \r\n                CacheFeatureFlags.enableSmartListeners) {\r\n                \r\n                // Get tournament status for cache strategy\r\n                val tournament = getTournament(tournamentId).getOrNull()\r\n                val tournamentStatus = tournament?.status \r\n                    ?: TournamentStatus.IN_PROGRESS\r\n\r\n                if (CacheFeatureFlags.logCacheMetrics) {\r\n                    LogConfig.d(\&quot;HybridTournamentRepo\&quot;,\r\n                        \&quot;🔍 Smart cache check: $tournamentId/$roundNumber/$participantId \&quot; +\r\n                        \&quot;(status: $tournamentStatus)\&quot;)\r\n                }\r\n\r\n                // Check if cache is fresh\r\n                val hasFreshCache = scoreCacheService.hasFreshCache(\r\n                    tournamentId,\r\n                    roundNumber,\r\n                    participantId,\r\n                    tournamentStatus\r\n                )\r\n\r\n                if (hasFreshCache) {\r\n                    // Cache hit - serve from cache\r\n                    val cachedScores = scoreCacheService.getCachedScores(\r\n                        tournamentId,\r\n                        roundNumber,\r\n                        participantId\r\n                    )\r\n\r\n                    if (cachedScores.isNotEmpty()) {\r\n                        if (CacheFeatureFlags.logCacheMetrics) {\r\n                            LogConfig.d(\&quot;HybridTournamentRepo\&quot;,\r\n                                \&quot;✅ Cache hit: ${cachedScores.size} cached ends\&quot;)\r\n                        }\r\n                        emit(cachedScores)\r\n\r\n                        // For completed tournaments - we're done, no real-time updates\r\n                        if (tournamentStatus == TournamentStatus.COMPLETED) {\r\n                            return@flow\r\n                        }\r\n                    }\r\n                } else {\r\n                    // Cache miss - fetch from Firestore\r\n                    if (CacheFeatureFlags.logCacheMetrics) {\r\n                        LogConfig.d(\&quot;HybridTournamentRepo\&quot;, \r\n                            \&quot;❌ Cache miss: Fetching from Firestore\&quot;)\r\n                    }\r\n                    CacheMetrics.recordFirestoreRead(\r\n                        \&quot;$tournamentId:$roundNumber:$participantId\&quot;\r\n                    )\r\n                }\r\n\r\n                // For IN_PROGRESS or cache miss: real-time Firestore listener\r\n                emitAll(\r\n                    firebaseRepository.getParticipantRoundArrows(\r\n                        tournamentId, participantId, roundNumber\r\n                    )\r\n                    .onEach { arrows ->\r\n                        // Cache the fetched data\r\n                        if (arrows.isNotEmpty()) {\r\n                            scoreCacheService.cacheScores(\r\n                                tournamentId,\r\n                                roundNumber,\r\n                                participantId,\r\n                                arrows,\r\n                                tournamentStatus\r\n                            )\r\n                        }\r\n                    }\r\n                    .catch { error ->\r\n                        LogConfig.w(\&quot;HybridTournamentRepo\&quot;, \r\n                            \&quot;Failed to get arrows from Firebase: ${error.message}\&quot;)\r\n                        emit(emptyList())\r\n                    }\r\n                )\r\n            } else {\r\n                // Feature flag disabled - use existing behavior\r\n                emitAll(\r\n                    firebaseRepository.getParticipantRoundArrows(\r\n                        tournamentId, participantId, roundNumber\r\n                    )\r\n                    .catch { error ->\r\n                        LogConfig.w(\&quot;HybridTournamentRepo\&quot;, \r\n                            \&quot;Failed to get arrows: ${error.message}\&quot;)\r\n                        emit(emptyList())\r\n                    }\r\n                )\r\n            }\r\n        }\r\n    } else {\r\n        // Offline mode: use local repository\r\n        offlineRepository.getParticipantRoundArrows(\r\n            tournamentId, participantId, roundNumber\r\n        )\r\n    }\r\n}&quot;">sequenceDiagram
+    participant UI
+    participant Hybrid as HybridTournamentRepository
+    participant Cache as ScoreCacheService
+    participant Firebase as FirebaseTournamentRepository
+    participant Firestore
+
+    UI->>Hybrid: getParticipantRoundArrows(tournamentId, participantId, round)
+    
+    alt Feature flag enabled
+        Hybrid->>Hybrid: Get tournament status
+        
+        alt Tournament COMPLETED
+            Hybrid->>Cache: hasFreshCache(id, round, participant, COMPLETED)
+            Cache-->>Hybrid: true (indefinite TTL for completed)
+            
+            Hybrid->>Cache: getCachedScores()
+            Cache-->>Hybrid: Cached EndScoreWithArrows
+            Hybrid-->>UI: Return cached data [NO FIREBASE READ]
+            Note over UI: Cache hit - instant response
+        else Tournament IN_PROGRESS
+            Hybrid->>Cache: hasFreshCache(id, round, participant, IN_PROGRESS)
+            
+            alt Cache fresh (&lt; 5 minutes)
+                Cache-->>Hybrid: true
+                Hybrid->>Cache: getCachedScores()
+                Cache-->>Hybrid: Cached data
+                Hybrid-->>UI: Return cached data [INITIAL]
+                
+                Note over Hybrid,Firebase: Set up real-time listener for updates
+                Hybrid->>Firebase: getParticipantRoundArrows() [Flow]
+                Firebase->>Firestore: Real-time listener
+                Firestore-->>Firebase: Updates
+                Firebase-->>Hybrid: New scores
+                Hybrid->>Cache: Update cache
+                Hybrid-->>UI: Emit updates
+            else Cache stale or miss
+                Cache-->>Hybrid: false
+                Hybrid->>Firebase: getParticipantRoundArrows() [Flow]
+                Firebase->>Firestore: Fetch from Firebase
+                Firestore-->>Firebase: EndScoreWithArrows
+                Firebase-->>Hybrid: Scores
+                
+                Hybrid->>Cache: cacheScores(scores, status)
+                Hybrid-->>UI: Return scores
+            end
+        end
+    else Feature flag disabled
+        Hybrid->>Firebase: getParticipantRoundArrows() [Always real-time]
+        Firebase-->>Hybrid: Scores
+        Hybrid-->>UI: Return scores
+    end
+&lt;/mermaid>
+
+### Cache Implementation
+
+**Code:** `HybridTournamentRepository.kt:742`
+
+```kotlin
+override fun getParticipantRoundArrows(
+    tournamentId: TournamentId,
+    participantId: String,
+    roundNumber: Int
+): Flow&lt;List&lt;EndScoreWithArrows>> {
+    return if (isNetworkAvailable) {
+        kotlinx.coroutines.flow.flow {
+            // Smart caching - check feature flag
+            if (CacheFeatureFlags.enableTournamentScoreCache &amp;&amp; 
+                CacheFeatureFlags.enableSmartListeners) {
+                
+                // Get tournament status for cache strategy
+                val tournament = getTournament(tournamentId).getOrNull()
+                val tournamentStatus = tournament?.status 
+                    ?: TournamentStatus.IN_PROGRESS
+
+                if (CacheFeatureFlags.logCacheMetrics) {
+                    LogConfig.d(&quot;HybridTournamentRepo&quot;,
+                        &quot;🔍 Smart cache check: $tournamentId/$roundNumber/$participantId &quot; +
+                        &quot;(status: $tournamentStatus)&quot;)
+                }
+
+                // Check if cache is fresh
+                val hasFreshCache = scoreCacheService.hasFreshCache(
+                    tournamentId,
+                    roundNumber,
+                    participantId,
+                    tournamentStatus
+                )
+
+                if (hasFreshCache) {
+                    // Cache hit - serve from cache
+                    val cachedScores = scoreCacheService.getCachedScores(
+                        tournamentId,
+                        roundNumber,
+                        participantId
+                    )
+
+                    if (cachedScores.isNotEmpty()) {
+                        if (CacheFeatureFlags.logCacheMetrics) {
+                            LogConfig.d(&quot;HybridTournamentRepo&quot;,
+                                &quot;✅ Cache hit: ${cachedScores.size} cached ends&quot;)
+                        }
+                        emit(cachedScores)
+
+                        // For completed tournaments - we're done, no real-time updates
+                        if (tournamentStatus == TournamentStatus.COMPLETED) {
+                            return@flow
+                        }
+                    }
+                } else {
+                    // Cache miss - fetch from Firestore
+                    if (CacheFeatureFlags.logCacheMetrics) {
+                        LogConfig.d(&quot;HybridTournamentRepo&quot;, 
+                            &quot;❌ Cache miss: Fetching from Firestore&quot;)
+                    }
+                    CacheMetrics.recordFirestoreRead(
+                        &quot;$tournamentId:$roundNumber:$participantId&quot;
+                    )
+                }
+
+                // For IN_PROGRESS or cache miss: real-time Firestore listener
+                emitAll(
+                    firebaseRepository.getParticipantRoundArrows(
+                        tournamentId, participantId, roundNumber
+                    )
+                    .onEach { arrows ->
+                        // Cache the fetched data
+                        if (arrows.isNotEmpty()) {
+                            scoreCacheService.cacheScores(
+                                tournamentId,
+                                roundNumber,
+                                participantId,
+                                arrows,
+                                tournamentStatus
+                            )
+                        }
+                    }
+                    .catch { error ->
+                        LogConfig.w(&quot;HybridTournamentRepo&quot;, 
+                            &quot;Failed to get arrows from Firebase: ${error.message}&quot;)
+                        emit(emptyList())
+                    }
+                )
+            } else {
+                // Feature flag disabled - use existing behavior
+                emitAll(
+                    firebaseRepository.getParticipantRoundArrows(
+                        tournamentId, participantId, roundNumber
+                    )
+                    .catch { error ->
+                        LogConfig.w(&quot;HybridTournamentRepo&quot;, 
+                            &quot;Failed to get arrows: ${error.message}&quot;)
+                        emit(emptyList())
+                    }
+                )
+            }
+        }
+    } else {
+        // Offline mode: use local repository
+        offlineRepository.getParticipantRoundArrows(
+            tournamentId, participantId, roundNumber
+        )
+    }
+}
+</code><div id="mermaid-container" role="dialog"><div id="mermaid-space"><div class="mermaid-content"></div></div></div></pre>
+<h3 id="cache-ttl-strategy">Cache TTL Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cache-ttl-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>By Tournament Status:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Status</th><th>TTL</th><th>Rationale</th></tr></thead><tbody><tr><td><strong>COMPLETED</strong></td><td>Indefinite</td><td>Immutable data, never invalidate</td></tr><tr><td><strong>IN_PROGRESS</strong></td><td>5 minutes</td><td>Balance freshness vs Firebase reads</td></tr><tr><td><strong>PLANNED</strong></td><td>10 minutes</td><td>Rarely changes before start</td></tr></tbody></table></div>
+<p><strong>Cache Invalidation Triggers:</strong></p>
+<ul>
+<li>Tournament status changes to COMPLETED</li>
+<li>Manual refresh (pull-to-refresh)</li>
+<li>Push notification received</li>
+<li>Data integrity issue detected</li>
+</ul>
+<hr/>
+<h2 id="batch-operations-optimization">Batch Operations Optimization<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#batch-operations-optimization" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="entry-point-batch-fetch-participant-scores">Entry Point: Batch Fetch Participant Scores<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#entry-point-batch-fetch-participant-scores" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Efficiently load multiple participant scores</p>
+<p><strong>Call Chain:</strong></p>
+<ol>
+<li><code>HybridTournamentRepository.kt:846</code> - <code>batchFetchParticipantScores()</code> - Batch coordinator</li>
+<li><code>TournamentScoreCacheService</code> - Check cache for each participant</li>
+<li><code>FirebaseTournamentRepository.batchFetchParticipantScores()</code> - Batch fetch from Firebase</li>
+</ol>
+<h3 id="batch-fetch-process">Batch Fetch Process<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#batch-fetch-process" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><button class="expand-button" aria-label="Expand mermaid diagram" data-view-component="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 1.06L2.56 7h10.88l-2.22-2.22a.75.75 0 011.06-1.06l3.5 3.5a.75.75 0 010 1.06l-3.5 3.5a.75.75 0 11-1.06-1.06l2.22-2.22H2.56l2.22 2.22a.75.75 0 11-1.06 1.06l-3.5-3.5a.75.75 0 010-1.06l3.5-3.5z"></path></svg></button><code class="mermaid" data-clipboard="&quot;sequenceDiagram\r\n    participant UI as ParticipantSelector\r\n    participant Hybrid as HybridTournamentRepository\r\n    participant Cache as ScoreCacheService\r\n    participant Firebase as FirebaseTournamentRepository\r\n    participant Firestore\r\n\r\n    UI->>Hybrid: batchFetchParticipantScores(tournamentId, roundNumber, [IDs])\r\n    \r\n    Hybrid->>Hybrid: Get tournament status\r\n    \r\n    loop For each participant ID\r\n        Hybrid->>Cache: hasFreshCache(id, round, participantId, status)\r\n        \r\n        alt Cache hit\r\n            Cache-->>Hybrid: true\r\n            Hybrid->>Cache: getCachedScores(id, round, participantId)\r\n            Cache-->>Hybrid: Cached scores\r\n            Hybrid->>Hybrid: result[participantId] = cachedTotal\r\n        else Cache miss\r\n            Hybrid->>Hybrid: Add to participantsNeedingFetch list\r\n        end\r\n    end\r\n    \r\n    alt Participants need fetch\r\n        Hybrid->>Firebase: batchFetchParticipantScores(id, round, [missing IDs])\r\n        Firebase->>Firestore: Batch query\r\n        Firestore-->>Firebase: Map&lt;participantId, List&lt;EndScoreWithArrows>>\r\n        Firebase-->>Hybrid: Fetched scores\r\n        \r\n        loop For each fetched participant\r\n            Hybrid->>Hybrid: Calculate total score\r\n            Hybrid->>Hybrid: result[participantId] = total\r\n            Hybrid->>Cache: cacheScores(scores, status)\r\n        end\r\n    end\r\n    \r\n    Hybrid-->>UI: Map&lt;participantId, totalScore>\r\n&lt;/mermaid>\r\n\r\n### Batch Fetch Optimization\r\n\r\n**Code:** `HybridTournamentRepository.kt:846`\r\n\r\n```kotlin\r\nsuspend fun batchFetchParticipantScores(\r\n    tournamentId: TournamentId,\r\n    roundNumber: Int,\r\n    participantIds: List&lt;String>\r\n): Map&lt;String, Int> {\r\n    if (!isNetworkAvailable) {\r\n        return emptyMap()\r\n    }\r\n\r\n    val result = mutableMapOf&lt;String, Int>()\r\n\r\n    try {\r\n        // Get tournament status for cache TTL\r\n        val tournament = getTournament(tournamentId).getOrNull()\r\n        val tournamentStatus = tournament?.status ?: TournamentStatus.IN_PROGRESS\r\n\r\n        if (CacheFeatureFlags.enableTournamentScoreCache &amp;&amp; \r\n            CacheFeatureFlags.enableBatchParticipantFetch) {\r\n            \r\n            val participantsNeedingFetch = mutableListOf&lt;String>()\r\n\r\n            // Check cache for each participant\r\n            participantIds.forEach { participantId ->\r\n                val hasFreshCache = scoreCacheService.hasFreshCache(\r\n                    tournamentId,\r\n                    roundNumber,\r\n                    participantId,\r\n                    tournamentStatus\r\n                )\r\n\r\n                if (hasFreshCache) {\r\n                    // Cache hit - get from cache\r\n                    val cachedScores = scoreCacheService.getCachedScores(\r\n                        tournamentId,\r\n                        roundNumber,\r\n                        participantId\r\n                    )\r\n                    result[participantId] = cachedScores.sumOf { \r\n                        it.endScore.totalScore \r\n                    }\r\n\r\n                    if (CacheFeatureFlags.logCacheMetrics) {\r\n                        LogConfig.d(\&quot;HybridTournamentRepo\&quot;,\r\n                            \&quot;✅ Batch cache hit: $participantId = ${result[participantId]}\&quot;)\r\n                    }\r\n                } else {\r\n                    // Cache miss - need to fetch from Firestore\r\n                    participantsNeedingFetch.add(participantId)\r\n                }\r\n            }\r\n\r\n            // Batch fetch for cache misses\r\n            if (participantsNeedingFetch.isNotEmpty()) {\r\n                if (CacheFeatureFlags.logCacheMetrics) {\r\n                    LogConfig.d(\&quot;HybridTournamentRepo\&quot;,\r\n                        \&quot;❌ Batch cache miss: ${participantsNeedingFetch.size} \&quot; +\r\n                        \&quot;participants need Firestore fetch\&quot;)\r\n                }\r\n\r\n                val fetchedScores = firebaseRepository.batchFetchParticipantScores(\r\n                    tournamentId,\r\n                    roundNumber,\r\n                    participantsNeedingFetch\r\n                )\r\n\r\n                // Cache the fetched data and calculate scores\r\n                fetchedScores.forEach { (participantId, scores) ->\r\n                    result[participantId] = scores.sumOf { it.endScore.totalScore }\r\n\r\n                    // Cache the data\r\n                    if (scores.isNotEmpty()) {\r\n                        scoreCacheService.cacheScores(\r\n                            tournamentId,\r\n                            roundNumber,\r\n                            participantId,\r\n                            scores,\r\n                            tournamentStatus\r\n                        )\r\n                    }\r\n\r\n                    CacheMetrics.recordFirestoreRead(\r\n                        \&quot;$tournamentId:$roundNumber:$participantId\&quot;\r\n                    )\r\n                }\r\n            }\r\n        } else {\r\n            // Feature flag disabled - fetch all from Firestore\r\n            val fetchedScores = firebaseRepository.batchFetchParticipantScores(\r\n                tournamentId,\r\n                roundNumber,\r\n                participantIds\r\n            )\r\n\r\n            fetchedScores.forEach { (participantId, scores) ->\r\n                result[participantId] = scores.sumOf { it.endScore.totalScore }\r\n            }\r\n        }\r\n\r\n        if (CacheFeatureFlags.logCacheMetrics) {\r\n            LogConfig.d(\&quot;HybridTournamentRepo\&quot;,\r\n                \&quot;📊 Batch fetch complete: ${result.size} participants, \&quot; +\r\n                \&quot;${participantIds.size - result.size} missing\&quot;)\r\n        }\r\n\r\n    } catch (e: Exception) {\r\n        LogConfig.e(\&quot;HybridTournamentRepo\&quot;, \&quot;❌ Batch fetch failed\&quot;, e)\r\n    }\r\n\r\n    return result\r\n}&quot;">sequenceDiagram
+    participant UI as ParticipantSelector
+    participant Hybrid as HybridTournamentRepository
+    participant Cache as ScoreCacheService
+    participant Firebase as FirebaseTournamentRepository
+    participant Firestore
+
+    UI->>Hybrid: batchFetchParticipantScores(tournamentId, roundNumber, [IDs])
+    
+    Hybrid->>Hybrid: Get tournament status
+    
+    loop For each participant ID
+        Hybrid->>Cache: hasFreshCache(id, round, participantId, status)
+        
+        alt Cache hit
+            Cache-->>Hybrid: true
+            Hybrid->>Cache: getCachedScores(id, round, participantId)
+            Cache-->>Hybrid: Cached scores
+            Hybrid->>Hybrid: result[participantId] = cachedTotal
+        else Cache miss
+            Hybrid->>Hybrid: Add to participantsNeedingFetch list
+        end
+    end
+    
+    alt Participants need fetch
+        Hybrid->>Firebase: batchFetchParticipantScores(id, round, [missing IDs])
+        Firebase->>Firestore: Batch query
+        Firestore-->>Firebase: Map&lt;participantId, List&lt;EndScoreWithArrows>>
+        Firebase-->>Hybrid: Fetched scores
+        
+        loop For each fetched participant
+            Hybrid->>Hybrid: Calculate total score
+            Hybrid->>Hybrid: result[participantId] = total
+            Hybrid->>Cache: cacheScores(scores, status)
+        end
+    end
+    
+    Hybrid-->>UI: Map&lt;participantId, totalScore>
+&lt;/mermaid>
+
+### Batch Fetch Optimization
+
+**Code:** `HybridTournamentRepository.kt:846`
+
+```kotlin
+suspend fun batchFetchParticipantScores(
+    tournamentId: TournamentId,
+    roundNumber: Int,
+    participantIds: List&lt;String>
+): Map&lt;String, Int> {
+    if (!isNetworkAvailable) {
+        return emptyMap()
+    }
+
+    val result = mutableMapOf&lt;String, Int>()
+
+    try {
+        // Get tournament status for cache TTL
+        val tournament = getTournament(tournamentId).getOrNull()
+        val tournamentStatus = tournament?.status ?: TournamentStatus.IN_PROGRESS
+
+        if (CacheFeatureFlags.enableTournamentScoreCache &amp;&amp; 
+            CacheFeatureFlags.enableBatchParticipantFetch) {
+            
+            val participantsNeedingFetch = mutableListOf&lt;String>()
+
+            // Check cache for each participant
+            participantIds.forEach { participantId ->
+                val hasFreshCache = scoreCacheService.hasFreshCache(
+                    tournamentId,
+                    roundNumber,
+                    participantId,
+                    tournamentStatus
+                )
+
+                if (hasFreshCache) {
+                    // Cache hit - get from cache
+                    val cachedScores = scoreCacheService.getCachedScores(
+                        tournamentId,
+                        roundNumber,
+                        participantId
+                    )
+                    result[participantId] = cachedScores.sumOf { 
+                        it.endScore.totalScore 
+                    }
+
+                    if (CacheFeatureFlags.logCacheMetrics) {
+                        LogConfig.d(&quot;HybridTournamentRepo&quot;,
+                            &quot;✅ Batch cache hit: $participantId = ${result[participantId]}&quot;)
+                    }
+                } else {
+                    // Cache miss - need to fetch from Firestore
+                    participantsNeedingFetch.add(participantId)
+                }
+            }
+
+            // Batch fetch for cache misses
+            if (participantsNeedingFetch.isNotEmpty()) {
+                if (CacheFeatureFlags.logCacheMetrics) {
+                    LogConfig.d(&quot;HybridTournamentRepo&quot;,
+                        &quot;❌ Batch cache miss: ${participantsNeedingFetch.size} &quot; +
+                        &quot;participants need Firestore fetch&quot;)
+                }
+
+                val fetchedScores = firebaseRepository.batchFetchParticipantScores(
+                    tournamentId,
+                    roundNumber,
+                    participantsNeedingFetch
+                )
+
+                // Cache the fetched data and calculate scores
+                fetchedScores.forEach { (participantId, scores) ->
+                    result[participantId] = scores.sumOf { it.endScore.totalScore }
+
+                    // Cache the data
+                    if (scores.isNotEmpty()) {
+                        scoreCacheService.cacheScores(
+                            tournamentId,
+                            roundNumber,
+                            participantId,
+                            scores,
+                            tournamentStatus
+                        )
+                    }
+
+                    CacheMetrics.recordFirestoreRead(
+                        &quot;$tournamentId:$roundNumber:$participantId&quot;
+                    )
+                }
+            }
+        } else {
+            // Feature flag disabled - fetch all from Firestore
+            val fetchedScores = firebaseRepository.batchFetchParticipantScores(
+                tournamentId,
+                roundNumber,
+                participantIds
+            )
+
+            fetchedScores.forEach { (participantId, scores) ->
+                result[participantId] = scores.sumOf { it.endScore.totalScore }
+            }
+        }
+
+        if (CacheFeatureFlags.logCacheMetrics) {
+            LogConfig.d(&quot;HybridTournamentRepo&quot;,
+                &quot;📊 Batch fetch complete: ${result.size} participants, &quot; +
+                &quot;${participantIds.size - result.size} missing&quot;)
+        }
+
+    } catch (e: Exception) {
+        LogConfig.e(&quot;HybridTournamentRepo&quot;, &quot;❌ Batch fetch failed&quot;, e)
+    }
+
+    return result
+}
+</code><div id="mermaid-container" role="dialog"><div id="mermaid-space"><div class="mermaid-content"></div></div></div></pre>
+<p><strong>Optimization Benefits:</strong></p>
+<ul>
+<li><strong>Cache-first strategy</strong>: Check cache before Firebase</li>
+<li><strong>Batch Firebase queries</strong>: Single query for cache misses</li>
+<li><strong>Reduced Firebase reads</strong>: 10+ participants → 1-2 queries instead of 10+</li>
+<li><strong>Faster UI loading</strong>: Cached data returns instantly</li>
+</ul>
+<hr/>
+<h2 id="key-classes-and-files">Key Classes and Files<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#key-classes-and-files" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>File</th><th>Location</th><th>Purpose</th></tr></thead><tbody><tr><td><strong>HybridTournamentRepository.kt</strong></td><td><code>data/repository/impl/HybridTournamentRepository.kt:58</code></td><td>Offline-first sync coordinator</td></tr><tr><td><strong>TournamentSyncService.kt</strong></td><td><code>domain/services/TournamentSyncService.kt:74</code></td><td>Real-time Firebase listeners</td></tr><tr><td><strong>ScoreConflictResolutionService.kt</strong></td><td><code>domain/services/ScoreConflictResolutionService.kt:54</code></td><td>Conflict detection and resolution</td></tr><tr><td><strong>TournamentScoreCacheService.kt</strong></td><td><code>data/services/TournamentScoreCacheService.kt</code></td><td>Smart caching layer</td></tr><tr><td><strong>FirebaseTournamentRepository.kt</strong></td><td><code>data/repository/impl/FirebaseTournamentRepository.kt</code></td><td>Firebase Firestore operations</td></tr><tr><td><strong>OfflineTournamentRepository.kt</strong></td><td><code>data/repository/impl/OfflineTournamentRepository.kt</code></td><td>Local Room database operations</td></tr><tr><td><strong>EndCompletionService.kt</strong></td><td><code>domain/services/EndCompletionService.kt:296</code></td><td>Tournament score submission trigger</td></tr></tbody></table></div>
+<hr/>
+<h2 id="state-management">State Management<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#state-management" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="sync-status">Sync Status<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#sync-status" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Structure:</strong> <code>TournamentSyncStatus</code> (TournamentSyncService.kt:21)</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">sealed</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentSyncStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    object</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Idle</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentSyncStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    object</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Syncing</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentSyncStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Success</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> participantCount: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> message: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentSyncStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> Error</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> message: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> errorType: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">SyncErrorType</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> SyncErrorType.UNKNOWN,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> retryable: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Boolean</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> true</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> retryCount: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 0</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    ) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentSyncStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<h3 id="stateflows-for-real-time-updates">StateFlows for Real-Time Updates<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stateflows-for-real-time-updates" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Code:</strong> <code>TournamentSyncService.kt:96</code></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Tournament sync status for UI feedback</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _syncStatus </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MutableStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentSyncStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>(</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    TournamentSyncStatus.Idle</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> syncStatus: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">StateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentSyncStatus</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _syncStatus.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">asStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Live leaderboard for tournament standings</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _liveLeaderboard </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MutableStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">LeaderboardEntry</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>>(</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">emptyList</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">())</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> liveLeaderboard: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">StateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">LeaderboardEntry</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>> </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _liveLeaderboard.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">asStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Incoming tournament scores from Firebase</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _incomingTournamentScores </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MutableStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>>(</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    emptyList</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> incomingTournamentScores: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">StateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentScore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>> </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> </span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    _incomingTournamentScores.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">asStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Tournament participants with ownership data</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> _tournamentParticipants </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> MutableStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentParticipant</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>>(</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">    emptyList</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> tournamentParticipants: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">StateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentParticipant</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">>> </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> </span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    _tournamentParticipants.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">asStateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span></code></pre></figure>
+<h3 id="conflict-state">Conflict State<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#conflict-state" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Structure:</strong> <code>ScoreConflict</code> (ScoreConflictResolutionService.kt:18)</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">data</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> ScoreConflict</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> participantId: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">String</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> endNumber: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> localScore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> remoteScore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> localVersion: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> remoteVersion: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Int</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 1</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> remoteTimestamp: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 0L</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> localTimestamp: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Long</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 0L</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> resolved: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Boolean</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> false</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> resolutionStrategy: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ConflictResolutionStrategy</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ConflictResolutionStrategy.LOCAL_WINS</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span></code></pre></figure>
+<hr/>
+<h2 id="error-handling">Error Handling<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#error-handling" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="network-errors">Network Errors<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#network-errors" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Offline Operations:</strong></p>
+<ul>
+<li>All CRUD operations complete locally immediately</li>
+<li>Network failures don’t block user actions</li>
+<li>Automatic sync when network returns</li>
+<li>Pending sync queue persists across app restarts</li>
+</ul>
+<p><strong>Firebase Errors:</strong></p>
+<ul>
+<li>Retry logic with exponential backoff</li>
+<li>Detailed error classification (network, timeout, permission, etc.)</li>
+<li>User-friendly error messages</li>
+<li>Local data preserved on sync failure</li>
+</ul>
+<h3 id="sync-failures">Sync Failures<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#sync-failures" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Retry Strategy:</strong></p>
+<ol>
+<li><strong>Attempt 1</strong>: Immediate submission</li>
+<li><strong>Attempt 2</strong>: Wait 100ms, retry</li>
+<li><strong>Attempt 3</strong>: Wait 200ms, retry</li>
+<li><strong>Final</strong>: Wait 400ms, final attempt</li>
+<li><strong>Failure</strong>: Mark for background sync, show error to user</li>
+</ol>
+<p><strong>Error Recovery:</strong></p>
+<ul>
+<li>Failed syncs marked in local database</li>
+<li>Background worker retries pending syncs</li>
+<li>Manual retry option via pull-to-refresh</li>
+<li>Sync queue prevents data loss</li>
+</ul>
+<h3 id="conflict-resolution-failures">Conflict Resolution Failures<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#conflict-resolution-failures" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Conflict Scenarios:</strong></p>
+<ul>
+<li>Local edit + concurrent remote edit</li>
+<li>Version mismatch (stale local data)</li>
+<li>Timestamp-based tie-breaking</li>
+<li>Manual resolution for ambiguous cases</li>
+</ul>
+<p><strong>Resolution UI:</strong></p>
+<ul>
+<li>Show both local and remote scores</li>
+<li>Display resolution strategy recommendation</li>
+<li>Allow user override of automatic resolution</li>
+<li>Option to dismiss conflict (keep local)</li>
+</ul>
+<hr/>
+<h2 id="performance-considerations">Performance Considerations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#performance-considerations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="reduced-firebase-reads">Reduced Firebase Reads<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#reduced-firebase-reads" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Smart Caching:</strong></p>
+<ul>
+<li>Completed tournaments: Indefinite cache (0 reads after first load)</li>
+<li>In-progress tournaments: 5-minute TTL (reduces reads by ~90%)</li>
+<li>Batch operations: 10 participants → 1-2 queries instead of 10+</li>
+</ul>
+<p><strong>Metrics:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Before caching: ~100 Firebase reads per tournament view</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// After caching: ~5-10 Firebase reads per tournament view</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Savings: 85-95% reduction in Firebase costs</span></span></code></pre></figure>
+<h3 id="network-optimization">Network Optimization<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#network-optimization" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Connection Monitoring:</strong></p>
+<ul>
+<li>Register single network callback (not per-component)</li>
+<li>Automatic sync trigger on connectivity restoration</li>
+<li>Graceful degradation when offline</li>
+<li>No polling for network state</li>
+</ul>
+<p><strong>Batch Processing:</strong></p>
+<ul>
+<li>Batch tournament updates in single transaction</li>
+<li>Batch participant score fetches</li>
+<li>Debounced sync triggers (avoid rapid-fire syncs)</li>
+</ul>
+<h3 id="memory-management">Memory Management<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#memory-management" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Cache Cleanup:</strong></p>
+<ul>
+<li>Automatic eviction for stale IN_PROGRESS tournaments</li>
+<li>Completed tournaments cached indefinitely (small size)</li>
+<li>LRU eviction for cache size limits</li>
+<li>Clear cache on app upgrade</li>
+</ul>
+<h3 id="background-sync">Background Sync<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#background-sync" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>WorkManager Integration:</strong></p>
+<ul>
+<li>Periodic background sync (every 6 hours)</li>
+<li>Constraint-based execution (WiFi only, battery not low)</li>
+<li>Retry with backoff for failed syncs</li>
+<li>Notification for sync results</li>
+</ul>
+<hr/>
+<h2 id="related-flows">Related Flows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-flows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><strong><a href="../../../Flows/Tournament-Flow" class="internal" data-slug="Flows/Tournament-Flow">Tournament-Flow</a></strong> - Tournament creation and participation</li>
+<li><strong><a href="../../../Flows/Scoring-Flow" class="internal" data-slug="Flows/Scoring-Flow">Scoring-Flow</a></strong> - Arrow scoring and end completion</li>
+<li><strong><a href="../../../Flows/Round-Lifecycle-Flow" class="internal" data-slug="Flows/Round-Lifecycle-Flow">Round-Lifecycle-Flow</a></strong> - Round status and lifecycle</li>
+</ul>
+<hr/>
+<h2 id="future-enhancements">Future Enhancements<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#future-enhancements" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="optimistic-ui-updates">Optimistic UI Updates<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#optimistic-ui-updates" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Planned:</strong> Immediate UI updates before Firebase confirmation</p>
+<ul>
+<li>Show “syncing…” indicator</li>
+<li>Revert on failure with user notification</li>
+<li>Optimistic leaderboard updates</li>
+<li>Conflict-free replicated data types (CRDTs)</li>
+</ul>
+<h3 id="push-notifications">Push Notifications<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#push-notifications" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Planned:</strong> Real-time notifications for tournament events</p>
+<ul>
+<li>New participant joined</li>
+<li>Score submitted by other participant</li>
+<li>Tournament status changed</li>
+<li>Conflict detected requiring resolution</li>
+</ul>
+<h3 id="offline-queue-management">Offline Queue Management<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#offline-queue-management" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Enhanced Features:</strong></p>
+<ul>
+<li>Priority queue for sync operations</li>
+<li>Automatic retry escalation</li>
+<li>Conflict pre-detection before sync</li>
+<li>Sync progress visualization</li>
+</ul>
+<h3 id="advanced-conflict-resolution">Advanced Conflict Resolution<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#advanced-conflict-resolution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Planned Improvements:</strong></p>
+<ul>
+<li>Version vector clocks for precise conflict detection</li>
+<li>Three-way merge for arrow-level conflicts</li>
+<li>Automatic conflict resolution rules</li>
+<li>Conflict history and audit log</li>
+</ul></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-95" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#data-sync-flow" data-for="data-sync-flow">Data Sync Flow</a></li><li class="depth-1"><a href="#overview" data-for="overview">Overview</a></li><li class="depth-2"><a href="#architecture-components" data-for="architecture-components">Architecture Components</a></li><li class="depth-2"><a href="#offline-first-strategy" data-for="offline-first-strategy">Offline-First Strategy</a></li><li class="depth-1"><a href="#tournament-sync-architecture" data-for="tournament-sync-architecture">Tournament Sync Architecture</a></li><li class="depth-2"><a href="#entry-point-hybridtournamentrepository" data-for="entry-point-hybridtournamentrepository">Entry Point: HybridTournamentRepository</a></li><li class="depth-2"><a href="#hybrid-repository-pattern" data-for="hybrid-repository-pattern">Hybrid Repository Pattern</a></li><li class="depth-2"><a href="#network-connectivity-monitoring" data-for="network-connectivity-monitoring">Network Connectivity Monitoring</a></li><li class="depth-1"><a href="#tournament-creation-sync-flow" data-for="tournament-creation-sync-flow">Tournament Creation Sync Flow</a></li><li class="depth-2"><a href="#offline-first-tournament-creation" data-for="offline-first-tournament-creation">Offline-First Tournament Creation</a></li><li class="depth-2"><a href="#tournament-creation-process" data-for="tournament-creation-process">Tournament Creation Process</a></li><li class="depth-1"><a href="#real-time-score-sync-flow" data-for="real-time-score-sync-flow">Real-Time Score Sync Flow</a></li><li class="depth-2"><a href="#entry-point-tournamentsyncservice" data-for="entry-point-tournamentsyncservice">Entry Point: TournamentSyncService</a></li><li class="depth-2"><a href="#real-time-sync-setup" data-for="real-time-sync-setup">Real-Time Sync Setup</a></li><li class="depth-1"><a href="#score-submission-with-retry-logic" data-for="score-submission-with-retry-logic">Score Submission with Retry Logic</a></li><li class="depth-2"><a href="#entry-point-submit-tournament-score" data-for="entry-point-submit-tournament-score">Entry Point: Submit Tournament Score</a></li><li class="depth-2"><a href="#score-submission-process" data-for="score-submission-process">Score Submission Process</a></li><li class="depth-2"><a href="#error-classification" data-for="error-classification">Error Classification</a></li><li class="depth-1"><a href="#conflict-resolution-flow" data-for="conflict-resolution-flow">Conflict Resolution Flow</a></li><li class="depth-2"><a href="#entry-point-detect-score-conflicts" data-for="entry-point-detect-score-conflicts">Entry Point: Detect Score Conflicts</a></li><li class="depth-2"><a href="#conflict-detection-process" data-for="conflict-detection-process">Conflict Detection Process</a></li><li class="depth-2"><a href="#conflict-resolution-strategies" data-for="conflict-resolution-strategies">Conflict Resolution Strategies</a></li><li class="depth-1"><a href="#smart-caching-strategy" data-for="smart-caching-strategy">Smart Caching Strategy</a></li><li class="depth-2"><a href="#entry-point-participant-score-fetch" data-for="entry-point-participant-score-fetch">Entry Point: Participant Score Fetch</a></li><li class="depth-2"><a href="#smart-cache-process" data-for="smart-cache-process">Smart Cache Process</a></li><li class="depth-2"><a href="#cache-ttl-strategy" data-for="cache-ttl-strategy">Cache TTL Strategy</a></li><li class="depth-1"><a href="#batch-operations-optimization" data-for="batch-operations-optimization">Batch Operations Optimization</a></li><li class="depth-2"><a href="#entry-point-batch-fetch-participant-scores" data-for="entry-point-batch-fetch-participant-scores">Entry Point: Batch Fetch Participant Scores</a></li><li class="depth-2"><a href="#batch-fetch-process" data-for="batch-fetch-process">Batch Fetch Process</a></li><li class="depth-1"><a href="#key-classes-and-files" data-for="key-classes-and-files">Key Classes and Files</a></li><li class="depth-1"><a href="#state-management" data-for="state-management">State Management</a></li><li class="depth-2"><a href="#sync-status" data-for="sync-status">Sync Status</a></li><li class="depth-2"><a href="#stateflows-for-real-time-updates" data-for="stateflows-for-real-time-updates">StateFlows for Real-Time Updates</a></li><li class="depth-2"><a href="#conflict-state" data-for="conflict-state">Conflict State</a></li><li class="depth-1"><a href="#error-handling" data-for="error-handling">Error Handling</a></li><li class="depth-2"><a href="#network-errors" data-for="network-errors">Network Errors</a></li><li class="depth-2"><a href="#sync-failures" data-for="sync-failures">Sync Failures</a></li><li class="depth-2"><a href="#conflict-resolution-failures" data-for="conflict-resolution-failures">Conflict Resolution Failures</a></li><li class="depth-1"><a href="#performance-considerations" data-for="performance-considerations">Performance Considerations</a></li><li class="depth-2"><a href="#reduced-firebase-reads" data-for="reduced-firebase-reads">Reduced Firebase Reads</a></li><li class="depth-2"><a href="#network-optimization" data-for="network-optimization">Network Optimization</a></li><li class="depth-2"><a href="#memory-management" data-for="memory-management">Memory Management</a></li><li class="depth-2"><a href="#background-sync" data-for="background-sync">Background Sync</a></li><li class="depth-1"><a href="#related-flows" data-for="related-flows">Related Flows</a></li><li class="depth-1"><a href="#future-enhancements" data-for="future-enhancements">Future Enhancements</a></li><li class="depth-2"><a href="#optimistic-ui-updates" data-for="optimistic-ui-updates">Optimistic UI Updates</a></li><li class="depth-2"><a href="#push-notifications" data-for="push-notifications">Push Notifications</a></li><li class="depth-2"><a href="#offline-queue-management" data-for="offline-queue-management">Offline Queue Management</a></li><li class="depth-2"><a href="#advanced-conflict-resolution" data-for="advanced-conflict-resolution">Advanced Conflict Resolution</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

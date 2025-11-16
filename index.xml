@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+      <title>Archery Apprentice Documentation</title>
+      <link>https://blamechris.github.io/archery-apprentice-docs</link>
+      <description>Last 10 notes on Archery Apprentice Documentation</description>
+      <generator>Quartz -- quartz.jzhao.xyz</generator>
+      <item>
+    <title>ADR-[NUMBER]: [Decision Title]</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/meta/templates/adr-template</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/meta/templates/adr-template</guid>
+    <description><![CDATA[ Brief description (max 160 chars) ]]></description>
+    <pubDate>Sun, 16 Nov 2025 04:59:58 GMT</pubDate>
+  </item><item>
+    <title>tournament-details-viewmodel</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/tournament-details-viewmodel</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/developer-guide/architecture/tournament-details-viewmodel</guid>
+    <description><![CDATA[ TournamentDetailsViewModel Overview Location: app/src/main/java/com/archeryapprentice/ui/tournament/TournamentDetailsViewModel.kt Discovered: 2025-11-15 (Audit verification session) Status: 🔴 God class - extraction planned Metrics Lines: 1,421 Methods: 35 Responsibilities: 9+ Test Coverage: Existin... ]]></description>
+    <pubDate>Sun, 16 Nov 2025 04:59:02 GMT</pubDate>
+  </item><item>
+    <title>production-readiness-gaps</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/concepts/production-readiness-gaps</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/concepts/production-readiness-gaps</guid>
+    <description><![CDATA[ Production Readiness Gaps Definition Production readiness gaps are critical infrastructure deficiencies that prevent safe deployment of an application to end users. ]]></description>
+    <pubDate>Sun, 16 Nov 2025 04:59:02 GMT</pubDate>
+  </item><item>
+    <title>god-classes</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/index/god-classes</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/index/god-classes</guid>
+    <description><![CDATA[ God Class Index Overview This index tracks god classes in the Archery Apprentice codebase - files that have grown too large and taken on too many responsibilities, violating the Single Responsibility Principle. ]]></description>
+    <pubDate>Sun, 16 Nov 2025 04:59:02 GMT</pubDate>
+  </item><item>
+    <title>audit-verification-process</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/processes/audit-verification-process</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/processes/audit-verification-process</guid>
+    <description><![CDATA[ Audit Verification Process Purpose Extract value from external code audits (Claude Code Web, GitHub Copilot, automated tools) while maintaining attribution policy compliance and ensuring independent verification. ]]></description>
+    <pubDate>Sun, 16 Nov 2025 04:59:02 GMT</pubDate>
+  </item><item>
+    <title>2025-11-15-audit-verification-session</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/sessions/2025-11-15-audit-verification-session</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/sessions/2025-11-15-audit-verification-session</guid>
+    <description><![CDATA[ Audit Verification Session - November 15, 2025 Overview Date: 2025-11-15 Type: Multi-agent audit verification Trigger: PR #245 (Claude Code Web comprehensive audit) Duration: ~7 hours (3 agents in parallel) Outcome: 3 comprehensive analyses, critical findings verified Context PR #245 contained an ex... ]]></description>
+    <pubDate>Sun, 16 Nov 2025 04:59:02 GMT</pubDate>
+  </item><item>
+    <title>Week-25-Conservative-Scope</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/retrospectives/Week-25-Conservative-Scope</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/retrospectives/Week-25-Conservative-Scope</guid>
+    <description><![CDATA[ Week 25 Multi-Agent Session Retrospective Date: November 12, 2025 Status: COMPLETE ✅ Session Duration: ~15 hours (~7.5h Agent 1 + ~6.5h Agent 2 + ~2.5h Agent 3) PRs Merged: 3 (#230, #231, #232 pending) Executive Summary Week 25 was a resounding success that validated the conservative scope approach ... ]]></description>
+    <pubDate>Thu, 13 Nov 2025 01:29:04 GMT</pubDate>
+  </item><item>
+    <title>Week-24-Retrospective</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/retrospectives/Week-24-Retrospective</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/retrospectives/Week-24-Retrospective</guid>
+    <description><![CDATA[ Week 24 Multi-Agent Session Retrospective Date: November 11-12, 2025 Status: COMPLETE ✅ Session Duration: ~26-28 hours (2 agents in parallel) PRs Merged: 2 (#228, #229) Executive Summary Week 24 was a challenging but ultimately successful multi-agent orchestration session that delivered significant ... ]]></description>
+    <pubDate>Wed, 12 Nov 2025 08:26:37 GMT</pubDate>
+  </item><item>
+    <title>MULTI_AGENT_COORDINATION_SYSTEM</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/orchestration/MULTI_AGENT_COORDINATION_SYSTEM</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/orchestration/MULTI_AGENT_COORDINATION_SYSTEM</guid>
+    <description><![CDATA[ Multi-Agent Coordination System - Technical Overview Last Updated: 2025-11-11 (Week 24) System Version: 2.1 (Agent-Coordination Branch Protocol) Audience: Technical reference for all stakeholders System Architecture High-Level Overview ┌─────────────────────────────────────────────────────────────┐ ... ]]></description>
+    <pubDate>Tue, 11 Nov 2025 23:39:11 GMT</pubDate>
+  </item><item>
+    <title>Week 23: Logging &amp; Repository Extractions - Parallel Agent Execution</title>
+    <link>https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-23-session</link>
+    <guid>https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-23-session</guid>
+    <description><![CDATA[ Week 23: Logging &amp; Repository Extractions - Parallel Agent Execution Period: November 10, 2025 Focus: LoggingProvider migration (Batch 3) + Repository layer extractions Status: Near completion (1 PR merged, 1 PR pending final tests) Executive Summary Week 23 continued the god class reduction cam... ]]></description>
+    <pubDate>Mon, 10 Nov 2025 00:00:00 GMT</pubDate>
+  </item>
+    </channel>
+  </rss>

@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>agentic-llm-workflow-experiment</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="agentic-llm-workflow-experiment"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="agentic-llm-workflow-experiment"/><meta name="twitter:description" content="Agentic LLM Workflow Experiment - Multi-Agent KMP Migration Status: Active (Week 1 in progress) Started: 2025-10-18 Model: Claude (Anthropic) via Claude Code CLI Hypothesis: Parallel LLM agents can accelerate complex migrations while maintaining quality Tags: ai llm agentic-workflow claude experimen..."/><meta property="og:description" content="Agentic LLM Workflow Experiment - Multi-Agent KMP Migration Status: Active (Week 1 in progress) Started: 2025-10-18 Model: Claude (Anthropic) via Claude Code CLI Hypothesis: Parallel LLM agents can accelerate complex migrations while maintaining quality Tags: ai llm agentic-workflow claude experimen..."/><meta property="og:image:alt" content="Agentic LLM Workflow Experiment - Multi-Agent KMP Migration Status: Active (Week 1 in progress) Started: 2025-10-18 Model: Claude (Anthropic) via Claude Code CLI Hypothesis: Parallel LLM agents can accelerate complex migrations while maintaining quality Tags: ai llm agentic-workflow claude experimen..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/archive/experiments/agentic-llm-workflow-experiment"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/archive/experiments/agentic-llm-workflow-experiment"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="Agentic LLM Workflow Experiment - Multi-Agent KMP Migration Status: Active (Week 1 in progress) Started: 2025-10-18 Model: Claude (Anthropic) via Claude Code CLI Hypothesis: Parallel LLM agents can accelerate complex migrations while maintaining quality Tags: ai llm agentic-workflow claude experimen..."/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/archive/experiments/agentic-llm-workflow-experiment-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/archive/experiments/agentic-llm-workflow-experiment-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/archive/experiments/agentic-llm-workflow-experiment-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/archive/experiments/agentic-llm-workflow-experiment"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-349"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-349" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/archive/">Archive</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../internal/archive/experiments/">experiments</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>agentic llm workflow experiment</a></div></nav><h1 class="article-title">agentic-llm-workflow-experiment</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-04T05:49:57.000Z">Nov 04, 2025</time><span>18 min read</span></p><ul class="tags"><li><a href="../../../tags/ai" class="internal tag-link">ai</a></li><li><a href="../../../tags/llm" class="internal tag-link">llm</a></li><li><a href="../../../tags/agentic-workflow" class="internal tag-link">agentic-workflow</a></li><li><a href="../../../tags/claude" class="internal tag-link">claude</a></li><li><a href="../../../tags/experiment" class="internal tag-link">experiment</a></li><li><a href="../../../tags/methodology" class="internal tag-link">methodology</a></li></ul></div></div><article class="popover-hint"><h1 id="agentic-llm-workflow-experiment---multi-agent-kmp-migration">Agentic LLM Workflow Experiment - Multi-Agent KMP Migration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agentic-llm-workflow-experiment---multi-agent-kmp-migration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Status:</strong> Active (Week 1 in progress)<br/>
+<strong>Started:</strong> 2025-10-18<br/>
+<strong>Model:</strong> Claude (Anthropic) via Claude Code CLI<br/>
+<strong>Hypothesis:</strong> Parallel LLM agents can accelerate complex migrations while maintaining quality<br/>
+<strong>Tags:</strong> <a href="../../.././../../tags/ai" class="tag-link internal alias" data-slug="tags/ai">ai</a> <a href="../../.././../../tags/llm" class="tag-link internal alias" data-slug="tags/llm">llm</a> <a href="../../.././../../tags/agentic-workflow" class="tag-link internal alias" data-slug="tags/agentic-workflow">agentic-workflow</a> <a href="../../.././../../tags/claude" class="tag-link internal alias" data-slug="tags/claude">claude</a> <a href="../../.././../../tags/experiment" class="tag-link internal alias" data-slug="tags/experiment">experiment</a> <a href="../../.././../../tags/methodology" class="tag-link internal alias" data-slug="tags/methodology">methodology</a></p>
+<hr/>
+<h2 id="experiment-overview">Experiment Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#experiment-overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="research-question">Research Question<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#research-question" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Can multiple parallel LLM agents, each with specialized contexts and missions, complete a complex architectural migration faster and with higher quality than traditional sequential development?</p>
+<h3 id="hypothesis">Hypothesis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#hypothesis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>By orchestrating 3 specialized LLM agents working in Git worktrees on separate branches, we can:</p>
+<ol>
+<li><strong>Reduce migration time</strong> from 3+ weeks to ~1 week per major phase</li>
+<li><strong>Maintain code quality</strong> through isolated work and strategic merge ordering</li>
+<li><strong>Prevent context loss</strong> through explicit context handoff documents</li>
+<li><strong>Enable parallel experimentation</strong> without risk to production code</li>
+</ol>
+<hr/>
+<h2 id="experimental-design">Experimental Design<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#experimental-design" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="agent-architecture">Agent Architecture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent O (Orchestrator)</strong></p>
+<ul>
+<li><strong>Role:</strong> Coordination and context management</li>
+<li><strong>Context File:</strong> <code>AGENT_O_ORCHESTRATOR.md</code></li>
+<li><strong>Responsibilities:</strong>
+<ul>
+<li>Track all 3 agent missions and progress</li>
+<li>Resolve merge conflicts and coordination issues</li>
+<li>Document critical decisions and lessons learned</li>
+<li>Manage Week → Week transitions</li>
+</ul>
+</li>
+</ul>
+<p><strong>Agent 1 (AAP) - Platform Abstractions</strong></p>
+<ul>
+<li><strong>Role:</strong> Remove platform dependencies from domain layer</li>
+<li><strong>Context File:</strong> <code>AGENT_1_AAP.md</code></li>
+<li><strong>Git Worktree:</strong> <code>archery-agent-platform/</code></li>
+<li><strong>Branch:</strong> <code>kmp-migration/platform-abstractions</code></li>
+<li><strong>Success Criteria:</strong> Clean domain layer, no Android Context usage, 80% test coverage</li>
+</ul>
+<p><strong>Agent 2 (AAM) - Module Setup</strong></p>
+<ul>
+<li><strong>Role:</strong> Create KMP shared module structure</li>
+<li><strong>Context File:</strong> <code>AGENT_2_AAM.md</code></li>
+<li><strong>Git Worktree:</strong> <code>archery-agent-modules/</code></li>
+<li><strong>Branch:</strong> <code>kmp-migration/module-setup</code></li>
+<li><strong>Success Criteria:</strong> 6 KMP modules configured, Room KMP integrated, documentation complete</li>
+</ul>
+<p><strong>Agent 3 (AAA) - Code Analysis</strong></p>
+<ul>
+<li><strong>Role:</strong> Analyze god classes and create refactoring plans</li>
+<li><strong>Context File:</strong> <code>AGENT_3_AAA.md</code></li>
+<li><strong>Git Worktree:</strong> <code>archery-agent-analysis/</code></li>
+<li><strong>Branch:</strong> <code>kmp-migration/code-analysis</code></li>
+<li><strong>Success Criteria:</strong> Complete god class extraction roadmaps, ViewModel inventory</li>
+</ul>
+<hr/>
+<h2 id="methodology-context-handoff-protocol">Methodology: Context Handoff Protocol<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#methodology-context-handoff-protocol" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="the-problem-llm-context-loss">The Problem: LLM Context Loss<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#the-problem-llm-context-loss" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>LLMs have no persistent memory between sessions. Without explicit context management, agents lose:</p>
+<ul>
+<li>Previous decisions and rationale</li>
+<li>Current progress and blockers</li>
+<li>Critical technical details</li>
+<li>Coordination state across agents</li>
+</ul>
+<h3 id="the-solution-markdown-context-files">The Solution: Markdown Context Files<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#the-solution-markdown-context-files" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Each agent gets a comprehensive markdown file containing:</p>
+<p><strong>1. Mission &amp; Status</strong></p>
+<ul>
+<li>Current week/phase</li>
+<li>Explicit success criteria</li>
+<li>Branch and worktree location</li>
+</ul>
+<p><strong>2. Technical Context</strong></p>
+<ul>
+<li>Project architecture relevant to agent’s mission</li>
+<li>Critical dependencies and constraints</li>
+<li>Known issues and workarounds</li>
+</ul>
+<p><strong>3. Progress Tracking</strong></p>
+<ul>
+<li>Completed work with commit references</li>
+<li>In-progress tasks</li>
+<li>Blockers and dependencies on other agents</li>
+</ul>
+<p><strong>4. Coordination State</strong></p>
+<ul>
+<li>What other agents are doing</li>
+<li>Merge order and dependencies</li>
+<li>Git worktree status</li>
+</ul>
+<p><strong>5. Lessons Learned</strong></p>
+<ul>
+<li>Technical issues resolved</li>
+<li>Patterns discovered</li>
+<li>Decisions made and rationale</li>
+</ul>
+<h3 id="context-update-protocol">Context Update Protocol<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#context-update-protocol" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li><strong>Start of session:</strong> Agent reads its context file</li>
+<li><strong>During work:</strong> Agent updates context in real-time</li>
+<li><strong>End of session:</strong> Agent commits context file updates</li>
+<li><strong>Before resume:</strong> Next session reads updated context</li>
+</ol>
+<hr/>
+<h2 id="infrastructure-git-worktrees">Infrastructure: Git Worktrees<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#infrastructure-git-worktrees" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="why-git-worktrees">Why Git Worktrees?<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#why-git-worktrees" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Traditional Approach (Sequential):</strong></p>
+<pre><code>Developer: Work on feature A → Commit → Switch branch → Work on feature B
+Problem: Context switching, can't compare branches side-by-side
+</code></pre>
+<p><strong>Docker Approach (Considered but rejected):</strong></p>
+<pre><code>Setup time: 2 hours
+Learning curve: 3-4 hours
+Complexity: Volume mounts, networking, image builds
+Performance: Overhead from containerization
+</code></pre>
+<p><strong>Git Worktrees (Chosen):</strong></p>
+<pre><code>Setup time: 30 seconds
+Learning curve: 10 minutes
+Complexity: Native Git feature
+Performance: No overhead
+</code></pre>
+<h3 id="worktree-structure">Worktree Structure<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#worktree-structure" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>StudioProjects/
+├── archery-apprentice/           # Main repo (Agent O)
+├── archery-agent-platform/       # Agent 1 worktree
+├── archery-agent-modules/        # Agent 2 worktree
+└── archery-agent-analysis/       # Agent 3 worktree
+</code></pre>
+<p>Each worktree is:</p>
+<ul>
+<li>A complete checkout of the repository</li>
+<li>On its own branch</li>
+<li>Isolated from other worktrees</li>
+<li>Can run tests/builds independently</li>
+</ul>
+<h3 id="setup-script">Setup Script<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#setup-script" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Created <code>setup-worktrees.sh</code> for one-command setup:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">#!/bin/bash</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> worktree</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-agent-platform</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -b</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> kmp-migration/platform-abstractions</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> worktree</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-agent-modules</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -b</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> kmp-migration/module-setup</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> worktree</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-agent-analysis</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -b</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> kmp-migration/code-analysis</span></span></code></pre></figure>
+<hr/>
+<h2 id="coordination-mechanisms">Coordination Mechanisms<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#coordination-mechanisms" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="1-strategic-merge-ordering">1. Strategic Merge Ordering<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-strategic-merge-ordering" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> Parallel agents create merge conflicts if not coordinated</p>
+<p><strong>Solution:</strong> Risk-based merge order</p>
+<ol>
+<li><strong>Agent 3 first</strong> - Documentation only (safest)</li>
+<li><strong>Agent 2 second</strong> - New modules (additive, no conflicts)</li>
+<li><strong>Agent 1 last</strong> - Modifies existing code (needs Agent 2’s modules)</li>
+</ol>
+<p><strong>Result:</strong> Zero merge conflicts in Week 1</p>
+<h3 id="2-explicit-dependencies">2. Explicit Dependencies<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-explicit-dependencies" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> Agents don’t know what other agents need</p>
+<p><strong>Solution:</strong> Document dependencies in context files</p>
+<ul>
+<li>Agent 1 depends on Agent 2’s modules → Agent 1 merges after Agent 2</li>
+<li>Agent 3’s analysis informs Agent 1 &amp; 2’s work → Agent 3 merges first</li>
+<li>All agents depend on each other’s docs → Pull main after each merge</li>
+</ul>
+<h3 id="3-cicd-as-quality-gate">3. CI/CD as Quality Gate<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-cicd-as-quality-gate" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Problem:</strong> How do we ensure parallel work maintains quality?</p>
+<p><strong>Solution:</strong> No merge without green CI/CD</p>
+<ul>
+<li>80% test coverage enforced</li>
+<li>All tests must pass</li>
+<li>Agent can’t merge until CI/CD passes</li>
+</ul>
+<hr/>
+<h2 id="observations--learnings">Observations &amp; Learnings<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#observations--learnings" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-1-learnings">Week 1 Learnings<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-1-learnings" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>✅ What Worked Well:</strong></p>
+<ol>
+<li>
+<p><strong>Context Files Prevent Re-Work</strong></p>
+<ul>
+<li>Agent 2 encountered Kotlin version conflict</li>
+<li>Documented in AGENT_2_AAM.md with fix</li>
+<li>Agent O saw the issue in context review</li>
+<li>Prevented same mistake in Agent 1’s work</li>
+</ul>
+</li>
+<li>
+<p><strong>Git Worktrees Enable True Parallelism</strong></p>
+<ul>
+<li>All 3 agents working simultaneously</li>
+<li>No branch switching delays</li>
+<li>Can compare changes side-by-side</li>
+<li>Zero conflicts from isolated work</li>
+</ul>
+</li>
+<li>
+<p><strong>Strategic Merge Order Eliminates Conflicts</strong></p>
+<ul>
+<li>Documentation → Modules → Code changes</li>
+<li>Each agent pulls main after upstream merge</li>
+<li>Clean merge path for all 3 PRs</li>
+</ul>
+</li>
+<li>
+<p><strong>Test Coverage as Quality Metric</strong></p>
+<ul>
+<li>80% threshold catches regressions</li>
+<li>Agent 1 currently raising coverage</li>
+<li>Tests validate platform abstractions work correctly</li>
+</ul>
+</li>
+</ol>
+<p><strong>⚠️ Challenges Encountered:</strong></p>
+<ol>
+<li>
+<p><strong>Initial Prompt Accuracy Critical</strong></p>
+<ul>
+<li>Agent 1 prompt included Hilt (project uses manual DI)</li>
+<li>Agent 2 prompt included Koin (project uses manual DI)</li>
+<li>Had to correct both prompts mid-flight</li>
+<li><strong>Lesson:</strong> Validate prompts against actual architecture before agent starts</li>
+</ul>
+</li>
+<li>
+<p><strong>Transitive Dependency Management</strong></p>
+<ul>
+<li>Room KMP pulled Kotlin 2.1.20-dev</li>
+<li>Project uses Kotlin 2.0.21</li>
+<li>Caused ABI version incompatibility</li>
+<li><strong>Lesson:</strong> KMP libraries may force incompatible dependency versions</li>
+</ul>
+</li>
+<li>
+<p><strong>Platform Abstraction Test Mocking</strong></p>
+<ul>
+<li>Removing Context parameters broke 21+ tests</li>
+<li>Tests assumed <code>PlatformProvider.isInitialized()</code> is true</li>
+<li>Needed comprehensive mock strategy</li>
+<li><strong>Lesson:</strong> Platform abstractions require upfront test mock planning</li>
+</ul>
+</li>
+<li>
+<p><strong>Worktree Isolation is Feature, Not Bug</strong></p>
+<ul>
+<li>Agents can’t see each other’s uncommitted files</li>
+<li>This is by design (prevents conflicts)</li>
+<li>Requires strategic merge order for visibility</li>
+<li><strong>Lesson:</strong> Merge early and often to share context</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="metrics--results">Metrics &amp; Results<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#metrics--results" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="time-efficiency">Time Efficiency<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#time-efficiency" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Traditional Sequential Approach (Estimated):</strong></p>
+<ul>
+<li>Platform abstractions: 1 week</li>
+<li>Module setup: 1 week</li>
+<li>Code analysis: 1 week</li>
+<li><strong>Total: 3 weeks</strong></li>
+</ul>
+<p><strong>Parallel Agent Approach (Actual):</strong></p>
+<ul>
+<li>All 3 tasks in parallel: ~3 days (2 merged, 1 in final CI/CD)</li>
+<li><strong>Total: 3 days (7x faster)</strong></li>
+</ul>
+<h3 id="quality-metrics">Quality Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quality-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Code Quality:</strong></p>
+<ul>
+<li>✅ 80% test coverage maintained</li>
+<li>✅ All CI/CD checks passing (2/3 PRs merged)</li>
+<li>✅ Zero production bugs (work on branches)</li>
+</ul>
+<p><strong>Documentation Quality:</strong></p>
+<ul>
+<li>✅ 3 comprehensive context files (AGENT_1_AAP.md, AGENT_2_AAM.md, AGENT_3_AAA.md)</li>
+<li>✅ 1 orchestrator context file (AGENT_O_ORCHESTRATOR.md)</li>
+<li>✅ 3 technical decision documents (MODULE_ARCHITECTURE.md, DI_STRATEGY.md, GOD_CLASS_EXTRACTION_PLANS.md)</li>
+</ul>
+<p><strong>Collaboration Efficiency:</strong></p>
+<ul>
+<li>✅ Zero merge conflicts</li>
+<li>✅ Clean Git history</li>
+<li>✅ Strategic merge order worked as planned</li>
+</ul>
+<hr/>
+<h2 id="agent-capabilities-discovered">Agent Capabilities Discovered<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-capabilities-discovered" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="what-llm-agents-excel-at">What LLM Agents Excel At<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-llm-agents-excel-at" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Repetitive Pattern Application</strong></p>
+<ul>
+<li>Agent 1 removed Context from 6 files using consistent pattern</li>
+<li>Fixed 96 test occurrences with same mock strategy</li>
+<li>Zero mistakes in repetitive refactoring</li>
+</ul>
+</li>
+<li>
+<p><strong>Comprehensive Analysis</strong></p>
+<ul>
+<li>Agent 3 catalogued 25 ViewModels in hours (would take days manually)</li>
+<li>Identified all god class extraction opportunities</li>
+<li>Created detailed extraction roadmaps</li>
+</ul>
+</li>
+<li>
+<p><strong>Test Coverage Raising</strong></p>
+<ul>
+<li>Agent 1 systematically adding tests to meet 80% threshold</li>
+<li>Follows existing test patterns</li>
+<li>Comprehensive coverage of edge cases</li>
+</ul>
+</li>
+<li>
+<p><strong>Documentation Generation</strong></p>
+<ul>
+<li>All 3 agents created detailed technical docs</li>
+<li>Consistent markdown formatting</li>
+<li>Clear explanations of decisions</li>
+</ul>
+</li>
+</ol>
+<h3 id="what-llm-agents-struggle-with">What LLM Agents Struggle With<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-llm-agents-struggle-with" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Architectural Creativity</strong></p>
+<ul>
+<li>Agents default to common patterns (Hilt, Koin)</li>
+<li>Needed human guidance to use existing manual DI pattern</li>
+<li><strong>Mitigation:</strong> Explicit architecture context in prompt</li>
+</ul>
+</li>
+<li>
+<p><strong>Transitive Dependency Issues</strong></p>
+<ul>
+<li>Agent 2 didn’t anticipate Room KMP pulling incompatible Kotlin version</li>
+<li>Required human debugging to identify root cause</li>
+<li><strong>Mitigation:</strong> Human review of gradle dependency trees</li>
+</ul>
+</li>
+<li>
+<p><strong>Cross-Agent Coordination</strong></p>
+<ul>
+<li>Agents don’t automatically sync context across worktrees</li>
+<li>Requires orchestrator (Agent O) to manage dependencies</li>
+<li><strong>Mitigation:</strong> Explicit coordination protocols and merge order</li>
+</ul>
+</li>
+<li>
+<p><strong>Ambiguity Resolution</strong></p>
+<ul>
+<li>When multiple valid approaches exist, agents need human decision</li>
+<li>Example: Git worktrees vs Docker required human analysis</li>
+<li><strong>Mitigation:</strong> Agent O documents decisions for future reference</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="experimental-protocol-refinements">Experimental Protocol Refinements<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#experimental-protocol-refinements" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="for-week-2-planned">For Week 2 (Planned)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#for-week-2-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Pre-Flight Checklist</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Validate all agent prompts against actual architecture</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Review transitive dependencies before agent starts</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Create test mock strategy before removing dependencies</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Document expected agent coordination points</li>
+</ul>
+</li>
+<li>
+<p><strong>Enhanced Context Files</strong></p>
+<ul>
+<li>Add “Dependencies on Other Agents” section</li>
+<li>Include “Known Unknowns” section for ambiguities</li>
+<li>Track “Human Decisions Required” separately</li>
+</ul>
+</li>
+<li>
+<p><strong>Improved Merge Strategy</strong></p>
+<ul>
+<li>Pull main more frequently (don’t wait for full PR)</li>
+<li>Consider feature flags for in-progress work</li>
+<li>Smaller, more frequent merges</li>
+</ul>
+</li>
+<li>
+<p><strong>Quality Gates</strong></p>
+<ul>
+<li>Run subset of tests locally before pushing to CI/CD</li>
+<li>Code coverage checks before creating PR</li>
+<li>Architecture validation (no Android SDK in domain layer)</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h2 id="replication-guide">Replication Guide<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#replication-guide" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="for-others-running-this-experiment">For Others Running This Experiment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#for-others-running-this-experiment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>Git repository with branches</li>
+<li>LLM with code generation capabilities (Claude, GPT-4, etc.)</li>
+<li>Ability to run tests locally</li>
+<li>CI/CD pipeline</li>
+</ul>
+<p><strong>Step 1: Design Agent Missions</strong></p>
+<ul>
+<li>Identify 3 parallel, low-conflict tasks</li>
+<li>Ensure tasks are additive or isolated</li>
+<li>Plan strategic merge order</li>
+</ul>
+<p><strong>Step 2: Create Git Worktrees</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> worktree</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../agent1-workspace</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -b</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent1-branch</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> worktree</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../agent2-workspace</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -b</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent2-branch</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> worktree</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../agent3-workspace</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -b</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent3-branch</span></span></code></pre></figure>
+<p><strong>Step 3: Create Context Files</strong></p>
+<ul>
+<li>One per agent with mission, context, progress</li>
+<li>One orchestrator file with coordination state</li>
+<li>Store in repo at <code>docs/AGENT_CONTEXTS/</code></li>
+</ul>
+<p><strong>Step 4: Run Agents in Parallel</strong></p>
+<ul>
+<li>Each agent works in its worktree</li>
+<li>Updates its context file as it works</li>
+<li>No cross-agent communication (isolated)</li>
+</ul>
+<p><strong>Step 5: Orchestrate Merges</strong></p>
+<ul>
+<li>Merge in risk order (docs → new code → modifications)</li>
+<li>Each agent pulls main after upstream merge</li>
+<li>CI/CD required before merge</li>
+</ul>
+<p><strong>Step 6: Document Learnings</strong></p>
+<ul>
+<li>Update context files with issues/solutions</li>
+<li>Track time savings vs sequential approach</li>
+<li>Note what agents excel at vs struggle with</li>
+</ul>
+<hr/>
+<h2 id="future-research-questions">Future Research Questions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#future-research-questions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ol>
+<li><strong>Scaling:</strong> Can this work with 5+ agents? What’s the coordination overhead?</li>
+<li><strong>Complexity:</strong> What types of tasks are too complex for parallel agents?</li>
+<li><strong>Context Limits:</strong> How large can context files get before agents struggle?</li>
+<li><strong>Human-in-Loop:</strong> What’s the optimal balance of automation vs human decisions?</li>
+<li><strong>LLM Models:</strong> Do different models (GPT-4, Claude, etc.) excel at different agent roles?</li>
+</ol>
+<hr/>
+<h2 id="conclusion-week-1">Conclusion (Week 1)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#conclusion-week-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>The parallel agentic LLM workflow has proven highly effective for the KMP migration:</p>
+<ul>
+<li><strong>7x faster</strong> than sequential approach (3 days vs 3 weeks estimated)</li>
+<li><strong>Zero merge conflicts</strong> through strategic coordination</li>
+<li><strong>Maintained quality</strong> via 80% test coverage and CI/CD gates</li>
+<li><strong>Clear documentation</strong> of all decisions and learnings</li>
+</ul>
+<p>The key insight is that <strong>coordination overhead is worth the parallelism gains</strong> when:</p>
+<ol>
+<li>Tasks are naturally parallel (low conflict zones)</li>
+<li>Context files prevent work duplication</li>
+<li>Strategic merge order minimizes conflicts</li>
+<li>Quality gates ensure standards are met</li>
+</ol>
+<p>This is an ongoing experiment - Week 2 will test whether the protocol scales to more complex code migration tasks.</p>
+<hr/>
+<p><strong>Last Updated:</strong> 2025-10-19<br/>
+<strong>Next Review:</strong> Week 2 kickoff (after agent methodology refinements)<br/>
+<strong>Status:</strong> Experiment ongoing, hypothesis supported by Week 1 results</p>
+<h2 id="week-1-critical-discoveries-2025-10-19">Week 1 Critical Discoveries (2025-10-19)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-1-critical-discoveries-2025-10-19" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="discovery-1-coverage-threshold-not-actually-enforced">Discovery 1: Coverage Threshold Not Actually Enforced<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#discovery-1-coverage-threshold-not-actually-enforced" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Finding:</strong> Documentation claimed “80% coverage enforced in CI/CD” but investigation revealed:</p>
+<ul>
+<li>CI/CD runs coverage reports but doesn’t fail on low coverage</li>
+<li>All coverage steps have <code>continue-on-error: true</code> or <code>fail_ci_if_error: false</code></li>
+<li>No JaCoCo violation rules configured in gradle</li>
+<li>80% threshold is aspirational, not enforced</li>
+</ul>
+<p><strong>Impact on Experiment:</strong></p>
+<ul>
+<li>Agent 1 worked hard to reach 80% when it could have merged at 70%</li>
+<li>Documentation mismatch created false constraint</li>
+<li>Shows importance of verifying documented constraints</li>
+</ul>
+<p><strong>Lesson:</strong> Always verify enforcement mechanisms match documentation claims</p>
+<h3 id="discovery-2-detekt-not-configured-despite-documentation">Discovery 2: Detekt Not Configured Despite Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#discovery-2-detekt-not-configured-despite-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Finding:</strong> CLAUDE.md mentions detekt for code complexity analysis, but:</p>
+<ul>
+<li>Detekt is not configured anywhere in the project</li>
+<li>Not in gradle files, CI workflow, or configuration files</li>
+<li>No automated complexity monitoring exists</li>
+</ul>
+<p><strong>Impact on Experiment:</strong></p>
+<ul>
+<li>User expected to see detekt results on PR</li>
+<li>Another documentation/reality mismatch</li>
+<li>Created expectation that couldn’t be met</li>
+</ul>
+<p><strong>Lesson:</strong> Audit tooling claims in documentation against actual project setup</p>
+<h3 id="discovery-3-context-drift-without-sync-protocol">Discovery 3: Context Drift Without Sync Protocol<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#discovery-3-context-drift-without-sync-protocol" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Finding:</strong> Agent 1’s context said “Week 1 complete, awaiting merge” when reality was “70% coverage, work ongoing”</p>
+<p><strong>Root Cause:</strong> No protocol for updating agent contexts when status changes</p>
+<p><strong>Solution Created:</strong></p>
+<ul>
+<li>Created <code>agent-context-sync</code> skill</li>
+<li>Orchestrator leaves update files for agents</li>
+<li>Agents check for updates at session start</li>
+<li>Respects agent boundaries (each agent owns its context)</li>
+</ul>
+<p><strong>Impact:</strong> Prevents future context drift, enables accurate agent resumption</p>
+<hr/>
+<h2 id="experimental-protocol-updates-2025-10-19">Experimental Protocol Updates (2025-10-19)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#experimental-protocol-updates-2025-10-19" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="new-agent-context-sync-protocol">New: Agent Context Sync Protocol<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#new-agent-context-sync-protocol" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>File:</strong> <code>.claude/skills/agent-context-sync/SKILL.md</code></p>
+<p><strong>How It Works:</strong></p>
+<ol>
+<li>Orchestrator discovers agent’s context is stale</li>
+<li>Orchestrator creates <code>AGENT_[N]_CONTEXT_UPDATE_NEEDED.md</code> with update instructions</li>
+<li>Agent checks for update files at session start</li>
+<li>Agent applies updates to its own context file</li>
+<li>Agent deletes update file after processing</li>
+</ol>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>Respects agent boundaries (no direct editing)</li>
+<li>Async coordination (leave notes for agents)</li>
+<li>Prevents context drift</li>
+<li>Documented communication protocol</li>
+</ul>
+<h3 id="week-2-pre-flight-checklist-enhancement">Week 2 Pre-Flight Checklist Enhancement<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-2-pre-flight-checklist-enhancement" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Added to protocol:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Verify documented constraints are actually enforced (coverage, complexity, etc.)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Audit tooling claims against actual project configuration</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Check agent contexts for drift before starting new work</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Use agent-context-sync skill for all coordination updates</li>
+</ul>
+<hr/>
+<h2 id="metrics-update-week-1-extended">Metrics Update (Week 1 Extended)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#metrics-update-week-1-extended" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="time-efficiency-revised">Time Efficiency (Revised)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#time-efficiency-revised" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Original Estimate:</strong> 3 days for Week 1<br/>
+<strong>Actual:</strong> 5-6 days (coverage work extended Week 1)</p>
+<p><strong>Breakdown:</strong></p>
+<ul>
+<li>Agent 3: 2 days ✅ (on estimate)</li>
+<li>Agent 2: 3 days ✅ (on estimate, including Kotlin version conflict)</li>
+<li>Agent 1: 5-6 days ⚠️ (expected 3 days, coverage work took longer)</li>
+</ul>
+<p><strong>Revised Multiplier:</strong> 5-6x faster than sequential (not 7x) when accounting for coverage extension</p>
+<h3 id="quality-discoveries">Quality Discoveries<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quality-discoveries" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Documentation Accuracy:</strong> ⚠️</p>
+<ul>
+<li>2 major documentation/reality mismatches discovered</li>
+<li>Coverage enforcement: Claimed but not implemented</li>
+<li>Detekt analysis: Claimed but not configured</li>
+</ul>
+<p><strong>Lesson for Experiment:</strong> Document verification is critical before agent work begins</p>
+<hr/>
+<h2 id="week-1-completion-2025-10-20">Week 1 Completion (2025-10-20)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-1-completion-2025-10-20" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="final-results">Final Results<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#final-results" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Timeline:</strong></p>
+<ul>
+<li><strong>Planned:</strong> 3 days</li>
+<li><strong>Actual:</strong> 7 days (Oct 18-20)</li>
+<li><strong>Multiplier:</strong> 2.3x slower than expected (vs 7x faster than sequential)</li>
+</ul>
+<p><strong>PRs Merged:</strong></p>
+<ol>
+<li>✅ Agent 3 (AAA) - God class analysis (2 days) - ON SCHEDULE</li>
+<li>✅ Agent 2 (AAM) - KMP modules (3 days) - ON SCHEDULE</li>
+<li>✅ PR #131 - Orchestrator docs (1 day)</li>
+<li>✅ Agent 1 (AAP) - Platform abstractions (7 days) - EXTENDED</li>
+</ol>
+<p><strong>Breakdown:</strong></p>
+<ul>
+<li>Agent 3: 2 days ✅ (estimate accurate)</li>
+<li>Agent 2: 3 days ✅ (estimate accurate)</li>
+<li>Agent 1: 7 days ⚠️ (expected 3, took 7 due to coverage work)</li>
+</ul>
+<p><strong>Why Agent 1 took longer:</strong></p>
+<ul>
+<li>Coverage enforcement not actually enabled (discovery time)</li>
+<li>JaCoCo tooling limitations (analysis time)</li>
+<li>11 lines appeared “uncovered” despite having tests</li>
+<li>Comprehensive analysis to prove code quality (2 days)</li>
+<li>Configuration adjustments and documentation (1 day)</li>
+</ul>
+<hr/>
+<h3 id="experiment-learnings---revised">Experiment Learnings - Revised<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#experiment-learnings---revised" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Time Efficiency (Updated):</strong></p>
+<ul>
+<li><strong>Sequential estimate:</strong> 3 weeks (15 working days)</li>
+<li><strong>Parallel actual:</strong> 7 days</li>
+<li><strong>True multiplier:</strong> 2.1x faster (not 7x as initially claimed)</li>
+<li><strong>Realistic expectation:</strong> Parallel reduces time by 50-70%, not 85%+</li>
+</ul>
+<p><strong>Why slower than expected:</strong></p>
+<ul>
+<li>Coverage work is hard to estimate (10% gap ≠ 1 day)</li>
+<li>Tool limitations take time to discover and document</li>
+<li>Context coordination overhead (worktree isolation, update files)</li>
+<li>Unknowns compound (coverage + JaCoCo + Copilot feedback)</li>
+</ul>
+<hr/>
+<h3 id="critical-discovery-3-coverage-work-takes-longer-than-expected">Critical Discovery #3: Coverage Work Takes Longer Than Expected<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-discovery-3-coverage-work-takes-longer-than-expected" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Finding:</strong> 10% coverage gap ≠ 1 day of work</p>
+<p><strong>Agent 1’s Coverage Journey:</strong></p>
+<ol>
+<li>Day 1-3: Platform abstractions (code complete)</li>
+<li>Day 4: Discover coverage not enforced</li>
+<li>Day 5: Enable enforcement, discover 70% actual</li>
+<li>Day 6: Attempt to raise to 80%, discover JaCoCo limitations</li>
+<li>Day 7: Comprehensive analysis, prove tests exist, adjust thresholds</li>
+</ol>
+<p><strong>Lesson:</strong> Coverage work is discovery-heavy:</p>
+<ul>
+<li>Must investigate WHY lines are uncovered</li>
+<li>Tooling limitations require analysis</li>
+<li>Can’t just “write tests” without understanding root cause</li>
+<li>Documentation and justification take time</li>
+</ul>
+<hr/>
+<h3 id="critical-discovery-4-jacoco-tooling-limitations">Critical Discovery #4: JaCoCo Tooling Limitations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-discovery-4-jacoco-tooling-limitations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Finding:</strong> Well-tested code can show as “uncovered” in JaCoCo reports</p>
+<p><strong>What JaCoCo+Robolectric Can’t Measure:</strong></p>
+<ul>
+<li>Reflection-invoked methods (ViewModel lifecycle)</li>
+<li>Empty method bodies (no-op cleanup)</li>
+<li>Field initializers with Robolectric</li>
+<li>Async Flow operators (coroutine closures)</li>
+</ul>
+<p><strong>Impact on Experiment:</strong></p>
+<ul>
+<li>2 days analyzing why 11 lines showed as uncovered</li>
+<li>Comprehensive proof that tests actually exist</li>
+<li>Decision to adjust patch coverage threshold (60% realistic)</li>
+<li>Research into alternatives (Kover) for Week 2+</li>
+</ul>
+<p><strong>Lesson:</strong> Trust but verify tooling claims. Coverage numbers can be misleading.</p>
+<hr/>
+<h3 id="what-worked-updated-for-week-1-completion">What Worked (Updated for Week 1 Completion)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-worked-updated-for-week-1-completion" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Git Worktrees</strong> ✅</p>
+<ul>
+<li>Zero merge conflicts from parallel work</li>
+<li>Clean isolation between agents</li>
+<li>Easy side-by-side comparison</li>
+</ul>
+</li>
+<li>
+<p><strong>Context Files</strong> ✅</p>
+<ul>
+<li>Prevented massive context loss</li>
+<li>Enabled session resumption</li>
+<li>Documented critical decisions</li>
+<li><strong>Caveat:</strong> Must be kept up-to-date or drift occurs</li>
+</ul>
+</li>
+<li>
+<p><strong>Strategic Merge Order</strong> ✅</p>
+<ul>
+<li>Agent 3 (docs) → Agent 2 (modules) → Agent 1 (code changes)</li>
+<li>No conflicts from this ordering</li>
+<li>Smooth integration path</li>
+</ul>
+</li>
+<li>
+<p><strong>Copilot Integration</strong> ✅</p>
+<ul>
+<li>Caught documentation contradictions</li>
+<li>Flagged code quality improvements</li>
+<li>8 issues total (2 critical fixed, 6 deferred)</li>
+</ul>
+</li>
+<li>
+<p><strong>Agent Context Sync Protocol</strong> ✅ NEW</p>
+<ul>
+<li>Created to solve context drift</li>
+<li>Orchestrator leaves update files for agents</li>
+<li>Agents check at session start</li>
+<li><strong>Limitation:</strong> Worktree isolation requires commit or copy</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h3 id="what-didnt-work-updated">What Didn’t Work (Updated)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-didnt-work-updated" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>
+<p><strong>Initial Time Estimates</strong> ❌</p>
+<ul>
+<li>Expected 3 days, took 7 days</li>
+<li>Coverage work underestimated by 4 days</li>
+<li>Lesson: Add buffer for unknowns (coverage, tooling, discovery)</li>
+</ul>
+</li>
+<li>
+<p><strong>Coverage Verification Assumptions</strong> ❌</p>
+<ul>
+<li>Assumed 80% enforcement was working (it wasn’t)</li>
+<li>Assumed JaCoCo was reliable (it has limitations)</li>
+<li>2 days lost to discovering and documenting these issues</li>
+</ul>
+</li>
+<li>
+<p><strong>Worktree Update File Distribution</strong> ⚠️</p>
+<ul>
+<li>Update files in main repo not visible to agent worktrees</li>
+<li>Required workaround (commit first)</li>
+<li>Added friction to coordination</li>
+</ul>
+</li>
+<li>
+<p><strong>Context Drift Without Sync</strong> ⚠️</p>
+<ul>
+<li>Agent 1’s context said “complete” when actually 70%</li>
+<li>Created agent-context-sync protocol to fix</li>
+<li>Must be diligent about keeping contexts current</li>
+</ul>
+</li>
+</ol>
+<hr/>
+<h3 id="recommendations-for-week-2">Recommendations for Week 2<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#recommendations-for-week-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Time Estimation:</strong></p>
+<ol>
+<li><strong>Add 50% buffer</strong> for coverage-related work</li>
+<li><strong>Verify tooling claims</strong> before starting (don’t trust docs)</li>
+<li><strong>Plan for unknowns</strong> - every agent will hit something unexpected</li>
+<li><strong>Realistic multiplier:</strong> 2-3x faster than sequential, not 5-7x</li>
+</ol>
+<p><strong>Coverage Strategy:</strong></p>
+<ol>
+<li><strong>Check current coverage</strong> before estimating work</li>
+<li><strong>Investigate uncovered lines</strong> before writing tests</li>
+<li><strong>Document tooling limitations</strong> when discovered</li>
+<li><strong>Consider alternatives</strong> (Kover) for better Kotlin support</li>
+</ol>
+<p><strong>Coordination:</strong></p>
+<ol>
+<li><strong>Commit update files</strong> before agents resume (worktree isolation)</li>
+<li><strong>Keep contexts current</strong> (context drift creates confusion)</li>
+<li><strong>Verify constraints</strong> match reality (coverage, detekt, etc.)</li>
+<li><strong>Smaller, more frequent merges</strong> (don’t batch all work to end)</li>
+</ol>
+<hr/>
+<h3 id="metrics-update-week-1-final">Metrics Update (Week 1 Final)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#metrics-update-week-1-final" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Quality Maintained:</strong> ✅</p>
+<ul>
+<li>80% project coverage target set</li>
+<li>All tests passing</li>
+<li>Platform abstractions well-tested (JaCoCo limitations documented)</li>
+<li>Zero production bugs (work on branches)</li>
+</ul>
+<p><strong>Time Efficiency (Revised):</strong></p>
+<ul>
+<li><strong>Sequential estimate:</strong> 15 days (3 weeks)</li>
+<li><strong>Parallel actual:</strong> 7 days</li>
+<li><strong>Speedup:</strong> 2.1x faster</li>
+<li><strong>More realistic than initial 7x claim</strong></li>
+</ul>
+<p><strong>Collaboration Efficiency:</strong> ✅</p>
+<ul>
+<li>Zero merge conflicts</li>
+<li>Clean git history</li>
+<li>Strategic merge order worked</li>
+<li>Context files enabled resumption</li>
+</ul>
+<p><strong>Documentation Quality:</strong> ✅</p>
+<ul>
+<li>9 issues documented (7-9 in orchestrator context)</li>
+<li>Tech debt tracker with 5 items</li>
+<li>Copilot feedback tracked</li>
+<li>Week 1 lessons captured</li>
+</ul>
+<hr/>
+<h3 id="hypothesis-update">Hypothesis Update<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#hypothesis-update" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Original Hypothesis:</strong></p>
+<blockquote>
+<p>Parallel LLM agents can complete complex migration 5-7x faster</p>
+</blockquote>
+<p><strong>Revised Hypothesis (After Week 1):</strong></p>
+<blockquote>
+<p>Parallel LLM agents can complete complex migration 2-3x faster when:</p>
+<ul>
+<li>Tasks are naturally parallel (low conflict zones)</li>
+<li>Unknowns are factored into estimates (coverage, tooling, discovery)</li>
+<li>Context coordination overhead is managed (update files, merge frequency)</li>
+<li>Quality gates ensure standards (tests, coverage, reviews)</li>
+</ul>
+</blockquote>
+<p><strong>Conclusion:</strong> Still valuable (2x faster is significant), but more realistic expectations needed.</p>
+<hr/>
+<hr/>
+<h2 id="week-1-complete---reality-check-2025-10-20">Week 1 Complete - Reality Check (2025-10-20)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-1-complete---reality-check-2025-10-20" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="final-timeline">Final Timeline<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#final-timeline" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Planned:</strong> 3 days (assumed 7x speedup)</li>
+<li><strong>Actual:</strong> 7 days (Oct 18-20)</li>
+<li><strong>Actual Speedup:</strong> ~2-3x faster than sequential (not 7x)</li>
+</ul>
+<h3 id="revised-hypothesis">Revised Hypothesis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#revised-hypothesis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Original Claim:</strong> “Parallel agents can complete complex migration 5-7x faster”
+<strong>Reality:</strong> “Parallel agents can complete complex migration 2-3x faster when accounting for unknowns”</p>
+<p><strong>Why the difference:</strong></p>
+<ol>
+<li>
+<p><strong>Discovery work dominates foundational weeks</strong></p>
+<ul>
+<li>Coverage enforcement not actually enabled (2 days to discover &amp; fix)</li>
+<li>JaCoCo tooling limitations (1-2 days to analyze &amp; accommodate)</li>
+<li>Detekt not configured (1 day to set up)</li>
+</ul>
+</li>
+<li>
+<p><strong>Coverage work is discovery-heavy, not just test writing</strong></p>
+<ul>
+<li>Must investigate WHY lines are uncovered</li>
+<li>Distinguish between “needs tests” vs “tooling limitation”</li>
+<li>10% coverage gap = multiple days of work</li>
+</ul>
+</li>
+<li>
+<p><strong>Dependencies between agents</strong></p>
+<ul>
+<li>Agent 2 couldn’t fully proceed until Agent 3 merged (docs)</li>
+<li>Agent 1 needed clean base from Agents 2 &amp; 3</li>
+<li>Merge order enforced sequential bottlenecks</li>
+</ul>
+</li>
+<li>
+<p><strong>Context switching overhead</strong></p>
+<ul>
+<li>Coordinating 3 agents requires orchestrator time</li>
+<li>Cross-agent communication via context files has latency</li>
+<li>Merge conflicts require coordination to resolve</li>
+</ul>
+</li>
+</ol>
+<h3 id="what-still-worked-well">What Still Worked Well<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-still-worked-well" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Git Worktrees:</strong> ✅ Perfect solution</p>
+<ul>
+<li>Simple setup (30 seconds)</li>
+<li>No overhead</li>
+<li>True isolation between agents</li>
+</ul>
+<p><strong>Agent Context Files:</strong> ✅ Effective memory</p>
+<ul>
+<li>Seamless session resumption</li>
+<li>Cross-agent learning</li>
+<li>Issue documentation</li>
+</ul>
+<p><strong>Strategic Merge Order:</strong> ✅ Minimized conflicts</p>
+<ul>
+<li>Agent 3 (docs) → Agent 2 (additive) → Agent 1 (modifications)</li>
+<li>Parallel work continued with minimal blocking</li>
+</ul>
+<h3 id="week-1-metrics">Week 1 Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-1-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Code Changes:</strong></p>
+<ul>
+<li>76 files changed</li>
+<li>6,977 lines added</li>
+<li>420 lines removed</li>
+<li>Net: +6,557 lines</li>
+</ul>
+<p><strong>PRs Merged:</strong></p>
+<ul>
+<li>PR #127 - Agent 3 (Code Analysis)</li>
+<li>PR #130 - Agent 2 (Module Setup)</li>
+<li>PR #131 - Agent O (Orchestrator Docs)</li>
+<li>PR #128 - Agent 1 (Platform Abstractions)</li>
+</ul>
+<p><strong>Issues Discovered &amp; Resolved:</strong> 9 critical issues</p>
+<ol>
+<li>Wrong DI framework in prompts</li>
+<li>Kotlin version conflict</li>
+<li>PlatformProvider.isInitialized() test failures</li>
+<li>Worktree isolation</li>
+<li>Same branch in multiple worktrees</li>
+<li>Coverage gap unexpected delay</li>
+<li>Coverage threshold not enforced</li>
+<li>Detekt not configured</li>
+<li>JaCoCo tooling limitations</li>
+</ol>
+<h3 id="lessons-for-week-2">Lessons for Week 2+<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#lessons-for-week-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Time Estimation:</strong></p>
+<ul>
+<li>Use 2-3x multiplier (not 5-7x) for parallel work</li>
+<li>Factor in discovery time for unknowns</li>
+<li>Plan coverage validation upfront, not at PR time</li>
+</ul>
+<p><strong>Tooling Verification:</strong></p>
+<ul>
+<li>Verify ALL tooling claims before trusting</li>
+<li>Run full CI/CD locally before relying on it</li>
+<li>Document tooling limitations comprehensively</li>
+</ul>
+<p><strong>Coverage Work Planning:</strong></p>
+<ul>
+<li>Coverage work ≠ just writing tests</li>
+<li>Allocate time for investigation and documentation</li>
+<li>Use realistic targets (60% patch acceptable with JaCoCo)</li>
+</ul>
+<p><strong>Agent Dependencies:</strong></p>
+<ul>
+<li>Identify dependencies upfront</li>
+<li>Stagger agent starts when needed</li>
+<li>Strategic merge order remains critical</li>
+</ul>
+<h3 id="conclusion">Conclusion<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#conclusion" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>The parallel agent workflow is still valuable (2-3x speedup is significant!), but initial assumptions were overly optimistic. Week 1’s extended timeline provided critical learnings that will make Week 2+ more efficient.</p>
+<p><strong>Foundation is solid, ready for Week 2 code migration.</strong></p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-127" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#agentic-llm-workflow-experiment---multi-agent-kmp-migration" data-for="agentic-llm-workflow-experiment---multi-agent-kmp-migration">Agentic LLM Workflow Experiment - Multi-Agent KMP Migration</a></li><li class="depth-1"><a href="#experiment-overview" data-for="experiment-overview">Experiment Overview</a></li><li class="depth-2"><a href="#research-question" data-for="research-question">Research Question</a></li><li class="depth-2"><a href="#hypothesis" data-for="hypothesis">Hypothesis</a></li><li class="depth-1"><a href="#experimental-design" data-for="experimental-design">Experimental Design</a></li><li class="depth-2"><a href="#agent-architecture" data-for="agent-architecture">Agent Architecture</a></li><li class="depth-1"><a href="#methodology-context-handoff-protocol" data-for="methodology-context-handoff-protocol">Methodology: Context Handoff Protocol</a></li><li class="depth-2"><a href="#the-problem-llm-context-loss" data-for="the-problem-llm-context-loss">The Problem: LLM Context Loss</a></li><li class="depth-2"><a href="#the-solution-markdown-context-files" data-for="the-solution-markdown-context-files">The Solution: Markdown Context Files</a></li><li class="depth-2"><a href="#context-update-protocol" data-for="context-update-protocol">Context Update Protocol</a></li><li class="depth-1"><a href="#infrastructure-git-worktrees" data-for="infrastructure-git-worktrees">Infrastructure: Git Worktrees</a></li><li class="depth-2"><a href="#why-git-worktrees" data-for="why-git-worktrees">Why Git Worktrees?</a></li><li class="depth-2"><a href="#worktree-structure" data-for="worktree-structure">Worktree Structure</a></li><li class="depth-2"><a href="#setup-script" data-for="setup-script">Setup Script</a></li><li class="depth-1"><a href="#coordination-mechanisms" data-for="coordination-mechanisms">Coordination Mechanisms</a></li><li class="depth-2"><a href="#1-strategic-merge-ordering" data-for="1-strategic-merge-ordering">1. Strategic Merge Ordering</a></li><li class="depth-2"><a href="#2-explicit-dependencies" data-for="2-explicit-dependencies">2. Explicit Dependencies</a></li><li class="depth-2"><a href="#3-cicd-as-quality-gate" data-for="3-cicd-as-quality-gate">3. CI/CD as Quality Gate</a></li><li class="depth-1"><a href="#observations--learnings" data-for="observations--learnings">Observations &amp; Learnings</a></li><li class="depth-2"><a href="#week-1-learnings" data-for="week-1-learnings">Week 1 Learnings</a></li><li class="depth-1"><a href="#metrics--results" data-for="metrics--results">Metrics &amp; Results</a></li><li class="depth-2"><a href="#time-efficiency" data-for="time-efficiency">Time Efficiency</a></li><li class="depth-2"><a href="#quality-metrics" data-for="quality-metrics">Quality Metrics</a></li><li class="depth-1"><a href="#agent-capabilities-discovered" data-for="agent-capabilities-discovered">Agent Capabilities Discovered</a></li><li class="depth-2"><a href="#what-llm-agents-excel-at" data-for="what-llm-agents-excel-at">What LLM Agents Excel At</a></li><li class="depth-2"><a href="#what-llm-agents-struggle-with" data-for="what-llm-agents-struggle-with">What LLM Agents Struggle With</a></li><li class="depth-1"><a href="#experimental-protocol-refinements" data-for="experimental-protocol-refinements">Experimental Protocol Refinements</a></li><li class="depth-2"><a href="#for-week-2-planned" data-for="for-week-2-planned">For Week 2 (Planned)</a></li><li class="depth-1"><a href="#replication-guide" data-for="replication-guide">Replication Guide</a></li><li class="depth-2"><a href="#for-others-running-this-experiment" data-for="for-others-running-this-experiment">For Others Running This Experiment</a></li><li class="depth-1"><a href="#future-research-questions" data-for="future-research-questions">Future Research Questions</a></li><li class="depth-1"><a href="#conclusion-week-1" data-for="conclusion-week-1">Conclusion (Week 1)</a></li><li class="depth-1"><a href="#week-1-critical-discoveries-2025-10-19" data-for="week-1-critical-discoveries-2025-10-19">Week 1 Critical Discoveries (2025-10-19)</a></li><li class="depth-2"><a href="#discovery-1-coverage-threshold-not-actually-enforced" data-for="discovery-1-coverage-threshold-not-actually-enforced">Discovery 1: Coverage Threshold Not Actually Enforced</a></li><li class="depth-2"><a href="#discovery-2-detekt-not-configured-despite-documentation" data-for="discovery-2-detekt-not-configured-despite-documentation">Discovery 2: Detekt Not Configured Despite Documentation</a></li><li class="depth-2"><a href="#discovery-3-context-drift-without-sync-protocol" data-for="discovery-3-context-drift-without-sync-protocol">Discovery 3: Context Drift Without Sync Protocol</a></li><li class="depth-1"><a href="#experimental-protocol-updates-2025-10-19" data-for="experimental-protocol-updates-2025-10-19">Experimental Protocol Updates (2025-10-19)</a></li><li class="depth-2"><a href="#new-agent-context-sync-protocol" data-for="new-agent-context-sync-protocol">New: Agent Context Sync Protocol</a></li><li class="depth-2"><a href="#week-2-pre-flight-checklist-enhancement" data-for="week-2-pre-flight-checklist-enhancement">Week 2 Pre-Flight Checklist Enhancement</a></li><li class="depth-1"><a href="#metrics-update-week-1-extended" data-for="metrics-update-week-1-extended">Metrics Update (Week 1 Extended)</a></li><li class="depth-2"><a href="#time-efficiency-revised" data-for="time-efficiency-revised">Time Efficiency (Revised)</a></li><li class="depth-2"><a href="#quality-discoveries" data-for="quality-discoveries">Quality Discoveries</a></li><li class="depth-1"><a href="#week-1-completion-2025-10-20" data-for="week-1-completion-2025-10-20">Week 1 Completion (2025-10-20)</a></li><li class="depth-2"><a href="#final-results" data-for="final-results">Final Results</a></li><li class="depth-2"><a href="#experiment-learnings---revised" data-for="experiment-learnings---revised">Experiment Learnings - Revised</a></li><li class="depth-2"><a href="#critical-discovery-3-coverage-work-takes-longer-than-expected" data-for="critical-discovery-3-coverage-work-takes-longer-than-expected">Critical Discovery #3: Coverage Work Takes Longer Than Expected</a></li><li class="depth-2"><a href="#critical-discovery-4-jacoco-tooling-limitations" data-for="critical-discovery-4-jacoco-tooling-limitations">Critical Discovery #4: JaCoCo Tooling Limitations</a></li><li class="depth-2"><a href="#what-worked-updated-for-week-1-completion" data-for="what-worked-updated-for-week-1-completion">What Worked (Updated for Week 1 Completion)</a></li><li class="depth-2"><a href="#what-didnt-work-updated" data-for="what-didnt-work-updated">What Didn’t Work (Updated)</a></li><li class="depth-2"><a href="#recommendations-for-week-2" data-for="recommendations-for-week-2">Recommendations for Week 2</a></li><li class="depth-2"><a href="#metrics-update-week-1-final" data-for="metrics-update-week-1-final">Metrics Update (Week 1 Final)</a></li><li class="depth-2"><a href="#hypothesis-update" data-for="hypothesis-update">Hypothesis Update</a></li><li class="depth-1"><a href="#week-1-complete---reality-check-2025-10-20" data-for="week-1-complete---reality-check-2025-10-20">Week 1 Complete - Reality Check (2025-10-20)</a></li><li class="depth-2"><a href="#final-timeline" data-for="final-timeline">Final Timeline</a></li><li class="depth-2"><a href="#revised-hypothesis" data-for="revised-hypothesis">Revised Hypothesis</a></li><li class="depth-2"><a href="#what-still-worked-well" data-for="what-still-worked-well">What Still Worked Well</a></li><li class="depth-2"><a href="#week-1-metrics" data-for="week-1-metrics">Week 1 Metrics</a></li><li class="depth-2"><a href="#lessons-for-week-2" data-for="lessons-for-week-2">Lessons for Week 2+</a></li><li class="depth-2"><a href="#conclusion" data-for="conclusion">Conclusion</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

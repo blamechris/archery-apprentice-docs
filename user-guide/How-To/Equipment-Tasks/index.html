@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Equipment Management Tasks</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Equipment Management Tasks"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Equipment Management Tasks"/><meta name="twitter:description" content="Step-by-step guides for managing your archery equipment"/><meta property="og:description" content="Step-by-step guides for managing your archery equipment"/><meta property="og:image:alt" content="Step-by-step guides for managing your archery equipment"/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Equipment-Tasks/index"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Equipment-Tasks/index"/><link rel="icon" href="../../../static/icon.png"/><meta name="description" content="Step-by-step guides for managing your archery equipment"/><meta name="generator" content="Quartz"/><link href="../../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Equipment-Tasks/index-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Equipment-Tasks/index-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/user-guide/How-To/Equipment-Tasks/index-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="user-guide/How-To/Equipment-Tasks/index"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-239"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-239" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-3"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../user-guide/">user guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../../user-guide/How-To/">How To</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Equipment Management Tasks</a></div></nav><h1 class="article-title">Equipment Management Tasks</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-05T02:41:19.000Z">Nov 05, 2025</time><span>12 min read</span></p></div></div><div class="popover-hint"><article class><p><a href="../../../" class="internal alias" data-slug="index">Home</a> > <a href="../../.././../" class="internal alias" data-slug="index">User Guide</a> > <a href="../../.././" class="internal alias" data-slug="index">How-To</a> > Equipment Tasks</p>
+<hr/>
+<h1 id="equipment-management-tasks">Equipment Management Tasks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-management-tasks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p>This guide provides step-by-step instructions for all equipment management tasks in Archery Apprentice. Learn how to add, edit, organize, and track your archery gear effectively.</p>
+<h2 id="table-of-contents">Table of Contents<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#table-of-contents" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ol>
+<li><a href="#adding-new-equipment" class="internal alias">Adding New Equipment</a></li>
+<li><a href="#editing-equipment" class="internal alias">Editing Equipment</a></li>
+<li><a href="#creating-bow-setups" class="internal alias">Creating Bow Setups</a></li>
+<li><a href="#managing-bow-setup-versions" class="internal alias">Managing Bow Setup Versions</a></li>
+<li><a href="#deleting-equipment" class="internal alias">Deleting Equipment</a></li>
+<li><a href="#managing-sight-marks" class="internal alias">Managing Sight Marks</a></li>
+<li><a href="#viewing-equipment-performance" class="internal alias">Viewing Equipment Performance</a></li>
+<li><a href="#organizing-equipment" class="internal alias">Organizing Equipment</a></li>
+</ol>
+<hr/>
+<h2 id="adding-new-equipment">Adding New Equipment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#adding-new-equipment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="general-steps-all-equipment-types">General Steps (All Equipment Types)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#general-steps-all-equipment-types" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>Open the app and tap <strong>Equipment Page</strong> from the landing screen</li>
+<li>Scroll to the equipment category you want to add</li>
+<li>Tap the <strong>+</strong> (Add) button for that category</li>
+<li>Fill in the required and optional fields</li>
+<li>Tap <strong>Save</strong></li>
+</ol>
+<h3 id="equipment-type-riser">Equipment Type: Riser<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-type-riser" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Risers are the central part of your bow.</p>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Brand</strong> - Manufacturer (e.g., “Hoyt”, “Win&amp;Win”, “SF Archery”)</li>
+<li><strong>Model</strong> - Model name (e.g., “Formula X”, “Inno CXT”)</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Length</strong> - Riser length (e.g., “25 inches”, “27 inches”)</li>
+<li><strong>Material</strong> - Construction material (e.g., “Carbon”, “Aluminum”, “Wood”)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code>Brand: Hoyt
+Model: Formula X
+Length: 25 inches
+Material: Carbon
+</code></pre>
+<h3 id="equipment-type-limbs">Equipment Type: Limbs<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-type-limbs" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Limbs attach to the riser and store the energy when drawn.</p>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Brand</strong> - Manufacturer</li>
+<li><strong>Model</strong> - Model name</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Poundage</strong> - Draw weight (e.g., “38 lbs”, “42 lbs”)</li>
+<li><strong>Limb Length</strong> - Short, Medium, or Long (e.g., “Long”)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code>Brand: Win&amp;Win
+Model: Wiawis One
+Poundage: 38 lbs
+Limb Length: Long
+</code></pre>
+<h3 id="equipment-type-sight">Equipment Type: Sight<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-type-sight" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Sights help you aim accurately at different distances.</p>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Brand</strong> - Manufacturer</li>
+<li><strong>Model</strong> - Model name</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Material</strong> - Construction material (e.g., “Aluminum”, “Carbon”)</li>
+</ul>
+<p><strong>Sight Marks:</strong>
+After creating a sight, you can add <strong>sight marks</strong> for different distances. See <a href="#managing-sight-marks" class="internal alias">Managing Sight Marks</a>.</p>
+<p><strong>Example:</strong></p>
+<pre><code>Brand: Shibuya
+Model: Ultima RC II
+Material: Aluminum
+</code></pre>
+<h3 id="equipment-type-stabilizer">Equipment Type: Stabilizer<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-type-stabilizer" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Stabilizers reduce bow vibration and improve balance.</p>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Brand</strong> - Manufacturer</li>
+<li><strong>Model</strong> - Model name</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Length</strong> - Stabilizer length (e.g., “30 inches”, “33 inches”)</li>
+<li><strong>Weight</strong> - Weight in ounces (e.g., “12 oz”)</li>
+<li><strong>Straightness Rating</strong> - Quality rating (e.g., “±0.001”)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code>Brand: Doinker
+Model: Platinum
+Length: 30 inches
+Weight: 10 oz
+Straightness Rating: ±0.001
+</code></pre>
+<h3 id="equipment-type-weights">Equipment Type: Weights<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-type-weights" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Additional weights for balance and stabilization.</p>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Brand</strong> - Manufacturer</li>
+<li><strong>Model</strong> - Model name</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Ounces</strong> - Weight amount (e.g., “4 oz”)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code>Brand: Easton
+Model: X10 Weights
+Ounces: 4 oz
+</code></pre>
+<h3 id="equipment-type-plunger">Equipment Type: Plunger<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-type-plunger" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Plungers (cushion plungers/buttons) fine-tune arrow flight.</p>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Brand</strong> - Manufacturer</li>
+<li><strong>Model</strong> - Model name</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Adjustment</strong> - Current setting notes (e.g., “Medium tension, 2mm out”)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code>Brand: Beiter
+Model: Plunger
+Adjustment: Medium tension, 2mm out
+</code></pre>
+<h3 id="equipment-type-rest">Equipment Type: Rest<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-type-rest" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Arrow rests support the arrow before release.</p>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Brand</strong> - Manufacturer</li>
+<li><strong>Model</strong> - Model name</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Type</strong> - Rest type (e.g., “Magnetic”, “Flipper”, “Blade”)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code>Brand: Hoyt
+Model: Super Rest
+Type: Magnetic
+</code></pre>
+<h3 id="equipment-type-bow-string">Equipment Type: Bow String<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-type-bow-string" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Bow strings connect the limbs and transfer energy to the arrow.</p>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Brand</strong> - Manufacturer</li>
+<li><strong>Model</strong> - Model name</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Strand Count</strong> - Number of strands (e.g., “18”, “20”)</li>
+<li><strong>Serving Material</strong> - Material used for serving (e.g., “BCY 3D”, “Halo”)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code>Brand: BCY
+Model: X99
+Strand Count: 18
+Serving Material: Halo
+</code></pre>
+<h3 id="equipment-type-arrows">Equipment Type: Arrows<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-type-arrows" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Arrow sets include the shaft, point, and nock.</p>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Brand</strong> - Manufacturer</li>
+<li><strong>Model</strong> - Model name</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Spine</strong> - Arrow stiffness (e.g., “500”, “600”, “340”)</li>
+<li><strong>Length</strong> - Arrow length in inches (e.g., “29.5”)</li>
+<li><strong>Weight</strong> - Total arrow weight in grains (e.g., “420”)</li>
+<li><strong>Diameter</strong> - Shaft diameter (e.g., “5.5mm”)</li>
+</ul>
+<p><strong>Arrow Point Fields:</strong></p>
+<ul>
+<li><strong>Point Brand</strong> - Point manufacturer</li>
+<li><strong>Point Model</strong> - Point model</li>
+<li><strong>Point Weight</strong> - Point weight in grains (e.g., “120”)</li>
+</ul>
+<p><strong>Arrow Nock Fields:</strong></p>
+<ul>
+<li><strong>Nock Brand</strong> - Nock manufacturer</li>
+<li><strong>Nock Model</strong> - Nock model (e.g., “G Nock”, “X Nock”)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code>Brand: Easton
+Model: X10
+Spine: 500
+Length: 29.5 inches
+Weight: 420 grains
+Diameter: 5.5mm
+
+Point Brand: Easton
+Point Model: X10 Points
+Point Weight: 120 grains
+
+Nock Brand: Easton
+Nock Model: G Nock
+</code></pre>
+<h3 id="equipment-type-accessories">Equipment Type: Accessories<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-type-accessories" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Any other archery equipment not covered by specific types.</p>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Brand</strong> - Manufacturer</li>
+<li><strong>Model</strong> - Model name</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Type</strong> - Accessory type (e.g., “Chest Guard”, “Tab”, “Quiver”)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code>Brand: Fivics
+Model: Saker 2
+Type: Tab
+</code></pre>
+<hr/>
+<h2 id="editing-equipment">Editing Equipment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#editing-equipment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>You can edit any equipment item after it’s been created.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Equipment Page</strong></li>
+<li>Find the equipment type category</li>
+<li>Tap on the specific equipment item</li>
+<li>You’ll see the equipment details screen</li>
+<li>Tap <strong>Edit</strong> (pencil icon or Edit button)</li>
+<li>Modify any fields</li>
+<li>Tap <strong>Save</strong></li>
+</ol>
+<p><strong>Important Notes:</strong></p>
+<ul>
+<li>Editing equipment in a <strong>Bow Setup</strong> creates a new setup version automatically</li>
+<li>Historical rounds always reference the equipment version used at that time</li>
+<li>You can’t change the equipment type after creation (e.g., can’t convert a Riser to Limbs)</li>
+</ul>
+<hr/>
+<h2 id="creating-bow-setups">Creating Bow Setups<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#creating-bow-setups" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>A <strong>Bow Setup</strong> represents a complete configuration of equipment you use together for shooting.</p>
+<h3 id="why-use-bow-setups">Why Use Bow Setups?<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#why-use-bow-setups" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Track which equipment combination you used for each round</li>
+<li>Compare performance across different configurations</li>
+<li>Quickly switch between setups (indoor vs outdoor, different distances)</li>
+<li>Maintain equipment history as you make changes</li>
+</ul>
+<h3 id="creating-your-first-setup">Creating Your First Setup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#creating-your-first-setup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Equipment Page</strong></li>
+<li>Scroll to the <strong>Bow Setups</strong> section</li>
+<li>Tap the <strong>+</strong> (Add) button</li>
+<li>Fill in the setup details:</li>
+</ol>
+<p><strong>Required Fields:</strong></p>
+<ul>
+<li><strong>Name</strong> - Descriptive name (e.g., “Outdoor 70m Setup”, “Indoor Competition Setup”)</li>
+</ul>
+<p><strong>Optional Fields:</strong></p>
+<ul>
+<li><strong>Description</strong> - Notes about this configuration</li>
+</ul>
+<p><strong>Equipment Selection:</strong></p>
+<ul>
+<li><strong>Riser</strong> - Select from your risers (dropdown)</li>
+<li><strong>Limbs</strong> - Select from your limbs (dropdown)</li>
+<li><strong>Sight</strong> - Select from your sights (optional)</li>
+<li><strong>Stabilizer</strong> - Select from your stabilizers (optional)</li>
+<li><strong>Plunger</strong> - Select from your plungers (optional)</li>
+<li><strong>Rest</strong> - Select from your rests (optional)</li>
+<li><strong>Bow String</strong> - Select from your bow strings (optional)</li>
+<li><strong>Arrows</strong> - Select from your arrow sets (optional)</li>
+<li><strong>Weights</strong> - Select from your weights (optional)</li>
+<li><strong>Accessories</strong> - Select from your accessories (optional)</li>
+</ul>
+<ol start="5">
+<li>Tap <strong>Save</strong></li>
+</ol>
+<p><strong>Example Setup:</strong></p>
+<pre><code>Name: Main Outdoor Setup
+Description: Primary setup for 50m-70m outdoor rounds
+
+Riser: Hoyt Formula X 25&quot;
+Limbs: Win&amp;Win Wiawis One 38lbs Long
+Sight: Shibuya Ultima RC II
+Stabilizer: Doinker Platinum 30&quot;
+Plunger: Beiter Plunger
+Rest: Hoyt Super Rest
+Bow String: BCY X99 18-strand
+Arrows: Easton X10 500
+Weights: Easton 4oz
+</code></pre>
+<h3 id="setup-naming-best-practices">Setup Naming Best Practices<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#setup-naming-best-practices" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Good Names:</strong></p>
+<ul>
+<li>✅ “Outdoor 70m Olympic Setup”</li>
+<li>✅ “Indoor 18m Competition”</li>
+<li>✅ “Practice Setup - Testing New Sight”</li>
+<li>✅ “Backup Setup (Old Limbs)”</li>
+</ul>
+<p><strong>Avoid:</strong></p>
+<ul>
+<li>❌ “Setup 1”</li>
+<li>❌ “Main”</li>
+<li>❌ “Test”</li>
+</ul>
+<p>Use names that tell you:</p>
+<ul>
+<li><strong>Purpose</strong> (competition, practice, testing)</li>
+<li><strong>Distance</strong> (18m, 50m, 70m)</li>
+<li><strong>Environment</strong> (indoor, outdoor)</li>
+<li><strong>Status</strong> (primary, backup, experimental)</li>
+</ul>
+<hr/>
+<h2 id="managing-bow-setup-versions">Managing Bow Setup Versions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#managing-bow-setup-versions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Every time you modify equipment in a bow setup, the app automatically creates a <strong>new version</strong>.</p>
+<h3 id="why-versioning">Why Versioning?<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#why-versioning" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Historical Accuracy</strong> - Rounds always reference the exact equipment used</li>
+<li><strong>Performance Tracking</strong> - Compare how changes affect your scores</li>
+<li><strong>Equipment Testing</strong> - See if a new sight, stabilizer, or arrows improve performance</li>
+<li><strong>Data Integrity</strong> - Never lose track of what equipment produced which results</li>
+</ul>
+<h3 id="how-versioning-works">How Versioning Works<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#how-versioning-works" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Scenario:</strong></p>
+<ol>
+<li>You create “Outdoor Setup” with Hoyt riser + Win&amp;Win limbs → <strong>Version 1</strong></li>
+<li>You add a Shibuya sight to the setup → <strong>Version 2</strong> created automatically</li>
+<li>You change to heavier arrows → <strong>Version 3</strong> created automatically</li>
+</ol>
+<p><strong>Round References:</strong></p>
+<ul>
+<li>Round scored on May 1 → References Version 1 (no sight)</li>
+<li>Round scored on May 15 → References Version 2 (with sight)</li>
+<li>Round scored on June 1 → References Version 3 (sight + heavy arrows)</li>
+</ul>
+<h3 id="viewing-setup-versions">Viewing Setup Versions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#viewing-setup-versions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Equipment Page</strong></li>
+<li>Go to <strong>Bow Setups</strong></li>
+<li>Tap on a setup to view details</li>
+<li>Scroll to <strong>Version History</strong> section</li>
+<li>See all versions with:
+<ul>
+<li>Version number</li>
+<li>Date created</li>
+<li>Equipment changes made</li>
+</ul>
+</li>
+</ol>
+<h3 id="version-comparison">Version Comparison<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#version-comparison" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Compare performance across versions:</p>
+<ol>
+<li>Open <strong>Equipment Analytics Hub</strong></li>
+<li>Select <strong>Performance by Setup</strong></li>
+<li>Choose a setup</li>
+<li>Filter by version to see how each configuration performed</li>
+</ol>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>“Did adding the stabilizer improve my average?”</li>
+<li>“Were my scores better with the 500 spine or 600 spine arrows?”</li>
+<li>“Has my new sight helped my accuracy?”</li>
+</ul>
+<hr/>
+<h2 id="deleting-equipment">Deleting Equipment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#deleting-equipment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>You can delete equipment items, but be careful - this affects historical data.</p>
+<h3 id="deleting-individual-equipment">Deleting Individual Equipment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#deleting-individual-equipment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to the equipment item</li>
+<li>Tap on it to open details</li>
+<li>Tap <strong>Delete</strong> (trash icon or Delete button)</li>
+<li>Confirm deletion</li>
+</ol>
+<p><strong>What Happens:</strong></p>
+<ul>
+<li>Equipment is removed from your equipment list</li>
+<li>If it’s part of a <strong>Bow Setup</strong>, you’ll need to remove it from the setup first</li>
+<li>Historical rounds retain the equipment information (soft delete)</li>
+</ul>
+<h3 id="deleting-bow-setups">Deleting Bow Setups<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#deleting-bow-setups" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Bow setups use <strong>soft delete</strong> - they’re marked as inactive but not permanently removed.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Bow Setups</strong></li>
+<li>Tap on the setup to delete</li>
+<li>Tap <strong>Delete</strong></li>
+<li>The setup is marked as <strong>inactive</strong> (<code>isActive = false</code>)</li>
+</ol>
+<p><strong>What Happens:</strong></p>
+<ul>
+<li>Setup is hidden from active setups list</li>
+<li>Historical rounds still reference this setup</li>
+<li>Performance data is preserved</li>
+<li>You can’t permanently delete setups to protect data integrity</li>
+</ul>
+<p><strong>Viewing Inactive Setups:</strong></p>
+<ul>
+<li>Toggle “Show Inactive” in Bow Setups view</li>
+<li>Inactive setups are grayed out or marked clearly</li>
+</ul>
+<hr/>
+<h2 id="managing-sight-marks">Managing Sight Marks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#managing-sight-marks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>If you use a <strong>Sight</strong>, you can add sight marks for different distances.</p>
+<h3 id="what-are-sight-marks">What are Sight Marks?<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#what-are-sight-marks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Sight marks are distance-specific settings for your sight. They tell you where to position your sight for accurate aiming at each distance.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>18 meters → Mark at 15.2</li>
+<li>30 meters → Mark at 22.7</li>
+<li>50 meters → Mark at 31.5</li>
+<li>70 meters → Mark at 39.2</li>
+</ul>
+<h3 id="adding-sight-marks">Adding Sight Marks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#adding-sight-marks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Equipment Page</strong></li>
+<li>Go to <strong>Sights</strong></li>
+<li>Tap on your sight to open details</li>
+<li>Scroll to <strong>Sight Marks</strong> section</li>
+<li>Tap <strong>Add Sight Mark</strong> or <strong>+</strong></li>
+<li>Fill in:
+<ul>
+<li><strong>Distance</strong> - The distance (e.g., “50 meters”)</li>
+<li><strong>Mark Value</strong> - Your sight setting (e.g., “31.5”)</li>
+<li><strong>Notes</strong> (optional) - Conditions or reminders</li>
+</ul>
+</li>
+<li>Tap <strong>Save</strong></li>
+</ol>
+<p><strong>Example:</strong></p>
+<pre><code>Distance: 50 meters
+Mark Value: 31.5
+Notes: Outdoor, no wind, 122cm target
+</code></pre>
+<h3 id="editing-sight-marks">Editing Sight Marks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#editing-sight-marks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Open the sight details</li>
+<li>Find the sight mark in the list</li>
+<li>Tap on it</li>
+<li>Edit the distance, mark value, or notes</li>
+<li>Tap <strong>Save</strong></li>
+</ol>
+<h3 id="deleting-sight-marks">Deleting Sight Marks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#deleting-sight-marks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Open the sight details</li>
+<li>Find the sight mark</li>
+<li>Swipe left or tap the <strong>delete icon</strong></li>
+<li>Confirm deletion</li>
+</ol>
+<h3 id="using-sight-marks">Using Sight Marks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#using-sight-marks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Keep a record of your marks for quick setup at practice or competition</li>
+<li>Update marks as you tune your bow or change equipment</li>
+<li>Add notes for environmental conditions (wind, rain, indoor/outdoor)</li>
+</ul>
+<hr/>
+<h2 id="viewing-equipment-performance">Viewing Equipment Performance<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#viewing-equipment-performance" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>See how each piece of equipment performs over time.</p>
+<h3 id="equipment-analytics-hub">Equipment Analytics Hub<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-analytics-hub" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Navigate to <strong>Equipment Page</strong></li>
+<li>Tap <strong>Analytics Hub</strong> button</li>
+<li>Choose analysis type:
+<ul>
+<li>Performance by Setup</li>
+<li>Performance by Distance</li>
+<li>Equipment Comparison</li>
+</ul>
+</li>
+</ol>
+<h3 id="performance-by-setup">Performance by Setup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#performance-by-setup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>View statistics for each bow setup:</p>
+<ul>
+<li><strong>Total rounds</strong> scored with this setup</li>
+<li><strong>Average score</strong></li>
+<li><strong>Best round</strong> score</li>
+<li><strong>Accuracy percentage</strong></li>
+<li><strong>X-ring and 10-ring counts</strong></li>
+</ul>
+<p><strong>Use Case:</strong>
+“Which of my setups performs best at 50 meters?”</p>
+<h3 id="performance-by-distance">Performance by Distance<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#performance-by-distance" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Break down performance by distance:</p>
+<ul>
+<li>See how each setup performs at 18m, 30m, 50m, 70m, etc.</li>
+<li>Identify strong and weak distances</li>
+<li>Make informed practice decisions</li>
+</ul>
+<p><strong>Use Case:</strong>
+“My indoor setup averages 285 at 18m, but my outdoor setup only averages 270 at 18m”</p>
+<h3 id="equipment-comparison">Equipment Comparison<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#equipment-comparison" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Compare multiple setups side-by-side:</p>
+<ul>
+<li>Select 2-4 setups</li>
+<li>View stats in parallel columns</li>
+<li>Identify best performers</li>
+</ul>
+<p><strong>Use Case:</strong>
+“Should I use my heavier or lighter stabilizer for 70m?”</p>
+<p>For detailed analytics information, see <a href="../../.././../features/analytics/" class="internal alias" data-slug="features/analytics/index">Analytics Features</a>.</p>
+<hr/>
+<h2 id="organizing-equipment">Organizing Equipment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#organizing-equipment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="naming-conventions">Naming Conventions<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#naming-conventions" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Use consistent, descriptive names for easy identification:</p>
+<p><strong>Equipment Items:</strong></p>
+<ul>
+<li><strong>Include brand and model</strong>: “Hoyt Formula X 25in” (not just “Riser”)</li>
+<li><strong>Add key specs</strong>: “Win&amp;Win Wiawis One 38lbs Long” (not just “Limbs”)</li>
+<li><strong>Be specific</strong>: “Easton X10 500 spine 29.5in” (not just “Arrows”)</li>
+</ul>
+<p><strong>Bow Setups:</strong></p>
+<ul>
+<li><strong>Include purpose</strong>: “Competition”, “Practice”, “Testing”</li>
+<li><strong>Include distance</strong>: “18m”, “50m”, “70m”</li>
+<li><strong>Include environment</strong>: “Indoor”, “Outdoor”</li>
+</ul>
+<p><strong>Example Organization:</strong></p>
+<pre><code>Equipment:
+├── Risers
+│   ├── Hoyt Formula X 25in Carbon
+│   └── Win&amp;Win Inno CXT 27in
+├── Limbs
+│   ├── Win&amp;Win Wiawis One 38lbs Long
+│   └── SF Archery Axiom+ 40lbs Medium
+└── Arrows
+    ├── Easton X10 500 29.5in (Competition)
+    └── Carbon Express Nano Pro 600 29in (Practice)
+
+Bow Setups:
+├── Primary Outdoor 70m Setup
+├── Indoor 18m Competition Setup
+├── Practice Setup (Testing New Arrows)
+└── Backup Setup (Old Equipment)
+</code></pre>
+<h3 id="managing-multiple-setups">Managing Multiple Setups<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#managing-multiple-setups" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Strategy 1: Purpose-Based</strong></p>
+<ul>
+<li>Competition Setup</li>
+<li>Practice Setup</li>
+<li>Testing Setup</li>
+</ul>
+<p><strong>Strategy 2: Distance-Based</strong></p>
+<ul>
+<li>Short Distance Setup (18m-30m)</li>
+<li>Medium Distance Setup (50m-60m)</li>
+<li>Long Distance Setup (70m-90m)</li>
+</ul>
+<p><strong>Strategy 3: Environment-Based</strong></p>
+<ul>
+<li>Indoor Setup</li>
+<li>Outdoor Setup</li>
+<li>All-Purpose Setup</li>
+</ul>
+<p><strong>Best Practice:</strong>
+Combine strategies - e.g., “Indoor Competition 18m Setup”</p>
+<h3 id="tracking-equipment-changes">Tracking Equipment Changes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tracking-equipment-changes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>Keep notes in equipment descriptions to track changes:</p>
+<p><strong>Example:</strong></p>
+<pre><code>Bow Setup: Primary Outdoor Setup
+Description: Main competition setup for 50m-70m outdoor rounds
+Last updated: 2024-05-15
+Changes:
+- 2024-05-15: Switched to heavier arrows (500 → 420 spine)
+- 2024-04-01: Added new stabilizer (30&quot; Doinker Platinum)
+- 2024-03-10: Upgraded sight to Shibuya Ultima
+</code></pre>
+<hr/>
+<h2 id="common-tasks-quick-reference">Common Tasks Quick Reference<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#common-tasks-quick-reference" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Task</th><th>Navigation</th><th>Action</th></tr></thead><tbody><tr><td>Add Equipment</td><td>Equipment Page → Category → <strong>+</strong></td><td>Fill details, Save</td></tr><tr><td>Edit Equipment</td><td>Equipment Page → Category → Item → <strong>Edit</strong></td><td>Modify, Save</td></tr><tr><td>Create Setup</td><td>Equipment Page → Bow Setups → <strong>+</strong></td><td>Select equipment, Save</td></tr><tr><td>Add Sight Mark</td><td>Equipment Page → Sights → Item → Sight Marks → <strong>+</strong></td><td>Add distance/mark, Save</td></tr><tr><td>Delete Equipment</td><td>Equipment Page → Category → Item → <strong>Delete</strong></td><td>Confirm</td></tr><tr><td>View Performance</td><td>Equipment Page → <strong>Analytics Hub</strong></td><td>Choose analysis</td></tr><tr><td>Compare Setups</td><td>Analytics Hub → Equipment Comparison</td><td>Select setups</td></tr></tbody></table></div>
+<hr/>
+<h2 id="tips-for-equipment-management">Tips for Equipment Management<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tips-for-equipment-management" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="start-simple">Start Simple<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#start-simple" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Begin with just riser and limbs</li>
+<li>Add more equipment as you track more details</li>
+<li>Don’t feel pressured to fill in every field immediately</li>
+</ul>
+<h3 id="be-consistent">Be Consistent<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#be-consistent" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Use the same naming format for all equipment</li>
+<li>Always select a bow setup when scoring rounds</li>
+<li>Update sight marks after tuning sessions</li>
+</ul>
+<h3 id="use-versions-wisely">Use Versions Wisely<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#use-versions-wisely" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Let the app auto-version when you make significant changes</li>
+<li>Don’t worry about minor adjustments (small plunger tweaks)</li>
+<li>Major changes (new sight, different arrows) should create new versions</li>
+</ul>
+<h3 id="track-what-matters">Track What Matters<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#track-what-matters" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li>Focus on equipment that affects your scores</li>
+<li>Sight marks are crucial - keep them updated</li>
+<li>Notes fields are helpful for remembering why you made changes</li>
+</ul>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Learn More:</strong></p>
+<ul>
+<li><a href="../../.././../features/equipment/" class="internal alias" data-slug="features/equipment/index">Equipment Features</a> - Detailed equipment capabilities</li>
+<li><a href="../../.././../quick-start/" class="internal alias" data-slug="quick-start/index">Quick Start Guide</a> - Getting started with equipment</li>
+<li><a href="../../.././../features/analytics/" class="internal alias" data-slug="features/analytics/index">Analytics Features</a> - Understanding equipment performance data</li>
+</ul>
+<p><strong>Advanced Topics:</strong></p>
+<ul>
+<li><a href="../../../developer-guide/technical-reference/data-models/equipment/" class="internal alias" data-slug="developer-guide/technical-reference/data-models/equipment/index">Bow Setup Versioning</a> - Technical details</li>
+<li><a href="../../../developer-guide/technical-reference/data-models/analytics/" class="internal alias" data-slug="developer-guide/technical-reference/data-models/analytics/index">Equipment Statistics</a> - How performance is calculated</li>
+</ul>
+<hr/>
+<p><strong>Ready to manage your equipment like a pro? Start adding your gear today!</strong></p></article><div class="page-listing"><p>0 items under this folder.</p><div><ul class="section-ul"></ul></div></div></div><hr/><div class="page-footer"></div></div><div class="right sidebar"></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../../postscript.js" type="module"></script></html>

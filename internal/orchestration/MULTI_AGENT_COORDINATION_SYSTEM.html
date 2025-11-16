@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>MULTI_AGENT_COORDINATION_SYSTEM</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="MULTI_AGENT_COORDINATION_SYSTEM"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="MULTI_AGENT_COORDINATION_SYSTEM"/><meta name="twitter:description" content="Multi-Agent Coordination System - Technical Overview Last Updated: 2025-11-11 (Week 24) System Version: 2.1 (Agent-Coordination Branch Protocol) Audience: Technical reference for all stakeholders System Architecture High-Level Overview ┌─────────────────────────────────────────────────────────────┐ ..."/><meta property="og:description" content="Multi-Agent Coordination System - Technical Overview Last Updated: 2025-11-11 (Week 24) System Version: 2.1 (Agent-Coordination Branch Protocol) Audience: Technical reference for all stakeholders System Architecture High-Level Overview ┌─────────────────────────────────────────────────────────────┐ ..."/><meta property="og:image:alt" content="Multi-Agent Coordination System - Technical Overview Last Updated: 2025-11-11 (Week 24) System Version: 2.1 (Agent-Coordination Branch Protocol) Audience: Technical reference for all stakeholders System Architecture High-Level Overview ┌─────────────────────────────────────────────────────────────┐ ..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/orchestration/MULTI_AGENT_COORDINATION_SYSTEM"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/orchestration/MULTI_AGENT_COORDINATION_SYSTEM"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="Multi-Agent Coordination System - Technical Overview Last Updated: 2025-11-11 (Week 24) System Version: 2.1 (Agent-Coordination Branch Protocol) Audience: Technical reference for all stakeholders System Architecture High-Level Overview ┌─────────────────────────────────────────────────────────────┐ ..."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/orchestration/MULTI_AGENT_COORDINATION_SYSTEM-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/orchestration/MULTI_AGENT_COORDINATION_SYSTEM-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/orchestration/MULTI_AGENT_COORDINATION_SYSTEM-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/orchestration/MULTI_AGENT_COORDINATION_SYSTEM"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-439"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-439" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/orchestration/">orchestration</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>MULTI_AGENT_COORDINATION_SYSTEM</a></div></nav><h1 class="article-title">MULTI_AGENT_COORDINATION_SYSTEM</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-11T23:39:11.000Z">Nov 11, 2025</time><span>16 min read</span></p></div></div><article class="popover-hint"><h1 id="multi-agent-coordination-system---technical-overview">Multi-Agent Coordination System - Technical Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#multi-agent-coordination-system---technical-overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Last Updated:</strong> 2025-11-11 (Week 24)
+<strong>System Version:</strong> 2.1 (Agent-Coordination Branch Protocol)
+<strong>Audience:</strong> Technical reference for all stakeholders</p>
+<hr/>
+<h2 id="system-architecture">System Architecture<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#system-architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="high-level-overview">High-Level Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#high-level-overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                         User                                 │
+│                                                              │
+│  Says: &quot;Check your assignment on agent-coordination branch&quot; │
+└────────┬────────────────────────────────────────────────────┘
+         │
+         ├──────────────┬──────────────┬──────────────┬──────────────┐
+         │              │              │              │              │
+         ▼              ▼              ▼              ▼              ▼
+┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+│  Agent 1    │ │  Agent 2    │ │  Agent 3    │ │  Agent D    │ │  Agent O    │
+│   (AAP)     │ │   (AAM)     │ │   (AAA)     │ │   (Docs)    │ │(Orchestrator)│
+│             │ │             │ │             │ │             │ │             │
+│ Platform &amp;  │ │ Modules &amp;   │ │ Analysis &amp;  │ │Documentation│ │Coordination │
+│Architecture │ │ Data Layer  │ │ Validation  │ │   &amp; Vault   │ │  &amp; Planning │
+└─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘
+         │              │              │              │              │
+         └──────────────┴──────────────┴──────────────┴──────────────┘
+                        │
+                        ▼
+         ┌──────────────────────────────────────────────────┐
+         │   agent-coordination Branch (git-tracked)        │
+         │                                                  │
+         │  • ACTIVE_ASSIGNMENTS.md (Status table)         │
+         │  • agent-1-current.md (Bidirectional)           │
+         │  • agent-2-current.md (Bidirectional)           │
+         │  • agent-3-current.md (Bidirectional)           │
+         │  • agent-d-current.md (Bidirectional)           │
+         │  • orchestrator-current.md (Self-coordination)  │
+         │  • COORDINATION_README.md (Protocol docs)       │
+         └──────────────────────────────────────────────────┘
+</code></pre>
+<hr/>
+<h2 id="core-components">Core Components<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#core-components" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="1-agent-coordination-branch">1. agent-coordination Branch<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-agent-coordination-branch" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Dedicated git branch for bidirectional agent-orchestrator communication</p>
+<p><strong>Branch:</strong> <code>agent-coordination</code> (lives in main repository)</p>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li><strong>Git-tracked communication</strong> - All assignments and status updates versioned</li>
+<li><strong>Local during session</strong> - Fast, low-overhead agent fetching via relative paths</li>
+<li><strong>Remote at session end</strong> - Pushed to origin for backup and resumability</li>
+<li><strong>Bidirectional</strong> - Orchestrator assigns tasks, agents report status</li>
+<li><strong>Resumable</strong> - Agents can fetch assignments on fresh context/session restart</li>
+</ul>
+<p><strong>How agents fetch:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Agents fetch from main repo via relative path (fast, local)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> fetch</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-apprentice</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination:agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> checkout</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cat</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-X-current.md</span></span></code></pre></figure>
+<p><strong>Session end workflow (Orchestrator):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Update all coordination files</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> add</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">.md</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> orchestrator-current.md</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ACTIVE_ASSIGNMENTS.md</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> commit</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -m</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;orchestrator: Update assignments for next session&quot;</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Merge any main updates</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> merge</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> main</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Push to remote (backup + resumability)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> push</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> origin</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination</span></span></code></pre></figure>
+<hr/>
+<h3 id="2-active_assignmentsmd">2. ACTIVE_ASSIGNMENTS.md<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-active_assignmentsmd" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Single source of truth for agent status</p>
+<p><strong>Location:</strong> <code>ACTIVE_ASSIGNMENTS.md</code> on <code>agent-coordination</code> branch</p>
+<p><strong>Structure:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;"># Active Agent Assignments</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Last Updated:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> YYYY-MM-DD (Week X)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Current Assignments</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">| Agent | Status | Task | Branch | Instructions |</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">|-------|--------|------|--------|--------------|</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">| Agent 1 | 🟢 Active | [</span><span style="--shiki-light:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline;">Task</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">] | [</span><span style="--shiki-light:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline;">Branch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">] | [</span><span style="--shiki-light:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline;">Link</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">] |</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">| Agent 2 | 🟡 Pending Review | [</span><span style="--shiki-light:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline;">Task</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">] | [</span><span style="--shiki-light:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline;">Branch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">] | [</span><span style="--shiki-light:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline;">Link</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">] |</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">| Agent 3 | ⏸️ Standby | - | - | - |</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Week X Overview</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">[Context for current week]</span></span></code></pre></figure>
+<p><strong>Status Indicators:</strong></p>
+<ul>
+<li>🟢 <strong>Active</strong> - Agent should work on this task</li>
+<li>🟡 <strong>Pending Review</strong> - PR created, awaiting review/merge</li>
+<li>⏸️ <strong>Standby</strong> - No active assignment</li>
+<li>✅ <strong>Complete</strong> - Task finished and merged</li>
+</ul>
+<p><strong>Read by:</strong> All agents when user says “Check active assignments”</p>
+<p><strong>Updated by:</strong> Orchestrator (Agent O) or user</p>
+<hr/>
+<h3 id="3-agent-status-files-bidirectional">3. Agent Status Files (Bidirectional)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-agent-status-files-bidirectional" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Detailed task instructions AND agent status reporting</p>
+<p><strong>Location:</strong> <code>agent-X-current.md</code> on <code>agent-coordination</code> branch</p>
+<p><strong>Files:</strong></p>
+<ul>
+<li><code>agent-1-current.md</code> - Agent 1 (AAP) assignment &amp; status</li>
+<li><code>agent-2-current.md</code> - Agent 2 (AAM) assignment &amp; status</li>
+<li><code>agent-3-current.md</code> - Agent 3 (AAA) assignment &amp; status</li>
+<li><code>agent-d-current.md</code> - Agent D (Docs) assignment &amp; status</li>
+</ul>
+<p><strong>Bidirectional Flow:</strong></p>
+<p><strong>Orchestrator → Agent (Assign):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Status:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ASSIGNED</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Week:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> 24</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Task:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Extract TournamentSyncService</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">[Detailed instructions...]</span></span></code></pre></figure>
+<p><strong>Agent → Orchestrator (Report):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Status:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> COMPLETED</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Summary:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Extracted TournamentSyncService (250 lines)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**PR:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> #224</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Discoveries:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline;">Findings...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Next Steps:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline;">Recommendations...</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span></code></pre></figure>
+<p><strong>Status Values:</strong></p>
+<ul>
+<li><code>AWAITING_ASSIGNMENT</code> - Ready for work</li>
+<li><code>ASSIGNED</code> - Orchestrator assigned task</li>
+<li><code>IN_PROGRESS</code> - Agent working on it</li>
+<li><code>BLOCKED</code> - Agent stuck, needs help</li>
+<li><code>COMPLETED</code> - Task done, PR created</li>
+</ul>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li><strong>Predictable location</strong> - Always same filename on agent-coordination branch</li>
+<li><strong>Bidirectional</strong> - Orchestrator writes assignments, agents update with status</li>
+<li><strong>Comprehensive</strong> - 300-500 lines with code examples and context</li>
+<li><strong>Self-contained</strong> - All context needed to execute task</li>
+<li><strong>Git-tracked</strong> - Version history of all assignments and status updates</li>
+</ul>
+<hr/>
+<h3 id="4-orchestrator-currentmd-self-coordination">4. orchestrator-current.md (Self-Coordination)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-orchestrator-currentmd-self-coordination" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Orchestrator tracks own session state for resumability</p>
+<p><strong>Location:</strong> <code>orchestrator-current.md</code> on <code>agent-coordination</code> branch</p>
+<p><strong>Structure:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Status:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> WEEK X LAUNCHED</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Current Week:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> X</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Last Session:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [</span><span style="--shiki-light:#032F62;--shiki-light-text-decoration:underline;--shiki-dark:#DBEDFF;--shiki-dark-text-decoration:underline;">Description</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Last Updated:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> YYYY-MM-DD</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Next Actions (During Week X Execution)</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [ ] Monitor agent progress</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [ ] Review PRs</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> [ ] Update coordination files</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Session Start Checklist</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">[Steps for resuming orchestration...]</span></span></code></pre></figure>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li><strong>Resumable</strong> - Orchestrator can pick up where it left off</li>
+<li><strong>Context preservation</strong> - No need for long prompts on resumption</li>
+<li><strong>Self-documenting</strong> - Session history tracked in git</li>
+<li><strong>Next actions clear</strong> - Always know what to do next</li>
+</ul>
+<p><strong>Added:</strong> Week 24 (2025-11-11)</p>
+<hr/>
+<h3 id="5-agent-claudemd-protocol">5. Agent CLAUDE.md Protocol<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#5-agent-claudemd-protocol" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Each agent knows how to find assignments + agent identity</p>
+<p><strong>Location:</strong> <code>CLAUDE.md</code> in each agent’s worktree</p>
+<p><strong>Two key sections:</strong></p>
+<p><strong>A. Agent Identity Section (Added Week 24)</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## 🤖 AGENT IDENTITY</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Agent Name:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Agent 1 (AAP - Archery Apprentice Platform)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Role:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Platform abstractions, architectural patterns, cross-platform concerns</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Working Directory:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> C:\Users</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">\.</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">..\archery-agent-platform</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Main Repository:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ../archery-apprentice</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">When starting a fresh context, immediately fetch your assignment:</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">```bash</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> fetch</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-apprentice</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination:agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> checkout</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-coordination</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cat</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> agent-1-current.md</span></span></code></pre></figure>
+<pre><code>
+**Benefits:**
+- **Immediate context** - Agent knows identity on fresh session
+- **Self-service** - Clear instructions to fetch assignment
+- **No prompt needed** - User just says &quot;Check your assignment&quot;
+
+**B. Multi-Agent Coordination Protocol**
+```markdown
+## Multi-Agent Coordination Protocol
+
+**Standard Command:** User says &quot;Check your assignment on agent-coordination branch&quot;
+
+**Procedure:**
+1. Fetch: git fetch ../archery-apprentice agent-coordination:agent-coordination
+2. Checkout: git checkout agent-coordination
+3. Read: cat agent-X-current.md
+4. Check status:
+   - ASSIGNED → Begin work
+   - IN_PROGRESS → Continue work
+   - AWAITING_ASSIGNMENT → Wait for orchestrator
+5. Report status by updating agent-X-current.md and pushing back
+</code></pre>
+<p><strong>Key insight:</strong> No skills, no MCP, just file reading and git via relative paths</p>
+<p><strong>Added:</strong> Agent identity section in Week 24 (2025-11-11)</p>
+<hr/>
+<h3 id="4-historical-records">4. Historical Records<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-historical-records" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Preserve assignment history</p>
+<p><strong>Location:</strong> <code>docs/AGENT_MESSAGES/WEEK_X/</code> and <code>docs/agent-instructions/archive/</code></p>
+<p><strong>Structure:</strong></p>
+<pre><code>docs/
+├── AGENT_MESSAGES/
+│   └── WEEK_X/
+│       ├── ORCHESTRATOR_WEEK_X_PLANNING.md
+│       ├── AGENT_1_[TASK]_PROMPT.md
+│       ├── AGENT_2_[TASK]_PROMPT.md
+│       └── AGENT_3_[TASK]_PROMPT.md
+└── agent-instructions/
+    └── archive/
+        └── week-X/
+            ├── agent-1-current.md
+            ├── agent-2-current.md
+            └── agent-3-current.md
+</code></pre>
+<p><strong>Used for:</strong> Reference, session resumption, historical analysis</p>
+<hr/>
+<h2 id="data-flow">Data Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#data-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="starting-new-week">Starting New Week<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#starting-new-week" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>1. Orchestrator creates planning doc
+   └─> docs/AGENT_MESSAGES/WEEK_X/ORCHESTRATOR_WEEK_X_PLANNING.md
+
+2. Orchestrator creates 3 detailed prompts
+   ├─> docs/AGENT_MESSAGES/WEEK_X/AGENT_1_[TASK]_PROMPT.md
+   ├─> docs/AGENT_MESSAGES/WEEK_X/AGENT_2_[TASK]_PROMPT.md
+   └─> docs/AGENT_MESSAGES/WEEK_X/AGENT_3_[TASK]_PROMPT.md
+
+3. Orchestrator copies to current assignments
+   ├─> cp to docs/agent-instructions/agent-1-current.md
+   ├─> cp to docs/agent-instructions/agent-2-current.md
+   └─> cp to docs/agent-instructions/agent-3-current.md
+
+4. Orchestrator updates status table
+   └─> docs/ACTIVE_ASSIGNMENTS.md
+
+5. User starts agents
+   ├─> &quot;Check active assignments&quot; → Agent 1
+   ├─> &quot;Check active assignments&quot; → Agent 2
+   └─> &quot;Check active assignments&quot; → Agent 3
+
+6. Agents read and begin work
+   ├─> Agent 1 reads ACTIVE_ASSIGNMENTS.md
+   │   └─> Sees 🟢 Active
+   │       └─> Reads agent-1-current.md
+   │           └─> Begins work
+   ├─> Agent 2 [same pattern]
+   └─> Agent 3 [same pattern]
+</code></pre>
+<hr/>
+<h3 id="agent-completion-flow">Agent Completion Flow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-completion-flow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>1. Agent completes work
+   └─> Creates PR #XXX
+       └─> Reports back to user
+
+2. User or Orchestrator updates status
+   └─> ACTIVE_ASSIGNMENTS.md: 🟢 Active → 🟡 Pending Review
+
+3. Cross-review assigned (if applicable)
+   └─> Agent 3 reviews PR #XXX
+
+4. PR merged
+   └─> ACTIVE_ASSIGNMENTS.md: 🟡 Pending Review → ✅ Complete
+
+5. Week X complete
+   └─> Archive assignments to archive/week-X/
+       └─> Ready for Week X+1
+</code></pre>
+<hr/>
+<h2 id="technical-implementation">Technical Implementation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#technical-implementation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="no-skills-required">No Skills Required<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#no-skills-required" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Question:</strong> Are Claude Code skills being used?</p>
+<p><strong>Answer:</strong> <strong>NO</strong></p>
+<p>The system uses:</p>
+<ul>
+<li>✅ File reading (Read tool)</li>
+<li>✅ Relative paths (../archery-apprentice/)</li>
+<li>✅ CLAUDE.md protocol (built-in context)</li>
+<li>❌ No skills</li>
+<li>❌ No MCP for agents (only orchestrator uses MCP for vault)</li>
+<li>❌ No custom tools</li>
+</ul>
+<p><strong>Why this works:</strong></p>
+<ul>
+<li>Agents share filesystem (worktrees are siblings)</li>
+<li>Predictable file locations</li>
+<li>Simple bash commands (cat, ls)</li>
+</ul>
+<hr/>
+<h3 id="file-system-layout">File System Layout<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#file-system-layout" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<pre><code>C:\Users\chris_3zal3ta\StudioProjects\
+├── archery-apprentice/                 # Main repo
+│   ├── CLAUDE.md                        # Orchestrator context
+│   ├── docs/
+│   │   ├── AGENT_MESSAGES/WEEK_XX/      # Historical prompts
+│   │   └── AGENT_CONTEXTS/              # Agent reference docs
+│   ├── [agent-coordination branch]      # ⭐ Coordination branch
+│   │   ├── ACTIVE_ASSIGNMENTS.md        # ⭐ Status table
+│   │   ├── agent-1-current.md           # ⭐ Agent 1 bidirectional
+│   │   ├── agent-2-current.md           # ⭐ Agent 2 bidirectional
+│   │   ├── agent-3-current.md           # ⭐ Agent 3 bidirectional
+│   │   ├── agent-d-current.md           # ⭐ Agent D bidirectional
+│   │   ├── orchestrator-current.md      # ⭐ Orchestrator self-coord
+│   │   └── COORDINATION_README.md       # Protocol documentation
+│   └── [project files]
+│
+├── archery-agent-platform/             # Agent 1 worktree
+│   ├── CLAUDE.md                        # Agent 1 identity + protocol
+│   └── [same project files]
+│
+├── archery-agent-modules/              # Agent 2 worktree
+│   ├── CLAUDE.md                        # Agent 2 identity + protocol
+│   └── [same project files]
+│
+└── archery-agent-analysis/             # Agent 3 worktree
+    ├── CLAUDE.md                        # Agent 3 identity + protocol
+    └── [same project files]
+</code></pre>
+<p><strong>Key insights:</strong></p>
+<ul>
+<li>All worktrees share same git history, different working trees</li>
+<li>agent-coordination branch lives in main repo, all agents fetch from it</li>
+<li>No Agent D worktree (documentation agent works in docs repo)</li>
+</ul>
+<hr/>
+<h2 id="agent-roles">Agent Roles<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-roles" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="agent-1-aap---platform--architecture">Agent 1 (AAP - Platform &amp; Architecture)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-1-aap---platform--architecture" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Specialization:</strong></p>
+<ul>
+<li>Platform abstractions (iOS/Android/KMP)</li>
+<li>Architectural patterns</li>
+<li>Logging, dependency injection</li>
+<li>Cross-platform concerns</li>
+</ul>
+<p><strong>Worktree:</strong> <code>archery-agent-platform</code></p>
+<p><strong>Common tasks:</strong></p>
+<ul>
+<li>LoggingProvider migrations</li>
+<li>Presenter pattern extractions</li>
+<li>Platform-specific implementations</li>
+</ul>
+<hr/>
+<h3 id="agent-2-aam---modules--data-layer">Agent 2 (AAM - Modules &amp; Data Layer)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-2-aam---modules--data-layer" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Specialization:</strong></p>
+<ul>
+<li>Repository layer</li>
+<li>Database operations</li>
+<li>Module structure</li>
+<li>Data flow</li>
+</ul>
+<p><strong>Worktree:</strong> <code>archery-agent-modules</code></p>
+<p><strong>Common tasks:</strong></p>
+<ul>
+<li>Repository extractions</li>
+<li>Database migrations</li>
+<li>Entity modeling</li>
+<li>Module refactoring</li>
+</ul>
+<hr/>
+<h3 id="agent-3-aaa---analysis--validation">Agent 3 (AAA - Analysis &amp; Validation)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-3-aaa---analysis--validation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Specialization:</strong></p>
+<ul>
+<li>Code analysis</li>
+<li>Investigation</li>
+<li>Testing</li>
+<li>Quality gate (>80% coverage enforcement)</li>
+</ul>
+<p><strong>Worktree:</strong> <code>archery-agent-analysis</code></p>
+<p><strong>Common tasks:</strong></p>
+<ul>
+<li>God class investigations</li>
+<li>Cross-reviews with coverage validation</li>
+<li>Test coverage analysis</li>
+<li>Roadmap creation</li>
+<li>Quality gate enforcement</li>
+</ul>
+<p><strong>Quality Gate Role (Week 23-24):</strong></p>
+<ul>
+<li>Reviews all PRs from Agents 1 &amp; 2</li>
+<li>Enforces >80% minimum coverage (90% gold standard)</li>
+<li>Provides detailed feedback via agent-coordination files</li>
+<li>Blocks merge until quality standards met</li>
+</ul>
+<hr/>
+<h3 id="agent-d-documentation">Agent D (Documentation)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-d-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Specialization:</strong></p>
+<ul>
+<li>Documentation</li>
+<li>Vault management</li>
+<li>Knowledge base maintenance</li>
+<li>Session wrap-up documentation</li>
+</ul>
+<p><strong>Worktree:</strong> None (works in docs repo: <code>archery-apprentice-docs</code>)</p>
+<p><strong>Common tasks:</strong></p>
+<ul>
+<li>Update Obsidian vault with session learnings</li>
+<li>Document coordination protocols</li>
+<li>Maintain technical reference docs</li>
+<li>Archive historical session data</li>
+</ul>
+<p><strong>Added:</strong> Week 24 (2025-11-11)</p>
+<hr/>
+<h3 id="agent-o-orchestrator">Agent O (Orchestrator)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-o-orchestrator" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Specialization:</strong></p>
+<ul>
+<li>Multi-agent coordination</li>
+<li>Planning</li>
+<li>Documentation</li>
+<li>Session management</li>
+</ul>
+<p><strong>Worktree:</strong> Main repo (no separate worktree)</p>
+<p><strong>Tasks:</strong></p>
+<ul>
+<li>Create weekly assignments</li>
+<li>Update ACTIVE_ASSIGNMENTS.md</li>
+<li>Coordinate cross-reviews</li>
+<li>Maintain documentation</li>
+</ul>
+<hr/>
+<h2 id="session-management">Session Management<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#session-management" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="stateless-design">Stateless Design<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#stateless-design" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agents are stateless across sessions:</strong></p>
+<ul>
+<li>No memory of previous conversations</li>
+<li>Read CLAUDE.md every session</li>
+<li>Read assignments from files</li>
+</ul>
+<p><strong>Orchestrator has limited statefulness:</strong></p>
+<ul>
+<li>Can read historical docs for context</li>
+<li>Relies on ACTIVE_ASSIGNMENTS.md for current state</li>
+<li>User provides context when resuming</li>
+</ul>
+<hr/>
+<h3 id="resumption-strategy">Resumption Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#resumption-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>For Agents:</strong></p>
+<pre><code>User: &quot;Check active assignments&quot;
+Agent: [Reads current state from files]
+Agent: [Continues where left off]
+</code></pre>
+<p><strong>For Orchestrator:</strong></p>
+<pre><code>User: &quot;We're in Week X, continue coordination&quot;
+Orchestrator: [Reads ACTIVE_ASSIGNMENTS.md]
+Orchestrator: [Reads WEEK_X planning docs]
+Orchestrator: [Asks for user's immediate need]
+</code></pre>
+<p><strong>See:</strong> <code>SESSION_RESUMPTION.md</code> for detailed strategies</p>
+<hr/>
+<h2 id="scalability">Scalability<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#scalability" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="current-3-agents">Current: 3 Agents<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-3-agents" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>System handles 3 agents well with:</p>
+<ul>
+<li>Simple status table</li>
+<li>Predictable file locations</li>
+<li>Parallel execution</li>
+</ul>
+<hr/>
+<h3 id="future-5-10-agents">Future: 5-10 Agents<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#future-5-10-agents" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p>System scales to 10+ agents by:</p>
+<ul>
+<li>Adding rows to ACTIVE_ASSIGNMENTS.md table</li>
+<li>Creating more agent-X-current.md files</li>
+<li>Grouping agents by specialization</li>
+<li>Potentially adding sub-teams</li>
+</ul>
+<p><strong>No architectural changes needed</strong></p>
+<hr/>
+<h2 id="quality-gate-process-week-23-24">Quality Gate Process (Week 23-24)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quality-gate-process-week-23-24" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Purpose:</strong> Enforce high code quality standards before merge</p>
+<p><strong>Owner:</strong> Agent 3 (AAA - Analysis &amp; Validation)</p>
+<p><strong>Standards:</strong></p>
+<ul>
+<li><strong>Minimum:</strong> >80% coverage on modified lines (acceptable)</li>
+<li><strong>Gold Standard:</strong> >90% coverage on modified lines (project goal)</li>
+<li><strong>Zero regressions:</strong> All existing tests must pass</li>
+<li><strong>Build passing:</strong> CI checks must succeed</li>
+</ul>
+<hr/>
+<h3 id="workflow">Workflow<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#workflow" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. Agent Completes Work</strong></p>
+<pre><code>Agent X: Finishes implementation
+Agent X: Runs tests locally
+Agent X: Creates PR #XXX
+Agent X: Updates agent-X-current.md with COMPLETED status
+</code></pre>
+<p><strong>2. Agent 3 Reviews PR</strong></p>
+<pre><code>Agent 3: Fetches agent-coordination branch
+Agent 3: Sees COMPLETED status
+Agent 3: Reviews PR #XXX
+Agent 3: Checks Codecov coverage report
+Agent 3: Validates test quality
+</code></pre>
+<p><strong>3. Decision Path</strong></p>
+<p><strong>If coverage >90% (Gold Standard):</strong></p>
+<pre><code>Agent 3: Approves PR
+Agent 3: Updates agent-X-current.md: &quot;✅ APPROVED (90%+ coverage)&quot;
+Orchestrator: Merges PR
+</code></pre>
+<p><strong>If coverage 80-89% (Acceptable):</strong></p>
+<pre><code>Agent 3: Requests justification
+Agent X: Provides reasoning OR adds more tests
+Agent 3: Approves if justified
+</code></pre>
+<p><strong>If coverage &lt;80% (Insufficient):</strong></p>
+<pre><code>Agent 3: CHANGES REQUESTED
+Agent 3: Updates agent-X-current.md with detailed feedback:
+  - Current coverage percentage
+  - Files needing attention
+  - Specific test cases to add
+  - Example test patterns
+Agent X: Adds tests to reach >80%
+Agent X: Pushes fixes
+Agent 3: Re-reviews
+</code></pre>
+<hr/>
+<h3 id="week-24-examples">Week 24 Examples<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-24-examples" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>PR #228 (Agent 1 - LoggingProvider Batch 4):</strong></p>
+<ul>
+<li><strong>Initial coverage:</strong> 74.00% ❌</li>
+<li><strong>Agent 3 feedback:</strong> “Add 8-10 logger verification tests”</li>
+<li><strong>Target files:</strong> AnonymousParticipantCleanupService (28.57%), ParticipantValidationService (20.00%)</li>
+<li><strong>Status:</strong> Changes requested via agent-1-current.md</li>
+<li><strong>Outcome:</strong> Agent 1 working on fixes</li>
+</ul>
+<p><strong>PR #229 (Agent 2 - Repository Extractions Batch 2):</strong></p>
+<ul>
+<li><strong>Initial coverage:</strong> 79.43% ❌</li>
+<li><strong>Agent 3 feedback:</strong> “Just short of 80% - add 2-3 edge case tests”</li>
+<li><strong>Target:</strong> TournamentLifecycleRepository tests</li>
+<li><strong>Status:</strong> Changes requested via agent-2-current.md</li>
+<li><strong>Outcome:</strong> Agent 2 working on fixes</li>
+</ul>
+<p><strong>Benefits Demonstrated:</strong></p>
+<ul>
+<li>✅ Caught insufficient coverage before merge</li>
+<li>✅ Provided actionable feedback</li>
+<li>✅ Agents autonomously fixing issues</li>
+<li>✅ No manual intervention needed</li>
+<li>✅ Quality standards maintained</li>
+</ul>
+<hr/>
+<h3 id="communication-pattern">Communication Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#communication-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Via agent-coordination branch files:</strong></p>
+<p><strong>Agent 3 → Agent X (agent-X-current.md):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="markdown" data-theme="github-light github-dark"><code data-language="markdown" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**Status:**</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> IN_PROGRESS (Coverage insufficient - 74.00% → 90% target)</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">## Required Coverage Fixes</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-light-font-weight:bold;--shiki-dark:#E1E4E8;--shiki-dark-font-weight:bold;">**HIGH PRIORITY:**</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">1.</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> AnonymousParticipantCleanupService.kt - 28.57% patch coverage</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">   -</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Add logger verification tests for cleanup flows</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">2.</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ParticipantValidationService.kt - 20.00% patch coverage</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">   -</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> Add logger verification tests for validation logic</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">### How to Fix</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">[Code examples and patterns...]</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-light-font-weight:bold;--shiki-dark:#79B8FF;--shiki-dark-font-weight:bold;">### Success Criteria</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ✅ Boost patch coverage to >80%</span></span>
+<span data-line><span style="--shiki-light:#E36209;--shiki-dark:#FFAB70;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ✅ All tests passing</span></span></code></pre></figure>
+<p><strong>Agent X acknowledges by:</strong></p>
+<ul>
+<li>Reading updated agent-X-current.md</li>
+<li>Implementing fixes</li>
+<li>Updating status to indicate progress</li>
+</ul>
+<hr/>
+<h3 id="agent-autonomy">Agent Autonomy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-autonomy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week 24 demonstrations:</strong></p>
+<p><strong>Agent 1 Discovery:</strong></p>
+<ul>
+<li>Assigned LoggingProvider batch 4 with specific files</li>
+<li>Discovered 2 files already migrated</li>
+<li>Proposed revised target in agent-1-current.md</li>
+<li>Orchestrator approved via coordination file</li>
+</ul>
+<p><strong>Agent 2 Check-in:</strong></p>
+<ul>
+<li>Completed 50% of repository extractions</li>
+<li>Asked orchestrator whether to continue or pause</li>
+<li>Updated agent-2-current.md with progress</li>
+<li>Orchestrator provided guidance</li>
+</ul>
+<p><strong>Agent 3 Validation:</strong></p>
+<ul>
+<li>Autonomously reviewed both PRs</li>
+<li>Provided detailed feedback without prompting</li>
+<li>Updated agent coordination files proactively</li>
+<li>No orchestrator intervention needed for review process</li>
+</ul>
+<p><strong>Key Insight:</strong> File-based coordination enables true agent autonomy</p>
+<hr/>
+<h2 id="week-23-24-success-metrics">Week 23-24 Success Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-23-24-success-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-23-results">Week 23 Results<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-23-results" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Primary Focus:</strong> iOS Blocker Reduction + LoggingProvider Migration</p>
+<p><strong>Agent 1 (AAP):</strong> ✅ COMPLETE</p>
+<ul>
+<li>Task: LoggingProvider batch 3 (TournamentSyncService, RoundViewModel)</li>
+<li>Result: 35 logs migrated</li>
+<li>PR #225: Merged</li>
+<li>Coverage: >90%</li>
+<li>Duration: 1 hour</li>
+</ul>
+<p><strong>Agent 2 (AAM):</strong> ✅ COMPLETE</p>
+<ul>
+<li>Task: Repository extractions (TournamentSettingsRepository, TournamentDiscoveryRepository)</li>
+<li>Result: HybridTournamentRepository 1,877 → 1,805 lines (72 lines reduced)</li>
+<li>Tests: 92 tests added</li>
+<li>PR #226: Merged</li>
+<li>Coverage: >80%</li>
+<li>Duration: ~14 hours</li>
+</ul>
+<p><strong>Agent 3 (AAA):</strong> ✅ COMPLETE</p>
+<ul>
+<li>Task: Cross-review both PRs</li>
+<li>Result: Both PRs approved after coverage validation</li>
+<li>Quality gate: Enforced >80% standard</li>
+<li>Duration: ~4 hours</li>
+</ul>
+<p><strong>Total Week 23:</strong></p>
+<ul>
+<li>Duration: ~20 hours (completed in 1 day with 3 agents in parallel)</li>
+<li>PRs merged: 2</li>
+<li>Tests added: 97</li>
+<li>Lines reduced: 107</li>
+<li>Coverage: >80% maintained</li>
+<li>Regressions: Zero</li>
+<li>Process: File-based coordination validated successfully</li>
+</ul>
+<hr/>
+<h3 id="week-24-status-in-progress">Week 24 Status (In Progress)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-24-status-in-progress" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Primary Focus:</strong> Continue iOS Blocker Reduction - Reach 80% LoggingProvider + Continue Repository Extractions</p>
+<p><strong>Agent 1 (AAP):</strong> 🔴 IN PROGRESS</p>
+<ul>
+<li>Task: LoggingProvider batch 4 (LiveScoringViewModel, TournamentDetailsViewModel, RoundDisplayViewModel)</li>
+<li>PR #228: Created, changes requested (coverage 74.00% → needs 90%)</li>
+<li>Status: Adding tests to reach gold standard</li>
+</ul>
+<p><strong>Agent 2 (AAM):</strong> 🔴 IN PROGRESS</p>
+<ul>
+<li>Task: Repository extractions batch 2 (TournamentLifecycleRepository, TournamentParticipantRepository)</li>
+<li>PR #229: Created, changes requested (coverage 79.43% → needs 80%+)</li>
+<li>Status: Adding edge case tests</li>
+</ul>
+<p><strong>Agent 3 (AAA):</strong> ⏸️ AWAITING</p>
+<ul>
+<li>Task: Quality gate validation</li>
+<li>Status: Provided feedback on both PRs, waiting for agents to fix</li>
+<li>Quality gate: Working as intended</li>
+</ul>
+<p><strong>Agent D:</strong> 🟢 ASSIGNED</p>
+<ul>
+<li>Task: Document file-based coordination protocol</li>
+<li>Status: Creating vault documentation for Week 23-24 refinements</li>
+</ul>
+<p><strong>Current Status:</strong> Quality gate process demonstrating value by catching coverage issues before merge</p>
+<hr/>
+<h2 id="advantages-over-previous-system">Advantages Over Previous System<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#advantages-over-previous-system" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="v10-copypaste-prompts---weeks-15-21">v1.0 (Copy/Paste Prompts - Weeks 15-21)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#v10-copypaste-prompts---weeks-15-21" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Workflow:</strong></p>
+<ol>
+<li>Orchestrator creates prompts</li>
+<li>Orchestrator writes delimited sections</li>
+<li><strong>User copy/pastes each section to each agent</strong> ❌</li>
+</ol>
+<p><strong>Problems:</strong></p>
+<ul>
+<li>High user friction (3+ copy/paste operations)</li>
+<li>Error-prone (paste to wrong agent)</li>
+<li>No persistence (prompts lost after paste)</li>
+<li>Session resumption unclear</li>
+</ul>
+<hr/>
+<h3 id="v20-file-based---week-22">v2.0 (File-Based - Week 22)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#v20-file-based---week-22" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Workflow:</strong></p>
+<ol>
+<li>Orchestrator creates prompts</li>
+<li>Orchestrator copies to agent-instructions/</li>
+<li>Orchestrator updates ACTIVE_ASSIGNMENTS.md</li>
+<li><strong>User says “check active assignments” (3x)</strong> ✅</li>
+</ol>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>✅ Minimal user friction (one command per agent)</li>
+<li>✅ Error-resistant (agents read own file)</li>
+<li>✅ Persistent (files in git)</li>
+<li>✅ Session resumption clear (re-read files)</li>
+<li>✅ Searchable history (archive/)</li>
+<li>✅ Scalable (add more agent-X-current.md files)</li>
+</ul>
+<hr/>
+<h3 id="v21-agent-coordination-branch---week-23">v2.1 (Agent-Coordination Branch - Week 23+)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#v21-agent-coordination-branch---week-23" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Workflow:</strong></p>
+<ol>
+<li>Orchestrator updates agent-coordination branch</li>
+<li>Orchestrator commits assignments to agent-X-current.md files</li>
+<li>Orchestrator updates orchestrator-current.md for own state</li>
+<li><strong>User says “check your assignment on agent-coordination” (4x)</strong> ✅</li>
+<li>Agents fetch from ../archery-apprentice (local, fast)</li>
+<li>Agents update their files and push status back</li>
+</ol>
+<p><strong>New Benefits (over v2.0):</strong></p>
+<ul>
+<li>✅ <strong>Bidirectional</strong> - Agents report status autonomously</li>
+<li>✅ <strong>Orchestrator self-coordination</strong> - orchestrator-current.md for resumability</li>
+<li>✅ <strong>Agent identity</strong> - CLAUDE.md sections for immediate context</li>
+<li>✅ <strong>Quality gate integration</strong> - Agent 3 feedback via coordination files</li>
+<li>✅ <strong>Local during session</strong> - No GitHub clutter until session end</li>
+<li>✅ <strong>Backup on session end</strong> - Push to remote for resumability</li>
+<li>✅ <strong>True agent autonomy</strong> - Agents make decisions and report proactively</li>
+</ul>
+<p><strong>Week 23-24 Validation:</strong></p>
+<ul>
+<li>2 PRs merged in Week 23 with zero copy-paste</li>
+<li>Quality gate caught 2 coverage issues in Week 24</li>
+<li>Agents autonomously updated status and requested guidance</li>
+<li>Orchestrator resumed Week 24 by reading orchestrator-current.md</li>
+<li>System working exceptionally well</li>
+</ul>
+<hr/>
+<h2 id="security-considerations">Security Considerations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#security-considerations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="file-access">File Access<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#file-access" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>All agents can access main repo:</strong></p>
+<ul>
+<li>Worktrees share filesystem</li>
+<li>No authentication needed</li>
+<li>Trust model: All agents are collaborative</li>
+</ul>
+<p><strong>Vault access:</strong></p>
+<ul>
+<li>Only orchestrator uses Obsidian MCP</li>
+<li>Agents don’t need vault access</li>
+<li>Vault documentation is reference only</li>
+</ul>
+<hr/>
+<h3 id="git-isolation">Git Isolation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#git-isolation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agents work in separate branches:</strong></p>
+<ul>
+<li>No merge conflicts</li>
+<li>Independent PRs</li>
+<li>User controls merges</li>
+</ul>
+<p><strong>Worktrees prevent conflicts:</strong></p>
+<ul>
+<li>Each agent has own working tree</li>
+<li>Simultaneous work possible</li>
+<li>Clean git history</li>
+</ul>
+<hr/>
+<h2 id="monitoring--observability">Monitoring &amp; Observability<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#monitoring--observability" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="current-status-check">Current Status Check<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#current-status-check" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Option 1:</strong> Read ACTIVE_ASSIGNMENTS.md directly
+<strong>Option 2:</strong> Ask Agent O: “What’s the status?”
+<strong>Option 3:</strong> Check GitHub for PRs</p>
+<p><strong>What to look for:</strong></p>
+<ul>
+<li>How many agents 🟢 Active?</li>
+<li>Any agents 🟡 Pending Review?</li>
+<li>Expected completion timeline?</li>
+</ul>
+<hr/>
+<h3 id="progress-tracking">Progress Tracking<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#progress-tracking" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Per Week:</strong></p>
+<ul>
+<li>Week start: All agents 🟢 Active</li>
+<li>Week middle: Some 🟡 Pending Review</li>
+<li>Week end: All ✅ Complete</li>
+</ul>
+<p><strong>Historical:</strong></p>
+<ul>
+<li>Archive in <code>docs/agent-instructions/archive/</code></li>
+<li>Planning in <code>docs/AGENT_MESSAGES/WEEK_X/</code></li>
+<li>Git log shows commits per agent</li>
+</ul>
+<hr/>
+<h2 id="troubleshooting">Troubleshooting<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#troubleshooting" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="agent-cant-find-assignment">Agent Can’t Find Assignment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-cant-find-assignment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Symptom:</strong> Agent says “File not found”</p>
+<p><strong>Check:</strong></p>
+<ol>
+<li>Is agent in correct worktree?</li>
+<li>Does <code>../archery-apprentice/docs/ACTIVE_ASSIGNMENTS.md</code> exist?</li>
+<li>Are worktrees siblings in filesystem?</li>
+</ol>
+<p><strong>Fix:</strong> Verify directory structure matches expected layout</p>
+<hr/>
+<h3 id="status-out-of-sync">Status Out of Sync<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#status-out-of-sync" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Symptom:</strong> ACTIVE_ASSIGNMENTS.md shows 🟢 Active but PR created</p>
+<p><strong>Check:</strong></p>
+<ol>
+<li>When was file last updated?</li>
+<li>Did orchestrator/user forget to update?</li>
+</ol>
+<p><strong>Fix:</strong> Update status manually or ask orchestrator</p>
+<hr/>
+<h3 id="old-assignment-loaded">Old Assignment Loaded<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#old-assignment-loaded" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Symptom:</strong> Agent reads Week X-1 instructions instead of Week X</p>
+<p><strong>Check:</strong></p>
+<ol>
+<li>Was <code>agent-X-current.md</code> overwritten?</li>
+<li>Does ACTIVE_ASSIGNMENTS.md show correct week?</li>
+</ol>
+<p><strong>Fix:</strong> Verify copy operation succeeded, ask agent to re-read</p>
+<hr/>
+<h2 id="future-enhancements-optional">Future Enhancements (Optional)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#future-enhancements-optional" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="potential-v30-features">Potential v3.0 Features<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#potential-v30-features" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>If needed:</strong></p>
+<ul>
+<li>Automated status updates (git hooks)</li>
+<li>Web dashboard for status visualization</li>
+<li>Slack/Discord notifications on PR creation</li>
+<li>AI-powered assignment generation</li>
+<li>Cross-agent message passing (if collaboration needed)</li>
+</ul>
+<p><strong>Current assessment:</strong> v2.0 is sufficient for current scale (3-4 agents)</p>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><strong>For User:</strong> <code>USER_GUIDE.md</code> (vault)</li>
+<li><strong>For Orchestrator:</strong> <code>ORCHESTRATOR_PLAYBOOK.md</code> (vault)</li>
+<li><strong>Session Resumption:</strong> <code>SESSION_RESUMPTION.md</code> (vault)</li>
+<li><strong>Quick Reference:</strong> <code>docs/QUICK_START_MULTI_AGENT.md</code> (main repo)</li>
+</ul>
+<hr/>
+<h2 id="appendix-command-reference">Appendix: Command Reference<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#appendix-command-reference" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="agent-commands">Agent Commands<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-commands" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Check current assignment</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cat</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-apprentice/docs/ACTIVE_ASSIGNMENTS.md</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Read detailed instructions</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cat</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-apprentice/docs/agent-instructions/agent-1-current.md</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Fallback: Find latest prompt manually</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cd</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ../archery-apprentice</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">ls</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/AGENT_MESSAGES/WEEK_</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">/AGENT_1_</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">.md</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> |</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> sort</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> |</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> tail</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -1</span></span></code></pre></figure>
+<h3 id="orchestrator-commands">Orchestrator Commands<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#orchestrator-commands" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Create new week assignments</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">mkdir</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -p</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/AGENT_MESSAGES/WEEK_X</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># [create planning and prompt files]</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Copy to current assignments</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cp</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/AGENT_MESSAGES/WEEK_X/AGENT_1_</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">.md</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/agent-instructions/agent-1-current.md</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cp</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/AGENT_MESSAGES/WEEK_X/AGENT_2_</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">.md</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/agent-instructions/agent-2-current.md</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cp</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/AGENT_MESSAGES/WEEK_X/AGENT_3_</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">.md</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/agent-instructions/agent-3-current.md</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Update status table</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># [edit docs/ACTIVE_ASSIGNMENTS.md]</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Archive completed week</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">mkdir</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -p</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/agent-instructions/archive/week-X</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">cp</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/agent-instructions/agent-</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">*</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">.md</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> docs/agent-instructions/archive/week-X/</span></span></code></pre></figure>
+<hr/>
+<p><strong>System designed for simplicity, scalability, and minimal user friction.</strong></p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-171" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#multi-agent-coordination-system---technical-overview" data-for="multi-agent-coordination-system---technical-overview">Multi-Agent Coordination System - Technical Overview</a></li><li class="depth-1"><a href="#system-architecture" data-for="system-architecture">System Architecture</a></li><li class="depth-2"><a href="#high-level-overview" data-for="high-level-overview">High-Level Overview</a></li><li class="depth-1"><a href="#core-components" data-for="core-components">Core Components</a></li><li class="depth-2"><a href="#1-agent-coordination-branch" data-for="1-agent-coordination-branch">1. agent-coordination Branch</a></li><li class="depth-2"><a href="#2-active_assignmentsmd" data-for="2-active_assignmentsmd">2. ACTIVE_ASSIGNMENTS.md</a></li><li class="depth-2"><a href="#3-agent-status-files-bidirectional" data-for="3-agent-status-files-bidirectional">3. Agent Status Files (Bidirectional)</a></li><li class="depth-2"><a href="#4-orchestrator-currentmd-self-coordination" data-for="4-orchestrator-currentmd-self-coordination">4. orchestrator-current.md (Self-Coordination)</a></li><li class="depth-2"><a href="#5-agent-claudemd-protocol" data-for="5-agent-claudemd-protocol">5. Agent CLAUDE.md Protocol</a></li><li class="depth-2"><a href="#4-historical-records" data-for="4-historical-records">4. Historical Records</a></li><li class="depth-1"><a href="#data-flow" data-for="data-flow">Data Flow</a></li><li class="depth-2"><a href="#starting-new-week" data-for="starting-new-week">Starting New Week</a></li><li class="depth-2"><a href="#agent-completion-flow" data-for="agent-completion-flow">Agent Completion Flow</a></li><li class="depth-1"><a href="#technical-implementation" data-for="technical-implementation">Technical Implementation</a></li><li class="depth-2"><a href="#no-skills-required" data-for="no-skills-required">No Skills Required</a></li><li class="depth-2"><a href="#file-system-layout" data-for="file-system-layout">File System Layout</a></li><li class="depth-1"><a href="#agent-roles" data-for="agent-roles">Agent Roles</a></li><li class="depth-2"><a href="#agent-1-aap---platform--architecture" data-for="agent-1-aap---platform--architecture">Agent 1 (AAP - Platform &amp; Architecture)</a></li><li class="depth-2"><a href="#agent-2-aam---modules--data-layer" data-for="agent-2-aam---modules--data-layer">Agent 2 (AAM - Modules &amp; Data Layer)</a></li><li class="depth-2"><a href="#agent-3-aaa---analysis--validation" data-for="agent-3-aaa---analysis--validation">Agent 3 (AAA - Analysis &amp; Validation)</a></li><li class="depth-2"><a href="#agent-d-documentation" data-for="agent-d-documentation">Agent D (Documentation)</a></li><li class="depth-2"><a href="#agent-o-orchestrator" data-for="agent-o-orchestrator">Agent O (Orchestrator)</a></li><li class="depth-1"><a href="#session-management" data-for="session-management">Session Management</a></li><li class="depth-2"><a href="#stateless-design" data-for="stateless-design">Stateless Design</a></li><li class="depth-2"><a href="#resumption-strategy" data-for="resumption-strategy">Resumption Strategy</a></li><li class="depth-1"><a href="#scalability" data-for="scalability">Scalability</a></li><li class="depth-2"><a href="#current-3-agents" data-for="current-3-agents">Current: 3 Agents</a></li><li class="depth-2"><a href="#future-5-10-agents" data-for="future-5-10-agents">Future: 5-10 Agents</a></li><li class="depth-1"><a href="#quality-gate-process-week-23-24" data-for="quality-gate-process-week-23-24">Quality Gate Process (Week 23-24)</a></li><li class="depth-2"><a href="#overview" data-for="overview">Overview</a></li><li class="depth-2"><a href="#workflow" data-for="workflow">Workflow</a></li><li class="depth-2"><a href="#week-24-examples" data-for="week-24-examples">Week 24 Examples</a></li><li class="depth-2"><a href="#communication-pattern" data-for="communication-pattern">Communication Pattern</a></li><li class="depth-2"><a href="#agent-autonomy" data-for="agent-autonomy">Agent Autonomy</a></li><li class="depth-1"><a href="#week-23-24-success-metrics" data-for="week-23-24-success-metrics">Week 23-24 Success Metrics</a></li><li class="depth-2"><a href="#week-23-results" data-for="week-23-results">Week 23 Results</a></li><li class="depth-2"><a href="#week-24-status-in-progress" data-for="week-24-status-in-progress">Week 24 Status (In Progress)</a></li><li class="depth-1"><a href="#advantages-over-previous-system" data-for="advantages-over-previous-system">Advantages Over Previous System</a></li><li class="depth-2"><a href="#v10-copypaste-prompts---weeks-15-21" data-for="v10-copypaste-prompts---weeks-15-21">v1.0 (Copy/Paste Prompts - Weeks 15-21)</a></li><li class="depth-2"><a href="#v20-file-based---week-22" data-for="v20-file-based---week-22">v2.0 (File-Based - Week 22)</a></li><li class="depth-2"><a href="#v21-agent-coordination-branch---week-23" data-for="v21-agent-coordination-branch---week-23">v2.1 (Agent-Coordination Branch - Week 23+)</a></li><li class="depth-1"><a href="#security-considerations" data-for="security-considerations">Security Considerations</a></li><li class="depth-2"><a href="#file-access" data-for="file-access">File Access</a></li><li class="depth-2"><a href="#git-isolation" data-for="git-isolation">Git Isolation</a></li><li class="depth-1"><a href="#monitoring--observability" data-for="monitoring--observability">Monitoring &amp; Observability</a></li><li class="depth-2"><a href="#current-status-check" data-for="current-status-check">Current Status Check</a></li><li class="depth-2"><a href="#progress-tracking" data-for="progress-tracking">Progress Tracking</a></li><li class="depth-1"><a href="#troubleshooting" data-for="troubleshooting">Troubleshooting</a></li><li class="depth-2"><a href="#agent-cant-find-assignment" data-for="agent-cant-find-assignment">Agent Can’t Find Assignment</a></li><li class="depth-2"><a href="#status-out-of-sync" data-for="status-out-of-sync">Status Out of Sync</a></li><li class="depth-2"><a href="#old-assignment-loaded" data-for="old-assignment-loaded">Old Assignment Loaded</a></li><li class="depth-1"><a href="#future-enhancements-optional" data-for="future-enhancements-optional">Future Enhancements (Optional)</a></li><li class="depth-2"><a href="#potential-v30-features" data-for="potential-v30-features">Potential v3.0 Features</a></li><li class="depth-1"><a href="#related-documentation" data-for="related-documentation">Related Documentation</a></li><li class="depth-1"><a href="#appendix-command-reference" data-for="appendix-command-reference">Appendix: Command Reference</a></li><li class="depth-2"><a href="#agent-commands" data-for="agent-commands">Agent Commands</a></li><li class="depth-2"><a href="#orchestrator-commands" data-for="orchestrator-commands">Orchestrator Commands</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

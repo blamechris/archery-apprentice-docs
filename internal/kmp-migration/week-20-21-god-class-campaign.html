@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>Week 20-21: God Class Discovery &amp; Repository Layer Investigation</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="Week 20-21: God Class Discovery &amp; Repository Layer Investigation"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Week 20-21: God Class Discovery &amp; Repository Layer Investigation"/><meta name="twitter:description" content="Week 20-21: God Class Discovery &amp; Repository Layer Investigation Period: November 2025 Focus: God class campaign launch and repository layer investigation Critical Finding: 10 god classes discovered (3.2x larger than expected) Executive Summary Week 20 launched the god class reduction campaign w..."/><meta property="og:description" content="Week 20-21: God Class Discovery &amp; Repository Layer Investigation Period: November 2025 Focus: God class campaign launch and repository layer investigation Critical Finding: 10 god classes discovered (3.2x larger than expected) Executive Summary Week 20 launched the god class reduction campaign w..."/><meta property="og:image:alt" content="Week 20-21: God Class Discovery &amp; Repository Layer Investigation Period: November 2025 Focus: God class campaign launch and repository layer investigation Critical Finding: 10 god classes discovered (3.2x larger than expected) Executive Summary Week 20 launched the god class reduction campaign w..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-20-21-god-class-campaign"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-20-21-god-class-campaign"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="Week 20-21: God Class Discovery &amp; Repository Layer Investigation Period: November 2025 Focus: God class campaign launch and repository layer investigation Critical Finding: 10 god classes discovered (3.2x larger than expected) Executive Summary Week 20 launched the god class reduction campaign w..."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-20-21-god-class-campaign-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-20-21-god-class-campaign-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/internal/kmp-migration/week-20-21-god-class-campaign-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="internal/kmp-migration/week-20-21-god-class-campaign"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-390"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-390" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/">internal</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../internal/kmp-migration/">kmp migration</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>Week 20 21: God Class Discovery &amp; Repository Layer Investigation</a></div></nav><h1 class="article-title">Week 20-21: God Class Discovery &amp; Repository Layer Investigation</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-09T00:00:00.000Z">Nov 09, 2025</time><span>15 min read</span></p><ul class="tags"><li><a href="../../tags/week-20" class="internal tag-link">week-20</a></li><li><a href="../../tags/week-21" class="internal tag-link">week-21</a></li><li><a href="../../tags/god-class" class="internal tag-link">god-class</a></li><li><a href="../../tags/repository-layer" class="internal tag-link">repository-layer</a></li><li><a href="../../tags/ios-blocker" class="internal tag-link">ios-blocker</a></li><li><a href="../../tags/agent-cross-review" class="internal tag-link">agent-cross-review</a></li><li><a href="../../tags/firebase-abstraction" class="internal tag-link">firebase-abstraction</a></li><li><a href="../../tags/kmp-migration" class="internal tag-link">kmp-migration</a></li><li><a href="../../tags/conservative-scoping" class="internal tag-link">conservative-scoping</a></li><li><a href="../../tags/quality-gate" class="internal tag-link">quality-gate</a></li></ul></div></div><article class="popover-hint"><h1 id="week-20-21-god-class-discovery--repository-layer-investigation">Week 20-21: God Class Discovery &amp; Repository Layer Investigation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-20-21-god-class-discovery--repository-layer-investigation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Period</strong>: November 2025
+<strong>Focus</strong>: God class campaign launch and repository layer investigation
+<strong>Critical Finding</strong>: 10 god classes discovered (3.2x larger than expected)</p>
+<hr/>
+<h2 id="executive-summary">Executive Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#executive-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p>Week 20 launched the god class reduction campaign with conservative scoping and all 4 agents deployed. Week 21 transitions to tackling the <strong>critical iOS blocker</strong> (repository layer) while continuing proven quick wins.</p>
+<p><strong>Week 20 Results</strong>:</p>
+<ul>
+<li><strong>661 lines reduced</strong> across 3 PRs (4.1% of 16,211 total god class lines)</li>
+<li><strong>30 logs migrated</strong> to LoggingProvider pattern (7% of 452 total)</li>
+<li><strong>Agent cross-review system validated</strong> - caught memory leak regression in PR #213</li>
+<li><strong>Conservative scoping proven</strong> - all PRs merged successfully</li>
+</ul>
+<p><strong>Critical Discovery</strong>:</p>
+<ul>
+<li><strong>10 god classes identified</strong> (previously thought to be 3)</li>
+<li><strong>Total: 16,211 lines</strong> (3.2x larger problem than originally assessed)</li>
+<li><strong>iOS blocker discovered</strong>: Repository layer (3,726 lines) must be refactored before iOS work can proceed</li>
+<li><strong>Timeline impact</strong>: +8 weeks to iOS readiness</li>
+</ul>
+<p><strong>Week 21 Strategy</strong>:</p>
+<ul>
+<li><strong>Option 2 (Balanced)</strong> approved - 3 agents active</li>
+<li><strong>Target</strong>: 1,200-1,400 lines reduced (7.4-8.6% of total)</li>
+<li><strong>Strategic focus</strong>: Start repository layer investigation (addresses iOS blocker)</li>
+<li><strong>Risk</strong>: Medium (repository work is investigative, has escape hatch)</li>
+</ul>
+<hr/>
+<h2 id="week-20-achievements">Week 20 Achievements<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-20-achievements" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="prs-merged">PRs Merged<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#prs-merged" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="pr-214-agent-1-aap---roundviewmodel-stub-cleanup">PR #214: Agent 1 (AAP) - RoundViewModel Stub Cleanup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pr-214-agent-1-aap---roundviewmodel-stub-cleanup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Impact</strong>: 55 lines removed (3.5% reduction)</p>
+<p><strong>Work Completed</strong>:</p>
+<ul>
+<li>Removed 3 deprecated ERROR-level stub methods from RoundViewModel</li>
+<li>RoundViewModel: 1,582 → 1,527 lines</li>
+<li>Methods removed:
+<ol>
+<li><code>finalizeEnd()</code> - 11 lines</li>
+<li><code>addArrowScore()</code> - 10 lines</li>
+<li><code>completeCurrentEnd()</code> - 27 lines</li>
+<li>
+<ul>
+<li>6 lines of blank lines/documentation</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><strong>Risk Level</strong>: Medium</p>
+<ul>
+<li>All methods were ERROR-level deprecations (already failing compilation)</li>
+<li>Test adapter routes to LiveScoringViewModel (safe)</li>
+<li>Build successful, no regressions</li>
+</ul>
+<p><strong>Phase 2 Status</strong>: ⏸️ TABLED</p>
+<ul>
+<li>COMPATIBILITY STUBS section (100-200 lines) deferred to Week 21+</li>
+<li>Reason: Week 20 goals achieved, focus on merging current PRs</li>
+</ul>
+<hr/>
+<h4 id="pr-212-agent-3-aaa---activescoringscreen-ui-extraction-phase-1">PR #212: Agent 3 (AAA) - ActiveScoringScreen UI Extraction Phase 1<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pr-212-agent-3-aaa---activescoringscreen-ui-extraction-phase-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Impact</strong>: 235 lines removed (11.7% reduction) + 30 logs migrated</p>
+<p><strong>Work Completed</strong>:</p>
+<ul>
+<li>Extracted 3 composables from ActiveScoringScreen (2,011 → 1,776 lines)</li>
+<li>Components extracted:
+<ol>
+<li><strong>ParticipantSelector</strong> (~80 lines) - Participant selection dropdown</li>
+<li><strong>EndInputCard</strong> (~100 lines) - Arrow scoring input card</li>
+<li><strong>ScoringSummary</strong> (~55 lines) - Current end scoring summary</li>
+</ol>
+</li>
+</ul>
+<p><strong>LoggingProvider Demo</strong>:</p>
+<ul>
+<li>Migrated 30 <code>android.util.Log</code> calls to LoggingProvider pattern</li>
+<li>Established template for bulk migration (422 remaining logs)</li>
+<li>Pattern: Module-level logger for KMP compatibility</li>
+</ul>
+<p><strong>Quality</strong>:</p>
+<ul>
+<li>Clean component boundaries with callback-based communication</li>
+<li>Comprehensive KDoc documentation</li>
+<li>100% test coverage maintained</li>
+</ul>
+<p><strong>Phase 2 Potential</strong>: 600 more lines available (4 additional composables identified)</p>
+<hr/>
+<h4 id="pr-213-agent-2-aam---3-viewmodel-migrations">PR #213: Agent 2 (AAM) - 3 ViewModel Migrations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#pr-213-agent-2-aam---3-viewmodel-migrations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Impact</strong>: 371 lines removed (49.7% avg reduction)</p>
+<p><strong>ViewModels Migrated</strong>:</p>
+<ol>
+<li><strong>RoundDisplayViewModel</strong>: 221 → 47 lines (78.7% reduction)</li>
+<li><strong>SettingsViewModel</strong>: 227 → 109 lines (52.0% reduction)</li>
+<li><strong>TournamentCreationViewModel</strong>: 298 → 219 lines (26.5% reduction)</li>
+</ol>
+<p><strong>Quality Gate Event</strong>:</p>
+<ul>
+<li>Agent 3 review discovered memory leak pattern in 2/3 Presenters</li>
+<li>Issue: Used <code>asStateFlow()</code> instead of <code>stateIn()</code></li>
+<li>Agent 2 fixed immediately (PR #213 updated)</li>
+<li><strong>Result</strong>: Prevented Week 17-18 memory leak pattern from reaching production</li>
+</ul>
+<p><strong>Memory Leak Fix</strong>:</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ❌ WRONG (memory leak)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">init</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    scope.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">launch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">().</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">collectLatest</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            _data.</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">value</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> =</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> it  </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Leak!</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">        }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ✅ CORRECT (no leak)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">val</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> data</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">StateFlow</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">T</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> repository.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">getData</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">stateIn</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(scope, SharingStarted.Eagerly, initialValue)</span></span></code></pre></figure>
+<p><strong>Test Coverage</strong>: 75/75 tests passing</p>
+<hr/>
+<h3 id="week-20-summary">Week 20 Summary<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-20-summary" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Total Reduced</strong>: 661 lines (4.1% of 16,211 total god class lines)</p>
+<p><strong>Agent Contributions</strong>:</p>
+<ul>
+<li><strong>Agent 1 (AAP)</strong>: 55 lines (RoundViewModel stub cleanup)</li>
+<li><strong>Agent 2 (AAM)</strong>: 371 lines (3 ViewModel migrations)</li>
+<li><strong>Agent 3 (AAA)</strong>: 235 lines + 30 logs (UI extraction + LoggingProvider demo)</li>
+<li><strong>Agent D (DOC)</strong>: 2 vault PRs merged (Weeks 17-19 summary + god class discovery)</li>
+</ul>
+<p><strong>Quality Metrics</strong>:</p>
+<ul>
+<li>✅ 100% test coverage maintained (4,034+ tests passing)</li>
+<li>✅ Zero regressions shipped</li>
+<li>✅ Agent cross-review caught memory leak (quality gate works!)</li>
+<li>✅ Conservative scoping prevented overcommitment</li>
+</ul>
+<p><strong>Strategic Achievements</strong>:</p>
+<ol>
+<li><strong>Cross-review system validated</strong> - Agent 3 caught memory leak in Agent 2’s work</li>
+<li><strong>LoggingProvider pattern established</strong> - Template for 422 remaining logs</li>
+<li><strong>UI extraction pattern proven</strong> - 3 composables, clean boundaries, ready for Phase 2</li>
+<li><strong>Conservative scoping effective</strong> - All PRs merged on time</li>
+</ol>
+<hr/>
+<h2 id="critical-discovery-10-god-classes">Critical Discovery: 10 God Classes<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#critical-discovery-10-god-classes" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="original-assessment-pre-week-20">Original Assessment (Pre-Week 20)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#original-assessment-pre-week-20" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>3 god classes identified</strong>:</p>
+<ol>
+<li>LiveScoringViewModel - 1,497 lines</li>
+<li>RoundViewModel - 1,581 lines</li>
+<li>ActiveScoringScreen - 2,011 lines</li>
+</ol>
+<p><strong>Estimated effort</strong>: 13 weeks
+<strong>Timeline to iOS</strong>: 3 months</p>
+<h3 id="revised-assessment-week-20-discovery">Revised Assessment (Week 20 Discovery)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#revised-assessment-week-20-discovery" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>10 god classes identified</strong> - 3.2x larger problem!</p>
+<h4 id="tier-1-critical-ios-blockers-3726-lines">Tier 1: Critical iOS Blockers (3,726 lines)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tier-1-critical-ios-blockers-3726-lines" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Repository layer crisis</strong> - blocks iOS migration</p>
+<p><strong>4. FirebaseTournamentRepository - 1,912 lines</strong> 🚨</p>
+<ul>
+<li>Blocks Firebase abstraction for KMP</li>
+<li>52 public methods, 8 distinct concerns</li>
+<li>Must be split before iOS work can proceed</li>
+<li>Concerns: Discovery, CRUD, Participants, Scoring, Rounds, Settings, Sync, Deletion</li>
+</ul>
+<p><strong>5. HybridTournamentRepository - 1,814 lines</strong> 🚨</p>
+<ul>
+<li>Blocks iOS migration (tight coupling to Android)</li>
+<li>Coordinator between offline and Firebase repositories</li>
+<li>Requires 4 repository extractions (estimated Weeks 21-24)</li>
+<li>Dependencies: OfflineTournamentRepository, FirebaseTournamentRepository</li>
+</ul>
+<p><strong>7. RoundRepository - 1,518 lines</strong></p>
+<ul>
+<li>Part of repository layer refactoring</li>
+<li>Medium priority (after Tournament repositories)</li>
+</ul>
+<p><strong>Repository Layer Total</strong>: 3,726 lines (23% of total god class problem)</p>
+<hr/>
+<h4 id="tier-2-active-development-targets-4489-lines">Tier 2: Active Development Targets (4,489 lines)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tier-2-active-development-targets-4489-lines" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Currently being reduced in Weeks 20-21</strong></p>
+<p><strong>1. LiveScoringViewModel - 1,497 lines</strong></p>
+<ul>
+<li>5 services already extracted (Week 15-16)</li>
+<li>Remaining: 2 services to extract (Arrow scoring, Participant state)</li>
+<li>Target: Reduce to 600-800 lines</li>
+</ul>
+<p><strong>2. RoundViewModel - 1,581 lines</strong> (1,527 after Week 20)</p>
+<ul>
+<li>Week 20: 55 lines removed (Phase 1)</li>
+<li>Week 21 planned: 100-200 more lines (Phase 2 - COMPATIBILITY STUBS)</li>
+<li>Target: Reduce to 500-600 lines via ViewModel split</li>
+</ul>
+<p><strong>3. ActiveScoringScreen - 2,011 lines</strong> (1,776 after Week 20)</p>
+<ul>
+<li>Week 20: 235 lines extracted (3 composables)</li>
+<li>Week 21 planned: 600 more lines (4 composables)</li>
+<li>Target: Reduce to &lt;1,000 lines</li>
+</ul>
+<hr/>
+<h4 id="tier-3-future-targets-8996-lines">Tier 3: Future Targets (8,996 lines)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tier-3-future-targets-8996-lines" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>To be addressed after repository layer and active targets</strong></p>
+<ol start="6">
+<li>TournamentDetailsScreen - 1,725 lines</li>
+<li>TournamentDetailsViewModel - 1,418 lines</li>
+<li>RoundDetailsScreen - 1,215 lines</li>
+<li>RoundScoringEntryScreen - 1,011 lines</li>
+</ol>
+<hr/>
+<h3 id="impact-analysis">Impact Analysis<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#impact-analysis" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Total God Class Lines</strong>: 16,211 lines (was thought to be ~5,000)</p>
+<p><strong>Breakdown by Layer</strong>:</p>
+<ul>
+<li><strong>Repository Layer</strong> (Tier 1): 3,726 lines (23%) - <strong>iOS BLOCKER</strong></li>
+<li><strong>ViewModel Layer</strong>: 7,496 lines (46%)</li>
+<li><strong>UI Layer</strong>: 4,989 lines (31%)</li>
+</ul>
+<p><strong>Timeline Revision</strong>:</p>
+<ul>
+<li>Original estimate: 13 weeks (pre-discovery)</li>
+<li>Revised estimate: +8 weeks (repository layer blocker)</li>
+<li><strong>New iOS readiness target</strong>: Week 26 (projected)</li>
+</ul>
+<p><strong>Why +8 Weeks?</strong></p>
+<ul>
+<li>Repository layer must be refactored before iOS Firebase abstraction</li>
+<li>3,726 lines is complex work (8 distinct concerns across 2 repositories)</li>
+<li>Cannot parallelize (dependencies between repositories)</li>
+<li>Week 21 starts investigation, Weeks 22-25 execute extraction plan</li>
+</ul>
+<hr/>
+<h2 id="ios-blocker-identified">iOS Blocker Identified<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#ios-blocker-identified" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="the-problem">The Problem<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#the-problem" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Firebase Abstraction Blocked</strong>:</p>
+<ul>
+<li>iOS development requires <code>RemoteDataSource</code> interfaces (KMP-compatible)</li>
+<li>Current code: Direct Firebase Android SDK usage in repository layer</li>
+<li><strong>Blocker</strong>: FirebaseTournamentRepository (1,912 lines) and HybridTournamentRepository (1,814 lines) are tightly coupled to Firebase Android SDK</li>
+</ul>
+<p><strong>Why This Blocks iOS</strong>:</p>
+<ol>
+<li>Firebase Android SDK is not KMP-compatible</li>
+<li>iOS Firebase integration requires abstracted <code>RemoteDataSource</code> interfaces</li>
+<li>Repository layer has 8 distinct concerns (Discovery, CRUD, Participants, etc.)</li>
+<li>Cannot create clean <code>RemoteDataSource</code> until repository is split</li>
+</ol>
+<p><strong>Code Example</strong> (current problem):</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ❌ Current: Direct Firebase usage (Android-specific)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> FirebaseTournamentRepository</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> firestore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">FirebaseFirestore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">,  </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Android SDK</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> auth: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">FirebaseAuth</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">             // Android SDK</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournaments</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">        return</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> firestore.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">collection</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;tournaments&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">get</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()  </span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Android-specific call</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">await</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">()</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">            .</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">toObjects</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(Tournament::</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">class</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">.java)</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">    }</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<p><strong>What’s Needed</strong> (iOS-compatible):</p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="kotlin" data-theme="github-light github-dark"><code data-language="kotlin" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// ✅ Target: Abstracted RemoteDataSource (KMP-compatible)</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">interface</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> TournamentRemoteDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    suspend</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> fun</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> getTournaments</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(): </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">List</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">&lt;</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">Tournament</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">></span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// Android implementation</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> FirebaseTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">    private</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> val</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> firestore: </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">FirebaseFirestore</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentRemoteDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // ... Android Firebase implementation</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">// iOS implementation</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> IOSTournamentDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // ... iOS Firebase SDK</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">) : </span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">TournamentRemoteDataSource</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> {</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">    // ... iOS Firebase implementation</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">}</span></span></code></pre></figure>
+<hr/>
+<h3 id="the-solution">The Solution<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#the-solution" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week 21 Strategy</strong> (Agent 3):</p>
+<ul>
+<li><strong>Phase 1</strong>: Investigate HybridTournamentRepository (1,814 lines)</li>
+<li><strong>Phase 2</strong>: Extract 1-2 safe repositories (TournamentDiscoveryRepository OR TournamentSettingsRepository)</li>
+<li><strong>Phase 3</strong>: Document full repository split roadmap for Weeks 22-25</li>
+</ul>
+<p><strong>Repository Split Plan</strong> (estimated Weeks 21-24):</p>
+<ol>
+<li><strong>Week 21</strong>: TournamentDiscoveryRepository (400-600 lines)</li>
+<li><strong>Week 22</strong>: TournamentSettingsRepository (300-500 lines)</li>
+<li><strong>Week 23</strong>: TournamentParticipantRepository (400-600 lines)</li>
+<li><strong>Week 24</strong>: Remaining concerns (scoring, rounds, sync, deletion)</li>
+</ol>
+<p><strong>When Complete</strong>:</p>
+<ul>
+<li>FirebaseTournamentRepository reduced from 1,912 → ~500 lines</li>
+<li>HybridTournamentRepository reduced from 1,814 → ~500 lines</li>
+<li>Clean <code>RemoteDataSource</code> interfaces available for iOS</li>
+<li>iOS Firebase abstraction unblocked</li>
+</ul>
+<p><strong>Escape Hatch</strong>:</p>
+<ul>
+<li>If extraction proves too complex in Week 21, deliver investigation + roadmap only</li>
+<li>Week 22+ can execute extraction with more time</li>
+</ul>
+<hr/>
+<h2 id="week-21-strategy-option-2-balanced">Week 21 Strategy: Option 2 (Balanced)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-21-strategy-option-2-balanced" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="overview">Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Scope</strong>: 28% god class reduction (estimated 1,200-1,400 lines)
+<strong>Time</strong>: 30-35 hours/week
+<strong>Risk</strong>: Medium
+<strong>Agents</strong>: 3 active (Agent 1 + Agent 2 + Agent 3)</p>
+<p><strong>Why Option 2?</strong></p>
+<ol>
+<li><strong>Addresses iOS blocker</strong> - Agent 3 starts repository layer work</li>
+<li><strong>Proven patterns</strong> - Extends Week 20 successes (UI extraction, stub cleanup)</li>
+<li><strong>Balanced workload</strong> - Each agent has 1 clear focus</li>
+<li><strong>Risk management</strong> - Repository work has escape hatch (doc-only if complex)</li>
+<li><strong>Maintains quality</strong> - Agent cross-review continues</li>
+</ol>
+<hr/>
+<h3 id="agent-assignments">Agent Assignments<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-assignments" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="agent-1-aap-roundviewmodel-phase-2-stub-cleanup">Agent 1 (AAP): RoundViewModel Phase 2 Stub Cleanup<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-1-aap-roundviewmodel-phase-2-stub-cleanup" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Target</strong>: 100-200 lines removed
+<strong>Time</strong>: 8-10 hours
+<strong>Risk</strong>: Low</p>
+<p><strong>Task</strong>: Complete COMPATIBILITY STUBS assessment (tabled in Week 20)</p>
+<p><strong>Scope</strong>:</p>
+<ul>
+<li>RoundViewModel.kt lines 1174-1520+ (COMPATIBILITY STUBS section)</li>
+<li>Remove deprecated stub methods marked for cleanup</li>
+<li>Continue preparing for RoundCreationViewModel extraction</li>
+</ul>
+<p><strong>Success Criteria</strong>:</p>
+<ul>
+<li>✅ 100-200 lines removed</li>
+<li>✅ Build passing</li>
+<li>✅ Tests passing (adapter routing verified)</li>
+<li>✅ PR created with clear migration notes</li>
+</ul>
+<p><strong>Week 20 Precedent</strong>: Phase 1 removed 55 lines (3 stubs) successfully</p>
+<hr/>
+<h4 id="agent-2-aam-activescoringscreen-ui-extraction-phase-2">Agent 2 (AAM): ActiveScoringScreen UI Extraction Phase 2<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-2-aam-activescoringscreen-ui-extraction-phase-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Target</strong>: 600 lines removed
+<strong>Time</strong>: 15-18 hours
+<strong>Risk</strong>: Medium</p>
+<p><strong>Task</strong>: Extract 3-4 more composables from ActiveScoringScreen</p>
+<p><strong>Week 20 Baseline</strong>:</p>
+<ul>
+<li>ActiveScoringScreen: 2,011 → 1,776 lines (235 lines extracted)</li>
+</ul>
+<p><strong>Week 21 Target</strong>:</p>
+<ul>
+<li>ActiveScoringScreen: 1,776 → 1,176 lines (600 lines extracted, 34% reduction)</li>
+</ul>
+<p><strong>Candidate Components</strong>:</p>
+<ol>
+<li><strong>ParticipantTabs</strong> (~150 lines) - Tab navigation for multi-participant rounds</li>
+<li><strong>RoundProgressHeader</strong> (~200 lines) - Round info, progress, stats display</li>
+<li><strong>ScoringControls</strong> (~150 lines) - Arrow input buttons and controls</li>
+<li><strong>EndSummaryCard</strong> (~100 lines) - Completed end summary display</li>
+</ol>
+<p><strong>Success Criteria</strong>:</p>
+<ul>
+<li>✅ 3-4 composables extracted to <code>components/</code> package</li>
+<li>✅ 600 lines reduction (34% additional reduction)</li>
+<li>✅ Clean component boundaries (no tight coupling)</li>
+<li>✅ Build passing</li>
+<li>✅ Comprehensive KDoc documentation</li>
+</ul>
+<p><strong>Week 20 Precedent</strong>: Phase 1 extracted 3 composables (235 lines) successfully</p>
+<hr/>
+<h4 id="agent-3-aaa-repository-layer-investigation--critical">Agent 3 (AAA): Repository Layer Investigation 🚨 CRITICAL<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-3-aaa-repository-layer-investigation--critical" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Target</strong>: 400-600 lines extracted + roadmap
+<strong>Time</strong>: 14-18 hours
+<strong>Risk</strong>: Medium-High</p>
+<p><strong>Task</strong>: Investigate HybridTournamentRepository + extract 1-2 safe repositories</p>
+<p><strong>Phase 1: Investigation (6-8 hours)</strong></p>
+<ul>
+<li>Analyze HybridTournamentRepository (1,814 lines)</li>
+<li>Identify concerns (Discovery, CRUD, Participants, Scoring, Rounds, Settings)</li>
+<li>Map dependencies (OfflineTournamentRepository, FirebaseTournamentRepository)</li>
+<li>Identify 1-2 safe extractions with minimal risk</li>
+</ul>
+<p><strong>Phase 2: Extraction (6-8 hours)</strong></p>
+<ul>
+<li>Extract TournamentDiscoveryRepository OR TournamentSettingsRepository</li>
+<li>Target: 400-600 lines extracted</li>
+<li>Create comprehensive tests</li>
+<li>Document remaining work for Weeks 22-25</li>
+</ul>
+<p><strong>Phase 3: Documentation (2-3 hours)</strong></p>
+<ul>
+<li>Create repository split roadmap</li>
+<li>Document god class reduction strategy for all 10 classes</li>
+<li>Update investigation findings</li>
+</ul>
+<p><strong>Success Criteria</strong>:</p>
+<ul>
+<li>✅ 400-600 lines extracted from HybridTournamentRepository</li>
+<li>✅ Comprehensive roadmap for repository layer refactoring</li>
+<li>✅ Tests passing for extracted repository</li>
+<li>✅ Documented plan for FirebaseTournamentRepository (1,912 lines)</li>
+</ul>
+<p><strong>Escape Hatch</strong>: If extraction proves too complex, deliver investigation + roadmap only (documentation deliverable)</p>
+<p><strong>Strategic Importance</strong>: This work addresses the <strong>iOS blocker</strong> and de-risks the critical path to iOS readiness.</p>
+<hr/>
+<h3 id="success-metrics">Success Metrics<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#success-metrics" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Quantitative Targets</strong>:</p>
+<ul>
+<li><strong>Lines Reduced</strong>: 1,200-1,400 lines (UI + RoundViewModel + Repository)</li>
+<li><strong>God Class Progress</strong>: 7.4-8.6% of total 16,211 lines reduced</li>
+<li><strong>Repository Investigation</strong>: iOS blocker assessed, roadmap created</li>
+</ul>
+<p><strong>Qualitative Targets</strong>:</p>
+<ul>
+<li>✅ Agent cross-review continues (quality gate)</li>
+<li>✅ Repository layer de-risked (investigation complete)</li>
+<li>✅ Proven patterns extended (UI extraction Phase 2)</li>
+<li>✅ All PRs merged with zero regressions</li>
+</ul>
+<p><strong>Strategic Targets</strong>:</p>
+<ul>
+<li>✅ <strong>iOS blocker addressed</strong> - Repository layer work started</li>
+<li>✅ <strong>Weeks 22-25 roadmap</strong> - Clear path forward</li>
+<li>✅ <strong>Conservative pace</strong> - Sustainable velocity proven</li>
+</ul>
+<hr/>
+<h2 id="week-21-execution-2025-11-09">Week 21 Execution (2025-11-09)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-21-execution-2025-11-09" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Status:</strong> ✅ <strong>COMPLETE</strong></p>
+<p><strong>Strategy:</strong> Option 2 (Balanced) - 3 agents active</p>
+<h3 id="actual-results">Actual Results<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#actual-results" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 2 (AAM) - ActiveScoringScreen Phase 2:</strong></p>
+<ul>
+<li>✅ PR #216 merged</li>
+<li>Extracted: 3 composables (495 lines)
+<ul>
+<li>StatisticsSummaryCard.kt (363 lines)</li>
+<li>EndOfRoundCard.kt (165 lines)</li>
+<li>RoundCompleteCard.kt (177 lines)</li>
+</ul>
+</li>
+<li>ActiveScoringScreen: 1,784 → 1,289 lines (27.7% reduction)</li>
+<li>Cumulative (Phase 1+2): 730 lines total (38.4% of original 2,011 lines)</li>
+<li><strong>Innovation:</strong> Component reuse pattern established (StatItem shared across components)</li>
+</ul>
+<p><strong>Agent 3 (AAA) - Repository Investigation:</strong></p>
+<ul>
+<li>✅ PR #217 merged</li>
+<li>Investigation documents: 2,500+ lines
+<ul>
+<li>HybridTournamentRepository: 1,878 lines, 50+ methods, 8 concerns</li>
+<li>Identified: 1,010 lines extractable (54%)</li>
+<li>Prioritized: 6 repositories (Settings, Discovery, Sync, Rounds, Utils, Moderation)</li>
+<li>Test estimates: 75-91 tests across all extractions</li>
+</ul>
+</li>
+<li>Weeks 22-25 roadmap created (1,200+ lines)</li>
+<li>iOS blocker fully assessed (3,726 lines)</li>
+</ul>
+<p><strong>Agent 1 (AAP) - Investigation + LoggingProvider:</strong></p>
+<ul>
+<li>✅ PR #218 merged</li>
+<li><strong>Investigation:</strong> COMPATIBILITY STUBS analysis (333 lines)
+<ul>
+<li>Finding: Active compatibility layer (374 lines), not deprecated stubs</li>
+<li>Categories: 7 identified (Round Management, Creation, Live Scoring, etc.)</li>
+<li>Recommendation: Defer to Phase 3 (Weeks 22-23, 20-30 hours)</li>
+</ul>
+</li>
+<li><strong>LoggingProvider migration:</strong> 134 logs (30.5% of codebase)
+<ul>
+<li>RoundRepository.kt: 45 logs</li>
+<li>LiveScoringViewModel.kt: 89 logs</li>
+<li>Zero android.util.Log calls remaining in migrated files</li>
+<li>Remaining: 306 logs (Week 22 target: ~120 logs)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Week 21 Totals:</strong></p>
+<ul>
+<li><strong>Lines reduced:</strong> 495 lines (ActiveScoringScreen god class reduction)</li>
+<li><strong>Logs migrated:</strong> 134 logs (30.5% of codebase → LoggingProvider pattern)</li>
+<li><strong>Documentation:</strong> 2,500+ lines (repository investigation + Weeks 22-25 roadmap)</li>
+<li><strong>Strategic value:</strong> iOS blocker de-risked, clear execution path for 4 weeks</li>
+</ul>
+<p><strong>Success Metrics:</strong></p>
+<ul>
+<li>✅ 495 lines extracted (41% of 1,200-1,400 line target - revised scope with investigation work)</li>
+<li>✅ 30.5% of logging migration complete (134/440 logs)</li>
+<li>✅ Repository layer fully assessed (3,726 lines mapped)</li>
+<li>✅ Weeks 22-25 roadmap created with line-level extraction guides</li>
+<li>✅ Component reuse pattern established (first cross-component reuse)</li>
+</ul>
+<h3 id="week-22-readiness">Week 22 Readiness<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-22-readiness" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 2 (AAM) - Repository Extractions:</strong></p>
+<ol>
+<li>TournamentSettingsRepository (~80 lines, 10-12 tests, 3-5 hours)</li>
+<li>TournamentDiscoveryRepository (~280 lines, 15-18 tests, 6-8 hours)</li>
+<li>Shared helpers extraction (ID mapping, merge helpers)</li>
+<li>Total: ~360 lines, 10-12 hours</li>
+</ol>
+<p><strong>Agent 1 (AAP) - LoggingProvider Batch 2:</strong></p>
+<ol>
+<li>TournamentDetailsViewModel.kt (52 logs, ~2 hours)</li>
+<li>EndCompletionService.kt (36 logs, ~1.5 hours)</li>
+<li>ActiveScoringScreen.kt (32 logs, ~1.5 hours)</li>
+<li>Total: ~120 logs, ~5 hours</li>
+</ol>
+<p><strong>iOS Blocker Status:</strong></p>
+<ul>
+<li>Investigation: ✅ Complete</li>
+<li>Extraction: Starting Week 22</li>
+<li>Timeline: 4 weeks (Weeks 22-25) to complete repository layer refactoring</li>
+</ul>
+<p><strong>Cross-Review Quality:</strong> 100% approval rate</p>
+<ul>
+<li>Agent 3 approved PR #216 (Agent 2)</li>
+<li>Agent 2 approved PR #217 (Agent 3)</li>
+<li>Agent 2 approved PR #218 (Agent 1)</li>
+</ul>
+<hr/>
+<h2 id="lessons-learned">Lessons Learned<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#lessons-learned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-20-lessons">Week 20 Lessons<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-20-lessons" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. Cross-Review Quality Gate Works</strong></p>
+<ul>
+<li>Agent 3 reviewed Agent 2’s PR #213</li>
+<li>Found 2/3 Presenters using <code>asStateFlow()</code> instead of <code>stateIn()</code></li>
+<li>Blocked merge, required fix, prevented memory leak in production</li>
+<li><strong>Lesson</strong>: Multi-agent validation prevents regressions</li>
+</ul>
+<p><strong>2. Conservative Scoping Prevents Overcommitment</strong></p>
+<ul>
+<li>Week 20 targeted 661 lines (conservative)</li>
+<li>Result: All 3 PRs merged successfully</li>
+<li>Alternative: Aggressive scoping would have risked incomplete work</li>
+<li><strong>Lesson</strong>: Better to under-promise and over-deliver</li>
+</ul>
+<p><strong>3. Proven Patterns Replicate Well</strong></p>
+<ul>
+<li>UI extraction pattern (Week 20) proven successful</li>
+<li>ViewModel migration pattern (Weeks 17-19) continues to work</li>
+<li>Agent 1’s stub cleanup pattern effective</li>
+<li><strong>Lesson</strong>: Validate patterns before scaling</li>
+</ul>
+<p><strong>4. Documentation-First Discovery Works</strong></p>
+<ul>
+<li>Agent 3 analyzed codebase and discovered 7 additional god classes</li>
+<li>Total problem 3.2x larger than originally thought</li>
+<li>Early discovery allows timeline adjustment</li>
+<li><strong>Lesson</strong>: Invest in analysis before committing to timelines</li>
+</ul>
+<hr/>
+<h3 id="week-21-lessons">Week 21 Lessons<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-21-lessons" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<blockquote>
+<p><strong>Note</strong>: This section will be updated after Week 21 execution.</p>
+</blockquote>
+<p>[To be filled with lessons learned from Week 21 work]</p>
+<hr/>
+<h2 id="weeks-22-25-preview">Weeks 22-25 Preview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#weeks-22-25-preview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<blockquote>
+<p><strong>Note</strong>: This section will be updated after Agent 3 completes repository investigation.</p>
+</blockquote>
+<h3 id="projected-roadmap">Projected Roadmap<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#projected-roadmap" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Week 22</strong>: Repository Layer Phase 2</p>
+<ul>
+<li>[Based on Agent 3’s investigation findings]</li>
+<li>Estimated: 400-600 lines reduced</li>
+</ul>
+<p><strong>Week 23</strong>: Repository Layer Phase 3</p>
+<ul>
+<li>[Based on Agent 3’s roadmap]</li>
+<li>Estimated: 400-600 lines reduced</li>
+</ul>
+<p><strong>Week 24</strong>: Repository Layer Phase 4</p>
+<ul>
+<li>[Complete repository split]</li>
+<li>Estimated: 400-600 lines reduced</li>
+</ul>
+<p><strong>Week 25</strong>: iOS Readiness Validation</p>
+<ul>
+<li>Firebase abstraction complete</li>
+<li>RemoteDataSource interfaces defined</li>
+<li>iOS work unblocked</li>
+</ul>
+<p><strong>iOS Timeline</strong>: Week 26+ (projected)</p>
+<hr/>
+<h2 id="cumulative-progress-tracking">Cumulative Progress Tracking<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cumulative-progress-tracking" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-20-baseline-after-prs-merged">Week 20 Baseline (After PRs Merged)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-20-baseline-after-prs-merged" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>ActiveScoringScreen</strong>: 1,776 lines (was 2,011)</li>
+<li><strong>RoundViewModel</strong>: 1,527 lines (was 1,582)</li>
+<li><strong>LiveScoringViewModel</strong>: 1,497 lines (unchanged Week 20)</li>
+<li><strong>HybridTournamentRepository</strong>: 1,814 lines (unchanged)</li>
+<li><strong>FirebaseTournamentRepository</strong>: 1,912 lines (unchanged)</li>
+</ul>
+<h3 id="week-21-targets">Week 21 Targets<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-21-targets" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>ActiveScoringScreen</strong>: 1,776 → 1,176 lines (600 lines reduced, 34%)</li>
+<li><strong>RoundViewModel</strong>: 1,527 → 1,327 lines (200 lines reduced, 13%)</li>
+<li><strong>HybridTournamentRepository</strong>: 1,814 → 1,214-1,414 lines (400-600 lines reduced, 22-33%)</li>
+</ul>
+<h3 id="cumulative-god-class-progress">Cumulative God Class Progress<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cumulative-god-class-progress" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><strong>Week 20</strong>: 661 lines reduced (4.1% of 16,211 total)</li>
+<li><strong>Week 21 Target</strong>: 1,200-1,400 additional lines (7.4-8.6%)</li>
+<li><strong>Cumulative (Weeks 20-21)</strong>: 1,861-2,061 lines (11.5-12.7% of total)</li>
+</ul>
+<p><strong>Remaining</strong>: 14,150-14,350 lines (87.3-88.5% of total)</p>
+<p><strong>Projected Completion</strong> (at current pace):</p>
+<ul>
+<li>Average: ~1,300 lines/week</li>
+<li>Remaining weeks: ~11 weeks</li>
+<li><strong>iOS readiness</strong>: Week 26 (late November 2025)</li>
+</ul>
+<hr/>
+<h2 id="agent-cross-review-protocol">Agent Cross-Review Protocol<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#agent-cross-review-protocol" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-20-protocol-established">Week 20 Protocol (Established)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-20-protocol-established" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Agent 3 reviews Agent 2</strong> (ViewModel migrations):</p>
+<ul>
+<li>Check memory leak prevention pattern (<code>stateIn</code> vs <code>collectLatest</code>)</li>
+<li>Verify test coverage (all tests passing)</li>
+<li>Validate KMP compatibility (no Android imports in Presenters)</li>
+<li>Confirm pattern consistency</li>
+</ul>
+<p><strong>Agent 2 reviews Agent 1</strong> (if needed):</p>
+<ul>
+<li>Verify stub removal safety</li>
+<li>Check test adapter routing</li>
+<li>Validate build success</li>
+</ul>
+<p><strong>Result</strong>: Caught memory leak regression in PR #213 before merge</p>
+<h3 id="week-21-protocol-planned">Week 21 Protocol (Planned)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-21-protocol-planned" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Cross-review assignments</strong>:</p>
+<ul>
+<li>Agent 2 reviews Agent 1’s PR (RoundViewModel Phase 2)</li>
+<li>Agent 3 reviews Agent 2’s PR (ActiveScoringScreen Phase 2)</li>
+<li>Agent 1 reviews Agent 3’s PR (Repository extraction, if applicable)</li>
+</ul>
+<p><strong>Quality Gate</strong>: No PR merges without cross-review approval</p>
+<hr/>
+<h2 id="risk-assessment">Risk Assessment<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#risk-assessment" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="week-21-risks">Week 21 Risks<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#week-21-risks" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>1. Repository Layer Complexity (Agent 3)</strong> - Medium-High</p>
+<ul>
+<li>HybridTournamentRepository has 8 concerns</li>
+<li>Dependency on OfflineTournamentRepository and FirebaseTournamentRepository</li>
+<li><strong>Mitigation</strong>: Investigation phase first, escape hatch to documentation-only</li>
+</ul>
+<p><strong>2. ActiveScoringScreen Complexity (Agent 2)</strong> - Medium</p>
+<ul>
+<li>Composables may have tight coupling</li>
+<li><strong>Mitigation</strong>: Week 20 proved extraction works, follow same pattern</li>
+</ul>
+<p><strong>3. RoundViewModel Compatibility Layer (Agent 1)</strong> - Low</p>
+<ul>
+<li>Stubs may still be in use by UI code</li>
+<li><strong>Mitigation</strong>: Grep analysis before removal, adapter pattern proven in Week 20</li>
+</ul>
+<p><strong>4. Cross-Agent Dependencies</strong> - Low</p>
+<ul>
+<li>Agent 2 and Agent 3 both need Agent 1’s context for reviews</li>
+<li><strong>Mitigation</strong>: Agent 1 completes work first, Agent 2/3 cross-review each other</li>
+</ul>
+<p><strong>Overall Risk Level</strong>: Medium</p>
+<p>Week 20 proved conservative scoping works. Option 2 extends proven patterns with one investigative task (Agent 3 repository work) that has an escape hatch.</p>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><a href="../../internal/kmp-migration/week-20-god-class-discovery" class="internal alias" data-slug="internal/kmp-migration/week-20-god-class-discovery">Week 20 God Class Discovery</a> - Detailed analysis of all 10 god classes</li>
+<li><a href="../../internal/kmp-migration/week-17-19-summary" class="internal alias" data-slug="internal/kmp-migration/week-17-19-summary">Weeks 17-19 Overview</a> - ViewModel migration campaign</li>
+<li><a href="../../developer-guide/guides/best-practices/memory-leak-prevention" class="internal alias" data-slug="developer-guide/guides/best-practices/memory-leak-prevention">Memory Leak Prevention Pattern</a> - <code>stateIn</code> vs <code>collectLatest</code></li>
+<li><a href="../../developer-guide/guides/best-practices/combined-pr-strategy" class="internal alias" data-slug="developer-guide/guides/best-practices/combined-pr-strategy">Combined PR Strategy</a> - When to merge multiple weeks</li>
+<li><a href="../../internal/agents/agent-2-week-17-19" class="internal alias" data-slug="internal/agents/agent-2-week-17-19">Agent 2 Week 17-19 Summary</a> - ViewModel migration velocity</li>
+<li><a href="../../internal/agents/agent-3-week-17-19" class="internal alias" data-slug="internal/agents/agent-3-week-17-19">Agent 3 Week 17-19 Summary</a> - Quality gate validation</li>
+</ul>
+<hr/>
+<h2 id="references">References<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#references" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="source-documents">Source Documents<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#source-documents" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><code>docs/AGENT_MESSAGES/WEEK_21/ORCHESTRATOR_WEEK_21_PLANNING.md</code> - Week 21 strategy</li>
+<li><code>docs/AGENT_MESSAGES/WEEK_20/AGENT_1_CREATE_PR.md</code> - Agent 1 Week 20 work</li>
+<li><code>docs/AGENT_MESSAGES/WEEK_20/AGENT_3_REVIEW_PR_213.md</code> - Cross-review findings</li>
+<li><code>docs/AGENT_MESSAGES/WEEK_20/AGENT_2_FIX_PR_213_MEMORY_LEAKS.md</code> - Memory leak fix</li>
+</ul>
+<h3 id="main-repo-references">Main Repo References<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#main-repo-references" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ul>
+<li><code>GOD_CLASS_EXTRACTION_PLANS.md</code> - Detailed extraction plans for all 10 classes</li>
+<li><code>WEEK_15_20_INVESTIGATION_FINDINGS.md</code> - Investigation findings (to be created/updated)</li>
+</ul>
+<hr/>
+<h2 id="tags">Tags<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#tags" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><a href="../.././../tags/week-20" class="tag-link internal alias" data-slug="tags/week-20">week-20</a> <a href="../.././../tags/week-21" class="tag-link internal alias" data-slug="tags/week-21">week-21</a> <a href="../.././../tags/god-class" class="tag-link internal alias" data-slug="tags/god-class">god-class</a> <a href="../.././../tags/repository-layer" class="tag-link internal alias" data-slug="tags/repository-layer">repository-layer</a> <a href="../.././../tags/ios-blocker" class="tag-link internal alias" data-slug="tags/ios-blocker">ios-blocker</a> <a href="../.././../tags/agent-cross-review" class="tag-link internal alias" data-slug="tags/agent-cross-review">agent-cross-review</a> <a href="../.././../tags/firebase-abstraction" class="tag-link internal alias" data-slug="tags/firebase-abstraction">firebase-abstraction</a> <a href="../.././../tags/kmp-migration" class="tag-link internal alias" data-slug="tags/kmp-migration">kmp-migration</a> <a href="../.././../tags/conservative-scoping" class="tag-link internal alias" data-slug="tags/conservative-scoping">conservative-scoping</a> <a href="../.././../tags/quality-gate" class="tag-link internal alias" data-slug="tags/quality-gate">quality-gate</a></p>
+<hr/>
+<h2 id="status">Status<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#status" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><strong>Week 20</strong>: ✅ COMPLETE - 661 lines reduced, 3 PRs merged</li>
+<li><strong>Week 21</strong>: 🔄 IN PROGRESS - Agents executing Option 2 (Balanced)</li>
+<li><strong>Documentation</strong>: 🔄 IN PROGRESS - Will finalize after Week 21 results</li>
+</ul>
+<p><strong>Last Updated</strong>: 2025-11-09 (Week 21 start)</p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-147" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#week-20-21-god-class-discovery--repository-layer-investigation" data-for="week-20-21-god-class-discovery--repository-layer-investigation">Week 20-21: God Class Discovery &amp; Repository Layer Investigation</a></li><li class="depth-1"><a href="#executive-summary" data-for="executive-summary">Executive Summary</a></li><li class="depth-1"><a href="#week-20-achievements" data-for="week-20-achievements">Week 20 Achievements</a></li><li class="depth-2"><a href="#prs-merged" data-for="prs-merged">PRs Merged</a></li><li class="depth-2"><a href="#week-20-summary" data-for="week-20-summary">Week 20 Summary</a></li><li class="depth-1"><a href="#critical-discovery-10-god-classes" data-for="critical-discovery-10-god-classes">Critical Discovery: 10 God Classes</a></li><li class="depth-2"><a href="#original-assessment-pre-week-20" data-for="original-assessment-pre-week-20">Original Assessment (Pre-Week 20)</a></li><li class="depth-2"><a href="#revised-assessment-week-20-discovery" data-for="revised-assessment-week-20-discovery">Revised Assessment (Week 20 Discovery)</a></li><li class="depth-2"><a href="#impact-analysis" data-for="impact-analysis">Impact Analysis</a></li><li class="depth-1"><a href="#ios-blocker-identified" data-for="ios-blocker-identified">iOS Blocker Identified</a></li><li class="depth-2"><a href="#the-problem" data-for="the-problem">The Problem</a></li><li class="depth-2"><a href="#the-solution" data-for="the-solution">The Solution</a></li><li class="depth-1"><a href="#week-21-strategy-option-2-balanced" data-for="week-21-strategy-option-2-balanced">Week 21 Strategy: Option 2 (Balanced)</a></li><li class="depth-2"><a href="#overview" data-for="overview">Overview</a></li><li class="depth-2"><a href="#agent-assignments" data-for="agent-assignments">Agent Assignments</a></li><li class="depth-2"><a href="#success-metrics" data-for="success-metrics">Success Metrics</a></li><li class="depth-1"><a href="#week-21-execution-2025-11-09" data-for="week-21-execution-2025-11-09">Week 21 Execution (2025-11-09)</a></li><li class="depth-2"><a href="#actual-results" data-for="actual-results">Actual Results</a></li><li class="depth-2"><a href="#week-22-readiness" data-for="week-22-readiness">Week 22 Readiness</a></li><li class="depth-1"><a href="#lessons-learned" data-for="lessons-learned">Lessons Learned</a></li><li class="depth-2"><a href="#week-20-lessons" data-for="week-20-lessons">Week 20 Lessons</a></li><li class="depth-2"><a href="#week-21-lessons" data-for="week-21-lessons">Week 21 Lessons</a></li><li class="depth-1"><a href="#weeks-22-25-preview" data-for="weeks-22-25-preview">Weeks 22-25 Preview</a></li><li class="depth-2"><a href="#projected-roadmap" data-for="projected-roadmap">Projected Roadmap</a></li><li class="depth-1"><a href="#cumulative-progress-tracking" data-for="cumulative-progress-tracking">Cumulative Progress Tracking</a></li><li class="depth-2"><a href="#week-20-baseline-after-prs-merged" data-for="week-20-baseline-after-prs-merged">Week 20 Baseline (After PRs Merged)</a></li><li class="depth-2"><a href="#week-21-targets" data-for="week-21-targets">Week 21 Targets</a></li><li class="depth-2"><a href="#cumulative-god-class-progress" data-for="cumulative-god-class-progress">Cumulative God Class Progress</a></li><li class="depth-1"><a href="#agent-cross-review-protocol" data-for="agent-cross-review-protocol">Agent Cross-Review Protocol</a></li><li class="depth-2"><a href="#week-20-protocol-established" data-for="week-20-protocol-established">Week 20 Protocol (Established)</a></li><li class="depth-2"><a href="#week-21-protocol-planned" data-for="week-21-protocol-planned">Week 21 Protocol (Planned)</a></li><li class="depth-1"><a href="#risk-assessment" data-for="risk-assessment">Risk Assessment</a></li><li class="depth-2"><a href="#week-21-risks" data-for="week-21-risks">Week 21 Risks</a></li><li class="depth-1"><a href="#related-documentation" data-for="related-documentation">Related Documentation</a></li><li class="depth-1"><a href="#references" data-for="references">References</a></li><li class="depth-2"><a href="#source-documents" data-for="source-documents">Source Documents</a></li><li class="depth-2"><a href="#main-repo-references" data-for="main-repo-references">Main Repo References</a></li><li class="depth-1"><a href="#tags" data-for="tags">Tags</a></li><li class="depth-1"><a href="#status" data-for="status">Status</a></li><li class="overflow-end"></li></ul></div><div class="backlinks"><h3>Backlinks</h3><ul id="list-2" class="overflow"><li><a href="../../internal/kmp-migration/week-23-session" class="internal">Week 23: Logging &amp; Repository Extractions - Parallel Agent Execution</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>

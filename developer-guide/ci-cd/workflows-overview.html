@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head><title>workflows-overview</title><meta charset="utf-8"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted Grotesk:wght@400;700&amp;family=Source Sans Pro:ital,wght@0,400;0,600;1,400;1,600&amp;family=IBM Plex Mono:wght@400;600&amp;display=swap"/><link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="anonymous"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="og:site_name" content="Archery Apprentice Documentation"/><meta property="og:title" content="workflows-overview"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="workflows-overview"/><meta name="twitter:description" content="GitHub Actions Workflows Overview Last Updated: 2025-10-24 Status: Active - All workflows using hybrid runner system Total Workflows: 4 (3 main repo, 1 docs repo) Quick Reference WorkflowRepositoryTriggerPurposeRunner Strategyandroid-ci.ymlarchery-apprenticePR to mainBuild, test, lint, coverageHybri..."/><meta property="og:description" content="GitHub Actions Workflows Overview Last Updated: 2025-10-24 Status: Active - All workflows using hybrid runner system Total Workflows: 4 (3 main repo, 1 docs repo) Quick Reference WorkflowRepositoryTriggerPurposeRunner Strategyandroid-ci.ymlarchery-apprenticePR to mainBuild, test, lint, coverageHybri..."/><meta property="og:image:alt" content="GitHub Actions Workflows Overview Last Updated: 2025-10-24 Status: Active - All workflows using hybrid runner system Total Workflows: 4 (3 main repo, 1 docs repo) Quick Reference WorkflowRepositoryTriggerPurposeRunner Strategyandroid-ci.ymlarchery-apprenticePR to mainBuild, test, lint, coverageHybri..."/><meta property="twitter:domain" content="blamechris.github.io/archery-apprentice-docs"/><meta property="og:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/ci-cd/workflows-overview"/><meta property="twitter:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/ci-cd/workflows-overview"/><link rel="icon" href="../../static/icon.png"/><meta name="description" content="GitHub Actions Workflows Overview Last Updated: 2025-10-24 Status: Active - All workflows using hybrid runner system Total Workflows: 4 (3 main repo, 1 docs repo) Quick Reference WorkflowRepositoryTriggerPurposeRunner Strategyandroid-ci.ymlarchery-apprenticePR to mainBuild, test, lint, coverageHybri..."/><meta name="generator" content="Quartz"/><link href="../../index.css" rel="stylesheet" type="text/css" spa-preserve/><style>.expand-button {
+  position: absolute;
+  display: flex;
+  float: right;
+  padding: 0.4rem;
+  margin: 0.3rem;
+  right: 0;
+  color: var(--gray);
+  border-color: var(--dark);
+  background-color: var(--light);
+  border: 1px solid;
+  border-radius: 5px;
+  opacity: 0;
+  transition: 0.2s;
+}
+.expand-button > svg {
+  fill: var(--light);
+  filter: contrast(0.3);
+}
+.expand-button:hover {
+  cursor: pointer;
+  border-color: var(--secondary);
+}
+.expand-button:focus {
+  outline: 0;
+}
+
+pre:hover > .expand-button {
+  opacity: 1;
+  transition: 0.2s;
+}
+
+#mermaid-container {
+  position: fixed;
+  contain: layout;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: none;
+  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+}
+#mermaid-container.active {
+  display: inline-block;
+}
+#mermaid-container > #mermaid-space {
+  border: 1px solid var(--lightgray);
+  background-color: var(--light);
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  width: 80vw;
+  overflow: hidden;
+}
+#mermaid-container > #mermaid-space > .mermaid-content {
+  padding: 2rem;
+  position: relative;
+  transform-origin: 0 0;
+  transition: transform 0.1s ease;
+  overflow: visible;
+  min-height: 200px;
+  min-width: 200px;
+}
+#mermaid-container > #mermaid-space > .mermaid-content pre {
+  margin: 0;
+  border: none;
+}
+#mermaid-container > #mermaid-space > .mermaid-content svg {
+  max-width: none;
+  height: auto;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--lightgray);
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--bodyFont);
+  transition: all 0.2s ease;
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:hover {
+  background: var(--lightgray);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:active {
+  transform: translateY(1px);
+}
+#mermaid-container > #mermaid-space > .mermaid-controls .mermaid-control-button:nth-child(2) {
+  width: auto;
+  padding: 0 12px;
+  font-size: 14px;
+}
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiL2hvbWUvcnVubmVyL3dvcmsvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvYXJjaGVyeS1hcHByZW50aWNlLWRvY3MvcXVhcnR6L2NvbXBvbmVudHMvc3R5bGVzIiwic291cmNlcyI6WyJtZXJtYWlkLmlubGluZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBOztBQUdGO0VBQ0U7RUFDQTs7QUFHRjtFQUNFOzs7QUFLRjtFQUNFO0VBQ0E7OztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFOztBQUdGO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7O0FBR0Y7RUFDRTtFQUNBOztBQUlKO0VBQ0U7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTs7QUFFQTtFQUNFO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7RUFDQTtFQUNBO0VBQ0E7O0FBRUE7RUFDRTs7QUFHRjtFQUNFOztBQUlGO0VBQ0U7RUFDQTtFQUNBIiwic291cmNlc0NvbnRlbnQiOlsiLmV4cGFuZC1idXR0b24ge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsb2F0OiByaWdodDtcbiAgcGFkZGluZzogMC40cmVtO1xuICBtYXJnaW46IDAuM3JlbTtcbiAgcmlnaHQ6IDA7IC8vIE5PVEU6IHJpZ2h0IHdpbGwgYmUgc2V0IGluIG1lcm1haWQuaW5saW5lLnRzXG4gIGNvbG9yOiB2YXIoLS1ncmF5KTtcbiAgYm9yZGVyLWNvbG9yOiB2YXIoLS1kYXJrKTtcbiAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQpO1xuICBib3JkZXI6IDFweCBzb2xpZDtcbiAgYm9yZGVyLXJhZGl1czogNXB4O1xuICBvcGFjaXR5OiAwO1xuICB0cmFuc2l0aW9uOiAwLjJzO1xuXG4gICYgPiBzdmcge1xuICAgIGZpbGw6IHZhcigtLWxpZ2h0KTtcbiAgICBmaWx0ZXI6IGNvbnRyYXN0KDAuMyk7XG4gIH1cblxuICAmOmhvdmVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgYm9yZGVyLWNvbG9yOiB2YXIoLS1zZWNvbmRhcnkpO1xuICB9XG5cbiAgJjpmb2N1cyB7XG4gICAgb3V0bGluZTogMDtcbiAgfVxufVxuXG5wcmUge1xuICAmOmhvdmVyID4gLmV4cGFuZC1idXR0b24ge1xuICAgIG9wYWNpdHk6IDE7XG4gICAgdHJhbnNpdGlvbjogMC4ycztcbiAgfVxufVxuXG4jbWVybWFpZC1jb250YWluZXIge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIGNvbnRhaW46IGxheW91dDtcbiAgei1pbmRleDogOTk5O1xuICBsZWZ0OiAwO1xuICB0b3A6IDA7XG4gIHdpZHRoOiAxMDB2dztcbiAgaGVpZ2h0OiAxMDB2aDtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgZGlzcGxheTogbm9uZTtcbiAgYmFja2Ryb3AtZmlsdGVyOiBibHVyKDRweCk7XG4gIGJhY2tncm91bmQ6IHJnYmEoMCwgMCwgMCwgMC41KTtcblxuICAmLmFjdGl2ZSB7XG4gICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xuICB9XG5cbiAgJiA+ICNtZXJtYWlkLXNwYWNlIHtcbiAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0KTtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIHRvcDogNTAlO1xuICAgIGxlZnQ6IDUwJTtcbiAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTtcbiAgICBoZWlnaHQ6IDgwdmg7XG4gICAgd2lkdGg6IDgwdnc7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcblxuICAgICYgPiAubWVybWFpZC1jb250ZW50IHtcbiAgICAgIHBhZGRpbmc6IDJyZW07XG4gICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICB0cmFuc2Zvcm0tb3JpZ2luOiAwIDA7XG4gICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4xcyBlYXNlO1xuICAgICAgb3ZlcmZsb3c6IHZpc2libGU7XG4gICAgICBtaW4taGVpZ2h0OiAyMDBweDtcbiAgICAgIG1pbi13aWR0aDogMjAwcHg7XG5cbiAgICAgIHByZSB7XG4gICAgICAgIG1hcmdpbjogMDtcbiAgICAgICAgYm9yZGVyOiBub25lO1xuICAgICAgfVxuXG4gICAgICBzdmcge1xuICAgICAgICBtYXgtd2lkdGg6IG5vbmU7XG4gICAgICAgIGhlaWdodDogYXV0bztcbiAgICAgIH1cbiAgICB9XG5cbiAgICAmID4gLm1lcm1haWQtY29udHJvbHMge1xuICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgYm90dG9tOiAyMHB4O1xuICAgICAgcmlnaHQ6IDIwcHg7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgZ2FwOiA4cHg7XG4gICAgICBwYWRkaW5nOiA4cHg7XG4gICAgICBiYWNrZ3JvdW5kOiB2YXIoLS1saWdodCk7XG4gICAgICBib3JkZXI6IDFweCBzb2xpZCB2YXIoLS1saWdodGdyYXkpO1xuICAgICAgYm9yZGVyLXJhZGl1czogNnB4O1xuICAgICAgYm94LXNoYWRvdzogMCAycHggNHB4IHJnYmEoMCwgMCwgMCwgMC4xKTtcbiAgICAgIHotaW5kZXg6IDI7XG5cbiAgICAgIC5tZXJtYWlkLWNvbnRyb2wtYnV0dG9uIHtcbiAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIHdpZHRoOiAzMnB4O1xuICAgICAgICBoZWlnaHQ6IDMycHg7XG4gICAgICAgIHBhZGRpbmc6IDA7XG4gICAgICAgIGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0KTtcbiAgICAgICAgY29sb3I6IHZhcigtLWRhcmspO1xuICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7XG4gICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgZm9udC1zaXplOiAxNnB4O1xuICAgICAgICBmb250LWZhbWlseTogdmFyKC0tYm9keUZvbnQpO1xuICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4ycyBlYXNlO1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0Z3JheSk7XG4gICAgICAgIH1cblxuICAgICAgICAmOmFjdGl2ZSB7XG4gICAgICAgICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDFweCk7XG4gICAgICAgIH1cblxuICAgICAgICAvLyBTdHlsZSB0aGUgcmVzZXQgYnV0dG9uIGRpZmZlcmVudGx5XG4gICAgICAgICY6bnRoLWNoaWxkKDIpIHtcbiAgICAgICAgICB3aWR0aDogYXV0bztcbiAgICAgICAgICBwYWRkaW5nOiAwIDEycHg7XG4gICAgICAgICAgZm9udC1zaXplOiAxNHB4O1xuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */</style><link href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" rel="stylesheet" type="text/css" spa-preserve/><script src="../../prescript.js" type="application/javascript" spa-preserve></script><script type="application/javascript" spa-preserve>const fetchData = fetch("../../static/contentIndex.json").then(data => data.json())</script><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://blamechris.github.io/archery-apprentice-docs/index.xml"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/ci-cd/workflows-overview-og-image.webp"/><meta property="og:image:url" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/ci-cd/workflows-overview-og-image.webp"/><meta name="twitter:image" content="https://blamechris.github.io/archery-apprentice-docs/developer-guide/ci-cd/workflows-overview-og-image.webp"/><meta property="og:image:type" content="image/.webp"/></head><body data-slug="developer-guide/ci-cd/workflows-overview"><div id="quartz-root" class="page"><div id="quartz-body"><div class="left sidebar"><h2 class="page-title"><a href="../..">Archery Apprentice Documentation</a></h2><div class="spacer mobile-only"></div><div class="flex-component" style="flex-direction: row; flex-wrap: nowrap; gap: 1rem;"><div style="flex-grow: 1; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><div class="search"><button class="search-button"><svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.7"><title>Search</title><g class="search-path" fill="none"><path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4"></path><circle cx="8" cy="8" r="7"></circle></g></svg><p>Search</p></button><div class="search-container"><div class="search-space"><input autocomplete="off" class="search-bar" name="search" type="text" aria-label="Search for something" placeholder="Search for something"/><div class="search-layout" data-preview="true"></div></div></div></div></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="darkmode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="dayIcon" x="0px" y="0px" viewBox="0 0 35 35" style="enable-background:new 0 0 35 35" xml:space="preserve" aria-label="Dark mode"><title>Dark mode</title><path d="M6,17.5C6,16.672,5.328,16,4.5,16h-3C0.672,16,0,16.672,0,17.5    S0.672,19,1.5,19h3C5.328,19,6,18.328,6,17.5z M7.5,26c-0.414,0-0.789,0.168-1.061,0.439l-2,2C4.168,28.711,4,29.086,4,29.5    C4,30.328,4.671,31,5.5,31c0.414,0,0.789-0.168,1.06-0.44l2-2C8.832,28.289,9,27.914,9,27.5C9,26.672,8.329,26,7.5,26z M17.5,6    C18.329,6,19,5.328,19,4.5v-3C19,0.672,18.329,0,17.5,0S16,0.672,16,1.5v3C16,5.328,16.671,6,17.5,6z M27.5,9    c0.414,0,0.789-0.168,1.06-0.439l2-2C30.832,6.289,31,5.914,31,5.5C31,4.672,30.329,4,29.5,4c-0.414,0-0.789,0.168-1.061,0.44    l-2,2C26.168,6.711,26,7.086,26,7.5C26,8.328,26.671,9,27.5,9z M6.439,8.561C6.711,8.832,7.086,9,7.5,9C8.328,9,9,8.328,9,7.5    c0-0.414-0.168-0.789-0.439-1.061l-2-2C6.289,4.168,5.914,4,5.5,4C4.672,4,4,4.672,4,5.5c0,0.414,0.168,0.789,0.439,1.06    L6.439,8.561z M33.5,16h-3c-0.828,0-1.5,0.672-1.5,1.5s0.672,1.5,1.5,1.5h3c0.828,0,1.5-0.672,1.5-1.5S34.328,16,33.5,16z     M28.561,26.439C28.289,26.168,27.914,26,27.5,26c-0.828,0-1.5,0.672-1.5,1.5c0,0.414,0.168,0.789,0.439,1.06l2,2    C28.711,30.832,29.086,31,29.5,31c0.828,0,1.5-0.672,1.5-1.5c0-0.414-0.168-0.789-0.439-1.061L28.561,26.439z M17.5,29    c-0.829,0-1.5,0.672-1.5,1.5v3c0,0.828,0.671,1.5,1.5,1.5s1.5-0.672,1.5-1.5v-3C19,29.672,18.329,29,17.5,29z M17.5,7    C11.71,7,7,11.71,7,17.5S11.71,28,17.5,28S28,23.29,28,17.5S23.29,7,17.5,7z M17.5,25c-4.136,0-7.5-3.364-7.5-7.5    c0-4.136,3.364-7.5,7.5-7.5c4.136,0,7.5,3.364,7.5,7.5C25,21.636,21.636,25,17.5,25z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="nightIcon" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100" xml:space="preserve" aria-label="Light mode"><title>Light mode</title><path d="M96.76,66.458c-0.853-0.852-2.15-1.064-3.23-0.534c-6.063,2.991-12.858,4.571-19.655,4.571  C62.022,70.495,50.88,65.88,42.5,57.5C29.043,44.043,25.658,23.536,34.076,6.47c0.532-1.08,0.318-2.379-0.534-3.23  c-0.851-0.852-2.15-1.064-3.23-0.534c-4.918,2.427-9.375,5.619-13.246,9.491c-9.447,9.447-14.65,22.008-14.65,35.369  c0,13.36,5.203,25.921,14.65,35.368s22.008,14.65,35.368,14.65c13.361,0,25.921-5.203,35.369-14.65  c3.872-3.871,7.064-8.328,9.491-13.246C97.826,68.608,97.611,67.309,96.76,66.458z"></path></svg></button></div><div style="flex-grow: 0; flex-shrink: 1; flex-basis: auto; order: 0; align-self: center; justify-self: center;"><button class="readermode"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" class="readerIcon" fill="currentColor" stroke="currentColor" stroke-width="0.2" stroke-linecap="round" stroke-linejoin="round" width="64px" height="64px" viewBox="0 0 24 24" aria-label="Reader mode"><title>Reader mode</title><g transform="translate(-1.8, -1.8) scale(1.15, 1.2)"><path d="M8.9891247,2.5 C10.1384702,2.5 11.2209868,2.96705384 12.0049645,3.76669482 C12.7883914,2.96705384 13.8709081,2.5 15.0202536,2.5 L18.7549359,2.5 C19.1691495,2.5 19.5049359,2.83578644 19.5049359,3.25 L19.5046891,4.004 L21.2546891,4.00457396 C21.6343849,4.00457396 21.9481801,4.28672784 21.9978425,4.6528034 L22.0046891,4.75457396 L22.0046891,20.25 C22.0046891,20.6296958 21.7225353,20.943491 21.3564597,20.9931534 L21.2546891,21 L2.75468914,21 C2.37499337,21 2.06119817,20.7178461 2.01153575,20.3517706 L2.00468914,20.25 L2.00468914,4.75457396 C2.00468914,4.37487819 2.28684302,4.061083 2.65291858,4.01142057 L2.75468914,4.00457396 L4.50368914,4.004 L4.50444233,3.25 C4.50444233,2.87030423 4.78659621,2.55650904 5.15267177,2.50684662 L5.25444233,2.5 L8.9891247,2.5 Z M4.50368914,5.504 L3.50468914,5.504 L3.50468914,19.5 L10.9478955,19.4998273 C10.4513189,18.9207296 9.73864328,18.5588115 8.96709342,18.5065584 L8.77307039,18.5 L5.25444233,18.5 C4.87474657,18.5 4.56095137,18.2178461 4.51128895,17.8517706 L4.50444233,17.75 L4.50368914,5.504 Z M19.5049359,17.75 C19.5049359,18.1642136 19.1691495,18.5 18.7549359,18.5 L15.2363079,18.5 C14.3910149,18.5 13.5994408,18.8724714 13.0614828,19.4998273 L20.5046891,19.5 L20.5046891,5.504 L19.5046891,5.504 L19.5049359,17.75 Z M18.0059359,3.999 L15.0202536,4 L14.8259077,4.00692283 C13.9889509,4.06666544 13.2254227,4.50975805 12.7549359,5.212 L12.7549359,17.777 L12.7782651,17.7601316 C13.4923805,17.2719483 14.3447024,17 15.2363079,17 L18.0059359,16.999 L18.0056891,4.798 L18.0033792,4.75457396 L18.0056891,4.71 L18.0059359,3.999 Z M8.9891247,4 L6.00368914,3.999 L6.00599909,4.75457396 L6.00599909,4.75457396 L6.00368914,4.783 L6.00368914,16.999 L8.77307039,17 C9.57551536,17 10.3461406,17.2202781 11.0128313,17.6202194 L11.2536891,17.776 L11.2536891,5.211 C10.8200889,4.56369974 10.1361548,4.13636104 9.37521067,4.02745763 L9.18347055,4.00692283 L8.9891247,4 Z"></path></g></svg></button></div></div><div class="explorer" data-behavior="link" data-collapsed="collapsed" data-savestate="true" data-data-fns="{&quot;order&quot;:[&quot;filter&quot;,&quot;map&quot;,&quot;sort&quot;],&quot;sortFn&quot;:&quot;(a,b)=>!a.isFolder&amp;&amp;!b.isFolder||a.isFolder&amp;&amp;b.isFolder?a.displayName.localeCompare(b.displayName,void 0,{numeric:!0,sensitivity:\&quot;base\&quot;}):!a.isFolder&amp;&amp;b.isFolder?1:-1&quot;,&quot;filterFn&quot;:&quot;node=>node.slugSegment!==\&quot;tags\&quot;&quot;,&quot;mapFn&quot;:&quot;node=>node&quot;}"><button type="button" class="explorer-toggle mobile-explorer hide-until-loaded" data-mobile="true" aria-controls="explorer-88"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button><button type="button" class="title-button explorer-toggle desktop-explorer" data-mobile="false" aria-expanded="true"><h2>Explorer</h2><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><div id="explorer-88" class="explorer-content" aria-expanded="false" role="group"><ul class="explorer-ul overflow" id="list-0"><li class="overflow-end"></li></ul></div><template id="template-file"><li><a href="#"></a></li></template><template id="template-folder"><li><div class="folder-container"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="5 8 14 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="folder-icon"><polyline points="6 9 12 15 18 9"></polyline></svg><div><button class="folder-button"><span class="folder-title"></span></button></div></div><div class="folder-outer"><ul class="content"></ul></div></li></template></div></div><div class="center"><div class="page-header"><div class="popover-hint"><nav class="breadcrumb-container" aria-label="breadcrumbs"><div class="breadcrumb-element"><a href="../../">Home</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../developer-guide/">developer guide</a><p> ❯ </p></div><div class="breadcrumb-element"><a href="../../developer-guide/ci-cd/">ci cd</a><p> ❯ </p></div><div class="breadcrumb-element"><a href>workflows overview</a></div></nav><h1 class="article-title">workflows-overview</h1><p show-comma="true" class="content-meta"><time datetime="2025-11-01T20:27:45.000Z">Nov 01, 2025</time><span>11 min read</span></p><ul class="tags"><li><a href="../../tags/ci-cd" class="internal tag-link">ci-cd</a></li><li><a href="../../tags/github-actions" class="internal tag-link">github-actions</a></li><li><a href="../../tags/workflows" class="internal tag-link">workflows</a></li><li><a href="../../tags/android-ci" class="internal tag-link">android-ci</a></li><li><a href="../../tags/deployment" class="internal tag-link">deployment</a></li><li><a href="../../tags/documentation" class="internal tag-link">documentation</a></li></ul></div></div><article class="popover-hint"><h1 id="github-actions-workflows-overview">GitHub Actions Workflows Overview<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#github-actions-workflows-overview" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h1>
+<p><strong>Last Updated:</strong> 2025-10-24
+<strong>Status:</strong> Active - All workflows using hybrid runner system
+<strong>Total Workflows:</strong> 4 (3 main repo, 1 docs repo)</p>
+<hr/>
+<h2 id="quick-reference">Quick Reference<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quick-reference" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Workflow</th><th>Repository</th><th>Trigger</th><th>Purpose</th><th>Runner Strategy</th></tr></thead><tbody><tr><td><a href="#android-ciyml" class="internal alias">android-ci.yml</a></td><td>archery-apprentice</td><td>PR to main</td><td>Build, test, lint, coverage</td><td>Hybrid (quick checks GitHub, tests on selected)</td></tr><tr><td><a href="#deploy-to-play-storeyml" class="internal alias">deploy-to-play-store.yml</a></td><td>archery-apprentice</td><td>Push to main</td><td>Release AAB to Play Store</td><td>Hybrid</td></tr><tr><td><a href="#documentation-reminderyml" class="internal alias">documentation-reminder.yml</a></td><td>archery-apprentice</td><td>PR merged</td><td>Remind to update docs</td><td>Hybrid</td></tr><tr><td><a href="#deploy-quartzyml" class="internal alias">deploy-quartz.yml</a></td><td>archery-apprentice-docs</td><td>Push to main</td><td>Deploy Obsidian docs</td><td>Hybrid</td></tr></tbody></table></div>
+<hr/>
+<h2 id="android-ciyml">android-ci.yml<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#android-ciyml" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Location:</strong> <code>.github/workflows/android-ci.yml</code> (main repo)
+<strong>Purpose:</strong> Validate pull requests with comprehensive testing and quality checks</p>
+<h3 id="triggers">Triggers<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#triggers" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">on</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  pull_request</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    branches</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">main</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    paths-ignore</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">      - </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">'**.md'</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">      - </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">'docs/**'</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">      - </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">'.github/workflows/deploy-to-play-store.yml'</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">      - </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">'.github/workflows/documentation-reminder.yml'</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  workflow_dispatch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    inputs</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">      runner_mode</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">        options</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">auto</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">self-hosted</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">github</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">skip</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span></code></pre></figure>
+<p><strong>Trigger logic:</strong></p>
+<ul>
+<li>Automatically on PR to main (unless only docs changed)</li>
+<li>Manual via Actions UI with runner override</li>
+</ul>
+<h3 id="job-structure">Job Structure<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#job-structure" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="1-decide_runner-always-self-hosted-4s">1. decide_runner (always self-hosted, ~4s)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-decide_runner-always-self-hosted-4s" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Purpose:</strong> Select which runner to use for heavy work</p>
+<p><strong>Logic:</strong></p>
+<ul>
+<li>Check commit message or workflow input for flags</li>
+<li>If no override, use day-based heuristic (days 1-21 GitHub, 22-31 self-hosted)</li>
+<li>Output <code>runner_label</code> and <code>should_skip</code> for downstream jobs</li>
+</ul>
+<p><strong>Outputs:</strong></p>
+<ul>
+<li><code>runner_label</code>: “ubuntu-latest” or “self-hosted”</li>
+<li><code>should_skip</code>: “true” if [skip-ci] flag detected</li>
+</ul>
+<h4 id="2-quick_checks-always-github-hosted-3-5-min">2. quick_checks (always GitHub-hosted, ~3-5 min)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-quick_checks-always-github-hosted-3-5-min" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Purpose:</strong> Fast validation that doesn’t need quota conservation</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Checkout code</li>
+<li>Set up JDK 17</li>
+<li>Setup Gradle with caching</li>
+<li>Generate google-services.json</li>
+<li>Verify google-services.json (OAuth clients, SHA-1 hashes)</li>
+<li>Run lint (continue-on-error: true)</li>
+<li>Upload lint reports (7-day retention)</li>
+</ol>
+<p><strong>Why always GitHub?</strong></p>
+<ul>
+<li>Fast execution (~5 minutes)</li>
+<li>Minimal quota impact (~5-8 minutes charged)</li>
+<li>Provides quick feedback while heavier jobs run</li>
+</ul>
+<h4 id="3-test_and_coverage-selected-runner-15-20-min">3. test_and_coverage (selected runner, ~15-20 min)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#3-test_and_coverage-selected-runner-15-20-min" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Purpose:</strong> Comprehensive testing with coverage analysis</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Checkout code</li>
+<li>Set up JDK 17</li>
+<li>Setup Gradle with dependency caching</li>
+<li>Cache Robolectric dependencies (~500MB)</li>
+<li>Generate google-services.json</li>
+<li>Run unit tests (testDebugUnitTest)</li>
+<li>Generate JaCoCo coverage report</li>
+<li>Upload coverage to Codecov (continue-on-error: true on Windows)</li>
+<li>Parse coverage summary</li>
+<li>Upload coverage reports as artifacts (2-day retention)</li>
+<li>Upload test results as artifacts (7-day retention)</li>
+<li>Comment coverage on PR (if changed files)</li>
+</ol>
+<p><strong>Coverage thresholds:</strong></p>
+<ul>
+<li>Overall: 70%</li>
+<li>Changed files: 80% (reported in PR comment)</li>
+</ul>
+<p><strong>Codecov handling:</strong></p>
+<ul>
+<li>Fails silently on Windows (sh dependency issue)</li>
+<li>Coverage still available via HTML artifacts and PR comment</li>
+</ul>
+<h4 id="4-build_artifacts-selected-runner-pr-only-10-15-min">4. build_artifacts (selected runner, PR only, ~10-15 min)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#4-build_artifacts-selected-runner-pr-only-10-15-min" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Purpose:</strong> Verify builds complete successfully</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Checkout code</li>
+<li>Set up JDK 17</li>
+<li>Setup Gradle with caching</li>
+<li>Generate google-services.json</li>
+<li>Build debug APK (assembleDebug)</li>
+<li>Build release AAB (assembleRelease with minification)</li>
+<li>Run debug unit tests (testDebugUnitTest)</li>
+<li>Upload APK and AAB as artifacts (7-day retention)</li>
+</ol>
+<p><strong>Why PR only?</strong></p>
+<ul>
+<li>Validates release builds work before merge</li>
+<li>Not needed on main (deploy workflow handles this)</li>
+</ul>
+<h3 id="caching-strategy">Caching Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#caching-strategy" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Gradle dependencies:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">key</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}</span></span></code></pre></figure>
+<p><strong>Robolectric dependencies:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">paths</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  - </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">~/.m2/repository/org/robolectric/</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  - </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">~/.robolectric/</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">  - </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">.robolectric/</span></span></code></pre></figure>
+<h3 id="artifacts-produced">Artifacts Produced<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#artifacts-produced" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Artifact</th><th>Retention</th><th>Size</th><th>Purpose</th></tr></thead><tbody><tr><td>lint-reports</td><td>7 days</td><td>~100KB</td><td>HTML/XML lint results</td></tr><tr><td>coverage-reports</td><td>2 days</td><td>~10MB</td><td>JaCoCo HTML + XML reports</td></tr><tr><td>test-results</td><td>7 days</td><td>~500KB</td><td>Unit test XML results</td></tr><tr><td>build-artifacts (PR only)</td><td>7 days</td><td>~50MB</td><td>Debug APK + Release AAB</td></tr></tbody></table></div>
+<h3 id="common-issues">Common Issues<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#common-issues" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Windows Codecov failure:</strong></p>
+<ul>
+<li>Symptom: <code>sh: command not found</code></li>
+<li>Impact: None (covered by artifacts + PR comment)</li>
+<li>Fix: continue-on-error: true</li>
+</ul>
+<p><strong>Robolectric download timeout:</strong></p>
+<ul>
+<li>Symptom: Test failures with network errors</li>
+<li>Fix: Caching prevents re-downloads</li>
+<li>Manual: Delete ~/.robolectric/ and retry</li>
+</ul>
+<hr/>
+<h2 id="deploy-to-play-storeyml">deploy-to-play-store.yml<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#deploy-to-play-storeyml" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Location:</strong> <code>.github/workflows/deploy-to-play-store.yml</code> (main repo)
+<strong>Purpose:</strong> Build and deploy release AAB to Google Play Store Internal Testing</p>
+<h3 id="triggers-1">Triggers<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#triggers-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">on</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  push</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    branches</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">main</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  workflow_dispatch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    inputs</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">      runner_mode</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">        options</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">auto</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">self-hosted</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">github</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">skip</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span></code></pre></figure>
+<p><strong>Trigger logic:</strong></p>
+<ul>
+<li>Automatically on merge to main</li>
+<li>Manual via Actions UI</li>
+<li>Respects [skip-ci] commit flag</li>
+</ul>
+<h3 id="job-structure-1">Job Structure<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#job-structure-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="1-decide_runner-always-self-hosted-4s-1">1. decide_runner (always self-hosted, ~4s)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-decide_runner-always-self-hosted-4s-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>Same logic as android-ci.yml - see above.</p>
+<h4 id="2-deploy-selected-runner-20-30-min">2. deploy (selected runner, ~20-30 min)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-deploy-selected-runner-20-30-min" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Purpose:</strong> Build signed release AAB and deploy to Play Store</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Setup</strong> (5 min)</p>
+<ul>
+<li>Checkout code</li>
+<li>Set up JDK 17</li>
+<li>Setup Gradle with caching</li>
+<li>Cache Robolectric dependencies</li>
+</ul>
+</li>
+<li>
+<p><strong>Configuration</strong> (1 min)</p>
+<ul>
+<li>Generate google-services.json (platform-specific)</li>
+<li>Verify google-services.json (OAuth clients, Linux only)</li>
+</ul>
+</li>
+<li>
+<p><strong>Versioning</strong> (1 min)</p>
+<ul>
+<li>Auto-increment version code: <code>BASE_VERSION + ${{ github.run_number }}</code></li>
+<li>Update app/build.gradle.kts (platform-specific sed/PowerShell)</li>
+</ul>
+</li>
+<li>
+<p><strong>Signing</strong> (1 min)</p>
+<ul>
+<li>Decode keystore from base64 secret (platform-specific)</li>
+<li>Set keystore environment variables</li>
+</ul>
+</li>
+<li>
+<p><strong>Build</strong> (10-15 min)</p>
+<ul>
+<li>Run bundleRelease with -x testReleaseUnitTest (skip flaky Compose tests)</li>
+<li>Use CI environment variables:
+<pre><code>CI=true
+GRADLE_OPTS=&quot;-Dorg.gradle.daemon=false -Xmx6g -XX:MaxMetaspaceSize=2g -XX:+UseG1GC&quot;
+JAVA_OPTS=&quot;-Djava.awt.headless=true&quot;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Verification</strong> (1 min, Linux only)</p>
+<ul>
+<li>Extract upload keystore SHA-1</li>
+<li>Compare with Firebase registered SHA-1s</li>
+<li>Remind to verify Play Console app signing certificate</li>
+</ul>
+</li>
+<li>
+<p><strong>Cleanup</strong> (always runs)</p>
+<ul>
+<li>Remove keystore.jks file (security)</li>
+</ul>
+</li>
+<li>
+<p><strong>Deployment</strong> (2-5 min)</p>
+<ul>
+<li>Upload AAB to Play Store Internal Testing</li>
+<li>Set release status to “completed”</li>
+<li>Set in-app update priority to 2</li>
+</ul>
+</li>
+<li>
+<p><strong>Notifications</strong> (platform-specific)</p>
+<ul>
+<li><strong>Linux/macOS:</strong> curl with JSON payload</li>
+<li><strong>Windows:</strong> Invoke-RestMethod with PowerShell hashtable</li>
+<li>Send to Discord webhook with:
+<ul>
+<li>Version code</li>
+<li>Commit SHA + link</li>
+<li>Triggered by user</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="environment-variables">Environment Variables<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#environment-variables" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">BASE_VERSION</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">4</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # Incremented with each major release</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">NEW_VERSION_CODE</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">BASE_VERSION + github.run_number</span></span></code></pre></figure>
+<p><strong>Example:</strong> Run #123 → Version code 127</p>
+<h3 id="secrets-required">Secrets Required<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#secrets-required" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Secret</th><th>Purpose</th><th>Format</th></tr></thead><tbody><tr><td>GOOGLE_SERVICES_JSON</td><td>Firebase configuration</td><td>Complete JSON file</td></tr><tr><td>KEYSTORE_BASE64</td><td>Upload signing certificate</td><td>Base64-encoded JKS</td></tr><tr><td>KEYSTORE_PASSWORD</td><td>Keystore password</td><td>String</td></tr><tr><td>KEY_ALIAS</td><td>Key alias in keystore</td><td>String</td></tr><tr><td>KEY_PASSWORD</td><td>Key password</td><td>String</td></tr><tr><td>PLAY_SERVICE_ACCOUNT_JSON</td><td>Play Console API access</td><td>JSON credentials</td></tr><tr><td>DISCORD_WEBHOOK_URL</td><td>Deployment notifications</td><td>HTTPS URL</td></tr></tbody></table></div>
+<h3 id="certificate-management">Certificate Management<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#certificate-management" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Upload Certificate:</strong></p>
+<ul>
+<li>Stored in KEYSTORE_BASE64 secret</li>
+<li>Used to sign AAB locally</li>
+<li>SHA-1 extracted for verification</li>
+</ul>
+<p><strong>App Signing Certificate:</strong></p>
+<ul>
+<li>Managed by Google Play (different from upload cert)</li>
+<li>Find at: Play Console → App Integrity → App signing</li>
+<li><strong>This SHA-1 must be registered in Firebase!</strong></li>
+</ul>
+<h3 id="common-issues-1">Common Issues<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#common-issues-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Google Sign-In fails after deployment:</strong></p>
+<ul>
+<li>Cause: App signing SHA-1 not in Firebase</li>
+<li>Solution: Get SHA-1 from Play Console → Register in Firebase Console</li>
+</ul>
+<p><strong>Version code conflict:</strong></p>
+<ul>
+<li>Cause: Manual upload with same version</li>
+<li>Solution: Increment BASE_VERSION in workflow</li>
+</ul>
+<hr/>
+<h2 id="documentation-reminderyml">documentation-reminder.yml<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#documentation-reminderyml" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Location:</strong> <code>.github/workflows/documentation-reminder.yml</code> (main repo)
+<strong>Purpose:</strong> Post PR comment reminding to update Obsidian vault after merges</p>
+<h3 id="triggers-2">Triggers<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#triggers-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">on</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  pull_request</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    types</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">closed</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    branches</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">main</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  workflow_dispatch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    inputs</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">      runner_mode</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">        options</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">auto</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">self-hosted</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">github</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">skip</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span></code></pre></figure>
+<p><strong>Trigger logic:</strong></p>
+<ul>
+<li>Runs when PR is closed (checks if merged inside workflow)</li>
+<li>Manual testing via workflow dispatch</li>
+</ul>
+<h3 id="job-structure-2">Job Structure<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#job-structure-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="1-decide_runner-always-self-hosted-4s-2">1. decide_runner (always self-hosted, ~4s)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-decide_runner-always-self-hosted-4s-2" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>Same hybrid runner logic as other workflows.</p>
+<h4 id="2-remind-docs-update-selected-runner-30s">2. remind-docs-update (selected runner, ~30s)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-remind-docs-update-selected-runner-30s" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Purpose:</strong> Analyze PR impact and post appropriate reminder</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Check if PR requires vault update (platform-specific)</strong></p>
+<p><strong>Windows (PowerShell):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="powershell" data-theme="github-light github-dark"><code data-language="powershell" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">$keywords </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;ViewModel|Repository|Service|Architecture|Migration|Refactor&quot;</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> ($title </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-match</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> $keywords) { </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;impact=high&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> }</span></span></code></pre></figure>
+<p><strong>Linux/macOS (Bash):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">KEYWORDS</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;ViewModel|Repository|Service|Architecture|Migration|Refactor&quot;</span></span>
+<span data-line><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">if</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> echo</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">$title</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> |</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> grep</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -iE</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">$KEYWORDS</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">then</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> impact</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">high</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">; </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">fi</span></span></code></pre></figure>
+</li>
+<li>
+<p><strong>Post documentation reminder</strong></p>
+<p>Uses <code>actions/github-script</code> to post comment with impact assessment:</p>
+<p><strong>High Impact:</strong></p>
+<ul>
+<li>⚠️ HIGH IMPACT PR warning</li>
+<li>Architecture changes detected</li>
+<li>Update Architecture/ or Flows/ sections</li>
+<li>Review cross-agent impacts</li>
+</ul>
+<p><strong>Medium Impact:</strong></p>
+<ul>
+<li>📝 MEDIUM IMPACT PR notice</li>
+<li>Check if data flows changed</li>
+<li>Update Code-Graph/ if file structure changed</li>
+<li>Update project status if milestone reached</li>
+</ul>
+<p><strong>Low Impact:</strong></p>
+<ul>
+<li>✅ LOW IMPACT PR</li>
+<li>Likely no vault update needed (bug fix/test/minor change)</li>
+<li>Can skip individual update</li>
+<li>Will be included in weekly rollup</li>
+</ul>
+</li>
+</ol>
+<h3 id="impact-detection-logic">Impact Detection Logic<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#impact-detection-logic" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Keywords triggering HIGH:</strong></p>
+<ul>
+<li>ViewModel, Repository, Service, Architecture, Migration, Refactor (in title)</li>
+</ul>
+<p><strong>Keywords triggering MEDIUM:</strong></p>
+<ul>
+<li>Same keywords in PR body (but not title)</li>
+</ul>
+<p><strong>Everything else:</strong></p>
+<ul>
+<li>LOW impact</li>
+</ul>
+<h3 id="post-merge-checklist-generated">Post-Merge Checklist (Generated)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#post-merge-checklist-generated" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>All PRs:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Pull latest main</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Review merged changes in <code>docs/AGENT_CONTEXTS/</code></li>
+</ul>
+<p><strong>High/Medium PRs:</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Update Obsidian vault (see AGENT_O_ORCHESTRATOR.md)</li>
+<li class="task-list-item"><input type="checkbox" disabled/> Run <code>cd ~/Documents/ArcheryApprentice-Docs &amp;&amp; .\deploy.ps1</code></li>
+<li class="task-list-item"><input type="checkbox" disabled/> Verify deployment at <a href="https://blamechris.github.io/archery-apprentice-docs/" class="external">https://blamechris.github.io/archery-apprentice-docs/<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+</ul>
+<p><strong>All PRs (continued):</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled/> Update orchestrator context with completion status</li>
+</ul>
+<h3 id="usage-pattern">Usage Pattern<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#usage-pattern" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<ol>
+<li>Developer merges PR #142</li>
+<li>Workflow runs automatically</li>
+<li>PR title/body analyzed for keywords</li>
+<li>Impact-appropriate comment posted</li>
+<li>Developer follows checklist based on impact level</li>
+</ol>
+<hr/>
+<h2 id="deploy-quartzyml">deploy-quartz.yml<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#deploy-quartzyml" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<p><strong>Location:</strong> <code>.github/workflows/deploy-quartz.yml</code> (docs repo)
+<strong>Purpose:</strong> Build and deploy Obsidian vault as static site to GitHub Pages</p>
+<h3 id="triggers-3">Triggers<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#triggers-3" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">on</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  push</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    branches</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">main</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  workflow_dispatch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    inputs</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">      runner_mode</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">        options</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: [</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">auto</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">self-hosted</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">github</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">, </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">skip</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">]</span></span></code></pre></figure>
+<p><strong>Trigger logic:</strong></p>
+<ul>
+<li>Automatically on push to main (vault updates)</li>
+<li>Manual deploy via Actions UI</li>
+</ul>
+<h3 id="job-structure-3">Job Structure<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#job-structure-3" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<h4 id="1-decide_runner-always-self-hosted-4s-3">1. decide_runner (always self-hosted, ~4s)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#1-decide_runner-always-self-hosted-4s-3" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p>Same hybrid runner logic as other workflows.</p>
+<h4 id="2-deploy-selected-runner-5-8-min">2. deploy (selected runner, ~5-8 min)<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#2-deploy-selected-runner-5-8-min" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h4>
+<p><strong>Purpose:</strong> Build Quartz site from Obsidian vault and deploy to GitHub Pages</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>
+<p><strong>Setup</strong> (1 min)</p>
+<ul>
+<li>Checkout repository (fetch-depth: 0 for git info)</li>
+<li>Setup Node.js 20</li>
+</ul>
+</li>
+<li>
+<p><strong>Dependencies</strong> (1-2 min)</p>
+<ul>
+<li>npm install (Quartz and dependencies)</li>
+</ul>
+</li>
+<li>
+<p><strong>Update deployment timestamp (platform-specific)</strong></p>
+<p><strong>Windows (PowerShell):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="powershell" data-theme="github-light github-dark"><code data-language="powershell" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">$TIMESTAMP </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> Get-Date</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> -</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Format </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;yyyy-MM-dd hh:mm tt PT&quot;</span></span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">(</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Get-Content</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> content</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">index.md) </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-replace</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> '**📅 Last Updated:** .*'</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">,</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;**📅 Last Updated:** </span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">$TIMESTAMP</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> |</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> Set-Content</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;"> content</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">/</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">index.md</span></span></code></pre></figure>
+<p><strong>Linux/macOS (Bash):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">TIMESTAMP</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">$(TZ</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">'America/Los_Angeles'</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;"> date</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> '+%Y-%m-%d %I:%M %p PT'</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">)</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">sed</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -i</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;s/\*\*📅 Last Updated:\*\* .*/\*\*📅 Last Updated:\*\* </span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">$TIMESTAMP</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">/&quot;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> content/index.md</span></span></code></pre></figure>
+</li>
+<li>
+<p><strong>Build</strong> (2-3 min)</p>
+<ul>
+<li>Run <code>npx quartz build</code></li>
+<li>Generates static site in ./public/</li>
+</ul>
+</li>
+<li>
+<p><strong>Deploy</strong> (1-2 min)</p>
+<ul>
+<li>Uses peaceiris/actions-gh-pages@v4</li>
+<li>Publishes ./public/ to gh-pages branch</li>
+<li>Force orphan commit (clean history)</li>
+<li>Commit message: <code>deploy: Quartz site deployment from ${{ github.sha }}</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Notify Discord of successful deployment (platform-specific)</strong></p>
+<p><strong>Linux/macOS (curl):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">curl</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -H</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;Content-Type: application/json&quot;</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -d</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;{...}&quot;</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">$DISCORD_WEBHOOK_URL</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">&quot;</span></span></code></pre></figure>
+<p><strong>Windows (Invoke-RestMethod):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="powershell" data-theme="github-light github-dark"><code data-language="powershell" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">$payload </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">=</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> @</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">{...} </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">|</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> ConvertTo-Json</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> -</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Depth </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">10</span></span>
+<span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">Invoke-RestMethod</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;"> -</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Uri $</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">env:</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">DISCORD_WEBHOOK_URL </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Method Post </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">-</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">Body $payload</span></span></code></pre></figure>
+<p><strong>Embed fields:</strong></p>
+<ul>
+<li>Commit (SHA + message)</li>
+<li>Author</li>
+<li>Site (link to <a href="https://blamechris.github.io/archery-apprentice-docs/" class="external">https://blamechris.github.io/archery-apprentice-docs/<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a>)</li>
+<li>Timestamp</li>
+</ul>
+</li>
+<li>
+<p><strong>Notify Discord of deployment failure (platform-specific)</strong></p>
+<p>Same platform split as success notification, but with:</p>
+<ul>
+<li>Red color (15158332)</li>
+<li>Commit SHA</li>
+<li>Workflow logs link</li>
+</ul>
+</li>
+</ol>
+<h3 id="deployment-configuration">Deployment Configuration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#deployment-configuration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">publish_dir</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">./public</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">publish_branch</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">gh-pages</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">force_orphan</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">true</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # Clean history each deploy</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">user_name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">'github-actions[bot]'</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">user_email</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">'github-actions[bot]@users.noreply.github.com'</span></span></code></pre></figure>
+<h3 id="quartz-configuration">Quartz Configuration<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quartz-configuration" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Location:</strong> <code>quartz.config.ts</code> (in docs repo)</p>
+<p><strong>Key settings:</strong></p>
+<ul>
+<li>baseUrl: “blamechris.github.io/archery-apprentice-docs”</li>
+<li>Theme: Dark mode by default</li>
+<li>Plugins: Graph view, backlinks, table of contents</li>
+</ul>
+<h3 id="common-operations">Common Operations<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#common-operations" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Force rebuild:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Trigger workflow manually</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">gh</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> workflow</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> run</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> deploy-quartz.yml</span></span></code></pre></figure>
+<p><strong>Local preview:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;">cd</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> ~/Documents/ArcheryApprentice-Docs</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">npx</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> quartz</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> build</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> --serve</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Opens http://localhost:8080</span></span></code></pre></figure>
+<p><strong>Vault structure expected:</strong></p>
+<pre><code>content/
+  index.md                  # Homepage (timestamp updated here)
+  Development/
+    CI-CD/
+      Hybrid-Runner-System.md
+      Workflows-Overview.md
+      ...
+  Architecture/
+  Code-Graph/
+  Flows/
+  projects/
+</code></pre>
+<h3 id="permissions-required">Permissions Required<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#permissions-required" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">permissions</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  contents</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">write</span><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # Required to push to gh-pages branch</span></span></code></pre></figure>
+<h3 id="secrets-required-1">Secrets Required<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#secrets-required-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="table-container"><table><thead><tr><th>Secret</th><th>Purpose</th></tr></thead><tbody><tr><td>GITHUB_TOKEN</td><td>Automatic (provided by GitHub Actions)</td></tr><tr><td>DISCORD_WEBHOOK_URL</td><td>Deployment notifications</td></tr></tbody></table></div>
+<h3 id="deployment-url">Deployment URL<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#deployment-url" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Production:</strong> <a href="https://blamechris.github.io/archery-apprentice-docs/" class="external">https://blamechris.github.io/archery-apprentice-docs/<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></p>
+<p><strong>Deployment time:</strong> ~2-3 minutes from push to live</p>
+<hr/>
+<h2 id="cross-workflow-patterns">Cross-Workflow Patterns<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#cross-workflow-patterns" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="hybrid-runner-system">Hybrid Runner System<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#hybrid-runner-system" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Shared logic across all workflows:</strong></p>
+<ol>
+<li><strong>decide_runner job</strong> - Always runs on self-hosted to avoid quota</li>
+<li><strong>Day-based heuristic</strong> - Days 1-21 GitHub, 22-31 self-hosted</li>
+<li><strong>Manual overrides</strong> - workflow_dispatch with runner_mode input</li>
+<li><strong>Commit flags</strong> - [self-hosted], [github], [skip-ci]</li>
+<li><strong>Platform detection</strong> - <code>runner.os</code> for cross-platform steps</li>
+</ol>
+<h3 id="platform-specific-steps">Platform-Specific Steps<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#platform-specific-steps" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Pattern:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">- </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">Task (Windows)</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">runner.os == 'Windows'</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  shell</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">powershell</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  run</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">|</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    # PowerShell syntax</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">- </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">name</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">Task (Linux/macOS)</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  if</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">runner.os != 'Windows'</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  run</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">|</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">    # Bash syntax</span></span></code></pre></figure>
+<p><strong>Common platform splits:</strong></p>
+<ol>
+<li>File manipulation (sed vs PowerShell -replace)</li>
+<li>HTTP requests (curl vs Invoke-RestMethod)</li>
+<li>JSON generation (jq/echo vs ConvertTo-Json)</li>
+<li>Environment variables (<span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mord mathnormal">s</span></span></span></span>env:VAR)</li>
+</ol>
+<h3 id="caching-strategy-1">Caching Strategy<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#caching-strategy-1" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Gradle (Android workflows):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">- </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">uses</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">gradle/actions/setup-gradle@v4</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # Automatically caches:</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # - ~/.gradle/caches/</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # - ~/.gradle/wrapper/</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # - .gradle/</span></span></code></pre></figure>
+<p><strong>Robolectric (Android workflows):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">- </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">uses</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">actions/cache@v4</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">  with</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">:</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    path</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583;">|</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">      ~/.m2/repository/org/robolectric/</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">      ~/.robolectric/</span></span>
+<span data-line><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">      .robolectric/</span></span>
+<span data-line><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">    key</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">${{ runner.os }}-robolectric-${{ hashFiles('**/*.gradle*') }}</span></span></code></pre></figure>
+<p><strong>Node modules (Quartz workflow):</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="yaml" data-theme="github-light github-dark"><code data-language="yaml" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">- </span><span style="--shiki-light:#22863A;--shiki-dark:#85E89D;">uses</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8;">: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;">actions/setup-node@v4</span></span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;">  # Automatically caches node_modules/</span></span></code></pre></figure>
+<h3 id="artifact-naming">Artifact Naming<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#artifact-naming" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Pattern:</strong> <code>{type}-{descriptor}</code> with consistent retention</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><code>lint-reports</code> (7 days)</li>
+<li><code>coverage-reports</code> (2 days)</li>
+<li><code>test-results</code> (7 days)</li>
+<li><code>build-artifacts</code> (7 days)</li>
+</ul>
+<h3 id="discord-notifications">Discord Notifications<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#discord-notifications" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Success pattern:</strong></p>
+<ul>
+<li>Green color: 3447003 (android), 3066993 (deploy)</li>
+<li>Commit SHA + message</li>
+<li>Author/triggering user</li>
+<li>Link to result (docs site, Play Store)</li>
+</ul>
+<p><strong>Failure pattern:</strong></p>
+<ul>
+<li>Red color: 15158332</li>
+<li>Commit SHA</li>
+<li>Link to workflow logs</li>
+</ul>
+<hr/>
+<h2 id="workflow-dependencies">Workflow Dependencies<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#workflow-dependencies" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<pre><button class="expand-button" aria-label="Expand mermaid diagram" data-view-component="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 1.06L2.56 7h10.88l-2.22-2.22a.75.75 0 011.06-1.06l3.5 3.5a.75.75 0 010 1.06l-3.5 3.5a.75.75 0 11-1.06-1.06l2.22-2.22H2.56l2.22 2.22a.75.75 0 11-1.06 1.06l-3.5-3.5a.75.75 0 010-1.06l3.5-3.5z"></path></svg></button><code class="mermaid" data-clipboard="&quot;graph LR\r\n    PR[Pull Request] --> ACI[android-ci.yml]\r\n    ACI -->|Passes| M[Merge to main]\r\n    M --> DPS[deploy-to-play-store.yml]\r\n    M --> DR[documentation-reminder.yml]\r\n    DR -->|Manual| VU[Vault Update]\r\n    VU -->|Push to docs| DQ[deploy-quartz.yml]&quot;">graph LR
+    PR[Pull Request] --> ACI[android-ci.yml]
+    ACI -->|Passes| M[Merge to main]
+    M --> DPS[deploy-to-play-store.yml]
+    M --> DR[documentation-reminder.yml]
+    DR -->|Manual| VU[Vault Update]
+    VU -->|Push to docs| DQ[deploy-quartz.yml]
+</code><div id="mermaid-container" role="dialog"><div id="mermaid-space"><div class="mermaid-content"></div></div></div></pre>
+<p><strong>Flow:</strong></p>
+<ol>
+<li>Developer creates PR</li>
+<li>android-ci.yml validates (lint, tests, coverage, builds)</li>
+<li>PR reviewed and merged to main</li>
+<li>deploy-to-play-store.yml builds and deploys to Play Store</li>
+<li>documentation-reminder.yml posts checklist comment</li>
+<li>Developer updates Obsidian vault based on impact</li>
+<li>Vault changes pushed to docs repo</li>
+<li>deploy-quartz.yml deploys updated documentation</li>
+</ol>
+<hr/>
+<h2 id="monitoring-and-debugging">Monitoring and Debugging<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#monitoring-and-debugging" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="check-workflow-status">Check Workflow Status<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#check-workflow-status" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># List recent runs</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">gh</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> run</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> list</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> --workflow=android-ci.yml</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> --limit</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 10</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># View specific run</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">gh</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> run</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> view</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 12345678</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Watch run in real-time</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">gh</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> run</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> watch</span></span></code></pre></figure>
+<h3 id="download-artifacts">Download Artifacts<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#download-artifacts" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># List artifacts from a run</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">gh</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> run</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> view</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 12345678</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> --log</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Download specific artifact</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">gh</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> run</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> download</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 12345678</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -n</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> coverage-reports</span></span></code></pre></figure>
+<h3 id="quota-monitoring">Quota Monitoring<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#quota-monitoring" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Check usage:</strong></p>
+<ol>
+<li>GitHub → Settings → Billing</li>
+<li>Actions → View usage</li>
+<li>Check minutes used vs. 3000 limit</li>
+</ol>
+<p><strong>Expected usage (with hybrid system):</strong></p>
+<ul>
+<li>Days 1-21: ~150-200 minutes/day</li>
+<li>Days 22-31: ~0-50 minutes/day (mostly decide_runner)</li>
+<li>Monthly total: ~3,150 minutes (just over quota, acceptable)</li>
+</ul>
+<h3 id="common-debugging-commands">Common Debugging Commands<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#common-debugging-commands" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Re-run failed workflow</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">gh</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> run</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> rerun</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 12345678</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Re-run failed jobs only</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">gh</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> run</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> rerun</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 12345678</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> --failed</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># View logs for failed step</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">gh</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> run</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> view</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> 12345678</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> --log-failed</span></span>
+<span data-line> </span>
+<span data-line><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D;"># Trigger manual run with specific runner</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">gh</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> workflow</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> run</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> android-ci.yml</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -f</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> runner_mode=self-hosted</span></span></code></pre></figure>
+<hr/>
+<h2 id="best-practices">Best Practices<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#best-practices" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<h3 id="commit-messages">Commit Messages<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#commit-messages" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Force specific runner:</strong></p>
+<figure data-rehype-pretty-code-figure><pre tabindex="0" data-language="bash" data-theme="github-light github-dark"><code data-language="bash" data-theme="github-light github-dark" style="display:grid;"><span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> commit</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -m</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;feat: Add new feature [self-hosted]&quot;</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> commit</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -m</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;fix: Quick fix [github]&quot;</span></span>
+<span data-line><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0;">git</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> commit</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF;"> -m</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF;"> &quot;docs: Update README [skip-ci]&quot;</span></span></code></pre></figure>
+<h3 id="workflow-modifications">Workflow Modifications<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#workflow-modifications" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>Testing changes:</strong></p>
+<ol>
+<li>Create feature branch with workflow changes</li>
+<li>Add [github] flag to use free quota for testing</li>
+<li>Verify workflow succeeds</li>
+<li>Switch to [self-hosted] to test self-hosted runner</li>
+<li>Merge when both pass</li>
+</ol>
+<p><strong>Validation:</strong></p>
+<ul>
+<li>Use <code>gh workflow view &lt;workflow-name></code> to check syntax</li>
+<li>Use GitHub Actions UI validator (push to check)</li>
+<li>Test on GitHub-hosted first (fail fast, cheap)</li>
+</ul>
+<h3 id="artifact-management">Artifact Management<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#artifact-management" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h3>
+<p><strong>When to download:</strong></p>
+<ul>
+<li>Coverage drops unexpectedly (check coverage-reports)</li>
+<li>Lint warnings need review (check lint-reports)</li>
+<li>Test failures need investigation (check test-results)</li>
+</ul>
+<p><strong>Retention policy:</strong></p>
+<ul>
+<li>2 days: Large artifacts (coverage HTML)</li>
+<li>7 days: Debug artifacts (APK, test results)</li>
+<li>Automatic cleanup after retention period</li>
+</ul>
+<hr/>
+<h2 id="related-documentation">Related Documentation<a role="anchor" aria-hidden="true" tabindex="-1" data-no-popover="true" href="#related-documentation" class="internal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a></h2>
+<ul>
+<li><a href="../../Hybrid-Runner-System" class="internal alias" data-slug="Hybrid-Runner-System">Hybrid Runner System</a> - Runner selection logic and setup</li>
+<li><a href="../../Troubleshooting-Guide" class="internal alias" data-slug="Troubleshooting-Guide">Troubleshooting Guide</a> - Common issues and solutions</li>
+<li><a href="../../Maintenance-Tasks" class="internal alias" data-slug="Maintenance-Tasks">Maintenance Tasks</a> - Regular workflow maintenance</li>
+</ul>
+<p><strong>Code Repositories:</strong></p>
+<ul>
+<li><a href="https://github.com/blamechris/archery-apprentice/tree/main/.github/workflows" class="external">archery-apprentice/.github/workflows/<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+<li><a href="https://github.com/blamechris/archery-apprentice-docs/tree/main/.github/workflows" class="external">archery-apprentice-docs/.github/workflows/<svg aria-hidden="true" class="external-icon" style="max-width:0.8em;max-height:0.8em;" viewBox="0 0 512 512"><path d="M320 0H288V64h32 82.7L201.4 265.4 178.7 288 224 333.3l22.6-22.6L448 109.3V192v32h64V192 32 0H480 320zM32 32H0V64 480v32H32 456h32V480 352 320H424v32 96H64V96h96 32V32H160 32z"></path></svg></a></li>
+</ul>
+<hr/>
+<p><strong>Tags:</strong> <a href="../.././../tags/ci-cd" class="tag-link internal alias" data-slug="tags/ci-cd">ci-cd</a> <a href="../.././../tags/github-actions" class="tag-link internal alias" data-slug="tags/github-actions">github-actions</a> <a href="../.././../tags/workflows" class="tag-link internal alias" data-slug="tags/workflows">workflows</a> <a href="../.././../tags/android-ci" class="tag-link internal alias" data-slug="tags/android-ci">android-ci</a> <a href="../.././../tags/deployment" class="tag-link internal alias" data-slug="tags/deployment">deployment</a> <a href="../.././../tags/documentation" class="tag-link internal alias" data-slug="tags/documentation">documentation</a>
+<strong>Status:</strong> ✅ All workflows active and using hybrid runner system
+<strong>Last Review:</strong> 2025-10-24</p></article><hr/><div class="page-footer"></div></div><div class="right sidebar"><div class="graph"><h3>Graph View</h3><div class="graph-outer"><div class="graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:1,&quot;scale&quot;:1.1,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.3,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:false,&quot;enableRadial&quot;:false}"></div><button class="global-graph-icon" aria-label="Global Graph"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 55 55" fill="currentColor" xml:space="preserve"><path d="M49,0c-3.309,0-6,2.691-6,6c0,1.035,0.263,2.009,0.726,2.86l-9.829,9.829C32.542,17.634,30.846,17,29,17
+                s-3.542,0.634-4.898,1.688l-7.669-7.669C16.785,10.424,17,9.74,17,9c0-2.206-1.794-4-4-4S9,6.794,9,9s1.794,4,4,4
+                c0.74,0,1.424-0.215,2.019-0.567l7.669,7.669C21.634,21.458,21,23.154,21,25s0.634,3.542,1.688,4.897L10.024,42.562
+                C8.958,41.595,7.549,41,6,41c-3.309,0-6,2.691-6,6s2.691,6,6,6s6-2.691,6-6c0-1.035-0.263-2.009-0.726-2.86l12.829-12.829
+                c1.106,0.86,2.44,1.436,3.898,1.619v10.16c-2.833,0.478-5,2.942-5,5.91c0,3.309,2.691,6,6,6s6-2.691,6-6c0-2.967-2.167-5.431-5-5.91
+                v-10.16c1.458-0.183,2.792-0.759,3.898-1.619l7.669,7.669C41.215,39.576,41,40.26,41,41c0,2.206,1.794,4,4,4s4-1.794,4-4
+                s-1.794-4-4-4c-0.74,0-1.424,0.215-2.019,0.567l-7.669-7.669C36.366,28.542,37,26.846,37,25s-0.634-3.542-1.688-4.897l9.665-9.665
+                C46.042,11.405,47.451,12,49,12c3.309,0,6-2.691,6-6S52.309,0,49,0z M11,9c0-1.103,0.897-2,2-2s2,0.897,2,2s-0.897,2-2,2
+                S11,10.103,11,9z M6,51c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S8.206,51,6,51z M33,49c0,2.206-1.794,4-4,4s-4-1.794-4-4
+                s1.794-4,4-4S33,46.794,33,49z M29,31c-3.309,0-6-2.691-6-6s2.691-6,6-6s6,2.691,6,6S32.309,31,29,31z M47,41c0,1.103-0.897,2-2,2
+                s-2-0.897-2-2s0.897-2,2-2S47,39.897,47,41z M49,10c-2.206,0-4-1.794-4-4s1.794-4,4-4s4,1.794,4,4S51.206,10,49,10z"></path></svg></button></div><div class="global-graph-outer"><div class="global-graph-container" data-cfg="{&quot;drag&quot;:true,&quot;zoom&quot;:true,&quot;depth&quot;:-1,&quot;scale&quot;:0.9,&quot;repelForce&quot;:0.5,&quot;centerForce&quot;:0.2,&quot;linkDistance&quot;:30,&quot;fontSize&quot;:0.6,&quot;opacityScale&quot;:1,&quot;showTags&quot;:true,&quot;removeTags&quot;:[],&quot;focusOnHover&quot;:true,&quot;enableRadial&quot;:true}"></div></div></div><div class="toc desktop-only"><button type="button" class="toc-header" aria-controls="toc-29" aria-expanded="true"><h3>Table of Contents</h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fold"><polyline points="6 9 12 15 18 9"></polyline></svg></button><ul id="list-1" class="toc-content overflow"><li class="depth-0"><a href="#github-actions-workflows-overview" data-for="github-actions-workflows-overview">GitHub Actions Workflows Overview</a></li><li class="depth-1"><a href="#quick-reference" data-for="quick-reference">Quick Reference</a></li><li class="depth-1"><a href="#android-ciyml" data-for="android-ciyml">android-ci.yml</a></li><li class="depth-2"><a href="#triggers" data-for="triggers">Triggers</a></li><li class="depth-2"><a href="#job-structure" data-for="job-structure">Job Structure</a></li><li class="depth-2"><a href="#caching-strategy" data-for="caching-strategy">Caching Strategy</a></li><li class="depth-2"><a href="#artifacts-produced" data-for="artifacts-produced">Artifacts Produced</a></li><li class="depth-2"><a href="#common-issues" data-for="common-issues">Common Issues</a></li><li class="depth-1"><a href="#deploy-to-play-storeyml" data-for="deploy-to-play-storeyml">deploy-to-play-store.yml</a></li><li class="depth-2"><a href="#triggers-1" data-for="triggers-1">Triggers</a></li><li class="depth-2"><a href="#job-structure-1" data-for="job-structure-1">Job Structure</a></li><li class="depth-2"><a href="#environment-variables" data-for="environment-variables">Environment Variables</a></li><li class="depth-2"><a href="#secrets-required" data-for="secrets-required">Secrets Required</a></li><li class="depth-2"><a href="#certificate-management" data-for="certificate-management">Certificate Management</a></li><li class="depth-2"><a href="#common-issues-1" data-for="common-issues-1">Common Issues</a></li><li class="depth-1"><a href="#documentation-reminderyml" data-for="documentation-reminderyml">documentation-reminder.yml</a></li><li class="depth-2"><a href="#triggers-2" data-for="triggers-2">Triggers</a></li><li class="depth-2"><a href="#job-structure-2" data-for="job-structure-2">Job Structure</a></li><li class="depth-2"><a href="#impact-detection-logic" data-for="impact-detection-logic">Impact Detection Logic</a></li><li class="depth-2"><a href="#post-merge-checklist-generated" data-for="post-merge-checklist-generated">Post-Merge Checklist (Generated)</a></li><li class="depth-2"><a href="#usage-pattern" data-for="usage-pattern">Usage Pattern</a></li><li class="depth-1"><a href="#deploy-quartzyml" data-for="deploy-quartzyml">deploy-quartz.yml</a></li><li class="depth-2"><a href="#triggers-3" data-for="triggers-3">Triggers</a></li><li class="depth-2"><a href="#job-structure-3" data-for="job-structure-3">Job Structure</a></li><li class="depth-2"><a href="#deployment-configuration" data-for="deployment-configuration">Deployment Configuration</a></li><li class="depth-2"><a href="#quartz-configuration" data-for="quartz-configuration">Quartz Configuration</a></li><li class="depth-2"><a href="#common-operations" data-for="common-operations">Common Operations</a></li><li class="depth-2"><a href="#permissions-required" data-for="permissions-required">Permissions Required</a></li><li class="depth-2"><a href="#secrets-required-1" data-for="secrets-required-1">Secrets Required</a></li><li class="depth-2"><a href="#deployment-url" data-for="deployment-url">Deployment URL</a></li><li class="depth-1"><a href="#cross-workflow-patterns" data-for="cross-workflow-patterns">Cross-Workflow Patterns</a></li><li class="depth-2"><a href="#hybrid-runner-system" data-for="hybrid-runner-system">Hybrid Runner System</a></li><li class="depth-2"><a href="#platform-specific-steps" data-for="platform-specific-steps">Platform-Specific Steps</a></li><li class="depth-2"><a href="#caching-strategy-1" data-for="caching-strategy-1">Caching Strategy</a></li><li class="depth-2"><a href="#artifact-naming" data-for="artifact-naming">Artifact Naming</a></li><li class="depth-2"><a href="#discord-notifications" data-for="discord-notifications">Discord Notifications</a></li><li class="depth-1"><a href="#workflow-dependencies" data-for="workflow-dependencies">Workflow Dependencies</a></li><li class="depth-1"><a href="#monitoring-and-debugging" data-for="monitoring-and-debugging">Monitoring and Debugging</a></li><li class="depth-2"><a href="#check-workflow-status" data-for="check-workflow-status">Check Workflow Status</a></li><li class="depth-2"><a href="#download-artifacts" data-for="download-artifacts">Download Artifacts</a></li><li class="depth-2"><a href="#quota-monitoring" data-for="quota-monitoring">Quota Monitoring</a></li><li class="depth-2"><a href="#common-debugging-commands" data-for="common-debugging-commands">Common Debugging Commands</a></li><li class="depth-1"><a href="#best-practices" data-for="best-practices">Best Practices</a></li><li class="depth-2"><a href="#commit-messages" data-for="commit-messages">Commit Messages</a></li><li class="depth-2"><a href="#workflow-modifications" data-for="workflow-modifications">Workflow Modifications</a></li><li class="depth-2"><a href="#artifact-management" data-for="artifact-management">Artifact Management</a></li><li class="depth-1"><a href="#related-documentation" data-for="related-documentation">Related Documentation</a></li><li class="overflow-end"></li></ul></div></div><footer class><p>Created with <a href="https://quartz.jzhao.xyz/">Quartz v4.5.2</a> © 2025</p><ul><li><a href="https://github.com/jackyzha0/quartz">GitHub</a></li><li><a href="https://discord.gg/cRFFHYye7t">Discord Community</a></li></ul></footer></div></div></body><script type="application/javascript">function n(){let t=this.parentElement;t.classList.toggle("is-collapsed");let e=t.getElementsByClassName("callout-content")[0];if(!e)return;let l=t.classList.contains("is-collapsed");e.style.gridTemplateRows=l?"0fr":"1fr"}function c(){let t=document.getElementsByClassName("callout is-collapsible");for(let e of t){let l=e.getElementsByClassName("callout-title")[0],s=e.getElementsByClassName("callout-content")[0];if(!l||!s)continue;l.addEventListener("click",n),window.addCleanup(()=>l.removeEventListener("click",n));let o=e.classList.contains("is-collapsed");s.style.gridTemplateRows=o?"0fr":"1fr"}}document.addEventListener("nav",c);
+</script><script type="module">function f(i,e){if(!i)return;function r(o){o.target===this&&(o.preventDefault(),o.stopPropagation(),e())}function t(o){o.key.startsWith("Esc")&&(o.preventDefault(),e())}i?.addEventListener("click",r),window.addCleanup(()=>i?.removeEventListener("click",r)),document.addEventListener("keydown",t),window.addCleanup(()=>document.removeEventListener("keydown",t))}function y(i){for(;i.firstChild;)i.removeChild(i.firstChild)}var h=class{constructor(e,r){this.container=e;this.content=r;this.setupEventListeners(),this.setupNavigationControls(),this.resetTransform()}isDragging=!1;startPan={x:0,y:0};currentPan={x:0,y:0};scale=1;MIN_SCALE=.5;MAX_SCALE=3;cleanups=[];setupEventListeners(){let e=this.onMouseDown.bind(this),r=this.onMouseMove.bind(this),t=this.onMouseUp.bind(this),o=this.resetTransform.bind(this);this.container.addEventListener("mousedown",e),document.addEventListener("mousemove",r),document.addEventListener("mouseup",t),window.addEventListener("resize",o),this.cleanups.push(()=>this.container.removeEventListener("mousedown",e),()=>document.removeEventListener("mousemove",r),()=>document.removeEventListener("mouseup",t),()=>window.removeEventListener("resize",o))}cleanup(){for(let e of this.cleanups)e()}setupNavigationControls(){let e=document.createElement("div");e.className="mermaid-controls";let r=this.createButton("+",()=>this.zoom(.1)),t=this.createButton("-",()=>this.zoom(-.1)),o=this.createButton("Reset",()=>this.resetTransform());e.appendChild(t),e.appendChild(o),e.appendChild(r),this.container.appendChild(e)}createButton(e,r){let t=document.createElement("button");return t.textContent=e,t.className="mermaid-control-button",t.addEventListener("click",r),window.addCleanup(()=>t.removeEventListener("click",r)),t}onMouseDown(e){e.button===0&&(this.isDragging=!0,this.startPan={x:e.clientX-this.currentPan.x,y:e.clientY-this.currentPan.y},this.container.style.cursor="grabbing")}onMouseMove(e){this.isDragging&&(e.preventDefault(),this.currentPan={x:e.clientX-this.startPan.x,y:e.clientY-this.startPan.y},this.updateTransform())}onMouseUp(){this.isDragging=!1,this.container.style.cursor="grab"}zoom(e){let r=Math.min(Math.max(this.scale+e,this.MIN_SCALE),this.MAX_SCALE),t=this.content.getBoundingClientRect(),o=t.width/2,n=t.height/2,c=r-this.scale;this.currentPan.x-=o*c,this.currentPan.y-=n*c,this.scale=r,this.updateTransform()}updateTransform(){this.content.style.transform=`translate(${this.currentPan.x}px, ${this.currentPan.y}px) scale(${this.scale})`}resetTransform(){this.scale=1;let e=this.content.querySelector("svg");this.currentPan={x:e.getBoundingClientRect().width/2,y:e.getBoundingClientRect().height/2},this.updateTransform()}},C=["--secondary","--tertiary","--gray","--light","--lightgray","--highlight","--dark","--darkgray","--codeFont"],E;document.addEventListener("nav",async()=>{let e=document.querySelector(".center").querySelectorAll("code.mermaid");if(e.length===0)return;E||=await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.esm.min.mjs");let r=E.default,t=new WeakMap;for(let n of e)t.set(n,n.innerText);async function o(){for(let s of e){s.removeAttribute("data-processed");let a=t.get(s);a&&(s.innerHTML=a)}let n=C.reduce((s,a)=>(s[a]=window.getComputedStyle(document.documentElement).getPropertyValue(a),s),{}),c=document.documentElement.getAttribute("saved-theme")==="dark";r.initialize({startOnLoad:!1,securityLevel:"loose",theme:c?"dark":"base",themeVariables:{fontFamily:n["--codeFont"],primaryColor:n["--light"],primaryTextColor:n["--darkgray"],primaryBorderColor:n["--tertiary"],lineColor:n["--darkgray"],secondaryColor:n["--secondary"],tertiaryColor:n["--tertiary"],clusterBkg:n["--light"],edgeLabelBackground:n["--highlight"]}}),await r.run({nodes:e})}await o(),document.addEventListener("themechange",o),window.addCleanup(()=>document.removeEventListener("themechange",o));for(let n=0;n<e.length;n++){let v=function(){let g=l.querySelector("#mermaid-space"),m=l.querySelector(".mermaid-content");if(!m)return;y(m);let w=c.querySelector("svg").cloneNode(!0);m.appendChild(w),l.classList.add("active"),g.style.cursor="grab",u=new h(g,m)},M=function(){l.classList.remove("active"),u?.cleanup(),u=null},c=e[n],s=c.parentElement,a=s.querySelector(".clipboard-button"),d=s.querySelector(".expand-button"),p=window.getComputedStyle(a),L=a.offsetWidth+parseFloat(p.marginLeft||"0")+parseFloat(p.marginRight||"0");d.style.right=`calc(${L}px + 0.3rem)`,s.prepend(d);let l=s.querySelector("#mermaid-container");if(!l)return;let u=null;d.addEventListener("click",v),f(l,M),window.addCleanup(()=>{u?.cleanup(),d.removeEventListener("click",v)})}});
+</script><script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/copy-tex.min.js" type="application/javascript"></script><script src="../../postscript.js" type="module"></script></html>
